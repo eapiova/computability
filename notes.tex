@@ -2090,6 +2090,51 @@ If you knew that $ C_P^1, J_P \in \mathcal{R} $ then here it is shown that $ f \
 
 We prove that they are even in $ \mathcal{PR} $
 
+The idea of the proof is the following:
+
+\begin{itemize}
+    \item we can work on sequances encodings taht rapresents the registers and program counter configuraiton
+    \item we then manipulate such sequences  with the funcitons (\( p_x, q_t, \text{div}, \dots \) ) that we built by:
+    \begin{itemize}
+        \item composition
+        \item primitive recursion
+    \end{itemize}
+    \item this way we obtain $C_p^1, J_p$ through primitive recursion
+\end{itemize}
+More precisely, the computation state is a tuple $\langle \vec{R}, t \rangle$ where $\vec{R}$ are the registers of the machine and $t$ is the current instruction.
+
+To a register configuration  in wich a finite number of registers contains a valute other than 0 can be encoded with 
+
+\begin{center}
+$\text{cod}(\vec{R}) = \prod\limits_{i \geq 1}p_i^{r_i}$     
+\end{center}
+
+where just a finite number of factors is $\neq 1$. At this point, given $x \geq 1$ intrepretated as $\text{cod}(\vec{R})$
+
+\begin{center}
+    $r_i = (x)_i$
+\end{center}
+
+Using this encoding, we can consider the fuction $C_p(\vec{x},t)$ (the registers configuration after t steps of $P(\vec{x})$) as a function $C_p : \nat^{k+1} \rightarrow \nat$. This way we can define 
+
+\begin{center}
+    $\sigma_p(\vec{x},t) = \langle C_p(\vec{x},t), J_p(\vec{x},t) \rangle$
+\end{center}
+
+the state of the computation of $P(\vec{x})$ after $t$ steps. And using the encofing function for the $\pi$ couples we can view $\sigma_p$ as
+
+$\sigma_p : \nat^{k+1} \rightarrow \nat$
+
+$\sigma_p(\vec{x}, t) = \pi(C_p(\vec{x},t), J_p(\vec{x},t))$
+
+and we can define it with the primitive recursion:
+
+$\sigma_p(\vec{x}, 0) = \pi(\prod\limits_{i=1}^k p_i^{x_i}, 1)$
+
+$\sigma_p(\vec{x}, t+1) = \pi(C_p(\vec{x},t+1), J_p(\vec{x},t+1))$
+
+with
+
 \section{Ackermann function}
 $ \psi: \nat^2 \rightarrow \nat $ defined as:
 
