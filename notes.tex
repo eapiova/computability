@@ -1,0 +1,2503 @@
+\documentclass{amsbook}
+\usepackage[utf8x]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+%\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{tabu}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{mathabx}
+\hypersetup{
+	colorlinks,
+	linkcolor={blue!50!black}
+}
+\usepackage{mathtools}
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+
+% macros
+
+% natural numbers
+\newcommand{\nat}{\ensuremath{\mathbb{N}}}
+
+% domain
+\newcommand{\dom}[1]{\ensuremath{\mathit{dom}({#1})}}
+
+% comment (in programs)
+\newcommand{\comment}[1]{{\texttt{// #1}}}
+
+
+% theorems
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+
+\numberwithin{section}{chapter}
+\numberwithin{equation}{chapter}
+
+%    For a single index; for multiple indexes, see the manual
+%    "Instructions for preparation of papers and monographs:
+%    AMS-LaTeX" (instr-l.pdf in the AMS-LaTeX distribution).
+\makeindex
+
+\begin{document}
+
+\frontmatter
+
+\title{Computability}
+  
+\author{Prof. Paolo Baldan}
+\address{}
+\curraddr{}
+\email{}
+\thanks{}
+
+\keywords{}
+
+\date{}
+
+\begin{abstract}
+\end{abstract}
+
+\maketitle
+
+%    Dedication.  If the dedication is longer than a line or two,
+%    remove the centering instructions and the line break.
+%\cleardoublepage
+%\thispagestyle{empty}
+%\vspace*{13.5pc}
+%\begin{center}
+%  Dedication text (use \\[2pt] for line break if necessary)
+%\end{center}
+%\cleardoublepage
+
+%    Change page number to 6 if a dedication is present.
+\setcounter{page}{4}
+
+\tableofcontents
+
+
+\mainmatter
+
+
+\chapter{Introduction}
+
+We discuss informally the notion of \textbf{effective procedure} and
+of \textbf{function computable} by means of an effective
+procedure. This will lead us to single out the main features of an
+algorithm/computational model.  Despite being informal, these
+consideration will allow us to derive the existence of non-computable
+functions for any chosen effective computational model.
+%
+Later these notions and considerations be formalised by fixing a
+specific computational model, a sort of idealized computer.
+
+\section{Algorithm or effective procedure, informally}
+
+Effective procedures and \textbf{algorithms} are part of our everyday
+life, despite the fact that we do not always refer to them using these
+terms.
+
+For instance, at the primary school, we are not only taught that given
+two numbers their sum exists, but the teacher also provides us with a
+procedure to compute the sum of two numbers!
+
+In general terms, an \emph{algorithm} can be defined as the
+description of a sequence of \emph{elementary steps} (where
+``elementary'' means that they can be performed mechanically, without
+any intelligence) which allows one reach some objective.  Typically,
+the aim is transforming some input into a corresponding output,
+suitably related to the input.
+%
+This could be transforming ingredients into a cake, although normally
+we are interested in computational problems.
+
+\begin{example}
+  Some examples are:
+  \begin{enumerate}
+    
+  \item given $n \in \nat$ establish whether $n$ is prime;
+  \item find the $n^{th}$ prime number;
+  \item derive a polynomial;
+  \item perform the square root $\sqrt{n}$;
+  \item least common multiple \emph{lcm} and largest common divisor \emph{LCD}.
+  \end{enumerate}
+\end{example}
+
+Therefore we can think of an algorithm as a black box.
+\begin{center}
+  in $\rightarrow$ \boxed{black box} $\rightarrow$ out
+\end{center}
+where the transformation is perform by executing a sequence of
+``mechanical'' instructions.
+
+If each step is \emph{deterministic}, i.e., in each state of the
+system the instruction to execute and the new state it produces are
+uniquely determined, then each possible input will uniquely determine
+the corresponding output (if any, in fact the procedure might not
+terminate, in which case we will have no output).
+
+In mathematical terms the algorithm induces a \emph{(partial) function}
+\begin{center}
+  $f : \mathit{input} \rightarrow \mathit{output}$.
+\end{center}
+We say that $f$ is the \emph{function computed} by the algorithm and
+that $f$ is effectively computable. We can thus give the following
+first definition of an algorithm (still informal, since it refers to a
+generic notion of algorithm).
+
+\begin{definition}[computable function]
+  A function $f$ is computable if \emph{there exists} an algorithm
+  that computes $f$.
+\end{definition}
+
+We stress that for $f$ to be computable, it is not important to know the algorithm that computes $f$, but rather we need to know that some algorithm computing $f$ exists. 
+
+\begin{example}
+  According to the above definition, we expect the the following
+  functions to be computable.
+
+  \begin{itemize}
+    
+  \item GCD (greatest common divisor), e.g., exploiting Euclid's
+    algorithm.
+    
+  \item the function $f : \nat \to \nat$ defined as 
+
+    \begin{equation*}
+      f(n)=
+      \begin{cases}
+        1 & n \mbox{ is prime} \\
+        0 &   \mbox{otherwise}
+      \end{cases}
+    \end{equation*}
+
+  \item
+    $g(n)= n$-th prime number\\
+    (this is computable, maybe inefficiently, by generating numbers
+    and testing for primality, until the $n$-th prime is found)
+
+    
+  \item 
+    $h(n) = n$-th digit of the decimal representation of $\pi$.
+
+    In fact, from analysis we know that
+    \begin{itemize}
+    \item There are series that converge to $\pi$
+    \item There are techniques to estimate (by excess) the error caused:
+      \begin{itemize}
+      \item by truncating a series
+      \item by rounding in the calculation of the value of the truncated series
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{example}
+
+What about the function below?
+
+\begin{equation*}
+  g(n) = \begin{cases}
+    1 & $ there is a sequence of exactly  \textit{n} consecutive $5$'s in $ \pi \\
+    0 & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+For example $g(3) = 1$ if and only if  $\pi = 3.14 \dots k 555 h \dots $, with $k, h \neq 5$.
+
+Computability is unclear. A naive algorithm could be:
+\begin{itemize}
+\item generate the digits of $\pi$
+\item until a sequence of $5$'s of the desired length is found.
+\end{itemize}
+Clearly, if such a sequence exists, it will be eventually
+found and the answer $1$ will be given. However, apparently, at no point
+the computation, not having found the sequence of $n$ 5's,  we can exclude that it might appear later!! Hence, apparently we have no way of answering $0$.
+
+\begin{remark}
+  Clearly, something of the kind:
+   \begin{itemize}
+   \item generate all digits in the decimal representation of $\pi$;
+   \item if they include a sequence of $n$ consecutive 5's
+    $\rightarrow g(n) = 1$
+  \item otherwise $\rightarrow g(n) = 0$
+\end{itemize}
+is \emph{not} an effective procedure.
+\end{remark}
+
+Note that this doesn't mean that $g$ is not computable, i.e., that an
+effective procedure couldn't be found (e.g. on the basis of properties
+of $\pi$), but at the moment this procedure is not known! (at least by
+me!)
+
+We don't really know if it's computable, but there might be a property
+of $\pi$ that allows us to conclude. In particular, there is a conjecture that all
+finite sequences of digits appear in $\pi$, which would imply that $g$
+is the constant $1$, whence computable.
+
+\medskip
+
+Consider now a slightly different function $h: \nat \to \nat$, defined by
+\begin{equation*}
+  g(n) = \begin{cases}
+    1 & $ there is a sequence of at least  \textit{n} consecutive $5$'s in $ \pi \\
+    0 & $ otherwise $
+  \end{cases}
+\end{equation*}
+
+The function seems very similar to the one considered before. However, note that if $\pi = 3.14 \dots k 555 h \dots $, then we deduce, not only that $h(3)=5$, but also $h(2)=h(1)=h(0)=1$. More generally, whenever $h(n) =1$ then $h(m)=1$ for all $m < n$. This suggests that $h$ could be quite ``simple''.
+
+More precisely, consider $K = sup\{ n \mid \pi\ \text{contains}\ n\ \text{consecutive digits}\ 5 \}$. Then we have 2 possibilities:
+\begin{enumerate}
+\item $K$ is finite, and thus $h(n) = 1$ if $ n\leq k$, $0$ otherwise
+\item $K$ is infinite, and thus $ h(n) = 1$ for all $n \in \nat$
+\end{enumerate}
+
+This implies that $h$ is computable because it is either a step
+function or a constant function, that are computed by simple
+programs. One could object that we don't know which shape the function
+has and thus we do not know the program that calculates the
+function. Fine. This doesn't mean that it's not computable.
+
+Trying to repeat the same argument for function $g$ fails. In fact, one could think of defining $A = \{n \mid \mbox{$\pi$ contains exactly $n$ consecutive 5's}\}$. Then
+
+\begin{equation*}
+  g(x) = 
+    \begin{cases}
+      0 & x \in A     \\
+      1 & x \not\in A
+    \end{cases}
+\end{equation*}
+
+This does not suggest that $g$ is computable. Set $A$ is possibly infinite and we do not see a way of providing a finite representation of $A$ which can be included in a program.
+
+Bringing the argument to the extreme, one could consider the function
+$G : \nat \to \nat$ defined by
+\begin{center}
+  $G(x) = \begin{cases}
+    1 & $ if God exists $ \\
+    0 & $ otherwise $
+  \end{cases}.
+  $
+\end{center}
+This is either the constant $0$ or the constant $1$. Independently of which of the two cases applies, the function is computable.
+
+
+TO BE PROCESSED
+  
+
+\chapter{Algorithms and existence of non-computable functions}
+
+\section{Characteristics of an algorithm}
+\label{se:alg-char}
+
+We present a list of features that an algorithm should satisfy in
+order to capture the intuitive idea of effective procedure. Roughly,
+what we will ask is that it is ``implementable'' on some sort of
+idealised machine, the computational model. Hence, in turn, we will
+list some requirements that the computational model should meet to be
+considered effective.
+
+An \textbf{algorithm} is a sequence of instructions with the following characteristics:
+\begin{enumerate}[label=\alph*)]
+\item
+  \label{as:prog_fin}
+  it is of \textbf{finite length};
+\item there exists a \textbf{computing agent} able to execute its instructions;
+\item the agent as a \textbf{memory} available (to store input, intermediate results to be used in subsequent steps and output)
+\item the computation consists of discrete steps (it does not rely on analog devices)*
+\item the computation is neither nondeterministic nor probabilistic (
+  we model a  digital computer)
+  
+\item there must be no limit to the size of the input data\\
+  (we want to be able to define algorithms that work on any possible
+  input, e.g. sum \dots operating on summands of any size);
+  
+\item there is no limit to the memory that can be used\\
+  This requirement could appear less natural, but having an unlimited
+  memory is essential to avoid the the notion of computability depends
+  on the specific resources which are available. In fact, for many
+  functions the space required for the intermediate results depends on
+  the size of the input.
+  
+  e.g. $f(n) = n^2$ $(1000)^2 = 1000000 \leftarrow$ I must add a
+  number of zeroes that depends on $n \rightarrow n$ must be stored
+  (the states are finite).
+
+\item
+  \label{as:istr_fin}
+  there must exist a finite limit to the number/complexity of the
+  instructions
+  
+  This is intended to capture the intrinsic finiteness of the
+  calculation device (justified by Turing with the limits of the human
+  mind/memory);
+  
+  E.g. for a computer, the memory that can be accessed with a single
+  instruction must be finite (even if by
+  (g), the memory is unlimited);
+  
+\item computations might
+  \begin{enumerate}
+    
+  \item  end and return a result after a finite, but unlimited number of steps  
+    (e.g. the square function requires a number of steps proportional to the argument);
+    
+  \item continue forever, and not return a result.
+  \end{enumerate}
+\end{enumerate}
+
+\section{Existence of non-computable functions}
+
+Later we will focus on a concrete computational model, that will allow
+us to give a completely formal definition of computable function. Here
+we observe that, quite interestingly, simply on the basis of the
+assumptions above, we can infer the existence of non computable
+functions for every ``effective'' computational model.
+
+We start by recalling some basic notions and introducing useful
+notation.
+
+\begin{itemize}
+\item We will consider the set of \emph{natural numbers}
+  $\nat = \{ 0, 1, 2, \dots \}$;
+
+\item Given the sets $A, B$ their \emph{cartesian product} is
+  $A \times B = \{ (a,b) \mid a \in A\ \land\ b \in B\}$. We will
+  write $A^n$ for $A \times A \times A \times \ldots \times A$ $n$
+  times. More formally $A^1 = A$ and $ A^{n+1} = A \times A^n$.
+  
+\item A (binary) \emph{relation} or \emph{predicate} is
+  $r \subseteq A \times B$.
+  
+\item A \emph{(partial) function} $f : A \to B$ is a special relation $f \subseteq A\times B$ such that if $(a, b_1), (a, b_2) \in f$ then  $b_1 = b_2$.  Following the standard convention, we will write $f(a) = b$ instead
+  of $(a, b)\in f$
+  \begin{itemize}
+  \item the \emph{domain} of $f$ is
+    $\dom{f} = \{a \mid \exists b \in B.\ f(a) = b \}$;
+
+  \item we write $f(a) \downarrow$ for $a \in dom (f)$ and
+    $f(a) \uparrow$ for $a \not\in dom (f)$;
+  \end{itemize}
+
+\item Given a set $A$ we indicate with $|A|$ its \emph{cardinality}
+  (intuitively, the number of elements of $A$, but the notion extends
+  to infinite sets). Given the sets $A$ and $B$ we have 
+  \begin{itemize}
+  \item $|A| = |B|$ if there exists a bijective function $f : A \to B$;
+  \item $|A| \leq |B|$ if there exists an injective function
+    $f: A \to B$ injective or equivalently\footnote{Stritly speaking,
+      the equivalence requires the axiom of choice.} a surjective
+    function $g : B \to A$.
+  \end{itemize}
+  Observe that if $A \subseteq B$ then $|A| \leq |B|$ as witnessed by
+  the inclusion, which is an injective function
+  \begin{quote}
+    $\begin{array}{cc}
+      i: & A \to B  \\
+         & a \mapsto a
+    \end{array}$
+  \end{quote}
+  
+\item We say that $A$ is \emph{countable} or \emph{denumerable} when
+  $|A| \leq |\nat|$, i.e., there is a surjective function
+  $f: B \to A$. Note that, when this is the case, we can
+  list (enumerate, whence the name) the elements of $A$ as
+  \begin{center}
+    $\begin{array}{cccc}
+       f(0) & f(1) & f(2) & \dots\\
+       a_0  & a_1  & a_2 & \dots
+     \end{array}
+     $
+  \end{center}
+
+\item When $A, B$ are countable then $A\times B$ is countable.
+  
+  Idea of the proof:
+  \begin{itemize}
+  \item Since $A$ and $B$ are countable, we can consider the
+    corresponding enumerations
+    
+    \begin{quote}
+      $
+      \begin{array}{cccc}
+        A & a_0 & a_1 & a_2 \\
+        B & b_0 & b_1 & b_2
+      \end{array}
+      $
+    \end{quote}
+  and place the elements of $A \times B$  in a sort of matrix
+  \begin{center}
+    $
+    \begin{tabu}{c|ccc}
+      & b_0       & b_1       & b_2       \\
+      \hline
+      a_0 & (a_0,b_0) & (a_0,b_1) & (a_0,b_2) \\
+      a_1 & (a_1,b_0) & (a_1,b_1) & (a_1,b_2) \\
+      a_2 & (a_2,b_0) & (a_2,b_1) & (a_2,b_2)
+    \end{tabu}
+    $
+  \end{center}
+  in a way that they can be enumerated following along the diagonals
+  as follows:
+  $(a_0,b_0), (a_0,b_1), (a_1,b_0), (a_0,b_2), (a_1,b_1), (a_2,b_0),
+  \dots$ (this is referred to as ``dove tail'' enumeration)
+\end{itemize}    
+
+
+\item A countable union of countable sets is countable: if
+  $\{A_i\}_{i\in\nat}$ is a collection of countable sets then
+  $\bigcup \limits_{i \in \nat} A_i$ is countable.
+\end{itemize}
+
+\section{Existence of non-computable functions in each computational model}
+
+Let us considered some fixed computational model satisfying the
+assumptions in \S\ref{se:alg-char}. We want to show that there are
+functions which are not computable in such a model.
+
+We focus on unary functions over the natural numbers. Let
+$\mathcal{F} = \{f \mid f:\nat\rightarrow\nat\}$ be the set of all the
+(partial) unary functions on $\nat$.
+
+Let $\mathcal{A}$ be the set of all algorithms in our fixed
+computational model.
+%
+Every algorithm $A \in \mathcal{A}$ computes a function
+$f_A: \nat \to \nat$ and a function is computable in our model if
+there exists an algorithm that computes it. Hence the set
+$F_\mathcal{A}$ set of computable functions in the given computational
+model is
+\begin{center}
+  $\mathcal{F}_{\mathcal{A}} = \{ f_A \mid A \in \mathcal{A} \}$.
+\end{center}
+
+Certainly $\mathcal{F}_A \subseteq \mathcal{F}$. But, is the inclusion
+is strict, i.e., is there a non-computable function?
+
+The answer is yes, essentially for combinatory reasons: algorthms are
+too few to compute all functions.
+
+
+In fact, an algorithm $A \in \mathcal{A}$ will be a finite, by
+assumption (\ref{as:prog_fin}), sequence of instructions taken from
+some instruction set $I$. Morever, by assumption (\ref{as:istr_fin}),
+$I$ must be finite. Hence
+\begin{center}
+  $\mathcal{A} \subseteq \bigcup_{i \in \nat} I^n$
+\end{center}
+Since  a countable union of finite (hence countable) sets is countable, we have
+\begin{center}
+  $|\mathcal{A}| \leq |\bigcup_{n\in\nat} I^n| \leq |\nat|$
+\end{center}
+and since the function
+\begin{quote}
+  $\mathcal{A} \to F_\mathcal{A}$\\
+  $A \mapsto f_A$
+\end{quote}
+is surjective by definition, we have that
+\begin{center}
+  $|F_\mathcal{A}| \leq |\mathcal{A}| \leq |\nat|$
+\end{center}
+
+On the other hand the set of all functions, $\mathcal{F}$, is not countable. Let $\mathcal{T}$ the subset of $\mathcal{F}$ consisting of the total functions $\mathcal{T} = \{ f \mid f \in \mathcal{F}\ \land\ \dom{f} = \nat\}$. We show that
+\begin{center}
+  $|\mathcal{F}| \geq |\mathcal{T}| > |\nat|$.
+\end{center}
+
+We prove that $|\mathcal{T}| > |\nat|$ by contradiction. Let us suppose that $\mathcal{T}$ is countable. Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ and thus a matrix like the following
+\begin{center}
+  \begin{tabular}{c|ccc}
+    & $f_0$    & $f_1$    & $f_2$\\ 
+    \hline
+    0 & $f_0(0)$ & $f_1(0)$ & $f_2(0)$ \\
+    1 & $f_1(0)$ & $f_1(1)$ & $f_1(2)$ \\
+    2 & $f_2(0)$ & $f_2(1)$ & $f_2(2)$
+  \end{tabular}
+\end{center}
+and build a function, that consists of the values on the diagonal, systematically changed:
+\begin{quote}
+  $d: \nat \to \nat$\\  
+  $d(n) = f_n(n)+1$
+\end{quote}
+
+We can observe that
+\begin{itemize}
+\item $d$ total, by definition;
+\item $d \neq f_n$ for all $n \in \nat$ (since $d(n) = f(n)+1 \neq f(n)$.
+\end{itemize}
+This is absurd, since $f_0, f_1, f_2, \ldots$ is an enumeration of all the total functions.
+
+\medskip
+
+Summing up:
+\begin{center}
+  $\mathcal{F}_A \subsetneq F$ and
+  $|F_A| \leq |\nat| < |\mathcal{T}| = |\mathcal{F}|$
+\end{center}
+therefore $F_A \subsetneq F$, as desired.
+
+Note that the non-computable functions are not countable:
+\begin{center}
+  $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| > |\nat|$.
+\end{center}
+In fact, $\mathcal{F} = \mathcal{F}_{\mathcal{A}} \cup (\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}})$. Thus, if it were $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| \leq |\nat|$, since the union of countable sets is countable, we would have $\|\mathcal{F}| \leq |\nat$.
+
+We conclude that
+\begin{enumerate}
+\item no computational model can compute all  functions;
+\item the non-computable functions are the majority.
+\end{enumerate}
+
+\chapter{URM computability}
+
+\section {Which model?}
+
+In order to give a formal notion of computability we need to choose a concrete model of computation which will induce a class algorithms and thus of computable functions. Despite the fact that we focus on abstract ideal model, there are still a lot of possibilities. Many models have been considered in the literature:
+
+\begin{enumerate}
+\item Turing machine (Turing, 1936)
+\item $\lambda$-calculus (Church, 1930)
+\item Partial recursive functions (Godel-Kleene 1930)
+\item Canonical deductive systems (Post, 1943)
+\item Markov systems (Markov, 1951)
+\item Unlimited register machine (URM) (Shepherdson - Sturgis, 1963)
+\end{enumerate}
+
+In principle, each computational model determines a class of
+computable functions. We could be worried, since we could fear that
+theory developed is good only for a specific model. Actually, one can
+verify that the class of computable functions for all of the mentioned
+models (and actually, for all ``sufficiently expressive'' models
+considered in the literature) is always the same.
+This leads to the so-called Cjrch-Turing thesis:
+
+\textbf{Church-Turing Thesis}: A functions is computable by an
+effective procedure (i.e., in a finitary computational model, obeying by the conditions (a)-(e) before) iff it is computable
+by a Turing machine.
+
+
+This means that the notion of ``computable function'' is robust, i.e., independent of the specific computational model and we can choose our favorite one for developing our theory.
+
+\begin{remark}
+  The \emph{Church-Turing Thesis} is called a thesis and not a theorem
+  since, because of its informal nature, with the reference to the
+  concept of effective procedure, it can't be proved. It is only
+  supported by evidence: a lot of independent computational model have
+  been considered until now and all confirm the thesis. [someone,
+  e.g. Yuri Gurevich, claims that it should be proved on the basis of
+  a formal axiomatization of conditions (a)-(e)]
+\end{remark}
+
+Sometimes we will resort to Church-Turing to shorten the proof that something is computable, but it can be always avoided. Somehow, it can be used only when ``it is not needed'', i.e.,  when it could be replaced by a formal proof (that however might hide the intuitive idea under a heap of technical details.
+
+
+\section{URM (Unlimited register machine)}
+
+We will formalise the notion of computable function by using the so called URM-machine (unlimited register machine), which is an abstraction of a computer based on the Von Neumann's model. It is characterized by
+
+\begin{itemize}
+\item \textbf{unbounded memory} that consists of a infinite sequence of \textbf{registers}, each of which can store a  natural number
+
+
+  $\begin{tabu}{|c|c|c|c|c|}
+    \hline
+    R_1 & R_2 & \dots & R_n & \dots \\
+    \hline
+    r_1 & r_2 & \dots & r_n & \dots \\
+    \hline
+  \end{tabu}$
+
+  the $n$-th register is indicated with $R_n$, its content with $r_n$
+  
+  the sequence $r_1, r_2,\dots, r_n, \dots \in \nat^w$ is called
+  \textbf{configuration} of the URM
+              
+\item \textbf{computing agent} capable of executing an URM program
+
+\item \textbf{URM program} finite sequence of instructions
+  $I_1, I_2, \dots, I_s$ that can ``locally'' alter the configuration
+  of the URM.
+\end{itemize}
+
+
+Program instructions can be the following:
+
+\begin{itemize}
+
+\item \textbf{zero} $Z(n)$ sets the content of the register $R_n$ to zero, $r_n \leftarrow 0$
+
+\item \textbf{successor} $S(n)$ increments the content of the $R_n$ register: $r_n \leftarrow r_n+1$
+
+
+\item \textbf{transfer} $T(m,n)$ transfers the content of the register $R_m$ in the register $R_n$, $R_m$ stays untouched, $r_n\leftarrow r_m$ (assignment)
+\end{itemize}
+These are called arythmetic functions, the instruction to execute on the next step is what follows the current instruction in the program.
+
+\begin{itemize}
+\item \textbf{conditional jump} $J(m,n,t)$ conpares the content of the registers $R_m$ and $R_n$
+  \begin{itemize}
+  \item if $r_m = r_n$ it jumps to the $t$-th instruction
+  \item otherwise, it continues with the next instruction
+  \end{itemize}
+\end{itemize}
+
+ 
+\begin{example}
+An example of program is the following:
+\begin{quote}
+  \begin{tabular}{llr}
+    $I_1$: & J(2,3,5) &                       \\
+    $I_2$: & S(1)     &                       \\
+    $I_3$: & S(3)     &                       \\
+    $I_4$: & J(1,1,1) &  \comment{unconditional jump}
+  \end{tabular}
+\end{quote}
+
+For the moment, disregard what this program computes. The computation starting from the configuration below is:
+
+\begin{center}
+  $\begin{tabu}{|c|c|c|c|}
+    \hline
+    R_1 & R_2 & R_3 & \dots \\
+    \hline
+    1   & 2   & 0   & \dots \\
+    \hline
+  \end{tabu}
+  %
+  \xrightarrow{I_1, I_2}
+  %
+  \begin{tabu}{|c|c|c|c|}
+    \hline
+    R_1 & R_2 & R_3 & \dots \\
+    \hline
+    2   & 2   & 0   & \dots \\
+    \hline
+  \end{tabu}
+  %
+  \xrightarrow{I_3}
+  %
+  \begin{tabu}{|c|c|c|c|}
+    \hline
+    R_1 & R_2 & R_3 & \dots \\
+    \hline
+    2   & 2   & 1   & \dots \\
+    \hline
+  \end{tabu}
+  % 
+  \xrightarrow{I_4, I_1, I_2}
+  %
+  \begin{tabu}{|c|c|c|c|}
+    \hline
+    R_1 & R_2 & R_3 & \dots \\
+    \hline
+    3   & 2   & 1   & \dots \\
+    \hline
+  \end{tabu}
+  % 
+  \xrightarrow{I_3}
+  %
+  \begin{tabu}{|c|c|c|c|}
+    \hline
+    R_1 & R_2 & R_3 & \dots \\
+    \hline
+    3   & 2   & 2   & \dots \\
+    \hline
+  \end{tabu}
+    \xrightarrow{I_4, I_1, I_5}
+  $
+\end{center}
+\end{example}
+
+
+The \textbf{state} of the URM machine while it executes a program $P = I_1 \dots I_s$ is given by a pair $\langle c, t \rangle$ consisting of
+
+\begin{itemize}
+\item \emph{register configuration} $c: \nat \rightarrow \nat$\\
+  a total function $c : \nat \to \nat$ such that $c(n)$ is the content
+  of register $R_n$;
+
+\item \emph{program counter} $t$, i.e., index of the current instruction.
+\end{itemize}
+
+An \emph{operational semantics} could easily be defined via a set of deduction rules axiomatising the state transitions  $\langle c, t \rangle \rightarrow \langle c', t' \rangle$. However we do not need this degree of formality, and we will rely on an informal description of program execution.
+
+
+\begin{remark}[non termination]
+  A computation might \textbf{not terminate}! Consider for instance the program:
+  
+  \begin{quote}
+    \begin{tabular}{ll}
+      $I_1$: & S(1)     \\
+      $I_2$: & J(1,1,1)
+    \end{tabular}
+  \end{quote}
+
+  Then every computation will not terminate. For instance:
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      0  & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      1   & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      2   & 0  & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{\ldots}
+    % 
+    $
+  \end{center}
+\end{remark}
+
+
+\begin{notation}
+  Let $P$ be an URM program, $a_1,a_2,a_3,\dots \in \nat^w$ a sequence
+  of natural numbers. We indicate by $P(a_1,a_2,\dots)$ the
+  computation of $P$ starting from the initial configuration
+  
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      a_1 & a_2 & a_3 & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  and
+  
+  \begin{itemize}
+  \item $P(a_1,a_2,\dots) \downarrow$ if the computation \textbf{halt}
+  \item $P(a_1,a_2,\dots) \uparrow$ if the computation \textbf{never
+      halts}, i.e., it \textbf{diverges}.
+  \end{itemize}
+
+
+  Often (almost always, for obvious reasons of input finiteness) we
+  will work on computations that start from an initial configuration
+  where only a \textbf{finite number of registers contain a non-zero
+    value}. Hence given $a_1,a_2,\dots,a_k \in \nat$ we write
+  \begin{quote}
+    $P(a_1,\dots,a_k)$ for the computation
+    $P(a_1,\dots,a_k,0,\dots,0)$
+  \end{quote}
+  The notation extend to $P(a_1,\dots,a_k)\downarrow$ or
+  $P(a_1,\dots,a_k)\uparrow$.
+\end{notation}
+
+\section{URM-computable functions}
+  
+Let $f : \nat^k \rightarrow \nat$ be a partial function. What does it mean for  $f$ to be computable by an URM machine?
+
+Intuitively, it means that there exists a program $P$ s.t. for each $(a_1,\dots,a_k) \in \nat^k \quad P(a_1,\dots,a_k)$ computes the value of $f$, i.e., when $(a_1,\dots,a_k)  \in \dom{f}$, $P$ terminates and outputs $f(a_1, \ldots, a_k)$ and, if instead, $(a_1,\dots,a_k)  \not\in \dom{f}$ then $P$ does not terminated.
+
+A doubt could still concern the place where the output is stored. We conventionally decide that the output will be in the first register $R_1$ (at the end of the computation the other regsitsrs are just garbage to us \dots). For this reason we introduce the following notation.
+
+\begin{notation}
+  Let $P$ be a program, $a_1,\dots,a_k \in \nat^k$, we write
+  $P(a_1,\dots,a_k)\downarrow a$ if $P(a_1,\dots,a_k) \downarrow$ and
+  the final configuration contains $a$ in $R_1$
+\end{notation}
+
+\begin{definition}[URM-computable function]
+  A function $f:\nat^k\rightarrow\nat$ is said to be
+  \textbf{URM-computable} if there exists an URM program $P$ s.t.
+  $\forall (a_1,\dots,a_k) \in \nat^k, a\in\nat$,
+  $P(a_1,\dots,a_k)\downarrow$ iff $(a_1,\dots,a_k)\in dom(f)$ and
+  $f(a_1,\dots,a_k) = a$. In this case we say that $P$ computes $f$.
+
+  We denote by $\mathcal{C}$ the class of all URM-computable
+  functions and by $\mathcal{C}^{(k)}$ the class of the k-ary
+  URM-computable function.
+  Therefore we have
+  $\mathcal{C} = \bigcup_{k\geq 1} \mathcal{C}^{(k)}$
+\end{definition}
+
+FIN QUA
+
+\section{Some examples of URM-computable functions}
+
+\begin{enumerate}
+\item $f:\nat^2 \rightarrow \nat$\\
+   $ f(x,y) = x+y$
+  
+  \begin{quote}
+    \begin{tabular}{lll}            
+      $I_1$: & J(2,3,5) &                    \\
+      $I_2$: & S(1)     &                    \\
+      $I_3$: & S(3)     &                    \\
+      $I_4$: & J(1,1,1) &  \comment{unconditional jump}
+    \end{tabular}
+  \end{quote}
+
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   & y   & 0   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \emph{Idea}: Increment $R_1$ and $R_3$ until $R_2$ and $R_3$ contain
+  the same value. This results in adding to $R_1$ the content of
+  $R_2$.
+  
+\item $f:\nat \rightarrow \nat$\\
+  $f(x) = x\dot{-}1 = \begin{cases} 0 & x=0 \\ x-1 & x>0 \end{cases}$
+
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \emph{Idea}: if $x=0$ ok, end; if $x>0$ keep a value $k-1$ in
+  $R_2$ and $k$ in $R_5$, with $k>1$ ascending until $R_3=x$, at that
+  point $R_2 = x-1$
+  
+  Here's the program
+
+   \begin{quote}
+    \begin{tabular}{lll}            
+      $I_1$: & J(1,4,8) \\
+      $I_2$: & S(3)     \\
+      $I_3$: & J(1,3,7) \\
+      $I_4$: & S(2)     \\
+      $I_5$: & S(3)     \\
+      $I_6$: & J(1,1,3) \\
+      $I_7$: & T(2,1)   \\
+    \end{tabular}
+  \end{quote}
+  
+  
+\item $f:\nat \rightarrow \nat$\\
+  $f(x) = \begin{cases}
+    \frac{1}{2} x & \mbox{if $x$ even}\\
+    \uparrow      & \mbox{if $x$ odd}
+  \end{cases}$
+  
+  \emph{Idea:} Keep in $R_2$ an increasing even number and in $R_3$ its half
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   &  2k  & k   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \begin{quote}
+    \begin{tabular}{lll}            
+    $I_1$: & J(1,2,6) \\
+    $I_2$: & S(2)     \\
+    $I_3$: & S(2)     \\
+    $I_4$: & S(3)     \\
+    $I_5$: & J(1,1,1) \\
+    $I_6$: & T(3,1)   \\
+    \end{tabular}
+  \end{quote}
+
+\end{enumerate}
+
+\section {Function computed by a program}
+Given a program $P$, for some fixed number $k \geq 1$ of parameters, clearly there exists a unique \textbf{function computed by $P$} that we denote by $f_p^{(k)} : \nat^k \to \nat$ defined by
+
+\begin{equation*}
+  f_p^{(k)}(a_1, \dots, a_k) = \begin{cases}
+    a        & $ if $ P(a_1, \dots, a_k) \downarrow a  \quad \\
+    \uparrow & $ if $ P(a_1, \dots, a_k) \uparrow
+  \end{cases}
+\end{equation*}
+
+\begin{remark}
+  The same function can be computed by different programs, esentially for two reasons
+
+  \begin{itemize}
+  \item we can add useless instructions to a program (dead code, $T(n,n)$, etc.)
+
+  \item the same function can be computed via different algorithms
+    (e.g., for sorting we have quicsort, mergesort, heapsort, etc.)
+  \end{itemize}  
+
+  A function is computed either by no program or by infinitely many programs.
+\end{remark}
+
+
+FIN QUA
+
+\section {Exercises}
+
+\subsection{Reduced URM}
+
+Let URM be reduced without transfer instruction $T(m, n)$. We indicate the class of functions that can be computed with the reduced machine $ \mathcal{C}' $ and compare with $ \mathcal{C} $. Obviously $ \mathcal{C}' \subseteq \mathcal{C} $. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^R$? The answer is yes because $T(m, n)$ can be replaced with other instructions.
+
+\begin{quote}
+  \begin{tabular}{lll}            
+      $I_t$: & T(m,n) \\
+  \end{tabular}
+\end{quote}
+
+can be replaced with a subroutine at the right place
+
+\begin{quote}
+  \begin{tabular}{lll}            
+    $I_{t'}$:   & J(m,n,t+1)  \\
+    $I_{t'+1}$: & Z(n)        \\
+    $I_{t'+2}$: & J(m,n,t+1)  \\
+    $I_{t'+3}$: & S(n)        \\
+    $I_{t'+4}$: & J(1,1,t'+2) \\
+  \end{tabular}
+\end{quote}
+
+But let's prove it: ($ \mathcal{C} \subseteq \mathcal{C}' $), $ f \in \mathcal{C} $, $ f: \nat^K \rightarrow \nat $ There is an URM $P$ s.t. $ f_P^{(K)}  = f$ the program $P$ can be transformed into $P ^R $ of the reduced URM machine s.t. $ f_{P^R}^{(K)}  = f_{P}^{(K)}$.
+
+There is a demonstration by induction. I show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$ = number of transfer instructions $T$ in $P$.
+
+$h = 0$ trivial.
+
+$h \rightarrow  h + 1$:
+
+$P$ contains $h + 1 \quad T$ instructions.
+
+Transform $P$ into $P''$ where all instructions from 1 to \textit{l} are the same as before, while instead of $T$ there will be a jump $J(1,1, SUB)$, where the subroutine is the one written before. I assume that if $P$ ends it does so at instruction $l + 1$, and at position $l + 1$ I put a $J (1,1, END)$. So now that we have replaced it we have $h$ instructions $T$ and therefore for inductive assumption we have the program of the reduced URM s.t. the computed function is the same.
+
+\subsection{Exercises}
+
+\subsection{URM with swap instruction}
+Let $URM^S $ be the model obtained removing transfer and inserting the swap function $ T_S(m,n) $, what relationship is there between the class of this model and the other?
+
+Proof that $ \mathcal{C}^S \subseteq \mathcal{C} $ The exchange $T (m, n)$ is equivalent to:
+
+\begin{lstlisting}
+	T(n,i)
+	T(m,n)
+	T(i,m)
+	\end{lstlisting}
+
+Formalization:
+
+Let $ f \in \mathcal{C}^S f:\nat\rightarrow \nat $. There exists $P$  $URM^S $ s.t. $ f_P^{(K)} = f $. Let's proceed by induction on the number of transfer functions $h$.
+
+If $h = 0$ the program is already URM. therefore $ P' = P $
+
+Otherwise if there is at least one transfer instruction we show that the inductive case is valid $ h \rightarrow h+1 $, if $P$ ends it does so in $l + 1$, the program has $h + 1$ exchange instructions.
+
+Let $i$ be a register not used by $P$ found by inspecting the program. We replace at step $t \quad J (1,1, SUB)$ and add a subroutine as the one above, thus creating $ P'' $, at the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. By inductive hypothesis there is $ P' $ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \textbf{But all of this is wrong!}
+
+Why this? Because with the replacement we have made we have 1 transfer instruction, but $n-1$ exchange instructions.
+
+Let's prove something stronger: Given $P$ program that uses both URM instructions and  $URM^S $ instructions, there is $ P'' $ program that uses $URM$ instructions s.t. $ f_{P}^{(K)} = f_{P'}^{(K)} $
+
+The proof procedure is the same but we are demonstrating something stronger, the inductive case is now correct. This proves that $ \mathcal{C}^S \subseteq \mathcal{C} $
+
+To show $  \mathcal{C} \subseteq \mathcal{C}^S $ we know that we have shown that $ \mathcal{C} \subseteq \mathcal{C}^R $ and therefore given that $ \mathcal{C}^R \subseteq \mathcal{C}^S $ is demonstrated by transitivity.
+
+So we can say that $ \mathcal{C}^S = \mathcal{C} $
+
+\subsection{URM without jump instructions}
+
+URM$ ^{nj} $ is a model without jumps, meaning without $J(m,n,t)$ instructions.
+
+Demonstration that $ \mathcal{C}^{nj} \subset \mathcal{C} $ where the first is the set of computable functions without jump instruction. We know that $ f: \nat \rightarrow \nat, f(x)\uparrow \forall x $ is computable in URM, but it is not computable in URM $ ^{nj} $
+
+Which functions $ f: \nat \rightarrow \nat $ can be computed without jumping? Mind we have also removed the only conditional statement, so they always end. Let's see what cases we have:
+
+$f(x) = c  \forall x $ or $ f(x) = x + c \forall x $
+
+We see $ r_1(h,x) $ the contents of register 1 after h steps with initial content x. Given $P$ program, the function computed by him $ f_p(x) = r_1(l(P), x) $ where $ l(P) $ is the length of $P$;
+
+We show by induction on $h$ that after $h$ execution steps on $P \quad  r_1(h,x) $ is equal to $x + c$ or to $c$.
+
+By induction $h = 0: r_1(0,x) = x $ OK
+
+Case $ h \rightarrow h+1 $ We know by inductive hypothesis that $ r_1(h,x) = x+c $ or $ c $. The next instruction can be one of three cases:
+\begin{itemize}
+	\item The instruction is $Z (n)$ then if $n = 1  \quad  r_1(h+1,x) = 0 $, otherwise $ r_1(h+1,x) = r_1(h,x) $ in both cases it's ok, the first is constant, the second is fine by inductive hypothesis.
+	\item The instruction is $S (n)$, then if $n = 1$ I find that $ r_1(h+1,x) = r_1(h,x)+1 $ which by induction hypothesis is fine. Even if $n$ is other than 1 (see previous)
+	\item The instruction is $T (m, n)$. In cases where $ n>1 $ or $ n=m=1 $ then $ r_1(h+1,x) = r_1(h,x) $ and that's fine. Otherwise $ n = 1, m > 1 $ we do not know what $ r_1(h+1,x) $ is worth. So who knows?
+\end{itemize}
+
+Actually we should prove this not for $ r_1 $ but for a generic register $ r_j $
+
+\chapter {Decidable Predicates}
+
+In mathematics we often want to establish \textbf{properties}, for example: $ div(m,n)  \quad  div \subseteq \nat \times \nat \quad  div = \{(m,Km) \mid m \in \nat, K \in \nat \} $
+
+We can say $ div: \nat \times \nat \rightarrow \{0,1\} $|
+
+In the field of calculability theory we talk about \textbf{predicates} or \textbf{problems}.
+
+A \textbf{K-ary predicate} on $\nat $ indicated with $Q(x_1,x_k)$ is therefore a property that can be true or false, formally we can see it as:
+
+\begin{itemize}
+	\item a function $Q: \nat^k\rightarrow \{true,false\}$
+	\item a set $Q \subseteq \nat^k$
+\end{itemize}
+
+we write $Q(x_1,\dots,x_k)$ to indicate $(x_1,\dots,x_k) \in Q$ or $Q(x_1,\dots,x_k) = true$
+
+When is it computable? Int. when there exist a URM that, given in input a k-tuple $(x_1,\dots,x_k)$ returns $true$ if $Q(x_1,\dots,x_k)$ and $false$ otherwise. To represent $true$ and $false$ we use conventionally 1 and 0.
+
+\subsection{Definition of decidable predicate}
+
+A predicate $Q \subseteq \nat^k$ is said to be \textbf{decidable} if its \textbf{characteristic function}
+
+\begin{equation*}
+	\mathcal{X}_Q(x_1,\dots,x_k) = \begin{cases}
+		1 & $ if $ Q(x_1,\dots,x_k) \\
+		0 & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+is computable (for now URM-computable).
+
+\textbf{Note} $\mathcal{X}_Q$ is a \textbf{total} function (when one studies thje decidibility of predicates, one works only with total functions)
+
+\section {Example of decidable predicate}
+
+The example is equality. $ Q(x,y) \subseteq \nat^2 $, $ Q(x,y) \equiv x = y $
+
+In fact the characteristic function
+
+\begin{equation*}
+	\mathcal{X}_a(x,y) = \begin{cases}
+		1 & $ if $ x = y  \\
+		0 & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+is computed by the program
+
+\begin{quote}
+  \begin{tabular}{lll}            
+         & J(1,2,SI)  \\
+    NO:  & Z(1)       \\
+         & J(1,2,END) \\
+    SI:  & Z(1)       \\
+         & S(1)       \\
+    END: &
+  \end{tabular}
+  \end{quote}
+
+  Another example: $ Q(x) \equiv x $ is even:
+
+  \begin{quote}
+    \begin{tabular}{lll}            
+      LOOP: & T(1,2,SI)   \\
+            & S(2)        \\
+            & J(1,2,NO)   \\
+            & S(2)        \\
+            & J(1,2,LOOP) \\
+      SI:   & S(3)        \\
+      NO:   & T(3,1)
+    \end{tabular}
+  \end{quote}
+
+\begin{tabu}{|c|c|c|}
+  \hline
+  x & k & r \\
+  \hline
+\end{tabu} in memory where k is a growing index and r is the result.
+
+Another example is $Q(x,y) \equiv x \leq y$, we can either increment both $x$ and $y$ until $x+k=y$, so $x\leq y$, or until $y+k=x$, so $x>y$ (not equal for the order of comparisons).
+
+\begin{quote}
+  \begin{tabular}{lll}            
+          & T(1,3)      &        \\
+          & T(2,4)      &        \\
+    LOOP: & J(2,3,SI)   & \comment{x+k=y?} \\
+          & J(1,4,NO)   & \comment{y+k=x?} \\
+          & S(3)        &        \\
+          & S(4)        &        \\
+          & J(1,1,LOOP) &        \\
+    SI:   & S(5)        &        \\
+    NO:   & T(5,1)      &
+  \end{tabular}
+\end{quote}
+
+  Memory: $\begin{tabu}{|c|c|c|c|c|}
+		\hline
+		x & y & x+k & y+k & r \\
+		\hline
+	\end{tabu}$ where $r$ is the result.
+
+Another approach is to increment a register starting from 0. If I reach $x$ first then $x \leq y$, otherwise $x > y$.
+
+  \begin{quote}
+    \begin{tabular}{lll}            
+      LOOP: & J(1,3,SI)   & \\
+            & J(2,3,NO)   & \\
+            & S(3)        & \\
+            & J(1,1,LOOP) & \\
+      SI:   & S(4)        & \\
+      NO:   & T(4,1)      &
+    \end{tabular}
+  \end{quote}
+
+$\begin{tabu}{|c|c|c|c|}
+		\hline
+		x+k & y & k & r \\
+		\hline
+	\end{tabu}$ where $r$ is the result.
+
+Example of $div(x,y)$, suppose $x \not= 0$:
+
+  \begin{quote}
+    \begin{tabular}{lll}            
+      LOOP: & J(2,3,SI)   &                                   \\
+            & Z(4)        & \comment{sum $x$ to $R_2$}         \\
+      ADDX: & J(1,4,LOOP) &                                   \\
+            & J(2,3,NO)   & \comment{if for $h<x$  $kx+h=y$ then no!} \\
+            & S(3)        &                                   \\
+            & S(4)        &                                   \\
+            & J(1,1,ADDX) &                                   \\
+      SI:   & S(5)        &                                   \\
+      NO:   & T(5,1)      &
+    \end{tabular}
+  \end{quote}
+
+  $\begin{tabu}{|c|c|c|c|c|}
+    \hline
+    x & y & kx+h & h & r \\
+    \hline
+  \end{tabu}$ where $r$ is the result.
+
+\chapter {Computability on other domains}
+Since the URM manipulates only $natural numbers$, our definition of computability concerns only functions and predicates on $\nat$.
+
+The concept of computability can be extended to other domanins \dots referencing a notion (a bit unsatisfactory) of effective encoding.
+
+Suppose we are interested in computability on an object domain $Q$. Does our concept of computability extend to this domain? A necessary condition is that it is possible to encode the elements of $D$ as natural numbers. Suppose there exists $ \alpha: D \rightarrow \nat $, which is biunivocal and that $ \alpha, \alpha^{-1} $ are ``effective''. We can't have a formal notion of effectiveness\dots it means that everyone would agree on its calculability (if there's any justice in this world\dots)
+
+$D$ must be countable. For example, take the strings of a certain alphabet $ \Sigma $, $ D = \Sigma^* $. The set of rational numbers $ \mathbb{Q} $ is also countable, and so is the set of integers $\mathbb{Z}$, while $D$ can't be  $ \mathbb{R} $ or $A^w$ (stream).
+
+At this point we ask ourselves when a function $ f: D \rightarrow D $ is URM-computable? When its encoding $ f: \nat \rightarrow \nat $ is computable.
+
+$ f^*: \nat \rightarrow \nat $\\
+$ f^* = \alpha . f . \alpha^{-1} $
+
+We will see that if $\alpha$ is effective, its inverse is also.
+
+\textbf{Note:} The pb realtive to the informality of the effectivity notion remains, but once this has been accepted, the rest is formal.
+
+\textbf{Example}: to work on signed numbers I need $ \alpha: \mathbb{Z} \rightarrow \nat $, one way for this coding is:
+
+$ \alpha(z) = \begin{cases}
+		2z    & z \geq 0 \\
+		-2z-1 & z < 0
+	\end{cases} $
+
+Which is an effective function with the inverse;
+
+$ \alpha^{-1}(z) = \begin{cases}
+		\frac{1}{2}n     & n $ is even $ \\
+		\frac{-(n+1)}{2} & n $ is odd $
+	\end{cases} $
+
+Let's see an example of a computable function, abs (z) = $ |z| $. It is computable if it is $ f^*: \nat \rightarrow \nat = \alpha f \alpha^{-1}(n) $ = $
+	\begin{cases}
+		\alpha f(\frac{n}{2}) = \alpha(\frac{n}{2})= n & n $ even $ \\
+		\alpha f(-\frac{n+1}{2}) = \alpha (\frac{n+1}{2}) = n+1
+	\end{cases}
+$
+
+therefore
+
+$ f^*(n) = \begin{cases}
+		n   & $ if n is even $ \\
+		n+1 & $ if n is odd $
+	\end{cases} $
+
+it is computable.
+
+\chapter {Generation of computable functions}
+
+We can prove that certain functions are computable if they are simpler combinations of modules that are computable. We have the set $ \mathcal{C} $ of the computable functions and if we take $ f_1, f_2 \in \mathcal{C} $ and compose them with a suitable operation $ op(f_1, f_2) $ we are still in the set $ \mathcal{C} $.
+
+More precisely we will prove that the $\mathcal{C}$ class is closed with respect to the following operations:
+\begin{itemize}
+	\item composition (generalized)
+	\item primitive recursion
+	\item minimization (unlimited)
+\end{itemize}
+
+So to prove that the function $f:\nat^k\rightarrow \nat$ is computable we could write the URM program P that computes $f$ ($f_P^{(k)} = f$), or we could use the theorems of the closure of $\mathcal{C}$.
+
+Actually the three operations we consider are not chosed randomly; the long term objective is to show that $\mathcal{C}$ coincides with the class of generable fucntions through composition, primitive recursion and minimization, starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
+
+\begin{notation}
+  Given $f,g:\nat^k\rightarrow\nat$ and
+  $\vec{x}\in\nat^k$ we write $f(\vec{x}) \simeq g(\vec{x}) $ for
+  $f(\vec{x})\downarrow$ if and only if $g(\vec{x})\downarrow$ and if
+  $f(\vec{x})\downarrow \Rightarrow f(\vec{x}) = g(\vec{x})$.
+\end{notation}
+
+\section {The basic functions are computable}
+Basic functions:
+\begin{enumerate}
+	\item $ \underline{0}: \nat^k \rightarrow \nat $, $\lambda x_1\dots x_k . 0$
+	\item $ s: \nat \rightarrow \nat $, $\lambda x . x+1$
+	\item projection $ U_i^k: \nat_i^k \rightarrow \nat $,  $\lambda x_1\dots x_k . x_i$
+\end{enumerate}
+
+Identity is a sub-case of projection.
+
+The functions that calculate these basic functions are the arithmetic instructions:
+\begin{enumerate}
+	\item $\underline{0}$ computed by z(1)
+	\item $s$ computed by s(1)
+	\item $ U_i^k$ computed by T(i, 1)
+\end{enumerate}
+
+To prove the properties of closure we will need to ``combine'' programs\dots we need a bit of notation.
+
+Given $P$ URM program we indicate with $ \rho(P) $ \textbf{the maximum register index} used by $P$. $P$ is in \textbf{standard form} if, being $S$ its length, for each $J(m,n,t)$ instruction $t\leq s+1$ (if it ends, it does so at the instruction $s+1$).
+
+Obviously considering only standard form programs is not limitative, meaning the following holds:
+
+\textbf{Lemma:} For each URM program $P$ there exists a program $P'$ in satndard form which is equivalent, meaning s.t. $\forall k f_p^{(k)} = f_{P'}^{(k)}$
+
+\textbf{proof}: It's enough to replace every instruciton $J(m,n,t)$ in $P$ s.t. $t>s+1$ with $J(m,n,s+1)$
+
+Often we will have to \textbf{concatenate} programs, let $P, Q$ be programs, the concatenation consists in executing $P$ and when it terminates executing $Q$, that is, every jump instruction in $Q$ is replaced by adding the length of $P$, $S$.
+
+\textbf{Note:} if $P,Q$ in standard form $\Rightarrow PQ$ is in standard form; moreover $(PQ)R = P(QR)$. We will assume every program is in standard form and we will use concatenation ``freely''.
+
+It will be useful to take the input and give the output in arbitrary registers. Given $P$ I want $ P[i_1,\dots,i_k \rightarrow h] $ ie that it has input in the registers of index $ R_{i1},\dots,R_{ik} $, puts the output in $ R_h $ and does not assume that the rest of the registers is 0. This is easily obtainable with transfer and reset operations to move the contents of registers from $ i_1,\dots,i_k $ to $ 1,\dots,k $ and the output from $h$ to 1.
+
+\section {Generalized composition}
+given a function
+$ f: \nat^k \rightarrow \nat $ and functions
+$ g_1,\dots,g_k: \nat^m \rightarrow \nat $
+the composition $ h: \nat^m \rightarrow \nat $
+is $ \forall \vec{x} \in \nat^m $ then
+$ h(\vec{x}) = f(g_1(\vec{x}), \dots g_k(\vec{x}))
+$ means that $ h(\vec{x}) \downarrow $ if $ n_1 = g_1(\vec{x}) \downarrow $
+\dots $ n_k = g_k(\vec{x}) \downarrow $ and $ f(n_1,\dots,n_k) \downarrow $
+
+\textbf{Proposition:} if $f:\nat^k\rightarrow\nat$ and $ g_1,\dots,g_k $ computable \textbf{then} $h(\vec{x}) = f(g_1(\vec{x}), \dots g_k(\vec{x}))$ is computable.
+
+\textbf{proof}: Let's take URM programs in standard form $ F, G_1, \dots, G_k $ for the computable functions mentioned above. Let us consider a register number not used by anyone, $m = max\{\rho(F),\rho(G_1), \dots \rho(G_k),k,n\}$, the program for the composition can be:
+
+$\begin{tabu}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		1                      & \dots                        & m                                 & m+1   & \dots & m+n   & m+n+1 & \dots & m+n+k \\
+		\hline
+		\dots                  & \dots                        & x1                                & \dots & n_n   & \dots & \dots & \dots &       \\
+		\hline
+		\multicolumn{3}{|c|}{} & \multicolumn{3}{c|}{\vec{x}} & \multicolumn{3}{c|}{g_i(\vec{x})}                                                 \\
+		\hline
+	\end{tabu}$
+
+$\begin{tabu}{l}
+		T([1,n], [m+1,m+n])                   \\
+		G_1 [m+1,\dots,m+n \rightarrow m+n+1] \\
+		\dots                                 \\
+		G_k [m+1,\dots,m+n\rightarrow b+n+k]  \\
+		P[m+n+1,\dots,m+n+k \rightarrow 1]
+	\end{tabu}$
+
+\textbf{Corollary:} Let $f:\nat^k\rightarrow \nat$ be computable. Then $g:\nat^n\rightarrow \nat$, where $g(x_1,\dots,x_n) = f(x_{i1},\dots,x_{ik})$ is computable, where $(x_{i1},\dots,x_{ik})$ is a sequence of variables in $x_1,\dots,x_n$ with repetitions and missing variables.
+
+\textbf{proof}: if $\vec{x} = (x_1,\dots, x_n)$,
+
+\begin{equation*}
+	g(\vec{x}) = f(\cup_{i1}^n(\vec{x}),\dots,\cup_{ik}^n\vec{x})
+\end{equation*}
+
+\textbf{Examples}:
+if $f:\nat^2 \rightarrow \nat $ is computable, then the following are also computable:
+\begin{itemize}
+	\item $f_1(x,y) = f(y,x)$
+	\item $f_2(x) ? f(x,x)$
+	\item $f_3(x,y,z) = f(x,y)$
+\end{itemize}
+
+\textbf{Note}: On the basis of this result we can utilize generalized composition when the $g_i$ are not functions of all the variables or are functions with repetitions.
+
+\textbf{Example}: Knowing that: $ sum: \nat^2 \rightarrow \nat $ where $ sum(x_1,x_2) = x_1 + x_2 $ is computable, we can deduce that $ f: \nat^3 \rightarrow \nat $ where $ f(x_1,x_2,x_3) = x_1 + x_2 + x_3 $ is also computable.
+
+In fact $f(x_1,x_2,x_3) = f(f(x_1,x_2),x_3) $. We can think about them as functions $\nat^3\rightarrow\nat$, so we get to $sum(sum(U_1^3(\vec{x}),U_2^3(\vec{x})), U_3^3(\vec{x}))$
+
+The following functions are computable:
+\begin{itemize}
+	\item \textbf{constant m} $\lambda \vec{x}.m$, as $m(\vec{x}) = S(S(\dots S(\underline{0}(\vec{x}))))$
+	\item \textbf{sum of the arguments} $g(x_1,\dots,x_k) = x1 + \dots + x_k$ (see above)
+	\item \textbf{product by a contant} $mx = g(x,\dots,x) \quad m$ times, where $g$ is the function at the previous step
+	\item if $f(x,y)$ is computable, then also $f'(x) = f(x,m)$ is
+
+	      in fact $f'(x) = f(x,m) = f(U_1^1(x)), m(x))$
+	\item if $f:\nat\rightarrow\nat$ is total computable, the predicate $Q(x,y)\equiv f(x) = y$ is decidable.
+
+	      in fact, we know that $\mathcal{X}_{Eq}(x,y) = \begin{cases}
+			      1 & x=y         \\
+			      0 & $otherwise$
+		      \end{cases}$ is computable
+
+	      therefore $\mathcal{X}_Q(x,y) = \mathcal{X}_{Eq}(g(x),y) = \mathcal{X}_{Eq}(g((U_1^2(x,y)), (U_2^2(x,y))$
+\end{itemize}
+
+\section {Primitive recursion}
+
+\textbf{recursion} is a familiar concept; it allows to define a function specifying the values in terms of other values of the function itself (and possibly using other already defined functions).
+
+\textbf{factorial}: $0! = 1$ and $(n+1)! = n!(n+1)$
+
+\textbf{fibonacci}: $f(0) = 1$, $f(1) = 1$ and $f(n+2) = f(n) + f(n+1)$
+
+There are many types, here we use a ``controlled'' version of recursion.
+
+So given $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ functions
+
+we define $ h(\vec{x},0) = f(\vec{x}) $ and $ h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y)) $
+
+\textbf{Note}: The function $h$ is defined in an equational manner, with $h$ that appears on both sides: implicit definition, not obvious that such $h$ exists or that it is unique. Actually it does exist and it is unique, but a general theory that supports this observation is not trivial.
+
+The argument proceeds as follows:
+
+\begin{itemize}
+	\item we indicate with $[\nat^n\rightarrow\nat]$ the set of functions with $n$ arguments
+	\item we define an operator:\\
+	      $T: [\nat^{k+1}\rightarrow\nat] \rightarrow [\nat^{k+1}\rightarrow\nat]$
+
+	      $T(h)(\vec{x},0) = f(\vec{x})$
+
+	      $T(h)(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))$, no circularity
+	\item the searched functions are the fixed points of $T$, $h$ s.t. $T(h) = h$
+	\item existence of the fixed point:
+	      \begin{itemize}
+		      \item $[\nat^{k+1}\rightarrow\nat]$ cpo
+		      \item $T$ continuous
+		      \item Scott $\rightarrow$ it has a least fixed point
+	      \end{itemize}
+	\item uniqueness: inductively if $h,h'$ fixed points $\Rightarrow h=h'$
+\end{itemize}
+
+For example sum and successor: $ h(x,y) = x+y $ if $ h(x,0) = x = f(x) $ and $ h(x,y+1) = h(x,y) + 1 $ therefore $f$ is the identity and $g$ is the successor, both computable therefore the sum is computable by primitive recursion.
+
+\textbf{Observation}
+Functions obtained from total functions by:
+\begin{enumerate}
+	\item generalized composition
+	\item primitive recursion
+\end{enumerate}
+are still total.
+
+\textbf{proof}
+1 is obvious by definition.
+
+Let $f\nat^k\rightarrow\nat, g:\nat^{k+2}\rightarrow\nat$ be total functions and let us define:
+
+$h: \nat^{k+1} \rightarrow \nat$
+
+$h(\vec{x},y) = f(\vec{x})$
+
+$h(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))$
+
+It can be proved by induction on $y$ that $\forall \vec{x} \quad (\vec{x},y) \in dom(h)$
+
+$(y=0): h(\vec{x},0) \simeq f(\vec{x})\downarrow$
+
+$(y\rightarrow y+1): h(\vec{x},y+1) \simeq g(\vec{x},y,h(\vec{x},y))\downarrow$ by inductive hypothesis
+
+\textbf{Examples}:
+
+\begin{itemize}
+	\item \textbf{sum} $x+y$\\
+	      $x+0 = x\\
+		      x+(y+1) = x+y+1\\\\
+		      h(x,0) = x\\
+		      h(x,y+1) = h(x,y)+1\\\\
+		      f(x) = x\\
+		      g(x,y,z) = z+1$
+	\item \textbf{product}
+	      $x\cdot y\\
+		      x\cdot 0 = 0\\
+		      x\cdot (y+1) = xy+x\\
+		      \\
+		      h(x,0) = 0\\
+		      h(x,y+1) = h(x,y)+x\\
+		      \\
+		      f(x) = 0\\
+		      g(x,y,z) = z+y$
+	\item \textbf{factorial}
+	      $y!\\
+		      0! = 1\\
+		      (y+1)! = y!(y+1)\\
+		      \\
+		      h(0) = 1\\
+		      h(y+1) = h(y)(y+1)\\
+		      \\
+		      f(0) = 1$ constant $\\
+		      g(y,z) = z(y+1)$
+\end{itemize}
+
+\textbf{Proposition} (Closure with 	respect to the primitive recursion of $\mathcal{C}$)
+
+Let $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ computable.
+
+Then $h:\nat^{k+1}\rightarrow\nat$ defined through primitive recursion:\\
+$ h(\vec{x},0) = f(\vec{x}) $\\
+$ h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y)) $\\
+is computable.
+
+\textbf{proof}
+Let $F,G$ programs in standard form for $f,g$, let us show how a program for $h$ can be constructed.
+We proceed as suggested by the definition.
+
+We start from $\begin{tabu}{|c|c|c|c|c|c|}
+		\hline
+		x_1 & \dots & x_k & y & 0 & \dots \\
+		\hline
+	\end{tabu}$
+
+we save the parameters and we start to calculate $h(\vec{x},0)$ using $F$.
+
+If $y=0$ we are done, otherwise we save $h(\vec{x},0)$ and i calculate $h(\vec{x},1) = g(\vec{x},0,h(\vec{x},0))$ with $G$. Do the same for $h(\vec{x},i)$ until we arrive to $i=y$
+
+As usual we need registers not used by $F$ and $G$, $m = max\{\rho(F),\rho(G),k+2\}$ and we build the program for $h$ as follows:
+
+$\begin{tabu}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		1                     & \dots                                  & m+1                    & \dots   & m+k   & m+k+1 & \dots        & m+k+3 &   \\
+		\hline
+		\dots                 & \dots                                  & \dots                  & \vec{x} & \dots & i     & h(\vec{x},2) & y     & 0 \\
+		\hline
+		\multicolumn{2}{|c}{} & \multicolumn{5}{|c}{$arguments of g$ } & \multicolumn{2}{|c|}{}                                                      \\
+		\hline
+	\end{tabu}$
+
+$\begin{tabu}{lll}
+		      & T([1,k],[m+1,m+k])                   & $copy $\vec{x}                             \\
+		      & T(k+1,m+k+3)                         & $copy $ y                                  \\
+		      & F[m+1,\dots,m+k\rightarrow m+k+2]    & h(\vec{x},0)                               \\
+		LOOP: & J(m+k+1,m+k+3,END)                   & i=y?                                       \\
+		      & G[m+1,\dots,m+k+2 \rightarrow m+k+2] & h(\vec{x},i+1) = g(\vec{x},i,h(\vec{x},i)) \\
+		      & S(m+k+1)                             & i = i+1                                    \\
+		      & J(1,1,LOOP)                          &                                            \\
+		END:  & T(m+k+2,1)
+	\end{tabu}$
+
+\textbf{Note:} We do nothing more than implementing recursion through iteration!
+
+\textbf{Theorem:} the following functions are computable.
+
+\begin{enumerate}
+	\item \textbf{Sum:} $x+y$, see above;
+	\item \textbf{Product:} $x \cdot y$ see above;
+	\item \textbf{Exponential:} $x^y$\\
+	      $x^0 = 1, h(x,0) = 1, f(x) = 1$\\
+	      $x^{y+1} = x^y\cdot x, h(x,y+1) = h(x,y)\cdot x, g(x,y,z) = z\cdot x$;
+	\item \textbf{Predecessor:} $x \dot - 1$\\
+	      $0 \dot -1 = 0, h(0) = 0, f \equiv \underline{0}$\\
+	      $(x+1)\dotdiv  1 = x, h(x+1) = x, g(y,z) = y$;
+	\item \textbf{Subtraction:} $x\dotdiv  y = \begin{cases}
+			      x-y & x \geq y    \\
+			      0   & $otherwise$
+		      \end{cases}$\\
+	      $x\dotdiv  0 = x, f(x) = x\\
+		      x\dotdiv (x+1) = (x\dotdiv  y)\dotdiv  1, g(x,y,z) = z\dotdiv  1$;
+	\item \textbf{Sign} $sg(x) = \begin{cases}
+			      0 & x=0   \\
+			      1 & x > 0
+		      \end{cases}\\
+		      sg(0) = 0, f \equiv \underline{0}\\
+		      sg(x+1) = 1, g(y,z) = 1$;
+	\item \textbf{Complement sign:} $\bar{sg}(x) = \begin{cases}
+			      0 & x=0 \\
+			      1 & x>0
+		      \end{cases}\\
+		      \bar{sg}(x) = 1 \dotdiv  sg(x), $ composition and (6);
+	\item $ |x - y| = \begin{cases}
+			      x-y & x\geq y \\
+			      y-x & x < y
+		      \end{cases}$\\
+	      $ |x - y| = (x\dotdiv y)+(y\dotdiv x)$ from (1), (6) and composition;
+	\item \textbf{Factorial:} $y!\\
+		      0! = 1, f \equiv 1
+		      (y+1)! = y!(y+1), g(y,z) = (y+1)z $;
+	\item \textbf{Minimum:} $min(x,y) = x\dotdiv  (x\dotdiv  y)$;
+	\item \textbf{Maximum:} $ max(x,y) = (x \dotdiv  y) + y $;
+	\item \textbf{Remainder:} $rm(x,y) = \begin{cases}
+			      y mod y & x \not= 0 \\
+			      y       & x=0
+		      \end{cases}$ \\ rest of the integer dicision of $y$ by $x$ (convention! reasonable if the rest $rm(x,y)$ must be such that $\exists k \mid kx + rm(x,y) = y$)\\
+	      $rm(x,0) = 0\\
+		      rm(x,y+1) = \begin{cases}
+			      rm(x,y)+1 & rm(x,y)+1 \not= x \\
+			      0         & $otherwise$
+		      \end{cases}\\
+		      = (rm(x,y)+1) sg((x\dotdiv  1)\dotdiv  rm(x,y))\\
+		      f(x) = 0, g(x,y,z) = z * sg(x\dotdiv 1\dotdiv z)$ OK!
+
+	\item \textbf{Quotient} = $qt(x,y) = y$ div $x$, by convention $qt(0,y) = y$\\
+	      we define:\\
+	      $qt(x,0) = 0\\
+		      qt(x,y+1) = \begin{cases}
+			      qt(x,y)+1 & rm(x,y)+1=x  \\
+			      qt(x,y)   & $ otherwise$
+		      \end{cases}\\
+		      = qt(x,y) + sg((x\dotdiv 1)\dotdiv rm(x,y))$
+
+	\item $div(x,y) = \begin{cases}
+			      1 & x|y                                   \\
+			      0 & $otherwise, $0|0 $ and $ 0\not|y, y>0
+		      \end{cases}\\
+		      div(x,y) = \bar{sg}(rm(x,y))$
+\end{enumerate}
+
+\subsection{Definition by cases}
+\textbf{Corollary:} given $ f_1,\dots,f_n: \nat^k \rightarrow \nat $ total computable and $ Q_1,\dots,Q_n \subseteq \nat^k $ decidable predicate and mutually exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of $ Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total computable where
+
+\begin{equation*}
+	f(\vec{x}) = \begin{cases}
+		f_1(\vec{x}) & Q_1(\vec{x}) \\
+		f_2(\vec{x}) & Q_2(\vec{x}) \\
+		\dots        &              \\
+		f_n(\vec{x}) & Q_n(\vec{x})
+	\end{cases}
+\end{equation*}
+
+\textbf{proof}:
+$f(\vec{x}) = f_1(\vec{x})\mathcal{X}_{Q1}(\vec{x}) + \dots + f_n(\vec{x})\mathcal{X}_{Qn}(\vec{x})$
+
+We conclude, for composition using the calculability of sum and product.
+
+It also applies to partial functions but we will prove it later.
+
+\section{Algebra of decidability}
+Having $ Q, Q' $   decidable predicates, then also $ \neg Q, Q \wedge Q', Q \vee Q' $ all decidable.
+
+\textbf{proof}:
+It's enough to observe that:
+\begin{enumerate}
+	\item $ \mathcal{X}_{\lnot Q}(\vec{x}) =  \overline{sg}(\mathcal{X}_Q(\vec{x})) $
+	\item $\mathcal{X}_{Q \vee Q'}(\vec{x}) = \mathcal{X}_{Q}(\vec{x}) \cdot \mathcal{X}_{Q'}(\vec{x})$
+	\item observe that $Q \wedge Q' = \lnot (\lnot Q \vee \lnot Q')$
+\end{enumerate}
+
+We remind that $\{\neg, \wedge, \vee \}$ ($\{\neg, \vee \}$ is enough) is a set of connectives functionally complete (it allows to express any function $\{0,1\}^n \rightarrow \{0,1\}$). We deduce that:
+
+\textbf{Corollary}: Let $Q_1, \dots, Q_n \subseteq \nat^k$ decidable predicates and let $f:\{0,1\}^n \rightarrow \{0,1\}$ a function, let us consider:\\
+$\mathcal{X}: \nat^k\rightarrow\{0,1\}\\
+	\mathcal{X}(\vec{x}) = f(\mathcal{X}_{Q1}(\vec{x})), \dots, \mathcal{X}_{Qn}(\vec{x}) )$\\
+Then the predicate $Q$ which corresponds to $\mathcal{X}$ is decidable, and therefore $\mathcal{X}$ is computable.
+
+\section{Sum, product, limited quantification}
+
+\textbf{Definition}: (limited sum and product), let $f:\nat^{k+1}\rightarrow\nat$ total.
+
+$\sum_{z<y}f(\vec{x},z)$ is defined by
+
+$\sum_{z<0}f(\vec{x},z) = 0$
+
+$\sum_{z<y+1}f(\vec{x},z) = \sum_{z<y}f(\vec{x},z) + f(\vec{x},y)$
+
+$\prod_{z<y}f(\vec{x},z)$ is defined by:
+
+$\prod_{z<1}f(\vec{x},z) = 1$
+
+$\prod_{z<y+1}f(\vec{x},z) = \prod_{z<y}f(\vec{x},z) \cdot f(\vec{x},y)$
+
+\textbf{Observation}: if $f:\nat^{k+1}\rightarrow\nat$ is total computable then
+\begin{enumerate}
+	\item $g(\vec{x},y) = \sum_{z<y}f(\vec{x},y)$
+	\item $h(\vec{x},y) = \prod_{z<y}f(\vec{x},y)$
+\end{enumerate}
+are total computable.
+
+\textbf{proof}: they are defined by primitive recursion!
+
+$g(\vec{x},0) = 0\\
+	g(\vec{x},y+1) = g(\vec{x},y) + f(\vec{x},y)$
+
+and $+,f$ are computable.
+
+Same for 2.
+
+Obviously, for composition, the bound can be a total computable function.
+
+Another immediate consequence concerns the decidibility of the limited quantification on the predicates.
+
+\textbf{Lemma}: Let $Q\subseteq \nat^{k+1}$ be a decidable predicate, then:
+
+\begin{enumerate}
+	\item $Q_1(\vec{x},y) \equiv \forall z<y. Q(\vec{x},z)$
+	\item $Q_2(\vec{x},y) \equiv \exists z<y. Q(\vec{x},z)$
+\end{enumerate}
+
+are decidable.
+
+\textbf{proof}:
+\begin{enumerate}
+	\item observe that $\mathcal{X}_{Q1}(\vec{x},y) = \prod_{z<y}\mathcal{X}_Q(\vec{x},z)$
+	\item observe that $\mathcal{X}_{Q2}(\vec{x},y) = sg(\sum_{z<y}\mathcal{X}_Q(\vec{x},z))$
+\end{enumerate}
+
+\section{Limited minimization}
+Given a function $ f: \nat^{k+1} \rightarrow \nat $, we define a function $ h: \nat^{k+1} \rightarrow \nat $ as follows:
+
+\begin{equation*}
+	h(\vec{x},y) = \mu z<y . f(\vec{x},z) = \begin{cases}
+		$min. $z<y$ s.t. $ g(\vec{x},z) = 0 & $ if it exists$ \\
+		y                                   & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+\textbf{Lemma}: Let $ f: \nat^{k+1} \rightarrow \nat $ total computable. Then also $ h: \nat^{k} \rightarrow \nat $ defined by $ h(\vec{x},y) = \mu z<y. f(\vec{x},z) $ is (total) computable.
+
+\textbf{proof}: we observe that $h$ can be defined as:
+
+$h(\vec{x},y) = \sum_{z<y}\prod_{w\leq z} sg(f(\vec{x},w))$
+
+The product value is 1 on the intervals $[0,z]$ in which $f\not= 0$, that if $z_0$ is the min $z<y$ where $f$ is null, they're exactly $z_0$, therefore the external sum counts them.
+
+Alternatively $h$ can be defined directly through primitive recursion:
+
+$
+	h(\vec{x},0) = 0\\
+	\\
+	h(\vec{x},y+1) = \begin{cases}
+		h(\vec{x},y)               & h(\vec{x},y)\not= y \\
+		\begin{cases}
+			y   & f(\vec{x},y) = 0 \\
+			y+1 & $otherwise$
+		\end{cases} & $ otherwise $
+	\end{cases}\\
+	\\
+	sg(y-h(\vec{x},y)) \cdot h(\vec{x},y) + \bar{sg}(y-h(\vec{x},y))(y+sg(f(\vec{x},y)))
+$
+
+\textbf{Note}: Here too the bound can be a total computable function.
+
+\textbf{Lemma}: The following functions are computable:
+\begin{enumerate}[label=\alph*)]
+	\item $D(x) = $ number of divisors of $x$
+	\item $Pr(x) = \begin{cases}
+			      1 & $ x is prime $ \\
+			      0 & $ otherwise $
+		      \end{cases}$ (x prime is decidable)
+	\item $p_x$ = $x$-th prime number (convention: $p_0=0, p_1=2,p_2=3\dots$)
+	\item $(x)_y = \begin{cases}
+			      $exponent of $p_y$ in the factorization of $x & x,y > 0      \\
+			      0                                             & x=0 \vee y=0
+		      \end{cases}$\\
+	      e.g. $72 = 2^3\cdot 3^2, (72)_1 = 3, (72)_2 = 2, (72)_3 = 0$
+\end{enumerate}
+
+\textbf{proof}:
+\begin{enumerate}[label=\alph*)]
+	\item $D(x) = \sum_{y\leq x}div(y,x)$
+	\item $Pr(x) = \begin{cases}
+			      1 & D(x) = 2      \\
+			      0 & $ otherwise $
+		      \end{cases}$ 1 if $x>1$ and is divided only by 1 and itself.\\\\
+	      $= \bar{sg}(|D(x)-2|)$
+	\item $P_x$ can be defined by primitive recursion
+
+	      $P_0=0$
+
+	      $P_{x+1} = \mu z \leq (P_x!+1) . \bar{sg}(P_z(z)\cdot \mathcal{X}_{z>Px}(z))$
+
+	      \textbf{Note}: certainly $P_{x+1} \leq P_x!+1$, and this allows us to fix the bound.
+
+	      in fact call $p$ a prime in the decomposition of $p_x!+1 (\geq 2)$, therefore $p|p_x!+1$, certainly $p>p_x$, otherwise $p|p_x!$ and therefore $p|1$. Therefore $p_x < p_{x+1} \leq p$
+
+	\item note that $(x)_y = max \quad z$ s.t. $p_y^z|x = \\
+		      min  \quad  z$ s.t. $p_y^{z+2}\not|x = \mu z\leq x . \lnot div((p_y)^{z+1},x)$
+\end{enumerate}
+
+\subsection{Exercizes}
+Prove that the following functions are computable:
+
+\begin{enumerate}[label=\alph*)]
+\item $\floor{\sqrt{x}}$
+  
+  $\floor{\sqrt{x}} = max\, y\leq x \quad y^2 \leq x\\
+  = min \, y \leq x \quad (y+1)^2 > x\\
+  \mu y\leq x. ((x+1)-(y+1)^2)$
+\item $lcm(x,y)\\
+  mxm(x,y) = \mu < \leq x\cdot y . (x|z $ and $ y|z)\\
+  = \mu z \leq x\cdot y. \bar{sg}(dic(x,z)\cdot div(y,z))$
+\item $GCD(x,y)$
+  
+	      Certainly $GCD(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
+
+	      $GCD(x,y)\leq min(x,y)-\mu z\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))$
+	\item number of prime divisors of $x$
+
+	      $\sum_{z\leq x} pr(z)\cdot div(z,x)$
+\end{enumerate}
+
+\section{Encoding of couples (and n-tuples)}
+
+Let us see an encoding in $\nat$ of couples (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the furute\dots)
+
+Let us define as a \textbf{couple encoding}:
+
+$\pi: \nat^2\rightarrow\nat\\
+	\\
+	\pi(x,y) = 2^x(2y+1)-1$
+
+Notice that $\pi$ is bijective and effective (computable).
+
+The inverse can be characterized in terms of two computable functions that give the first and second component of a natural $x$ seen as couple:
+
+$\pi^{-1}:\nat\rightarrow\nat^2\\
+	\\
+	\pi^{-1}(x) = (\pi_1(x),\pi_2(x))$
+
+where $\pi_1(x) = (x+1)_1\\
+	\pi_2(x) = (\frac{x+1}{2\pi_1(x)}-1)/2$
+
+(the division is $qt(\_,\_)$)
+
+It can be generalized to an encoding of $n$-tuples:
+
+$\pi^n: \nat^n\rightarrow\nat \quad n\geq2$
+
+defining inductively
+
+$\pi^2 = \pi\\
+	\\
+	\pi^{n+1}(\vec{x},y) = \pi(\pi^n(\vec{x},y)) \quad \vec{x} \in \nat^n, y \in \nat$
+
+and correspondingly we can define the projections $pi_j^n:\nat\rightarrow\nat^n$
+
+\subsection{Considerations on recursion}
+
+The Fibonacci function is defined by:
+
+$ fib(0) = fib(1) = 1\\
+	\\
+	fib(n+2) = fib(n) + fib(n+1) $
+
+This isn't exactly a definition by primitive recursion, given that $f(y+2)$ is defined in terms of $f(y)$ as well as $f(y+1)$, it does not respect the schema\dots
+
+We can show that $f$ is computable resorting to the encoding and defining:
+
+$g:\nat\rightarrow\nat\\
+	g(y) = \pi(f(y),f(y+1))$
+
+therefore $g$ can be defined by primitive recursion:
+
+$g(0) = \pi(f(0),f(1)) = \pi(1,1)\\
+	g(y+1) = \pi(f(y+1),f(y+2)) = \pi(f(y+1),f(y)+f(y+1))\\
+	= \pi(\pi_2(g(y)), \pi_1(g(y)) + \pi_2(g(y)))$
+
+so $g$ is computable.
+
+$f(y) = \pi_1(g(y))$ computable.
+
+In general we could have a function $f$ defined using $k$ previous values
+
+$\begin{cases}
+		f(0) = c_0   \\
+		f(k-1) = c_k \\
+		f(y+k) = h(f(y),\dots,f(y+k-1))
+	\end{cases}$
+
+with $h:\nat^k\rightarrow\nat$ computable.
+
+One can proceed like before and define
+
+$g:\nat\rightarrow\nat\\
+	\\
+	g(y) = \pi^k(f(y),\dots,f(y+k-1))$
+
+the $g$ function can be defined by primitive recursion
+
+$g(0) = \pi^k(c_0,\dots,c_{k-1})\\
+	\\
+	g(y+1) = \pi^k(f(y+1),\dots,f(y+k-1),f(y+k))\\
+	\\
+	f(y+1) = \pi_2^k(g(y))\\
+	\\
+	f(y+k-1) = \pi_k^k(g(y))\\
+	\\
+	f(y+k) = h(f(y),\dots,f(y+k-1)) = h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y)))\\
+	\\
+	= \pi^k(\pi_2^k(g(y)),\dots,\pi_k^k(g(y)),h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y))))$
+
+g is computable, so $f(y) = \pi_1(g(y))$ is computable.
+
+\section{Minimalization}
+The operators to manupulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unlimited minimalization} operator.
+
+Similar to the limited minimalization, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines more or less the following function:
+
+$\mu y . f(\vec{x},y) $ = minimum $y$ s.t. $f(\vec{x},y) = 0$.
+
+But there are two problems:
+\begin{enumerate}
+	\item if there is no $y$ s.t. $f(\vec{x},y) = 0 \uparrow$
+	\item if before finding a $y$ s.t. $f(\vec{x},y) = 0$ happens that $f(\vec{x},z)\uparrow$ the minimalization is $\uparrow$
+\end{enumerate}
+
+intuitive if we think about the obvious algorithm to calculate it: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
+
+\textbf{Definition}: Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function $h:\nat^k\rightarrow\nat$ defined through \textbf{unlimited minimalization} is:
+
+\begin{equation*}
+	h(\vec{x}) = \mu y. f(\vec{x},y) = \begin{cases}
+		$least $ z$ s.t. $ & \begin{cases}
+			f(\vec{x},z) = 0 \\
+			f(\vec{x},z)\downarrow \quad f(\vec{x},z') \not= 0 \quad $ for $ z<z'
+		\end{cases} \\
+		\uparrow           & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+\section{Closure of $\mathcal{C}$ for minimization}
+
+\textbf{Theorem}: Let $f:\nat^{k+1}\rightarrow\nat$ a computable function (not necessarily total). Then $h:\nat^k\rightarrow\nat$ defined by $h(\vec{x}) = \mu y. f(\vec{x},y)$ is computable.
+
+\textbf{proof}: Let $F$ be a program in standard form for $f$.
+
+\textbf{idea:} for $z=0,1,2,\dots$ we calculate $f(\vec{x},z)$ until we find a zero\dots
+
+We need to save the argument $\vec{x}$ in a zone that's not used by the program $F$.
+
+$m = max\{\rho(F),k+1\}$
+
+So the program for $h$ is obtained as follows:
+
+$\begin{tabu}{cccccccc}
+		1                            & \dots                  & k                             & \dots                  & m+1 & \dots & m+k & m+k+1 \\
+		\hline
+		\multicolumn{3}{|c}{\vec{x}} & \multicolumn{1}{|c|}{} & \multicolumn{3}{|c|}{\vec{x}} & \multicolumn{1}{c|}{z}                             \\
+		\hline
+	\end{tabu}$
+
+$\begin{tabu}{lll}
+		      & T([1,k],[m+1,m+k])              & saves \vec{x}                                       \\
+		LOOP: & F[m+1,\dots,m+k+1\rightarrow 1] & f(\vec{x},z) \rightarrow R_1                        \\
+		      & J(1,m+k+2,END)                  & m+k+z $ contains $ 0' \Rightarrow f(\vec{x},z) = 0? \\
+		      & S(m+k+1)                        & z=z+1                                               \\
+		      & J(1,1,LOOP)                     &                                                     \\
+		END:  & T(m+k+1,1)
+	\end{tabu}$
+
+\textbf{Note} $F$ may not terminate\dots it is correct! The entire program doesn't terminate and $\mu$ is undefined!
+
+\textbf{Note:} \textbf{While} loop implemented with \textbf{goto}.
+
+\textbf{Observation}: The $\mu$ operator allows us to obtain \textbf{non total} functions starting from total functions.
+
+\textbf{Example}: Given $f(x,y) = |x-y^2|\\
+	\\
+	\mu u. f(x,y) = \begin{cases}
+		\sqrt{x} & x $ is a perfect square $ \\
+		\uparrow & $ otherwise $
+	\end{cases}$
+
+\textbf{Exercise}: Let $f:\nat\rightarrow\nat$ be computable, total and injective. The the \textbf{inverse} $f^{-1} = \begin{cases}
+		y        & f(y) = x                \\
+		\uparrow & \not\exists y. f(y) = x
+	\end{cases}$
+
+is computable. In fact, in our hypothesis' $f^{-1}(x) = \mu y. |f(y)-x|$
+
+\textbf{Note} This proof uses in an essential way the fact that $f$ is total, but the result is completely general \dots
+
+Intuitively, when $f$ is not total, to find $f^{-1}(x)$ we consider a program $P$ for $f$ and I execute it as follows:
+\begin{itemize}
+	\item 0 steps of the program on argument 0
+	\item 1 step on 0
+	\item 0 steps on 1
+	\item 2 steps on 0\\
+	      \dots
+\end{itemize}
+
+in a dove tail execution pattern.
+
+Every time for a certain number of steps $k$ on argument $y$, the program \textbf{terminates} we check the output $f(y)$, if $f(y) = x$ we stop, otherwise we continue.
+
+Informal \dots we will see how to formalize it.
+
+\textbf{Exercize}: Prove that the following function is computable.
+
+$f(x,y) = \begin{cases}
+		\frac{x}{y} & y\not= 0 \land y|z \\
+		\uparrow    & $ otherwise $
+	\end{cases}$
+
+First attempt:
+
+$f(x,y) = \mu z. |yz - x|$
+
+It's almost ok\dots except for the fact that $f(0,0) = 0$ instead of $\uparrow$
+
+The problem can be solved with a (classic) trick:
+
+$f(x,y) = \mu z. (|yz-x| + \mathcal{X}_{x=0\land y=0}(x,y))$
+
+\textbf{Exercise}: All the functions with finite domain are computable, meaning let $\theta: \nat\rightarrow\nat \quad dom(\theta)$ finite $ \Rightarrow \theta$ computable.
+
+Formulated for unary functions for the sake of notation, but easily generalizable.
+
+\textbf{proof}: Let $\theta:\nat\rightarrow\nat$ a finite domain:
+
+$\theta=\{(x_1,y_1),\dots,(x_n,y_n)\}$
+
+meaning:
+
+$\theta(x) = \begin{cases}
+		y_1      & x=x_1         \\
+		\dots                    \\
+		y_n      & x=x_n         \\
+		\uparrow & $ otherwise $
+	\end{cases}$
+
+therefore
+
+$\theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)$
+
+The minimalization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
+
+\chapter{Other approaches to calculability (Church-Turing thesis)}
+We already observed that the URM machine is just one of the many possible computational models that allow us to formalize the notion of computable function.
+
+We could have used:
+\begin{itemize}
+	\item Turing machine
+	\item Canonical deduction systems of Post
+	\item $\lambda$-calculus of Church
+	\item Partial recursive functions of Gödel-Kleene
+\end{itemize}
+
+All of these approaches define the \textbf{same class of computable functions}, leading to the
+
+\textbf{Church thesis}: a function is computable through an effective procedure if and only if it is URM-computable (partisan version)
+
+Compared to the Church thesis now we want to introduce another formalism for the definition of computable function; \textbf{partial recursive functions} of Gödel-Kleene $\rightarrow$ class $\mathcal{R}$; and prove that it is ``equivalent'' to the URM, meaning it defines the same class of functions $\mathcal{R} = \mathcal{C}$
+
+\section{Partially recursive functions}
+
+\textbf{Def:} The class $ \mathcal{R} $ of \textbf{partially recursive functions} is the least class of partial functions on the naturals $\mathcal{R}\subseteq \cup_k \nat^k\rightarrow\nat$ that contains:
+
+\begin{enumerate}[label=(\alph*)]
+	\item \textbf{Zero} $ \underline{0}: \nat^k \rightarrow \nat $, $\lambda x_1\dots x_k . 0$
+	\item \textbf{Successor} $ s: \nat \rightarrow \nat $, $\lambda x . x+1$
+	\item \textbf{Projection} $ U_i^k: \nat_i^k \rightarrow \nat $,  $\lambda x_1\dots x_k . x_i$
+\end{enumerate}
+
+and \textbf{closed} with respect to:
+\begin{enumerate}
+	\item generalized composition
+	\item primitive recursion
+	\item unlimited minimalization
+\end{enumerate}
+
+Is it a good definition? What does least mean? Does such a class exist?
+
+More precisely we can define:
+
+\textbf{Definition}: (Rich class): a class of functions $\mathcal{A} \subseteq \cup_k \nat^k\rightarrow\nat$ is said to be \textbf{rich} if it contains (a),(b) and (c) and it's closed with respect to (1), (2) and (3).
+
+We observe that the property of being ``rich class'' is \textbf{closed for intersection}:
+
+Let $\{\mathcal{A}_i\}i\in I$ a family of rich classes, then $\bigcap_{i\in I}\mathcal{A}_i$ rich.
+
+And finally we define:
+
+\textbf{Definition} The set of the partially recursive functions is:
+
+$\mathcal{R} = \bigcap_{\mathcal{A} \subseteq \bigcup_k \nat^k\rightarrow\nat
+		\land
+		\mathcal{A}rich} \mathcal{A}$
+
+\textbf{Note} $\mathcal{R}$ admits an inductive characteristic\\
+$\mathcal{R}_0 = \{a,b,c\}$\\
+$\mathcal{R}_{i+1} = \mathcal{R}_i \cup \{1,2,3 $ applied to $ R_i\}\\
+	R = \bigcup_i \mathcal{R}_i$
+
+Another interesting class, on which we will come back:
+
+\textbf{Definition} (Primitive recursive functions).
+
+The class of the primitive recursive functions is the least class of functions $\mathcal{PR}\subseteq \bigcup_k\nat^k\rightarrow\nat$ that contains (a),(b) and (c) and is closed for (1) and (2).
+
+\textbf{Theorem:} $\mathcal{R} = \mathcal{C}$, the partially recursive functions coincide with those URM-computable
+
+\textbf{Proof} $ \mathcal{R} \subseteq \mathcal{C} $ because $\mathcal{R}$ is the least rich class, the other is a rich class $\Rightarrow \mathcal{R}\subseteq\mathcal{C}$.
+
+Let us now consider $ \mathcal{C} \subseteq \mathcal{R} $. Let $ f:\nat^k\rightarrow\nat \in \mathcal{C} $ be a function and show that $ f \in \mathcal{R} $. We know that $ \exists P \in URM $ programs $ f_P^{(k)} = f$.
+
+Considering the following functions (dependant on $P$)
+
+With $ C_p^1(\vec{x}, t) $ we indicate contents of register 1 after $t$ steps of $ P(\vec{x}) $. A computation step is the execution of an instruction.
+
+It is understood that if $P(\vec{x})$ terminates in less than $t$ steps, $ C_p^1(\vec{x}, t) $ gives the content of $R_1$ in the final configuration.
+
+With $ J_P(\vec{x},t) $ we indicate instruction to be executed at the $t+1$-th step (after $t$ steps) of $P(\vec{x})$ (program counter) If the program has already ended, it is worth 0.
+
+Clearly $C_p^1$ and $J_p$ are total functions (we will need this later\dots)
+
+If $ f(\vec{x})\downarrow $ then $ P(\vec{x})\downarrow $ after $ t_0 $ pass, $ t_0 = \mu t. J_P(\vec{x},t) \Rightarrow f(\vec{x}) = C_p^1(\vec{x},t_0) = C_P^1(\vec{x}, \mu t.J_P(\vec{x},t)) $.
+Otherwise, if $ f(\vec{x})\uparrow $ then $P(\vec{x})\uparrow$ too and $ \mu t.J_P(\vec{x},t)\uparrow $
+
+Therefore:
+$f(\vec{x}) = c_p^1(\vec{x}),\mu t.J_p(\vec{x},t)$
+
+%=======================================================
+
+If you knew that $ C_P^1, J_P \in \mathcal{R} $ then here it is shown that $ f \in \mathcal{R} $
+
+We prove that they are even in $ \mathcal{PR} $
+
+\section{Ackermann function}
+$ \psi: \nat^2 \rightarrow \nat $ defined as:
+
+$ \psi(0,y) = y+1 $
+
+$ \psi(x+1,0) = \psi(x,1) $
+
+$ \psi(x+1,y+1) = \psi(x, \psi(x+1, y)) $
+
+We see that $ \psi $:
+\begin{enumerate}
+	\item It is total;
+	\item $ \psi \in \mathcal{C} = \mathcal{R} $
+	\item $ \psi \not \in \mathcal{PR} $
+\end{enumerate}
+
+We prove by induction on pairs $ (x',y') \leq_{lex} (x,y) $ lexicographically ordered.
+
+\begin{enumerate}
+	\item We proceed by case. If x$ = 0$ then $y + 1$ holds then the function is defined;
+	\item $ x>0, y=0 $, then it holds $ \psi(x-1,1) $ which is def. by inductive hypothesis;
+	\item $ x>0, y>0 $, then $ \psi(x, \psi(x+1, y)) $ defined by inductive hypothesis, both inside and outside;
+\end{enumerate}
+
+So the function is total.
+
+\chapter{Enumeration of programs}
+
+Review: $ A, B $ sets, $ |A| = |B| $ if $ \exists f:A\rightarrow B $ biunivocal. Furthermore $ |A| \leq |B| $ if $ \exists f:A\rightarrow B $ injective or there exists $g$ opposite direction surjective.
+
+$A$ is countable if $ |A| \leq |\nat| $, that is, $ \exists g: \nat \rightarrow A $ surjective.
+
+An enumeration is without repetitions if in addition to being surjective it is also injective. Let's say that an enumeration is effective when it is computable or made from pieces that are computable (e.g. ennuple of results).
+
+\textbf{Observation:} $ \nat^2 $, $ \nat^3 $ and $ \bigcup_{k\geq 1} \nat^k $ can be numbered effectively.
+
+In particular the couples in $ \nat^2 $ can be encoded as $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is $ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
+
+The triple instead is a pair of a pair and an element. $ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained from the inverse of the first.
+
+For lists we need an encoding $ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the uniqueness of the prime numbers: $ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the $i$-th prime number.\\This, however, leads us to lose any zeros, since the encodings for (1,1) and (1,1,0) would be the same because the exponential function in 0 = 1.
+
+So we use something that works: $ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we can proceed as usual, but limited minimization can be used.\\ Hint: $ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
+
+But I don't just want the length, I also need the list of items. I need a function: \begin{equation*}
+	a(x,i) = \begin{cases}
+		(x+2)_i   & 1 \leq i \leq k-1 \\
+		(x+2)_k-1 & i = k
+	\end{cases}
+\end{equation*}
+And this is the inverse function of $\tau$. And these functions are computable recursive primitives.
+
+To compute instructions: Let us take $ \mathcal{F} $ set of URM instructions, $ \mathcal{P} $ URM programs. Let's take function $ \beta:\mathcal{F}\rightarrow\nat $
+\begin{itemize}
+	\item $ \beta(z(n)) = 4 \times (n-1) $;
+	\item $ \beta(s(n)) = 4 \times (n-1)+1 $;
+	\item $ \beta(t(m,n)) = 4 \times \pi(m-1,n-1)+2 $;
+	\item $ \beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3 $;
+\end{itemize}
+
+The decoding of this monstrosity is obtained from the previous inverse functions applied on the basis of the dimension and the rest of the number.
+
+\textbf{Example:} P = T (1,2); S (2); T (2,1) = $ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
+
+The two-way function between programs and numbers has been demonstrated.
+
+\begin{notation} given an effective enumeration (in our case the one defined previously) we say that $ \gamma(P) $ is the code of P (also called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the $n$-th program.
+\end{notation}
+
+\begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of $K$ arguments computed by program $n$, that is, by program $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain  is $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} | \Phi_k^{(k)})(\vec{x})\downarrow  \} \subseteq \nat^k$
+
+The function codomain: $ E^{(k)}_n = \Phi_k^{(k)}) = \{\vec{x} | \vec{x} \in W_n^{(k)} \} \subseteq \nat^k$
+\end{notation}
+
+So for example the program $ \Phi_{19439999998} = x+1 $, $ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
+
+Now we have an enumeration of all the unary computable functions that is \{$ \Phi_n $ . $ n \in \nat $ \} each function with infinite repetitions.
+
+Remember we have indicated the computable functions of $k$ arguments as $ \mathcal{C} ^ {(k)} $, where $ | \mathcal{C} ^ {(k)} | \leq (=) | \nat | $ and therefore being $ \mathcal{C} = \bigcup_{K \geq 1} \mathcal{C} ^ {(k)} $ a union of countable sets it is still countable.
+
+\chapter{Diagonalization}
+
+Given a set $X$ we know that $ |X| \geq |2^X| $ is never valid, that is, the set of its parts is always bigger. Suppose there is $ f:X\rightarrow2^X $ surjective. Hence $ R = \{y . y \in X $ and $ x \not \in f(y) \ \} \in 2^X $, since f is surjective then $ \exists y_R \in X . f(y_R)  = R$. I consider the cases separately:
+\begin{itemize}
+	\item $ y_R \in R $ then $f(y_R) \Rightarrow y_R \not \in R $
+	\item $ y_R \not \in R $ then $ f(y_R) \Rightarrow y_R \in R$
+\end{itemize}
+Now we prove that the set of the parts of the natural numbers is not countable. We assume there is a surjective function $ \nat \rightarrow 2^\nat $. This means that I can enumerate subsets $ X_i $ s.t. $ i \in \nat $. At this point I create a matrix where each row $i$ of column $j = 1$ if $ x_i \in X_j $ and 0 otherwise. Now consider the inverted diagonal, that is if $ x_i \not \in X_i $, in this way it is different from all the columns, that is $ \forall i . R \not= X_i $ because $ n \in R \Leftrightarrow b \not \in X_n $ absurd since I assumed that $ \{X_0 \dots X_n \} = 2^\nat$.
+
+We conclude that $ |\nat| \not \geq |2^\nat| $
+
+But we want $ |\nat| < |2^\nat| $.
+
+But: $ |\nat| \leq |2^\nat| \land |\nat| \not\geq |2^\nat| \implies |\nat| < |2^\nat| $
+
+I take the set of the characteristic functions $g$ of $ 2^\nat $ and I call it $Y$, I take the set of all the functions $ \mathcal{F} $, of course it holds that $ Y \subseteq \mathcal{F} $ and therefore $ |Y| \leq |\mathcal{F}| $ but being that $ |\nat < |2^\nat| $ then I also have that $ |\nat| \leq |\mathcal{F}| $
+
+There is a total function that cannot be computed. We know how to enumerate computable functions because we can enumerate them in the form of numbers, repeating some of them. Now let's define $ f(n) $ as non-total computable.
+
+Matrix where the columns are the functions computed by the program $ i \in \nat $, that is $ \{\phi_i . i \in \nat \} $ and the rows are the arguments 0,1, \dots.
+
+\begin{equation*}
+	f(n) = \begin{cases}
+		\phi_n(n)+1 & $ se $\phi(n)\downarrow \\
+		0           & $ se $\phi(n)\uparrow
+	\end{cases}
+\end{equation*}
+
+we observe that $f$ is total by construction and $ f \not= \phi_n \forall n, n \in \nat $ Furthermore by construction it is different from all computable functions and therefore it is not computable.
+
+\chapter {Parameterization theorem}
+
+Suppose we have a computable function $ f:\nat^2\rightarrow\nat$ therefore $ \exists e \in \nat . f = \phi_e^{(2)} $, now consider for the first fixed argument: $ f(x,y) = f_x(y) $, where $ f_x:\nat\rightarrow\nat $ computable, therefore there is a program that calculates it.
+
+For example let's take $ f(x,y) = y^x $ then $ f_0(y) = 1 $, \dots all these functions are computable.
+
+We had the program that computed $ f(x,y) = \phi_e^{(x)}(x,y) $, so there is some program $d$ that calculates $ f_x = \phi_d $, but obviously they are all different programs for each $d$. We observe that this program depends on \textit{e} and on \textit{x}.
+
+What we are saying is that there exists total $ s:\nat^2\rightarrow\nat$ such that $ \phi_{s(e,x)}(y) = \phi_e^{(2)}(x,y)$, the theorem says it is computable. In general we can take a function of $ m+n $ arguments, $ m,n \in \nat $, $ m,n \geq 1 $ there exists $ S_{m,n} : \nat^{m+1}\rightarrow\nat \in \mathcal{PR}$ s.t. \begin{equation*}
+	\phi_e^{m+n}(\vec{x},\vec{y}) = \phi_{s_{m,n}(e, \vec{x})}^{n}(\vec{y})
+\end{equation*}
+
+But now let's see how to calculate $ \gamma $. First we define function $ agg:\nat^2\rightarrow\nat $ where $ agg(e,t) =$ program obtained by \textit{e} adding \textit{t} to the destination of each jump.
+
+Now let's take $ \overline{agg} $ where $ \overline{agg}(i,t) = $ update of instruction i (meaning $ \beta^{-1}(i) $)
+
+\dots
+
+\section {Corollary SMN theorem}
+Given the function $ f:\nat^{n+m}\rightarrow\nat,\\ \exists S:\nat^m\rightarrow\nat $ total computable s.t. $ f(\vec{x},\vec{y}) = \phi_{s(\vec{x})}^{(n)}(\vec{y}) \forall \vec{x},\vec{y}$
+
+\section {Exercise}
+
+Show that there exists $s$ total computable s.t. $ \phi_{s(n)}(x) = \sqrt[n]{x} $
+
+\textbf{Execution:} I take the function $ f(n,x) = \sqrt[n]{x} $ so I have to search \\ $ max(y) . y^n \leq x $, but I can only use the minimum, so I try $ min(y). (y+1)^n > x $
+
+that is: $ \mu y \leq x . x+1 - (y+1)^n $. Even without bound it worked, but so we also show that it is recursive primitive (it was not required).
+
+We see that it is computable, therefore by corollary of the smn theorem there exists the total computable function $s$ such that $ f(n,x) = \phi_{s(n)}(x) $.
+
+\chapter {Universal Function}
+Program that takes input $ e $ and $ \vec{x} $ and returns $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
+
+More specifically, the function $ \psi_u(x,y) = \phi_x(y)$, $ \psi : \nat^2 \rightarrow \nat $
+
+In other words, the interpreter exists.
+
+\textbf{Theorem}: This is computable. $ \forall k \geq 1  \quad  \psi_u^{(k)} $ is computable.
+
+Let's prove it. Suppose we have a fixed $ k \geq 1 $.
+
+How do I calculate $ e \in \nat, \vec{x} \in \nat^k, \psi_u^{k}(e, \vec{x}) $?
+
+Fact $e$, calculation $ \gamma^{-1}(e) = P_e $
+
+But we don't want to decode the program.
+
+\chapter {Rice's theorem}
+
+If a property $Q$ of the programs concerns the computed function then it is not decidable.
+
+Example: $ T_2 = \{ e | P_e(e)\downarrow $ in two steps $ \} $ = $ \{e|\phi_e \in \mathcal{T}_2 \} $
+
+But two programs can calculate the same function and finish one in less than 2 steps and the other in more than 2, so the set is not saturated.
+
+Example: $ K = \{e \mid e\in W_e \} = \{e \mid \phi_e\in \mathcal{K} \} \mathcal{K} = \{f \mid ? \}$ I don't know what to write in this.
+
+It is not actually saturated. Difficult to prove this, but we can show that there is a program $e$ such that:
+\begin{equation*}
+	\phi_e(x) = \begin{cases}
+		0        & x = e    \\
+		\uparrow & $ else $
+	\end{cases}
+\end{equation*}
+
+And if you try to write such a program you realize that it is impossible.
+
+\section {Rice's theorem}
+Let $ A \in \nat $ be saturated. $ A \not= \emptyset, A \not= \nat $ then it is non-recursive.
+
+Demonstration: $ K \leq A $? We show that it reduces, that is, we find $f$ total computable s.t. all the elements of $K$ go to $A$ and all the elements of the complenent of $K$ go to the complement of $A$.
+
+Let $ e:0 $ s.t. $ \phi_{e_0}(x)\uparrow\forall x $ suppose $ e_0\not\in A $ and let $ e_1\in A $
+
+Now let's define the following function:
+\begin{equation*}
+	g(x,y) = \begin{cases}
+		\phi_{e1}(y) & x \in K     \\
+		\phi_{e0}(y) & x \not\in K
+	\end{cases}
+\end{equation*}
+
+Which is equal to:
+
+\begin{equation*}
+	g(x,y) = \begin{cases}
+		\phi_{e1}(y) & x \in K     \\
+		\uparrow     & x \not\in K
+	\end{cases}
+\end{equation*}
+
+and to calculate if $x$ is in $K$, we just need to run $ \phi_e(x) $ and see if it ends.
+
+If $ x\in K \Rightarrow \phi_{f(x)} ? g(x,y) = \phi_{e1}(y)$
+
+For the smn theorem there exists $f$ s.t. $ \phi_{f(x)} = \phi_{e1} \Rightarrow f(x)\in A$
+
+If $ x \not\in K \Rightarrow \phi_{f(x)}(y) = g(x,y) \uparrow \forall y $
+
+$ \Rightarrow \phi_{f(x)} = \phi_{e0} $, $ e_0 \not\in A $, $A$ is saturated, $ f(x)\not\in A $
+
+if $ e_0 \in A $ then $ e_0 \not \in \bar{A} $, $ \bar{A} \subseteq \nat, \bar{A} \not= \emptyset, \bar{A}\not=\nat $ then $ \bar{A} $ non-recursive and therefore not even $A$.
+
+
+Another example: $ T = \{e | \phi_e $ total $ \} $ non-recursive.
+
+$T$ is saturated: $ T = \{e | \phi_e \in \mathcal{T} \} $, $ \mathcal{T} = \{f | f $ total $ \} $, $ T\not=\emptyset $, $ e_1 $\\ s.t. $ \phi_{e_1}(x) = 0 \forall x $
+
+$ e_0 \not\in \mathcal{T} $. Saturated, other than empty and $ \nat $ therefore for Rice theorem it is non-recursive.
+
+$ B_n = \{e | n \in E_e \} $ saturated, $ B_n \not= \emptyset $ because it exists $ e. \phi_e(x) = n \forall x \Rightarrow e \in B_n $
+
+$ B_n \not= \nat e_0$ as first $ e_0 \not\in B_n $
+
+Hence $ B_n $ non-recursive.
+
+\chapter {Recursively enumerable set}
+
+$ A \subseteq \nat $ if the semi-characteristic function is computable.
+\begin{equation*}
+	sc_A(x) = \begin{cases}
+		1        & x \in A        \\
+		\uparrow & $ altrimenti $
+	\end{cases}
+\end{equation*}
+
+Predicate $ Q(\vec{x}) \subseteq \nat^k $ semi-decidable
+
+\begin{equation*}
+	sc_Q(\vec{x}) = \begin{cases}
+		1        & Q(\vec{x})     \\
+		\uparrow & $ altrimenti $
+	\end{cases}
+\end{equation*}
+
+So say $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A" $ is semi-decidable
+
+\textbf{Proprietà}: All recursive sets are also recursively enumerable:
+
+\textit{A} recursive if $ A, \bar{A} $ r.e.
+
+If $A$ recursive, \begin{equation*}
+	\mathcal{X}_A(x)=\begin{cases}
+		1 & x\in A        \\
+		0 & $ otherwise $
+	\end{cases}
+\end{equation*}
+
+Then $ sc_A(x) = \mu z.\bar{sg}(\mathcal{X}(x)) + 1 $ computable. Computable, therefore \textit{A} is r.e. Same goes for $ \bar{A} $.
+
+\section {Theorem of structure of semidecidable predicates}
+
+Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
+
+This is decidable $ \Leftrightarrow $ there is a predicate $ Q'(t,\vec{x}) \subseteq \nat^{k+1} $ s.t. $ Q(\vec{x}) = \exists t. Q'(t,\vec{x}) $
+
+So try 0,1,2, \dots if there is a point where it holds then yes, otherwise I try endlessly.
+
+\section {Projection theorem}
+
+Let $ P(x,\vec{y}) $ be semi-decidable; then $ \exists x $ s.t. $ P(x,\vec{y}) = P'(\vec{y})$ is semi-decidable.
+
+So if you use existential identifier you go out of the set of the decidable predicates and enter the semi-decidable set, but if you use it twice you don't go outside the semi-decidable set.
+
+\textbf{observation:} $ P_1(\vec{x}), P_2(\vec{x}) $ semi-dec. $ \Rightarrow P_1(\vec{x}) \lor P_2(\vec{x}) $; $ P_1(\vec{x}) \land P_2(\vec{x}) $ semi-dec.
+
+Because you quantify existentially a single number whose components are equivalent to quantifying the two numbers of the individual predicates. In the \textit{OR} case and in the \textit{AND} case you look for the same number directly.
+
+\textbf{Exercize:} If $ P(\vec{x}) $ is semi-decidable and is not decidable then $ \lnot P(\vec{x}) $ is not semi-decidable.
+
+\textbf{Observation:} $ A,B \subseteq \nat, A\leq_m B $ then:
+\begin{itemize}
+	\item B is r.e. $ \Rightarrow $ A is r.e .;
+	\item A is not r.e. $ \Rightarrow $ B not r.e.
+\end{itemize}
+Demonstration: If B r.e. then
+\begin{equation*}
+	SC_B(x) = \begin{cases}
+		1        & x \in B       \\
+		\uparrow & $ otherwise $
+	\end{cases}
+\end{equation*}
+This is computable. Let $ f:\nat\rightarrow\nat $ be a total computable reduction function\\  $ A\leq B $ Then $ SC_A(x) = SC_B(f(x)) $, therefore $ SC_A $ is computable by composition.
+
+\chapter {Rice-Shapiro's theorem}
+A property of the functions computed by programs can be semi-decidable \textbf{only if} it depends on a finite part of the function (behavior on finite inputs).
+
+Finite function $ \theta: \nat\rightarrow\nat $ s.t. $ dom(\theta) $ finite. This means that the set of input-output pairs is finite; in other words $ \theta = \{(x_1,y_1),\dots(x_n,y_n) \} $ and does not end otherwise.
+
+Given $ f:\nat\rightarrow\nat $ then $ \theta  $ is a subfunction of \textit{f} if $ \theta \subseteq f $
+
+\textbf{Notazione:}
+\begin{itemize}
+\item $ W_e $ domain of the function $ \phi_e $ that is the function computed by the program of index $e$;
+\item $ E_e = \{\phi_e(x)|x\in W_e \}$;
+\item $ H(x,y,t) = P_x(y)\downarrow $ in \textit{t} steps or less;
+\item $ S(x,y,z,t) = P_x(y)\downarrow z $
+\item $ K = \{x|x\in W_x \} = \{x|\phi_x(x)\downarrow \} = \{x|P_x(x)\downarrow \}$
+\end{itemize}
+
+Proof of Rice-Shapiro's theorem ($ \forall f \in \mathcal{C} f \in \mathcal{A} \Leftrightarrow \exists\theta\subseteq f \mid \theta $ finite and $ \theta\in A) $
+
+1) $ \exists f \in \mathcal{C}. f \not\in \mathcal{A} \land \exists\theta\subseteq f, \theta\in\mathcal{A} \Rightarrow \mathcal{A}$ not r.e
+
+2) $ \exists f \in \mathcal{C}. f\in\mathcal{A} \land \forall\theta\subseteq f, \theta\not\in\mathcal{A}\Rightarrow \mathcal{A} $ not r.e.
+
+\textbf{Proof of 1)}
+
+$ f\not\in \mathcal{A} \land \theta\subseteq \mathcal{A}$ dim. that $ \bar{K}\leq A $ ($ \mathcal{A} $ set of functions, $A$ set of programs)
+
+We define the function:
+\begin{equation*}
+	g(x,y) = \begin{cases}
+		\theta(y) & x \in \bar{K} \\
+		f(y)      & x \in K
+	\end{cases}
+\end{equation*}
+
+\begin{equation*}
+	= \begin{cases}
+		\uparrow         & x \in \bar{K} \land x \not\in dom(\theta) \\
+		\theta(y) = f(y) & x \not\in \bar{K} \land x \in dom(\theta) \\
+		f(y)             & x\in K
+	\end{cases}
+\end{equation*}
+
+\begin{equation*}
+	= \begin{cases}
+		f(y)     & x\in K\lor(x\not\in\bar{K}\land y\in dom(\theta)) \\
+		\uparrow & $ altrimenti $
+	\end{cases}
+\end{equation*}
+
+But $ x\in K\lor y\in dom(\theta) = Q(x,y)$ predicate. $ x\in K $ semi-decidable; $ y \in dom(\theta) $ decidable; therefore $ Q(x,y) $ semi-decidable.
+
+\begin{equation*}
+	SC_Q(x,y) = \begin{cases}
+		1 & Q(x,y)         \\
+		0 & $ altrimenti $
+	\end{cases}
+\end{equation*}
+
+This is computable $ = f(y) \times SC_Q(x,y) $ computable.
+
+For SMN, given that \textit{g} is computable, $ \exists S:\nat\rightarrow\nat $ s.t.
+\begin{equation*}
+	g(x,y) = \begin{cases}
+		\theta(y) & x \in \bar{K} \\
+		f(y)      & x \in K
+	\end{cases}
+\end{equation*}
+
+$ g(x,y) = \phi_{S(x)}(y)$
+
+$S$ is the reduction function for $ \bar{K}\leq A $
+
+\begin{itemize}
+	\item $ x\in\bar{K} \Rightarrow \forall y. \phi_{S(x)}(y) = g(x,y) = \theta(y) \Rightarrow \phi_{S(x)} = \theta \Rightarrow S(x) \in A $
+	\item $ x\not\in\bar{K}\Rightarrow x\in K\Rightarrow\forall y\phi_{S(x)}(y) = g(x,y)=f(y)\Rightarrow\phi_{S(x)}=f\Rightarrow S(x)\in\bar{A}$
+\end{itemize}
+
+Hence $A$ is reduced to $ \bar{K} $ which is not r.e. therefore A is not r.e.
+
+\textbf{Proof of 2)}
+
+let $ f\in\mathcal{A}\land\theta\subseteq f $ be with $ \theta $ finished, $ \theta\not\in\mathcal{A} $
+
+We want it to be in quotes because it's not formal: \begin{equation*}
+	g(x,y) = \begin{cases}
+		f(y)      & x \in\bar{K} $ cioè $ \phi_x(x)\uparrow                              \\
+		\theta(y) & $ per qualche $ \theta\subseteq f $ finita altrimenti ($ x\in K $) $
+	\end{cases}
+\end{equation*}
+
+This is computable, meaning $f(y) \times SC_Q(x,y) $ is computable.
+
+for SMN there exists $ S:\nat\rightarrow\nat $ total computable s.t. $ \forall x,y. \phi_{S(x)}(y) = g(x,y) $
+
+We have to prove that S is a reduction function for $ \bar{K}\leq A $
+
+\begin{itemize}
+	\item $ x\in\bar{K}\\
+		      \Rightarrow\phi_{S(x)}\uparrow \\
+		      \Rightarrow\forall y\lnot H(x,x,y)\\
+		      \Rightarrow \forall y.\phi_{S(x)}(y) = g(x,y) = f(y)\\
+		      \Rightarrow f = \phi_{S(x)}\\ \Rightarrow S(x)\in A$
+	\item $ x\not\in\bar{K}\\ \Rightarrow x\in K\\
+		      \Rightarrow \phi_x(x)\downarrow\\
+		      \Rightarrow \exists t_0 $ s.t. $ \forall t>t_0. H(x,x,t), \forall t<t_0. \lnot H(x,x,y)\\
+		      \Rightarrow\phi_{S(x)}(y) = g(x,y)\\
+		      \Rightarrow \phi_{S(x)}\subseteq f$ finite $\\
+		      \Rightarrow S(x) \in \bar{A} $
+\end{itemize}
+
+Rice-Shapiro's theorem proved.
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
