@@ -20,8 +20,3 @@ jobs:
         with:
           name: computability_notes
           path: notes.pdf
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: notes.pdf
-
