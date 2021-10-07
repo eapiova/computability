@@ -2135,6 +2135,40 @@ $\sigma_p(\vec{x}, t+1) = \pi(C_p(\vec{x},t+1), J_p(\vec{x},t+1))$
 
 with
 
+\[
+  C_p(\vec{x},t+1) = \begin{cases}
+    qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = z(n) \\
+    p_n \cdot C_p(\vec{x},t) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = s(n) \\
+    qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) \cdot p_n^{(C_p(\vec{x},t))_m} & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = T(m,n) \\
+    C_p(\vec{x}, t) & \quad \text{otherwise}
+\end{cases}
+\]
+
+\[
+  J_p(\vec{x}, t+1) = \begin{cases}
+    J_p(\vec{x}, t) + 1 & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = z(n), s(n), T(m,n) \\
+    & \quad \quad \text{ or } J(m,n,q) \text{ with } (\sigma_p(\vec{x}, t))_m \neq (\sigma_p(\vec{x}, t))_n \\
+    q & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = J(m,n,q) \text{ with } q\leq 5 \\
+    & \quad \quad \And (C_p(\vec{x}, t))_m = (C_p(\vec{x}, t))_n \\
+    0 & \quad \text{otherwise}
+  \end{cases}
+\]
+
+this way we define by primitive recursion $\sigma_p$, even if not in
+detail, starting from functions in $\mathcal{R}$.
+
+$\sigma_p \in \mathcal{R}$
+
+\textbf{Note:} all the functions we used are in  $\mathcal{PR} \Rightarrow \sigma_p \in \mathcal{PR}$
+
+$C_p^1(\vec{x}, t) = (\pi_1(\sigma_p(\vec{x}, t)))_1 \in \mathcal{R}$
+
+$J_p(\vec{x}, t) = \pi_2(\sigma_p(\vec{x}, t)) \in \mathcal{R}$
+
+so $f$, defined by composition and minimalization by $C_p^1, J_p$ is in $\mathcal{R}$ as we wanted.
+
+\hfill \qedsymbol
+
 \section{Ackermann function}
 $ \psi: \nat^2 \rightarrow \nat $ defined as:
 
