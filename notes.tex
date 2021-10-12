@@ -2169,6 +2169,72 @@ so $f$, defined by composition and minimalization by $C_p^1, J_p$ is in $\mathca
 
 \hfill \qedsymbol
 
+\chapter{Pimitive recursive functions}
+Let's consider again the class of primitivi recursive functions.
+
+\textbf{Definition} (primitive recursive funcitons).  The class of
+primitive recursive functions is the smallest set
+$\mathcal{PR} \subseteq \bigcup\limits_k(\mathbb{N}^k \rightarrow
+\mathbb{N})$ containing.
+
+\begin{enumerate}[label=(\alph*)]
+\item zero
+\item successor
+\item projections
+\end{enumerate}
+
+and closed under
+
+\begin{enumerate}[label=(\arabic*)]
+\item composition
+\item primitive recursion
+\end{enumerate}
+
+There are many interesting point of $\mathcal{PR}$. For example the
+fact that primitive recursion are similar to \texttt{for} loops, while
+minimalization is similar to \texttt{while} loops. This fact can be
+formalized into a new variant on the URM, with \textit{structured
+  programs}, where the jump instruction is substituted with
+\texttt{for} and \texttt{while} loops. We'll call this machine
+$\text{URM}_{\text{for,while}}$ (This corresponds to consider the
+subset of URM programs where the jump instructions are used in a
+``disciplinated'' way).
+
+We can deonstrate that this model has the same expressive power of the
+URM model. This means that the class $\mathcal{C}_{\text{for,while}}$
+fo functions computable in this model is
+
+\[
+  \mathcal{C}_{\text{for,while}} = \mathcal{C} = \mathcal{R}
+\]
+
+while the class of functions computable using only the \texttt{for}
+construct are partial recursive functions:
+
+\[
+  \mathcal{C}_{\text{for}} = \mathcal{PR}
+\]
+So studing the relation between $\mathcal{R}$ and $\mathcal{PR}$ is
+the same as studying the relation between the expressive power of
+\texttt{for} and \texttt{while} constructs.  We know that many
+``arithmetic'' functions, like Pr$(x), (x)_y,$ qt, mcm($x,y$),
+$x^y, \dots$ are in $\mathcal{PR}$ and that it is closed for sum,
+product and minimalization (all of them limited). This class is very
+extended, but it does not contain all computable functions, in oter
+words $\mathcal{PR} \subsetneq \mathcal{R}$, because $\mathcal{PR}$
+functions are always total (based on an inductive caratheristic,
+$\mathcal{PR}$ functions are obtainable for base total functions by
+composition and primitive recursion).
+
+One could think that $\mathcal{PR}$ includes all total reursive
+functions, in other words if Tot is the set of all total functions:
+$\mathcal{PR} = \mathcal{R} \cap \text{Tot}$ [Hilbert, 1926].
+
+This is also false
+($\mathcal{PR} \subsetneq \mathcal{R} \cap \text{Tot}$). In fact even
+if we restrain ourselves to total functions (programs that always
+terminates) the \texttt{while} construct is essential.
+
 \section{Ackermann function}
 $ \psi: \nat^2 \rightarrow \nat $ defined as:
 
