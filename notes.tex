@@ -2159,7 +2159,7 @@ detail, starting from functions in $\mathcal{R}$.
 
 $\sigma_p \in \mathcal{R}$
 
-\textbf{Note:} all the functions we used are in  $\mathcal{PR} \Rightarrow \sigma_p \in \mathcal{PR}$
+\textbf{Observation:} all the functions we used are in  $\mathcal{PR} \Rightarrow \sigma_p \in \mathcal{PR}$
 
 $C_p^1(\vec{x}, t) = (\pi_1(\sigma_p(\vec{x}, t)))_1 \in \mathcal{R}$
 
@@ -2244,7 +2244,50 @@ $ \psi(x+1,0) = \psi(x,1) $
 
 $ \psi(x+1,y+1) = \psi(x, \psi(x+1, y)) $
 
-We see that $ \psi $:
+Formally, $\psi$ is the minimum fixed point of the operator associated
+to the recursive function, on the cpo % not sure about this
+of partial functions
+$T: (\mathbb{N}^2 \rightarrow \mathbb{N}) \rightarrow (\mathbb{N}^2
+\rightarrow \mathbb{N})$. More intuitively, the scheme univocally
+guesses a function, because the value $\psi(x,y)$ is always defined
+based on ``smaller'' values of $\psi$ itself. But what does it mean
+``smaller''?
+
+$\psi(x+1,0) = \psi(x,1)$; here the first component
+diminishes. $\psi(x+1,y+1)=$ at first we calculate $\psi(x+1, y)$,
+here the second component diminishes, and then $\psi(x,u)$. Whatever
+$u$ is, the first component is smaller.
+
+We can see that the arguments diminishes in a \emph{lexicographical}
+order on $\mathbb{N}^2$
+
+with $(\mathbb{N}^2, \leq )$, we have that $(x,y) \leq (x', y')$ if
+$(x < x') \wedge (x=x'$ and $y \leq y')$, and so $( \mathbb{N}^2, \leq )$
+is \emph{well ordered}, in the sense that it does not allow for
+infinite descending sequences.
+
+\paragraph{Parenthesis on partial orders}
+\begin{definition}
+  Let $(D, \leq)$ be a partial order. It is
+  \begin{description}
+  \item[well ordered] if each non-void subset has the minimum element:
+    $$\forall X \subseteq D, X \neq \emptyset \quad \exists \min D$$
+  \item[well based] if each non-void subset has a minimal element
+    $$ \forall X \subseteq D, X \neq \emptyset \Rightarrow \exists d \in X \text{ minimal}$$
+  \end{description}
+\end{definition}
+
+\textbf{Observation:} $D$ is well formed $\Rightarrow$ $D$ is well based.
+
+\textbf{Observation:} if $D$ is well based it does not allow for
+infinite descending sequences:
+\[
+  d_0 > d_1 > d_2 > \dots > d_n > d_n+1 \dots
+\]
+This fact can be useful when dealing with termination problems
+
+
+We will see that $ \psi $:
 \begin{enumerate}
 	\item It is total;
 	\item $ \psi \in \mathcal{C} = \mathcal{R} $

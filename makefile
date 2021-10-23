@@ -1,10 +1,11 @@
 all: del gen compile
 
 compile:
-	pdflatex -output-directory=./output --interaction=nonstopmode notes.tex
-	pdflatex -output-directory=./output --interaction=nonstopmode notes.tex
+	latexmk -outdir=output -auxdir=aux -pdf 
 
 del:
 	rm -rf output
+	rm -rf aux
 gen:
 	mkdir output
+	mkdir aux
