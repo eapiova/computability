@@ -1,0 +1,497 @@
+\chapter{URM computability}
+
+\section {Which model?}
+
+In order to give a formal notion of computability we need to choose a concrete model of computation which will induce a class algorithms and thus of computable functions. Despite the fact that we focus on abstract ideal model, there are still a lot of possibilities. Many models have been considered in the literature:
+
+\begin{enumerate}
+\item Turing machine (Turing, 1936)
+\item $\lambda$-calculus (Church, 1930)
+\item Partial recursive functions (Godel-Kleene 1930)
+\item Canonical deductive systems (Post, 1943)
+\item Markov systems (Markov, 1951)
+\item Unlimited register machine (URM) (Shepherdson - Sturgis, 1963)
+\end{enumerate}
+
+In principle, each computational model determines a class of
+computable functions. We could be worried, since we could fear that
+theory developed is good only for a specific model. Actually, one can
+verify that the class of computable functions for all of the mentioned
+models (and actually, for all ``sufficiently expressive'' models
+considered in the literature) is always the same.
+This leads to the so-called Cjrch-Turing thesis:
+
+\textbf{Church-Turing Thesis}: A functions is computable by an
+effective procedure (i.e., in a finitary computational model, obeying by the conditions (a)-(e) before) iff it is computable
+by a Turing machine.
+
+
+This means that the notion of ``computable function'' is robust, i.e., independent of the specific computational model and we can choose our favorite one for developing our theory.
+
+\begin{remark}
+  The \emph{Church-Turing Thesis} is called a thesis and not a theorem
+  since, because of its informal nature, with the reference to the
+  concept of effective procedure, it can't be proved. It is only
+  supported by evidence: a lot of independent computational model have
+  been considered until now and all confirm the thesis. [someone,
+  e.g. Yuri Gurevich, claims that it should be proved on the basis of
+  a formal axiomatization of conditions (a)-(e)]
+\end{remark}
+
+Sometimes we will resort to Church-Turing to shorten the proof that something is computable, but it can be always avoided. Somehow, it can be used only when ``it is not needed'', i.e.,  when it could be replaced by a formal proof (that however might hide the intuitive idea under a heap of technical details.
+
+
+\section{URM (Unlimited register machine)}
+
+We will formalise the notion of computable function by using the so called URM-machine (unlimited register machine), which is an abstraction of a computer based on the Von Neumann's model. It is characterized by
+
+\begin{itemize}
+\item \textbf{unbounded memory} that consists of a infinite sequence of \textbf{registers}, each of which can store a  natural number
+
+
+  $\begin{tabu}{|c|c|c|c|c|}
+    \hline
+    R_1 & R_2 & \dots & R_n & \dots \\
+    \hline
+    r_1 & r_2 & \dots & r_n & \dots \\
+    \hline
+  \end{tabu}$
+
+  the $n$-th register is indicated with $R_n$, its content with $r_n$
+  
+  the sequence $r_1, r_2,\dots, r_n, \dots \in \nat^w$ is called
+  \textbf{configuration} of the URM
+  
+\item \textbf{computing agent} capable of executing an URM program
+
+\item \textbf{URM program} finite sequence of instructions
+  $I_1, I_2, \dots, I_s$ that can ``locally'' alter the configuration
+  of the URM.
+\end{itemize}
+
+
+Program instructions can be the following:
+
+\begin{itemize}
+
+\item \textbf{zero} $Z(n)$ sets the content of the register $R_n$ to zero, $r_n \leftarrow 0$
+
+\item \textbf{successor} $S(n)$ increments the content of the $R_n$ register: $r_n \leftarrow r_n+1$
+
+
+\item \textbf{transfer} $T(m,n)$ transfers the content of the register $R_m$ in the register $R_n$, $R_m$ stays untouched, $r_n\leftarrow r_m$ (assignment)
+\end{itemize}
+These are called arythmetic functions, the instruction to execute on the next step is what follows the current instruction in the program.
+
+\begin{itemize}
+\item \textbf{conditional jump} $J(m,n,t)$ conpares the content of the registers $R_m$ and $R_n$
+  \begin{itemize}
+  \item if $r_m = r_n$ it jumps to the $t$-th instruction
+  \item otherwise, it continues with the next instruction
+  \end{itemize}
+\end{itemize}
+
+
+\begin{example}
+  An example of program is the following:
+  \begin{quote}
+    \begin{tabular}{llr}
+      $I_1$: & J(2,3,5) &                       \\
+      $I_2$: & S(1)     &                       \\
+      $I_3$: & S(3)     &                       \\
+      $I_4$: & J(1,1,1) &  \comment{unconditional jump}
+    \end{tabular}
+  \end{quote}
+
+  For the moment, disregard what this program computes. The computation starting from the configuration below is:
+
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      1   & 2   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      2   & 2   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_3}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      2   & 2   & 1   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_4, I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      3   & 2   & 1   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_3}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      3   & 2   & 2   & \dots \\
+      \hline
+    \end{tabu}
+    \xrightarrow{I_4, I_1, I_5}
+    $
+  \end{center}
+\end{example}
+
+
+The \textbf{state} of the URM machine while it executes a program $P = I_1 \dots I_s$ is given by a pair $\langle c, t \rangle$ consisting of
+
+\begin{itemize}
+\item \emph{register configuration} $c: \nat \rightarrow \nat$\\
+  a total function $c : \nat \to \nat$ such that $c(n)$ is the content
+  of register $R_n$;
+
+\item \emph{program counter} $t$, i.e., index of the current instruction.
+\end{itemize}
+
+An \emph{operational semantics} could easily be defined via a set of deduction rules axiomatising the state transitions  $\langle c, t \rangle \rightarrow \langle c', t' \rangle$. However we do not need this degree of formality, and we will rely on an informal description of program execution.
+
+
+\begin{remark}[non termination]
+  A computation might \textbf{not terminate}! Consider for instance the program:
+  
+  \begin{quote}
+    \begin{tabular}{ll}
+      $I_1$: & S(1)     \\
+      $I_2$: & J(1,1,1)
+    \end{tabular}
+  \end{quote}
+
+  Then every computation will not terminate. For instance:
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      0  & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      1   & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{I_1, I_2}
+    % 
+    \begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      2   & 0  & 0   & \dots \\
+      \hline
+    \end{tabu}
+    % 
+    \xrightarrow{\ldots}
+    % 
+    $
+  \end{center}
+\end{remark}
+
+
+\begin{notation}
+  Let $P$ be an URM program, $a_1,a_2,a_3,\dots \in \nat^w$ a sequence
+  of natural numbers. We indicate by $P(a_1,a_2,\dots)$ the
+  computation of $P$ starting from the initial configuration
+  
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      a_1 & a_2 & a_3 & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  and
+  
+  \begin{itemize}
+  \item $P(a_1,a_2,\dots) \downarrow$ if the computation \textbf{halt}
+  \item $P(a_1,a_2,\dots) \uparrow$ if the computation \textbf{never
+      halts}, i.e., it \textbf{diverges}.
+  \end{itemize}
+
+
+  Often (almost always, for obvious reasons of input finiteness) we
+  will work on computations that start from an initial configuration
+  where only a \textbf{finite number of registers contain a non-zero
+    value}. Hence given $a_1,a_2,\dots,a_k \in \nat$ we write
+  \begin{quote}
+    $P(a_1,\dots,a_k)$ for the computation
+    $P(a_1,\dots,a_k,0,\dots,0)$
+  \end{quote}
+  The notation extend to $P(a_1,\dots,a_k)\downarrow$ or
+  $P(a_1,\dots,a_k)\uparrow$.
+\end{notation}
+
+\section{URM-computable functions}
+
+Let $f : \nat^k \rightarrow \nat$ be a partial function. What does it mean for  $f$ to be computable by an URM machine?
+
+Intuitively, it means that there exists a program $P$ s.t. for each $(a_1,\dots,a_k) \in \nat^k \quad P(a_1,\dots,a_k)$ computes the value of $f$, i.e., when $(a_1,\dots,a_k)  \in \dom{f}$, $P$ terminates and outputs $f(a_1, \ldots, a_k)$ and, if instead, $(a_1,\dots,a_k)  \not\in \dom{f}$ then $P$ does not terminated.
+
+A doubt could still concern the place where the output is stored. We conventionally decide that the output will be in the first register $R_1$ (at the end of the computation the other regsitsrs are just garbage to us \dots). For this reason we introduce the following notation.
+
+\begin{notation}
+  Let $P$ be a program, $a_1,\dots,a_k \in \nat^k$, we write
+  $P(a_1,\dots,a_k)\downarrow a$ if $P(a_1,\dots,a_k) \downarrow$ and
+  the final configuration contains $a$ in $R_1$
+\end{notation}
+
+\begin{definition}[URM-computable function]
+  A function $f:\nat^k\rightarrow\nat$ is said to be
+  \textbf{URM-computable} if there exists an URM program $P$ s.t.
+  $\forall (a_1,\dots,a_k) \in \nat^k, a\in\nat$,
+  $P(a_1,\dots,a_k)\downarrow$ iff $(a_1,\dots,a_k)\in dom(f)$ and
+  $f(a_1,\dots,a_k) = a$. In this case we say that $P$ computes $f$.
+
+  We denote by $\mathcal{C}$ the class of all URM-computable
+  functions and by $\mathcal{C}^{(k)}$ the class of the k-ary
+  URM-computable function.
+  Therefore we have
+  $\mathcal{C} = \bigcup_{k\geq 1} \mathcal{C}^{(k)}$
+\end{definition}
+
+FIN QUA
+
+\section{Some examples of URM-computable functions}
+
+\begin{enumerate}
+\item $f:\nat^2 \rightarrow \nat$\\
+  $ f(x,y) = x+y$
+  
+  \begin{quote}
+    \begin{tabular}{lll}            
+      $I_1$: & J(2,3,5) &                    \\
+      $I_2$: & S(1)     &                    \\
+      $I_3$: & S(3)     &                    \\
+      $I_4$: & J(1,1,1) &  \comment{unconditional jump}
+    \end{tabular}
+  \end{quote}
+
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   & y   & 0   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \emph{Idea}: Increment $R_1$ and $R_3$ until $R_2$ and $R_3$ contain
+  the same value. This results in adding to $R_1$ the content of
+  $R_2$.
+  
+\item $f:\nat \rightarrow \nat$\\
+  $f(x) = x\dot{-}1 = \begin{cases} 0 & x=0 \\ x-1 & x>0 \end{cases}$
+
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   & 0   & 0   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \emph{Idea}: if $x=0$ ok, end; if $x>0$ keep a value $k-1$ in
+  $R_2$ and $k$ in $R_5$, with $k>1$ ascending until $R_3=x$, at that
+  point $R_2 = x-1$
+  
+  Here's the program
+
+  \begin{quote}
+    \begin{tabular}{lll}            
+      $I_1$: & J(1,4,8) \\
+      $I_2$: & S(3)     \\
+      $I_3$: & J(1,3,7) \\
+      $I_4$: & S(2)     \\
+      $I_5$: & S(3)     \\
+      $I_6$: & J(1,1,3) \\
+      $I_7$: & T(2,1)   \\
+    \end{tabular}
+  \end{quote}
+  
+  
+\item $f:\nat \rightarrow \nat$\\
+  $f(x) = \begin{cases}
+    \frac{1}{2} x & \mbox{if $x$ even}\\
+    \uparrow      & \mbox{if $x$ odd}
+  \end{cases}$
+  
+  \emph{Idea:} Keep in $R_2$ an increasing even number and in $R_3$ its half
+  \begin{center}
+    $\begin{tabu}{|c|c|c|c|}
+      \hline
+      R_1 & R_2 & R_3 & \dots \\
+      \hline
+      x   &  2k  & k   & \dots \\
+      \hline
+    \end{tabu}$
+  \end{center}
+  
+  \begin{quote}
+    \begin{tabular}{lll}            
+      $I_1$: & J(1,2,6) \\
+      $I_2$: & S(2)     \\
+      $I_3$: & S(2)     \\
+      $I_4$: & S(3)     \\
+      $I_5$: & J(1,1,1) \\
+      $I_6$: & T(3,1)   \\
+    \end{tabular}
+  \end{quote}
+
+\end{enumerate}
+
+\section {Function computed by a program}
+Given a program $P$, for some fixed number $k \geq 1$ of parameters, clearly there exists a unique \textbf{function computed by $P$} that we denote by $f_p^{(k)} : \nat^k \to \nat$ defined by
+
+\begin{equation*}
+  f_p^{(k)}(a_1, \dots, a_k) = \begin{cases}
+    a        & $ if $ P(a_1, \dots, a_k) \downarrow a  \quad \\
+    \uparrow & $ if $ P(a_1, \dots, a_k) \uparrow
+  \end{cases}
+\end{equation*}
+
+\begin{remark}
+  The same function can be computed by different programs, esentially for two reasons
+
+  \begin{itemize}
+  \item we can add useless instructions to a program (dead code, $T(n,n)$, etc.)
+
+  \item the same function can be computed via different algorithms
+    (e.g., for sorting we have quicsort, mergesort, heapsort, etc.)
+  \end{itemize}  
+
+  A function is computed either by no program or by infinitely many programs.
+\end{remark}
+
+
+FIN QUA
+
+\section {Exercises}
+
+\subsection{Reduced URM}
+
+Let URM be reduced without transfer instruction $T(m, n)$. We indicate the class of functions that can be computed with the reduced machine $ \mathcal{C}' $ and compare with $ \mathcal{C} $. Obviously $ \mathcal{C}' \subseteq \mathcal{C} $. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^R$? The answer is yes because $T(m, n)$ can be replaced with other instructions.
+
+\begin{quote}
+  \begin{tabular}{lll}            
+    $I_t$: & T(m,n) \\
+  \end{tabular}
+\end{quote}
+
+can be replaced with a subroutine at the right place
+
+\begin{quote}
+  \begin{tabular}{lll}            
+    $I_{t'}$:   & J(m,n,t+1)  \\
+    $I_{t'+1}$: & Z(n)        \\
+    $I_{t'+2}$: & J(m,n,t+1)  \\
+    $I_{t'+3}$: & S(n)        \\
+    $I_{t'+4}$: & J(1,1,t'+2) \\
+  \end{tabular}
+\end{quote}
+
+But let's prove it: ($ \mathcal{C} \subseteq \mathcal{C}' $), $ f \in \mathcal{C} $, $ f: \nat^K \rightarrow \nat $ There is an URM $P$ s.t. $ f_P^{(K)}  = f$ the program $P$ can be transformed into $P ^R $ of the reduced URM machine s.t. $ f_{P^R}^{(K)}  = f_{P}^{(K)}$.
+
+There is a demonstration by induction. I show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$ = number of transfer instructions $T$ in $P$.
+
+$h = 0$ trivial.
+
+$h \rightarrow  h + 1$:
+
+$P$ contains $h + 1 \quad T$ instructions.
+
+Transform $P$ into $P''$ where all instructions from 1 to \textit{l} are the same as before, while instead of $T$ there will be a jump $J(1,1, SUB)$, where the subroutine is the one written before. I assume that if $P$ ends it does so at instruction $l + 1$, and at position $l + 1$ I put a $J (1,1, END)$. So now that we have replaced it we have $h$ instructions $T$ and therefore for inductive assumption we have the program of the reduced URM s.t. the computed function is the same.
+
+\subsection{Exercises}
+
+\subsection{URM with swap instruction}
+Let $URM^S $ be the model obtained removing transfer and inserting the swap function $ T_S(m,n) $, what relationship is there between the class of this model and the other?
+
+Proof that $ \mathcal{C}^S \subseteq \mathcal{C} $ The exchange $T (m, n)$ is equivalent to:
+
+\begin{lstlisting}
+  T(n,i)
+  T(m,n)
+  T(i,m)
+\end{lstlisting}
+
+Formalization:
+
+Let $ f \in \mathcal{C}^S f:\nat\rightarrow \nat $. There exists $P$  $URM^S $ s.t. $ f_P^{(K)} = f $. Let's proceed by induction on the number of transfer functions $h$.
+
+If $h = 0$ the program is already URM. therefore $ P' = P $
+
+Otherwise if there is at least one transfer instruction we show that the inductive case is valid $ h \rightarrow h+1 $, if $P$ ends it does so in $l + 1$, the program has $h + 1$ exchange instructions.
+
+Let $i$ be a register not used by $P$ found by inspecting the program. We replace at step $t \quad J (1,1, SUB)$ and add a subroutine as the one above, thus creating $ P'' $, at the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. By inductive hypothesis there is $ P' $ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \textbf{But all of this is wrong!}
+
+Why this? Because with the replacement we have made we have 1 transfer instruction, but $n-1$ exchange instructions.
+
+Let's prove something stronger: Given $P$ program that uses both URM instructions and  $URM^S $ instructions, there is $ P'' $ program that uses $URM$ instructions s.t. $ f_{P}^{(K)} = f_{P'}^{(K)} $
+
+The proof procedure is the same but we are demonstrating something stronger, the inductive case is now correct. This proves that $ \mathcal{C}^S \subseteq \mathcal{C} $
+
+To show $  \mathcal{C} \subseteq \mathcal{C}^S $ we know that we have shown that $ \mathcal{C} \subseteq \mathcal{C}^R $ and therefore given that $ \mathcal{C}^R \subseteq \mathcal{C}^S $ is demonstrated by transitivity.
+
+So we can say that $ \mathcal{C}^S = \mathcal{C} $
+
+\subsection{URM without jump instructions}
+
+URM$ ^{nj} $ is a model without jumps, meaning without $J(m,n,t)$ instructions.
+
+Demonstration that $ \mathcal{C}^{nj} \subset \mathcal{C} $ where the first is the set of computable functions without jump instruction. We know that $ f: \nat \rightarrow \nat, f(x)\uparrow \forall x $ is computable in URM, but it is not computable in URM $ ^{nj} $
+
+Which functions $ f: \nat \rightarrow \nat $ can be computed without jumping? Mind we have also removed the only conditional statement, so they always end. Let's see what cases we have:
+
+$f(x) = c  \forall x $ or $ f(x) = x + c \forall x $
+
+We see $ r_1(h,x) $ the contents of register 1 after h steps with initial content x. Given $P$ program, the function computed by him $ f_p(x) = r_1(l(P), x) $ where $ l(P) $ is the length of $P$;
+
+We show by induction on $h$ that after $h$ execution steps on $P \quad  r_1(h,x) $ is equal to $x + c$ or to $c$.
+
+By induction $h = 0: r_1(0,x) = x $ OK
+
+Case $ h \rightarrow h+1 $ We know by inductive hypothesis that $ r_1(h,x) = x+c $ or $ c $. The next instruction can be one of three cases:
+\begin{itemize}
+\item The instruction is $Z (n)$ then if $n = 1  \quad  r_1(h+1,x) = 0 $, otherwise $ r_1(h+1,x) = r_1(h,x) $ in both cases it's ok, the first is constant, the second is fine by inductive hypothesis.
+\item The instruction is $S (n)$, then if $n = 1$ I find that $ r_1(h+1,x) = r_1(h,x)+1 $ which by induction hypothesis is fine. Even if $n$ is other than 1 (see previous)
+\item The instruction is $T (m, n)$. In cases where $ n>1 $ or $ n=m=1 $ then $ r_1(h+1,x) = r_1(h,x) $ and that's fine. Otherwise $ n = 1, m > 1 $ we do not know what $ r_1(h+1,x) $ is worth. So who knows?
+\end{itemize}
+
+Actually we should prove this not for $ r_1 $ but for a generic register $ r_j $

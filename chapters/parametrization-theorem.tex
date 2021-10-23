@@ -1,0 +1,30 @@
+\chapter {Parameterization theorem}
+
+Suppose we have a computable function $ f:\nat^2\rightarrow\nat$ therefore $ \exists e \in \nat . f = \phi_e^{(2)} $, now consider for the first fixed argument: $ f(x,y) = f_x(y) $, where $ f_x:\nat\rightarrow\nat $ computable, therefore there is a program that calculates it.
+
+For example let's take $ f(x,y) = y^x $ then $ f_0(y) = 1 $, \dots all these functions are computable.
+
+We had the program that computed $ f(x,y) = \phi_e^{(x)}(x,y) $, so there is some program $d$ that calculates $ f_x = \phi_d $, but obviously they are all different programs for each $d$. We observe that this program depends on \textit{e} and on \textit{x}.
+
+What we are saying is that there exists total $ s:\nat^2\rightarrow\nat$ such that $ \phi_{s(e,x)}(y) = \phi_e^{(2)}(x,y)$, the theorem says it is computable. In general we can take a function of $ m+n $ arguments, $ m,n \in \nat $, $ m,n \geq 1 $ there exists $ S_{m,n} : \nat^{m+1}\rightarrow\nat \in \mathcal{PR}$ s.t. \begin{equation*}
+  \phi_e^{m+n}(\vec{x},\vec{y}) = \phi_{s_{m,n}(e, \vec{x})}^{n}(\vec{y})
+\end{equation*}
+
+But now let's see how to calculate $ \gamma $. First we define function $ agg:\nat^2\rightarrow\nat $ where $ agg(e,t) =$ program obtained by \textit{e} adding \textit{t} to the destination of each jump.
+
+Now let's take $ \overline{agg} $ where $ \overline{agg}(i,t) = $ update of instruction i (meaning $ \beta^{-1}(i) $)
+
+\dots
+
+\section {Corollary SMN theorem}
+Given the function $ f:\nat^{n+m}\rightarrow\nat,\\ \exists S:\nat^m\rightarrow\nat $ total computable s.t. $ f(\vec{x},\vec{y}) = \phi_{s(\vec{x})}^{(n)}(\vec{y}) \forall \vec{x},\vec{y}$
+
+\section {Exercise}
+
+Show that there exists $s$ total computable s.t. $ \phi_{s(n)}(x) = \sqrt[n]{x} $
+
+\textbf{Execution:} I take the function $ f(n,x) = \sqrt[n]{x} $ so I have to search \\ $ max(y) . y^n \leq x $, but I can only use the minimum, so I try $ min(y). (y+1)^n > x $
+
+that is: $ \mu y \leq x . x+1 - (y+1)^n $. Even without bound it worked, but so we also show that it is recursive primitive (it was not required).
+
+We see that it is computable, therefore by corollary of the smn theorem there exists the total computable function $s$ such that $ f(n,x) = \phi_{s(n)}(x) $.

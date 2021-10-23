@@ -1,0 +1,68 @@
+\chapter {Rice's theorem}
+
+If a property $Q$ of the programs concerns the computed function then it is not decidable.
+
+Example: $ T_2 = \{ e | P_e(e)\downarrow $ in two steps $ \} $ = $ \{e|\phi_e \in \mathcal{T}_2 \} $
+
+But two programs can calculate the same function and finish one in less than 2 steps and the other in more than 2, so the set is not saturated.
+
+Example: $ K = \{e \mid e\in W_e \} = \{e \mid \phi_e\in \mathcal{K} \} \mathcal{K} = \{f \mid ? \}$ I don't know what to write in this.
+
+It is not actually saturated. Difficult to prove this, but we can show that there is a program $e$ such that:
+\begin{equation*}
+  \phi_e(x) = \begin{cases}
+    0        & x = e    \\
+    \uparrow & $ else $
+  \end{cases}
+\end{equation*}
+
+And if you try to write such a program you realize that it is impossible.
+
+\section {Rice's theorem}
+Let $ A \in \nat $ be saturated. $ A \not= \emptyset, A \not= \nat $ then it is non-recursive.
+
+Demonstration: $ K \leq A $? We show that it reduces, that is, we find $f$ total computable s.t. all the elements of $K$ go to $A$ and all the elements of the complenent of $K$ go to the complement of $A$.
+
+Let $ e:0 $ s.t. $ \phi_{e_0}(x)\uparrow\forall x $ suppose $ e_0\not\in A $ and let $ e_1\in A $
+
+Now let's define the following function:
+\begin{equation*}
+  g(x,y) = \begin{cases}
+    \phi_{e1}(y) & x \in K     \\
+    \phi_{e0}(y) & x \not\in K
+  \end{cases}
+\end{equation*}
+
+Which is equal to:
+
+\begin{equation*}
+  g(x,y) = \begin{cases}
+    \phi_{e1}(y) & x \in K     \\
+    \uparrow     & x \not\in K
+  \end{cases}
+\end{equation*}
+
+and to calculate if $x$ is in $K$, we just need to run $ \phi_e(x) $ and see if it ends.
+
+If $ x\in K \Rightarrow \phi_{f(x)} ? g(x,y) = \phi_{e1}(y)$
+
+For the smn theorem there exists $f$ s.t. $ \phi_{f(x)} = \phi_{e1} \Rightarrow f(x)\in A$
+
+If $ x \not\in K \Rightarrow \phi_{f(x)}(y) = g(x,y) \uparrow \forall y $
+
+$ \Rightarrow \phi_{f(x)} = \phi_{e0} $, $ e_0 \not\in A $, $A$ is saturated, $ f(x)\not\in A $
+
+if $ e_0 \in A $ then $ e_0 \not \in \bar{A} $, $ \bar{A} \subseteq \nat, \bar{A} \not= \emptyset, \bar{A}\not=\nat $ then $ \bar{A} $ non-recursive and therefore not even $A$.
+
+
+Another example: $ T = \{e | \phi_e $ total $ \} $ non-recursive.
+
+$T$ is saturated: $ T = \{e | \phi_e \in \mathcal{T} \} $, $ \mathcal{T} = \{f | f $ total $ \} $, $ T\not=\emptyset $, $ e_1 $\\ s.t. $ \phi_{e_1}(x) = 0 \forall x $
+
+$ e_0 \not\in \mathcal{T} $. Saturated, other than empty and $ \nat $ therefore for Rice theorem it is non-recursive.
+
+$ B_n = \{e | n \in E_e \} $ saturated, $ B_n \not= \emptyset $ because it exists $ e. \phi_e(x) = n \forall x \Rightarrow e \in B_n $
+
+$ B_n \not= \nat e_0$ as first $ e_0 \not\in B_n $
+
+Hence $ B_n $ non-recursive.
