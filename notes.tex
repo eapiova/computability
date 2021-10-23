@@ -2261,10 +2261,10 @@ $u$ is, the first component is smaller.
 We can see that the arguments diminishes in a \emph{lexicographical}
 order on $\mathbb{N}^2$
 
-with $(\mathbb{N}^2, \leq )$, we have that $(x,y) \leq (x', y')$ if
-$(x < x') \wedge (x=x'$ and $y \leq y')$, and so $( \mathbb{N}^2, \leq )$
-is \emph{well ordered}, in the sense that it does not allow for
-infinite descending sequences.
+with $(\mathbb{N}^2, \leq_{lex} )$, we have that $(x,y) \leq (x', y')$
+if $(x < x') \wedge (x=x'$ and $y \leq y')$, and so
+$( \mathbb{N}^2, \leq_{lex} )$ is \emph{well ordered}, in the sense
+that it does not allow for infinite descending sequences.
 
 \paragraph{Parenthesis on partial orders}
 \begin{definition}
@@ -2277,32 +2277,85 @@ infinite descending sequences.
   \end{description}
 \end{definition}
 
-\textbf{Observation:} $D$ is well formed $\Rightarrow$ $D$ is well based.
+\textbf{Observation:} $D$ is well formed $\Rightarrow$ $D$ is well
+based.
 
 \textbf{Observation:} if $D$ is well based it does not allow for
 infinite descending sequences:
 \[
   d_0 > d_1 > d_2 > \dots > d_n > d_n+1 \dots
 \]
-This fact can be useful when dealing with termination problems
+\newcommand{\conf}{\text{conf}} This fact can be useful when dealing
+with termination problems. If we can conclude that the set of
+configurations is well based, to end our proof we just need to prove
+that for each step \( \conf _i \rightarrow \conf_{i+1} \) and
+\( \conf _{i+1} < \conf _i \). This way our computation follows a descending sequence of values, necessarely finite.
 
+In fact, if we think the calculation of $\psi$ is based on the
+calculation of $\psi$ with smaller values necessarely at some point it
+will reach for sure the case $\psi(0,y) = y + 1$, terminating.
 
-We will see that $ \psi $:
+\textbf{Note:} $(\nat^2, \leq_{lex})$ is \emph{well ordered}
+
+(given $\emptyset \neq X \subseteq \nat^2$ we can identify
+$x_0 = \min\{x \; | \; \exists y.(x,y) \in X\}$ and
+$y_0 = \min \{ y \; | \; (x_0,y) \in X\}$ we can say that
+$\min X = (x_0, y_0)$. In this way we can prove that the product of
+two well ordered sets is ordered.)
+
+The order is also total (\emph{left as an exercise})
+\begin{itemize}
+\item ``infinitely many copies of $\nat$, one after the other''
+\item eache element has a successor, but not always a predecessor
+\item following the path back we have jumps of infinite length
+\end{itemize}
+
+Associated with a well based order there is an induction principle:
+
+\paragraph{\textbf{Well based induction}}
+
+Let $(D, \leq)$ be a well based order, and let $P \subseteq D$ a
+property. If
+\[
+  \forall d \in D \; . \; (\forall d' < d \quad P(d)) \Rightarrow P(d') \Rightarrow P(d)
+\]
+
+To prove that $P$ is valid on $D$ we have to prove that
+\begin{itemize}
+\item is valid on minimal elements
+\item for each other element $d$, if it holds on elements smaller than
+  $d$, then it holds on $d$
+\end{itemize}
+
+The proof is left as an exercise.
+
+\paragraph{\textbf{Back to the Ackerman function}}
+
+We will see that $\psi$:
 \begin{enumerate}
 	\item It is total;
 	\item $ \psi \in \mathcal{C} = \mathcal{R} $
 	\item $ \psi \not \in \mathcal{PR} $
 \end{enumerate}
 
-We prove by induction on pairs $ (x',y') \leq_{lex} (x,y) $ lexicographically ordered.
+% This part was not on the original notes but the prof added it so im
+% keeping it
 
-\begin{enumerate}
-	\item We proceed by case. If x$ = 0$ then $y + 1$ holds then the function is defined;
-	\item $ x>0, y=0 $, then it holds $ \psi(x-1,1) $ which is def. by inductive hypothesis;
-	\item $ x>0, y>0 $, then $ \psi(x, \psi(x+1, y)) $ defined by inductive hypothesis, both inside and outside;
-\end{enumerate}
+% We prove by induction on pairs $ (x',y') \leq_{lex} (x,y) $
+% lexicographically ordered.
 
-So the function is total.
+% \begin{enumerate}
+% 	\item We proceed by case. If x$ = 0$ then $y + 1$ holds then the function is defined;
+% 	\item $ x>0, y=0 $, then it holds $ \psi(x-1,1) $ which is def. by inductive hypothesis;
+% 	\item $ x>0, y>0 $, then $ \psi(x, \psi(x+1, y)) $ defined by inductive hypothesis, both inside and outside;
+% \end{enumerate}
+
+% So the function is total.
+
+\begin{theorem}{$\psi$ is total}
+
+\end{theorem}
+
 
 \chapter{Enumeration of programs}
 
