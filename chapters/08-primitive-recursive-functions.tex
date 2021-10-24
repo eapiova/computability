@@ -406,3 +406,64 @@ We will see that $\psi$:
     absurd.
   \end{proof}
 \end{theorem}
+
+\newpage
+
+\textbf{Observation:} initially Gödel and Kleene had studied a class
+of functions $\mathcal{R}_0$ called $\mu$-recursive. This class
+contained
+\begin{enumerate}[label=\alph*]
+\item zero
+\item successor
+\item projections
+\end{enumerate}
+
+and was closed with respect to
+
+\begin{enumerate}
+\item composition;
+\item primitive recursion;
+\item minimalization, restricted to the case in wich the function that
+  produces it is \emph{total}.
+\end{enumerate}
+
+Is clear that \[\mathcal{R}_0 \subsetneq \mathcal{R}\] and the
+inclusion is strict, since:
+\begin{itemize}
+\item the functions in $\mathcal{R}_0$ are total;
+\item some functions in $\mathcal{R}$ are partial.
+\end{itemize}
+
+Also \[\mathcal{R}_0 \subseteq \mathcal{R} \cap \text{Tot}\] but is
+not obvious that the equality holds. In fact a function
+$f \in \mathcal{R} \cap \text{Tot}$ can be total, but obtained trough
+minimalization of partial functions. For example:
+\[
+  f(x,y) = \begin{cases}
+    x+1 & x<y \\
+    0 & x=y \\
+    \uparrow & x>y
+  \end{cases}
+\]
+
+\[
+  \mu y . f(x,y) = \lambda x . x 
+\]
+
+Generally speaking is not obvious that if $f(x,y)$ is partial and
+$\mu y . f(x,y)$ is total then \[\mu y . f(x,y) \in \mathcal{R}_0\]
+but it is true!
+
+\begin{theorem}
+  \[\mathcal{R}_0 = \mathcal{R}\cap \text{Tot}\]
+  \begin{proof}
+    \begin{enumerate}
+    \item[$(\subseteq)$] obvious.
+    \item[$(\supseteq)$] Let $f \in \mathcal{R} \cap \text{Tot}$ so
+      $f \in \mathcal{C}$ because of the proof of $\mathcal{R = C}$ so
+      we can observe that
+      \[f(\vec{x}) = C_p^1 ( \vec{x} , \mu t . J_p(\vec{x}, t))\]
+      since composed of total functions, $f$ is total.
+    \end{enumerate}
+  \end{proof}
+\end{theorem}
