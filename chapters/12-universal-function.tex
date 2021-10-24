@@ -1,0 +1,16 @@
+\chapter {Universal Function}
+Program that takes input $ e $ and $ \vec{x} $ and returns $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
+
+More specifically, the function $ \psi_u(x,y) = \phi_x(y)$, $ \psi : \nat^2 \rightarrow \nat $
+
+In other words, the interpreter exists.
+
+\textbf{Theorem}: This is computable. $ \forall k \geq 1  \quad  \psi_u^{(k)} $ is computable.
+
+Let's prove it. Suppose we have a fixed $ k \geq 1 $.
+
+How do I calculate $ e \in \nat, \vec{x} \in \nat^k, \psi_u^{k}(e, \vec{x}) $?
+
+Fact $e$, calculation $ \gamma^{-1}(e) = P_e $
+
+But we don't want to decode the program.
