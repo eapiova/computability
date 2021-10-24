@@ -1,24 +1,19 @@
 \chapter{Introduction}
 
-We discuss informally the notion of \textbf{effective procedure} and
-of \textbf{function computable} by means of an effective
+In this chapter, we informally discuss the notion of \textbf{effective procedure} and \textbf{function computable} by the means of an effective
 procedure. This will lead us to single out the main features of an
 algorithm/computational model.  Despite being informal, these
-consideration will allow us to derive the existence of non-computable
+considerations will allow us to derive the existence of non-computable
 functions for any chosen effective computational model.
 %
-Later these notions and considerations be formalised by fixing a
+Later these notions and considerations are going to be formalised by fixing a
 specific computational model, a sort of idealized computer.
 
-\section{Algorithm or effective procedure, informally}
+\section{Algorithm or effective procedure (Informal)}
 
-Effective procedures and \textbf{algorithms} are part of our everyday
-life, despite the fact that we do not always refer to them using these
-terms.
+Even though we do not always refer to them by their technical terms when we apply them, \textbf{effective procedure}s and \textbf{algorithms} are a part of our everyday life.
 
-For instance, at the primary school, we are not only taught that given
-two numbers their sum exists, but the teacher also provides us with a
-procedure to compute the sum of two numbers!
+For example; at the primary school we are not only taught that given two numbers their sum exists, but we are also provided a procedure to compute the sum of two numbers!
 
 In general terms, an \emph{algorithm} can be defined as the
 description of a sequence of \emph{elementary steps} (where
@@ -33,7 +28,7 @@ we are interested in computational problems.
 \begin{example}
   Some examples are:
   \begin{enumerate}
-    
+
   \item given $n \in \nat$ establish whether $n$ is prime;
   \item find the $n^{th}$ prime number;
   \item derive a polynomial;
@@ -46,22 +41,21 @@ Therefore we can think of an algorithm as a black box.
 \begin{center}
   in $\rightarrow$ \boxed{black box} $\rightarrow$ out
 \end{center}
-where the transformation is perform by executing a sequence of
+where the transformation is performed by executing a sequence of
 ``mechanical'' instructions.
 
-If each step is \emph{deterministic}, i.e., in each state of the
+If each step is \emph{deterministic} (i.e., in each state of the
 system the instruction to execute and the new state it produces are
-uniquely determined, then each possible input will uniquely determine
-the corresponding output (if any, in fact the procedure might not
-terminate, in which case we will have no output).
+uniquely determined), then each possible input will uniquely determine
+the corresponding output (the procedure might not terminate, in which case we will have no output).
 
 In mathematical terms the algorithm induces a \emph{(partial) function}
 \begin{center}
   $f : \mathit{input} \rightarrow \mathit{output}$.
 \end{center}
 We say that $f$ is the \emph{function computed} by the algorithm and
-that $f$ is effectively computable. We can thus give the following
-first definition of an algorithm (still informal, since it refers to a
+that $f$ is effectively computable. Thus, we can give the following
+first definition of an algorithm (still informal since it refers to a
 generic notion of algorithm).
 
 \begin{definition}[computable function]
@@ -69,18 +63,18 @@ generic notion of algorithm).
   that computes $f$.
 \end{definition}
 
-We stress that for $f$ to be computable, it is not important to know the algorithm that computes $f$, but rather we need to know that some algorithm computing $f$ exists. 
+We stress that for $f$ to be computable, it is not important to know the algorithm that computes $f$, but rather we need to know that some algorithm that computes $f$ exists.
 
 \begin{example}
   According to the above definition, we expect the the following
   functions to be computable.
 
   \begin{itemize}
-    
+
   \item GCD (greatest common divisor), e.g., exploiting Euclid's
     algorithm.
-    
-  \item the function $f : \nat \to \nat$ defined as 
+
+  \item the function $f : \nat \to \nat$ defined as
 
     \begin{equation*}
       f(n)=
@@ -92,11 +86,11 @@ We stress that for $f$ to be computable, it is not important to know the algorit
 
   \item
     $g(n)= n$-th prime number\\
-    (this is computable, maybe inefficiently, by generating numbers
-    and testing for primality, until the $n$-th prime is found)
+    (this is computable, maybe inefficiently by generating numbers
+    and testing for primality until the $n$-th prime is found)
 
-    
-  \item 
+
+  \item
     $h(n) = n$-th digit of the decimal representation of $\pi$.
 
     In fact, from analysis we know that
@@ -125,11 +119,9 @@ For example $g(3) = 1$ if and only if  $\pi = 3.14 \dots k 555 h \dots $, with $
 Computability is unclear. A naive algorithm could be:
 \begin{itemize}
 \item generate the digits of $\pi$
-\item until a sequence of $5$'s of the desired length is found.
+\item until a sequence of $5$'s of the desired length $n$ is found.
 \end{itemize}
-Clearly, if such a sequence exists, it will be eventually
-found and the answer $1$ will be given. However, apparently, at no point
-the computation, not having found the sequence of $n$ 5's,  we can exclude that it might appear later!! Hence, apparently we have no way of answering $0$.
+Clearly, if such a sequence exists, it will be eventually found and the answer $1$ will be given. However, at no point the computation, not having found the desired sequence of $n$ 5's, we can certainly say that it will never appear later on! Hence, we currently have no way of answering $0$.
 
 \begin{remark}
   Clearly, something of the kind:
@@ -179,7 +171,7 @@ function. Fine. This doesn't mean that it's not computable.
 Trying to repeat the same argument for function $g$ fails. In fact, one could think of defining $A = \{n \mid \mbox{$\pi$ contains exactly $n$ consecutive 5's}\}$. Then
 
 \begin{equation*}
-  g(x) = 
+  g(x) =
     \begin{cases}
       0 & x \in A     \\
       1 & x \not\in A
@@ -201,4 +193,4 @@ This is either the constant $0$ or the constant $1$. Independently of which of t
 
 
 TO BE PROCESSED
-  
+

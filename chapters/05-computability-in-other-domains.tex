@@ -1,18 +1,18 @@
 \chapter{Computability on other domains}
-Since the URM manipulates only $natural numbers$, our definition of computability concerns only functions and predicates on $\nat$.
+Since the URM is only able to manipulate $natural numbers$, our definition of computability concerns only functions and predicates on $\nat$.
 
 The concept of computability can be extended to other domanins \dots referencing a notion (a bit unsatisfactory) of effective encoding.
 
-Suppose we are interested in computability on an object domain $Q$. Does our concept of computability extend to this domain? A necessary condition is that it is possible to encode the elements of $D$ as natural numbers. Suppose there exists $ \alpha: D \rightarrow \nat $, which is biunivocal and that $ \alpha, \alpha^{-1} $ are ``effective''. We can't have a formal notion of effectiveness\dots it means that everyone would agree on its calculability (if there's any justice in this world\dots)
+Suppose that we are interested in computability on an object domain $Q$. Does our concept of computability extend to this domain? One of the conditions that are  necessary condition is that it is possible to encode the elements of $D$ as natural numbers. Suppose there exists $ \alpha: D \rightarrow \nat $, which is biunivocal and that $ \alpha, \alpha^{-1} $ are ``effective''. We can't have a formal notion of effectiveness\dots It means that everyone would agree on its calculability (if there's any justice in this world\dots)
 
 $D$ must be countable. For example, take the strings of a certain alphabet $ \Sigma $, $ D = \Sigma^* $. The set of rational numbers $ \mathbb{Q} $ is also countable, and so is the set of integers $\mathbb{Z}$, while $D$ can't be  $ \mathbb{R} $ or $A^w$ (stream).
 
-At this point we ask ourselves when a function $ f: D \rightarrow D $ is URM-computable? When its encoding $ f: \nat \rightarrow \nat $ is computable.
+At this point we must ask ourselves when a function $ f: D \rightarrow D $ is URM-computable. And the answer to this question is: When its encoding $ f: \nat \rightarrow \nat $ is computable.
 
 $ f^*: \nat \rightarrow \nat $\\
 $ f^* = \alpha . f . \alpha^{-1} $
 
-We will see that if $\alpha$ is effective, its inverse is also.
+We will see that if $\alpha$ is effective, its' inverse is also effective.
 
 \textbf{Note:} The pb realtive to the informality of the effectivity notion remains, but once this has been accepted, the rest is formal.
 

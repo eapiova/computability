@@ -1,5 +1,5 @@
 \chapter{Other approaches to calculability (Church-Turing thesis)}
-We already observed that the URM machine is just one of the many possible computational models that allow us to formalize the notion of computable function.
+We already observed that the URM machine is just one of the many possible computational models that allow us to formalize the notion of computable functions.
 
 We could have used:
 \begin{itemize}
@@ -9,11 +9,11 @@ We could have used:
 \item Partial recursive functions of Gödel-Kleene
 \end{itemize}
 
-All of these approaches define the \textbf{same class of computable functions}, leading to the
+All of these approaches define the \textbf{same class of computable functions}, leading to the:
 
 \textbf{Church thesis}: a function is computable through an effective procedure if and only if it is URM-computable (partisan version)
 
-Compared to the Church thesis now we want to introduce another formalism for the definition of computable function; \textbf{partial recursive functions} of Gödel-Kleene $\rightarrow$ class $\mathcal{R}$; and prove that it is ``equivalent'' to the URM, meaning it defines the same class of functions $\mathcal{R} = \mathcal{C}$
+Compared to the Church thesis now we want to introduce another formalism for the definition of computable functions; \textbf{partial recursive functions} of Gödel-Kleene $\rightarrow$ class $\mathcal{R}$; and prove that it is ``equivalent'' to the URM, meaning it defines the same class of functions $\mathcal{R} = \mathcal{C}$
 
 \section{Partially recursive functions}
 
@@ -29,10 +29,10 @@ and \textbf{closed} with respect to:
 \begin{enumerate}
 \item generalized composition
 \item primitive recursion
-\item unlimited minimalization
+\item unlimited minimization
 \end{enumerate}
 
-Is it a good definition? What does least mean? Does such a class exist?
+Is it a good definition? What does ``least'' mean? Does such a class exists?
 
 More precisely we can define:
 
@@ -102,25 +102,25 @@ The idea of the proof is the following:
 \end{itemize}
 More precisely, the computation state is a tuple $\langle \vec{R}, t \rangle$ where $\vec{R}$ are the registers of the machine and $t$ is the current instruction.
 
-To a register configuration  in wich a finite number of registers contains a valute other than 0 can be encoded with 
+To a register configuration  in which a finite number of registers contains a value other than 0 can be encoded with
 
 \begin{center}
-$\text{cod}(\vec{R}) = \prod\limits_{i \geq 1}p_i^{r_i}$     
+$\text{cod}(\vec{R}) = \prod\limits_{i \geq 1}p_i^{r_i}$
 \end{center}
 
-where just a finite number of factors is $\neq 1$. At this point, given $x \geq 1$ intrepretated as $\text{cod}(\vec{R})$
+where just a finite number of factors is $\neq 1$. At this point, given $x \geq 1$ interpreted as $\text{cod}(\vec{R})$
 
 \begin{center}
 $r_i = (x)_i$
 \end{center}
 
-Using this encoding, we can consider the fuction $C_p(\vec{x},t)$ (the registers configuration after t steps of $P(\vec{x})$) as a function $C_p : \nat^{k+1} \rightarrow \nat$. This way we can define 
+Using this encoding, we can consider the function $C_p(\vec{x},t)$ (the registers' configuration after t steps of $P(\vec{x})$) as a function $C_p : \nat^{k+1} \rightarrow \nat$. This way we can define:
 
 \begin{center}
 $\sigma_p(\vec{x},t) = \langle C_p(\vec{x},t), J_p(\vec{x},t) \rangle$
 \end{center}
 
-the state of the computation of $P(\vec{x})$ after $t$ steps. And using the encofing function for the $\pi$ couples we can view $\sigma_p$ as
+the state of the computation of $P(\vec{x})$ after $t$ steps. And using the encoding function for the $\pi$ couples we can view $\sigma_p$ as:
 
 $\sigma_p : \nat^{k+1} \rightarrow \nat$
 
@@ -164,6 +164,6 @@ $C_p^1(\vec{x}, t) = (\pi_1(\sigma_p(\vec{x}, t)))_1 \in \mathcal{R}$
 
 $J_p(\vec{x}, t) = \pi_2(\sigma_p(\vec{x}, t)) \in \mathcal{R}$
 
-so $f$, defined by composition and minimalization by $C_p^1, J_p$ is in $\mathcal{R}$ as we wanted.
+so $f$, defined by composition and minimization by $C_p^1, J_p$ is in $\mathcal{R}$ as we wanted.
 
 \hfill \qedsymbol
