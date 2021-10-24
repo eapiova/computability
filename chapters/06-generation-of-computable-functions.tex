@@ -11,7 +11,7 @@ More precisely we will prove that the $\mathcal{C}$ class is closed with respect
 
 So to prove that the function $f:\nat^k\rightarrow \nat$ is computable we could write the URM program P that computes $f$ ($f_P^{(k)} = f$), or we could use the theorems of the closure of $\mathcal{C}$.
 
-Actually the three operations we consider are not chosed randomly; the long term objective is to show that $\mathcal{C}$ coincides with the class of generable fucntions through composition, primitive recursion and minimization, starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
+Actually the three operations we consider are not chosen randomly; the long term objective is to show that $\mathcal{C}$ coincides with the class of generable functions through composition, primitive recursion and minimization, starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
 
 \begin{notation}
   Given $f,g:\nat^k\rightarrow\nat$ and
@@ -43,9 +43,9 @@ Given $P$ URM program we indicate with $ \rho(P) $ \textbf{the maximum register 
 
 Obviously considering only standard form programs is not limitative, meaning the following holds:
 
-\textbf{Lemma:} For each URM program $P$ there exists a program $P'$ in satndard form which is equivalent, meaning s.t. $\forall k f_p^{(k)} = f_{P'}^{(k)}$
+\textbf{Lemma:} For each URM program $P$ there exists a program $P'$ in standard form which is equivalent, meaning s.t. $\forall k f_p^{(k)} = f_{P'}^{(k)}$
 
-\textbf{proof}: It's enough to replace every instruciton $J(m,n,t)$ in $P$ s.t. $t>s+1$ with $J(m,n,s+1)$
+\textbf{proof}: It's enough to replace every instruction $J(m,n,t)$ in $P$ s.t. $t>s+1$ with $J(m,n,s+1)$
 
 Often we will have to \textbf{concatenate} programs, let $P, Q$ be programs, the concatenation consists in executing $P$ and when it terminates executing $Q$, that is, every jump instruction in $Q$ is replaced by adding the length of $P$, $S$.
 
@@ -139,7 +139,7 @@ So given $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ functions
 
 we define $ h(\vec{x},0) = f(\vec{x}) $ and $ h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y)) $
 
-\textbf{Note}: The function $h$ is defined in an equational manner, with $h$ that appears on both sides: implicit definition, not obvious that such $h$ exists or that it is unique. Actually it does exist and it is unique, but a general theory that supports this observation is not trivial.
+\textbf{Note}: The function $h$ is defined in an equational manner, with $h$ that appears on both sides: implicit definition, not obvious that such $h$ exists or that it is unique, but actually it does exist and it is unique. However, a general theory that supports this observation is not trivial.
 
 The argument proceeds as follows:
 
@@ -335,7 +335,7 @@ $\begin{tabu}{lll}
 \end{enumerate}
 
 \subsection{Definition by cases}
-\textbf{Corollary:} given $ f_1,\dots,f_n: \nat^k \rightarrow \nat $ total computable and $ Q_1,\dots,Q_n \subseteq \nat^k $ decidable predicate and mutually exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of $ Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total computable where
+\textbf{Corollary:} given $ f_1,\dots,f_n: \nat^k \rightarrow \nat $ total, computable and $ Q_1,\dots,Q_n \subseteq \nat^k $ decidable, predicate and mutually exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of $ Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total computable where
 
 \begin{equation*}
   f(\vec{x}) = \begin{cases}
@@ -495,12 +495,12 @@ $
   min  \quad  z$ s.t. $p_y^{z+2}\not|x = \mu z\leq x . \lnot div((p_y)^{z+1},x)$
 \end{enumerate}
 
-\subsection{Exercizes}
+\subsection{Exercises}
 Prove that the following functions are computable:
 
 \begin{enumerate}[label=\alph*)]
 \item $\floor{\sqrt{x}}$
-  
+
   $\floor{\sqrt{x}} = max\, y\leq x \quad y^2 \leq x\\
   = min \, y \leq x \quad (y+1)^2 > x\\
   \mu y\leq x. ((x+1)-(y+1)^2)$
@@ -508,7 +508,7 @@ Prove that the following functions are computable:
   mxm(x,y) = \mu < \leq x\cdot y . (x|z $ and $ y|z)\\
   = \mu z \leq x\cdot y. \bar{sg}(dic(x,z)\cdot div(y,z))$
 \item $GCD(x,y)$
-  
+
   Certainly $GCD(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
 
   $GCD(x,y)\leq min(x,y)-\mu z\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))$
@@ -519,7 +519,7 @@ Prove that the following functions are computable:
 
 \section{Encoding of couples (and n-tuples)}
 
-Let us see an encoding in $\nat$ of couples (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the furute\dots)
+Let us see an encoding in $\nat$ of couples (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the future\dots)
 
 Let us define as a \textbf{couple encoding}:
 
@@ -560,9 +560,9 @@ $ fib(0) = fib(1) = 1\\
 \\
 fib(n+2) = fib(n) + fib(n+1) $
 
-This isn't exactly a definition by primitive recursion, given that $f(y+2)$ is defined in terms of $f(y)$ as well as $f(y+1)$, it does not respect the schema\dots
+This isn't exactly a definition by primitive recursion. Given that $f(y+2)$ is defined in terms of $f(y)$ and $f(y+1)$, it does not respect the schema\dots
 
-We can show that $f$ is computable resorting to the encoding and defining:
+We can show that $f$ is computable by resorting to the encoding and defining:
 
 $g:\nat\rightarrow\nat\\
 g(y) = \pi(f(y),f(y+1))$
@@ -609,22 +609,22 @@ f(y+k) = h(f(y),\dots,f(y+k-1)) = h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y)))\\
 
 g is computable, so $f(y) = \pi_1(g(y))$ is computable.
 
-\section{Minimalization}
-The operators to manupulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unlimited minimalization} operator.
+\section{Minimization}
+The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unlimited minimization} operator.
 
-Similar to the limited minimalization, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines more or less the following function:
+Similar to the limited minimization, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines more or less the following function:
 
 $\mu y . f(\vec{x},y) $ = minimum $y$ s.t. $f(\vec{x},y) = 0$.
 
 But there are two problems:
 \begin{enumerate}
 \item if there is no $y$ s.t. $f(\vec{x},y) = 0 \uparrow$
-\item if before finding a $y$ s.t. $f(\vec{x},y) = 0$ happens that $f(\vec{x},z)\uparrow$ the minimalization is $\uparrow$
+\item if before finding a $y$ s.t. $f(\vec{x},y) = 0$ happens that $f(\vec{x},z)\uparrow$ the minimization is $\uparrow$
 \end{enumerate}
 
 intuitive if we think about the obvious algorithm to calculate it: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
 
-\textbf{Definition}: Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function $h:\nat^k\rightarrow\nat$ defined through \textbf{unlimited minimalization} is:
+\textbf{Definition}: Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function $h:\nat^k\rightarrow\nat$ defined through \textbf{unlimited minimization} is:
 
 \begin{equation*}
   h(\vec{x}) = \mu y. f(\vec{x},y) = \begin{cases}
@@ -741,4 +741,4 @@ therefore
 
 $\theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)$
 
-The minimalization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
+The minimization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
