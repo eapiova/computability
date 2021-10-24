@@ -340,6 +340,69 @@ We will see that $\psi$:
   \end{proof}
 \end{theorem}
 
-\begin{theorem}{$\psi \notin \mathcal{PR}$}
+\begin{theorem}
+  \[ \psi \notin \mathcal{PR} \]
+  \begin{proof}
+    The fact that the definition of $\psi$ includes a recursion (and
+    does not respect the scheme of primitive recursive functions for
+    this reason) does not allow us to end our proof immediatly.
 
+    The proof of the fact that $\psi$ is not a primitive recursive
+    function is done by showing that $\psi$ ``grows'' faster than
+    every function in $\mathcal{PR}$. We altread saw how
+    \begin{itemize}
+    \item we obtain the sum from the successor
+    \item we obtain the product from the sum
+    \item we obtain the exponential from the product
+    \end{itemize}
+    each one for primitive recursion, nested each time more.
+
+    The idea of the Ackermann function is that to push to its limit
+    this procedure and capture each possible level in a unique
+    function that won't be possible to compute with a finite number of
+    nested primitive recursions.
+
+    In fact, by calling \[\psi_x(y) = \psi(x,y)\] we have
+    that
+    \[
+      \psi_{x+1}(y) = \psi_x(\psi_{x+1}(y-1)) =
+      \psi^2_{x}(\psi_{x+1}(y-2)) = \dots = \psi_x^{y+1}(1)
+    \]
+
+    \(\psi_0(y) = y+1 = \) succ$(x)$
+
+    \(\psi_1(y) = \psi_0^{y+1}(1) = \text{ succ}^{y+1}(1) = y+2\)
+    
+    \(\psi_2(y) = \psi_1^{y+1}(1) = 2y+3\)
+
+    \(\psi_3(y) = \psi_2^{y+1}(1) = 2^{y+3}-3\)
+
+    e.g.
+
+    \(\psi_0(1) = 2, \quad \psi_1(1) = 3, \quad \psi_2(1) = 5, \quad
+    \psi_3(1) = 13, \quad \dots\)
+
+    Intuitively, if x grows in $\psi_x$ so does the level of nesting
+    in the functions, wich is equivalent to say that we need more and
+    more \texttt{for} loops, and since $x$ can grow to infinity and we
+    can't keep nesting \texttt{for} loops to infinity, we need a
+    \texttt{while} loop. More precisely we can show that for each
+    function $f \in \mathcal{PR}$ if we take $j$ the maximum number of
+    nested \texttt{for} cycles, holds asymptotically that
+    \[
+      P(x_1, \dots, x_k)\downarrow \quad \text{with anumber of steps }
+      < \psi_{j+1}(\max\{x_1, \dots, x_k\})
+    \]
+
+    This way we see that $\psi_j$ gives a bound to the time complexity
+    as well to the number of increment operations, so
+    \[f(\vec{x}) < \psi_{j+1}(\max(\vec{x})\]
+
+    But for absurd, if $\psi \in \mathcal{PR}$, we can call $j$ the
+    maximum number of nested \texttt{for} cycles in a program that
+    computes it, and so \[\psi(x,y) < \psi_{j+1}(\max\{x,y\})\] should
+    hold. In particular with $x=y=k>j+1$ big enough we have
+    that \[\psi(k,k) < \psi_{j+1}(k) < \psi_k(k) = \psi(k,k)\] wich is
+    absurd.
+  \end{proof}
 \end{theorem}
