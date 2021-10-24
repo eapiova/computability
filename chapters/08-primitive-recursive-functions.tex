@@ -230,11 +230,240 @@ We will see that $\psi$:
     of $\psi(x,y)$ is always reduced to the computation of $\psi$ on
     smaller input values, and for the base case ...
 
-    We can formalize it as follows:
-    
+    To do so, we'll need the definition of a valid set. Intuitively a
+    set $S \subseteq \nat$ is valid if
+
+    \begin{itemize}
+    \item \((x,y,z) \in S \quad \Rightarrow \quad z = \psi(x,y)\)
+    \item \((x,y,z) \in S \quad \Rightarrow \quad S\) contains all the
+      tuples \((x', y', \psi(x',y'))\) needed in order to calculate
+      $\psi(x,y)$
+    \end{itemize}
+
+    \textbf{example:}
+    $\psi(1,1) = \psi(0,\psi(1,0)) = \psi(0,\psi(0,1)) = \psi(0,2) = 3$
+
+    $\Rightarrow S = {(1,1,3), (0,2,3), (1,0,2), (0,1,2)}$
+
+    Formally:
+
+    \begin{definition}[valid $S \subseteq \nat^3$]
+      Let $S$ be a set of tuples such that $S \subseteq \nat^3$. We say
+      that $S$ is \emph{valid} if:
+      \begin{itemize}
+      \item \((0,y,z) \in S \quad \Rightarrow \quad z = y+1\)
+      \item \((x+1,0,z) \in S \quad \Rightarrow \quad (x,1,z) \in S\)
+      \item
+        \((x+1,y+1,z) \in S \quad \Rightarrow \quad \exists u . (x+1,
+        y, u) \in S \wedge (x,u,z) \in S \)
+      \end{itemize}
+    \end{definition}
+
+    We can prove that
+    \(\psi(x,y) = z \Leftrightarrow \exists S \subseteq \nat^3\) valid
+    and finite s.t. \((x,y,z) \in S\) by complete induction on
+    $(x,y)$, leveraging the fact that the validity of a set is
+    preserved under union (left as an exercise).
+
+    \newcommand{\vnu}{\text{Val}(\nu)}
+
+    A tuple $(x,y,z)$ can be encoded with an integer using the
+    encoding function
+    \[\Pi^3 \, : \, \nat^3 \rightarrow \nat \quad \quad (\Pi_i^3 \, : \,
+      \nat \rightarrow \nat \text{ are the projections})\]. This way a
+    set of tuples becomes a set of natuarl numbers
+    $\{x_1, \dots, x_n\}$ that we can encode injectively:
+    \[\{x_1, \dots, x_n\} \mapsto P_{x_1}, \dots, P_{x_n}\] Now we
+    have $\nu$ the number that rapresents the set of tuples
+    $S_\nu$. We can verify that
+    \[(x,y,z) \in S_\nu \Longleftrightarrow P_{\Pi(x,y,z)} \; | \;
+      \nu \] and the predicate $\vnu=$``$\nu$ encodes a
+    set of valid tuples'' is decidable.
+
+    In fact $\vnu$ is true if and only if:
+    \begin{itemize}
+    \item \(\forall i \leq \nu \quad (\nu)_i = 1\)
+    \item{
+        \( \forall \omega \leq \nu \quad P_{\omega \; | \; \nu}\) \\
+        \[\Rightarrow \begin{cases}
+            \Pi_1(\omega) = 0 \quad & \Rightarrow
+            \quad \Pi_3(\omega) = \Pi_2(\omega) + 1 \\
+            \Pi_1(\omega) > 0 \quad & \Rightarrow \quad
+            \begin{cases}
+              \Pi_2(\omega) = 0 & \Rightarrow
+              \Pi(\Pi_1(\omega),0,\Pi_3(\omega)) \in S_\nu \\
+              \Pi_2(\omega) > 0 & \Rightarrow
+              \exists u \leq \omega \text{ s.t. } \\
+              & \quad \Pi(\Pi_1(\omega), \Pi_2(\omega)-1,u) \in S_\omega \\
+              & \quad \Pi(\Pi_1(\omega)-1, u,z) \in S_\omega 
+            \end{cases}
+            \\
+          \end{cases}
+        \]
+      }
+    \end{itemize}
+
+    And the associated caratheristic function
+    \[\chi_{\text{Val}} \in \mathcal{PR}\]
+
+    We can also verify that:
+
+    \[
+      R(x,y,z) = \begin{cases}
+
+        \chi_{\text{Val}(\omega)} & \text{if $\omega$ encodes for some
+          valid $S$ that contains $(x,y,z)$ for some $z$} \\
+
+        0 & \text{otherwise}
+        
+      \end{cases}
+    \]
+
+    \[
+      R(x,y,z) = \chi_{\text{Val}(\omega)} \cdot \text{sg} (\omega + 1
+      \dot{-} \mu z \leq \omega . \text{div}(P_{\Pi(x,y,z)}, \omega)
+    \]
+
+    this way we can write the Ackermann function as
+
+    \[
+      \psi(x,y) = \mu (z,y) \; \cdot \; \overline{\text{sg}}(R(x,y,\omega)
+      \cdot \text{div}(P_{\Pi(x,y,z)}, \omega))
+    \]
+
+    So since it is computable,
+
+    \[
+      \psi \in \mathcal{R} = \mathcal{C}
+    \]
+
   \end{proof}
 \end{theorem}
 
-\begin{theorem}{$\psi \notin \mathcal{PR}$}
+\begin{theorem}
+  \[ \psi \notin \mathcal{PR} \]
+  \begin{proof}
+    The fact that the definition of $\psi$ includes a recursion (and
+    does not respect the scheme of primitive recursive functions for
+    this reason) does not allow us to end our proof immediatly.
 
+    The proof of the fact that $\psi$ is not a primitive recursive
+    function is done by showing that $\psi$ ``grows'' faster than
+    every function in $\mathcal{PR}$. We altread saw how
+    \begin{itemize}
+    \item we obtain the sum from the successor
+    \item we obtain the product from the sum
+    \item we obtain the exponential from the product
+    \end{itemize}
+    each one for primitive recursion, nested each time more.
+
+    The idea of the Ackermann function is that to push to its limit
+    this procedure and capture each possible level in a unique
+    function that won't be possible to compute with a finite number of
+    nested primitive recursions.
+
+    In fact, by calling \[\psi_x(y) = \psi(x,y)\] we have
+    that
+    \[
+      \psi_{x+1}(y) = \psi_x(\psi_{x+1}(y-1)) =
+      \psi^2_{x}(\psi_{x+1}(y-2)) = \dots = \psi_x^{y+1}(1)
+    \]
+
+    \(\psi_0(y) = y+1 = \) succ$(x)$
+
+    \(\psi_1(y) = \psi_0^{y+1}(1) = \text{ succ}^{y+1}(1) = y+2\)
+    
+    \(\psi_2(y) = \psi_1^{y+1}(1) = 2y+3\)
+
+    \(\psi_3(y) = \psi_2^{y+1}(1) = 2^{y+3}-3\)
+
+    e.g.
+
+    \(\psi_0(1) = 2, \quad \psi_1(1) = 3, \quad \psi_2(1) = 5, \quad
+    \psi_3(1) = 13, \quad \dots\)
+
+    Intuitively, if x grows in $\psi_x$ so does the level of nesting
+    in the functions, wich is equivalent to say that we need more and
+    more \texttt{for} loops, and since $x$ can grow to infinity and we
+    can't keep nesting \texttt{for} loops to infinity, we need a
+    \texttt{while} loop. More precisely we can show that for each
+    function $f \in \mathcal{PR}$ if we take $j$ the maximum number of
+    nested \texttt{for} cycles, holds asymptotically that
+    \[
+      P(x_1, \dots, x_k)\downarrow \quad \text{with anumber of steps }
+      < \psi_{j+1}(\max\{x_1, \dots, x_k\})
+    \]
+
+    This way we see that $\psi_j$ gives a bound to the time complexity
+    as well to the number of increment operations, so
+    \[f(\vec{x}) < \psi_{j+1}(\max(\vec{x})\]
+
+    But for absurd, if $\psi \in \mathcal{PR}$, we can call $j$ the
+    maximum number of nested \texttt{for} cycles in a program that
+    computes it, and so \[\psi(x,y) < \psi_{j+1}(\max\{x,y\})\] should
+    hold. In particular with $x=y=k>j+1$ big enough we have
+    that \[\psi(k,k) < \psi_{j+1}(k) < \psi_k(k) = \psi(k,k)\] wich is
+    absurd.
+  \end{proof}
+\end{theorem}
+
+\newpage
+
+\textbf{Observation:} initially Gödel and Kleene had studied a class
+of functions $\mathcal{R}_0$ called $\mu$-recursive. This class
+contained
+\begin{enumerate}[label=\alph*]
+\item zero
+\item successor
+\item projections
+\end{enumerate}
+
+and was closed with respect to
+
+\begin{enumerate}
+\item composition;
+\item primitive recursion;
+\item minimalization, restricted to the case in wich the function that
+  produces it is \emph{total}.
+\end{enumerate}
+
+Is clear that \[\mathcal{R}_0 \subsetneq \mathcal{R}\] and the
+inclusion is strict, since:
+\begin{itemize}
+\item the functions in $\mathcal{R}_0$ are total;
+\item some functions in $\mathcal{R}$ are partial.
+\end{itemize}
+
+Also \[\mathcal{R}_0 \subseteq \mathcal{R} \cap \text{Tot}\] but is
+not obvious that the equality holds. In fact a function
+$f \in \mathcal{R} \cap \text{Tot}$ can be total, but obtained trough
+minimalization of partial functions. For example:
+\[
+  f(x,y) = \begin{cases}
+    x+1 & x<y \\
+    0 & x=y \\
+    \uparrow & x>y
+  \end{cases}
+\]
+
+\[
+  \mu y . f(x,y) = \lambda x . x 
+\]
+
+Generally speaking is not obvious that if $f(x,y)$ is partial and
+$\mu y . f(x,y)$ is total then \[\mu y . f(x,y) \in \mathcal{R}_0\]
+but it is true!
+
+\begin{theorem}
+  \[\mathcal{R}_0 = \mathcal{R}\cap \text{Tot}\]
+  \begin{proof}
+    \begin{enumerate}
+    \item[$(\subseteq)$] obvious.
+    \item[$(\supseteq)$] Let $f \in \mathcal{R} \cap \text{Tot}$ so
+      $f \in \mathcal{C}$ because of the proof of $\mathcal{R = C}$ so
+      we can observe that
+      \[f(\vec{x}) = C_p^1 ( \vec{x} , \mu t . J_p(\vec{x}, t))\]
+      since composed of total functions, $f$ is total.
+    \end{enumerate}
+  \end{proof}
 \end{theorem}
