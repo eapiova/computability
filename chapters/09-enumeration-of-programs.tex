@@ -1,30 +1,86 @@
 \chapter{Enumeration of programs}
+The objective is to define an \emph{``effective'' enumeration} of URM
+programs and URM-computable functions. These results will be
+fundamental for our theory, and in particular for
+\begin{itemize}
+\item prove the existence of non computable functions (this proof will
+  be similar to the first one we've seen in
+  \S\ref{se:existence-non-2}, but with this method we'll be able to
+  build them)
+\item $S^m_n$ theorem (\textit{smn} theorem, or paramether theorem)
+  \item universal function/machine.
+\end{itemize}
 
-Review: $ A, B $ sets, $ |A| = |B| $ if $ \exists f:A\rightarrow B $ biunivocal. Furthermore $ |A| \leq |B| $ if $ \exists f:A\rightarrow B $ injective or there exists $g$ opposite direction surjective.
+Review: Let $ A, B $ be two sets,
+\begin{itemize}
+\item $ |A| = |B| $ if $ \exists f:A\rightarrow B $ biunivocal.
 
-$A$ is countable if $ |A| \leq |\nat| $, that is, $ \exists g: \nat \rightarrow A $ surjective.
+\item $ |A| \leq |B| $ if $ \exists f:A\rightarrow B $ injective or
+  there exists $g$ opposite direction surjective.
 
-An enumeration is without repetitions if in addition to being surjective it is also injective. Let's say that an enumeration is effective when it is computable or made from pieces that are computable (e.g. ennuple of results).
+\item if $|A| \leq |B|$ and $|B| \leq |A| \Rightarrow |A|=|B|$.
+  Assuming the axiom of choice, if we have $\{A_i\}_{i \in I}$ family
+  of non-empty sets $\forall i \in I \; A_i \neq \emptyset$, then
+  there exists a function $$f:I \rightarrow \cup_{i \in I}A_i \quad
+  \text{ s.t. }  \forall i \in I f(i) \in A_i$$
+\end{itemize}
 
-\textbf{Observation:} $ \nat^2 $, $ \nat^3 $ and $ \bigcup_{k\geq 1} \nat^k $ can be numbered effectively.
+$A$ is countable if $ |A| \leq |\nat| $, that is,
+$ \exists g: \nat \rightarrow A $ surjective. in this case we say that
+$f$ is an enumeration of $X$, intuitively because we can enumerate all
+elements in $X$ with \[f(0), f(1), f(2), \dots \]
 
-In particular the couples in $ \nat^2 $ can be encoded as $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is $ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
+An enumeration is \emph{without repetitions} if in addition to being
+surjective it is also injective.
 
-The triple instead is a pair of a pair and an element. $ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained from the inverse of the first.
+Let's say that an enumeration $f: \nat \rightarrow X$ is
+\emph{effective} when both $f$ and $f^\prime$ are effective. When
+$X = \nat^k \quad f^{-1}: X \rightarrow \nat$ can be proved to be
+computable, otherwise we will use the intuitive notion of effective
+function.
 
-For lists we need an encoding $ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the uniqueness of the prime numbers: $ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the $i$-th prime number.\\This, however, leads us to lose any zeros, since the encodings for (1,1) and (1,1,0) would be the same because the exponential function in 0 = 1.
+% when it is computable or
+% made from pieces that are computable (e.g. ennuple of results).
 
-So we use something that works: $ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we can proceed as usual, but limited minimization can be used.\\ Hint: $ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
+\textbf{Observation:} $ \nat^2 $, $ \nat^3 $ and
+$ \bigcup_{k\geq 1} \nat^k $ can be numbered effectively.
 
-But I don't just want the length, I also need the list of items. I need a function: \begin{equation*}
+In particular the couples in $ \nat^2 $ can be encoded as
+$ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is
+$ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
+
+The triple instead is a pair of a pair and an element.
+$ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained
+from the inverse of the first.
+
+For lists we need an encoding
+$ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the
+uniqueness of the prime numbers:
+$ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
+$i$-th prime number. \\
+This, however, leads us to lose any zeros, since
+the encodings for (1,1) and (1,1,0) would be the same because the
+exponential function in 0 = 1.
+
+So we use something that works:
+$ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
+can proceed as usual, but limited minimization can be used.\\ Hint:
+$ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
+
+But I don't just want the length, I also need the list of items. I
+need a function:
+\begin{equation*}
   a(x,i) = \begin{cases}
     (x+2)_i   & 1 \leq i \leq k-1 \\
     (x+2)_k-1 & i = k
   \end{cases}
 \end{equation*}
-And this is the inverse function of $\tau$. And these functions are computable recursive primitives.
+And this is the inverse function of $\tau$. And these functions are
+computable recursive primitives.
 
-To compute instructions: Let us take $ \mathcal{F} $ set of URM instructions, $ \mathcal{P} $ URM programs. Let's take function $ \beta:\mathcal{F}\rightarrow\nat $
+To compute instructions: Let us take $ \mathcal{F} $ set of URM
+instructions, $ \mathcal{P} $ URM programs. Let's take function
+$ \beta:\mathcal{F}\rightarrow\nat $
 \begin{itemize}
 \item $ \beta(z(n)) = 4 \times (n-1) $;
 \item $ \beta(s(n)) = 4 \times (n-1)+1 $;
@@ -32,7 +88,9 @@ To compute instructions: Let us take $ \mathcal{F} $ set of URM instructions, $ 
 \item $ \beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3 $;
 \end{itemize}
 
-The decoding of this monstrosity is obtained from the previous inverse functions applied on the basis of the dimension and the rest of the number.
+The decoding of this monstrosity is obtained from the previous inverse
+functions applied on the basis of the dimension and the rest of the
+number.
 
 \textbf{Example:} P = T (1,2); S (2); T (2,1) = $ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
 
