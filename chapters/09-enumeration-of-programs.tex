@@ -79,15 +79,49 @@ function.
         The idea it to leverage the uniqueness of the binary
         rapresentation of natural numbers (positional).
         \[\tau : \cup_{k \geq 1} \nat^k \rightarrow \nat \]
-        \[\tau (a_1, \dots, a_k ) = 2^{a_1}+2^{a_1+a_2+1}+ \dots + 2^{a_1+\dots + a_k + (k-1)} - 1\]
+        
+        \[\tau (a_1, \dots, a_k ) = 2^{a_1}+2^{a_1+a_2+1}+ \dots +
+          2^{a_1+\dots + a_k + (k-1)} - 1\]
+        
         \[\tau (a_1, \dots, a_k ) = \sum^k_{i=1}2^{(\sum_{j=1}^i a_j)
             + (i-1)}-1\]
+        
         \begin{itemize}
         \item $\tau$ is intuitively effective (it uses only
           exclusively functions), but the domain doesn't allow us to
           prove its computability.
         \item $\tau$ is bijective: let $x \in \nat$, we need to find
-          $(a_1, \dots, a_k)$ s.t. $\tau(a_1,\dots,a_k) = x$.
+          $(a_1, \dots, a_k)$ s.t. $\tau(a_1,\dots,a_k) = x$. Thanks
+          to the uniqueness of binary rapresentation of $x+1$
+          \[x = (\alpha_m \alpha_{m-1} \alpha_1 \alpha_0)_2 = \alpha
+            2^m + \dots + \alpha_1 2^1 + \alpha_0 - 1 \quad \text{with
+            } \alpha \in \{0,1\} \] We can then easily define a
+          function $\alpha(x,j)$ s.t. $\alpha(x,j) = \alpha_j$, in
+          fact
+          \[\alpha(x, j) = \text{rm}(2, \text{qt}(2^j, x+1)) \quad \in
+            \pr \subseteq \mathcal{C}\]
+
+          Now, based on the definition of $\tau$
+          \[\tau(a_1, \dots, a_k) = (1 0 0 1 0 0 0 1 \dots 1 0 0 1 0
+            0)\] where the first digit is $a_1+\dots+a_k+k-1 =
+          b_k$. We can already express the length $k$ of the tuple
+          as \[\ell (x) = \sum_{j \leq x}\alpha(x,j)\] Now considering
+          only the digits 1 and noting their position with $b_k$ we
+          can define $b(x,i)$ s.t. $b(x,i) = b_i$ infact
+          
+          \[b(x,1) = \mu(j \leq x) \; . \; |\alpha(x,j) - 1|\]
+          
+          \[b(x,i+1) = \mu(j \leq x) \; . \; |\alpha(x,j)-1| +
+            (b(x,i)+1 \dotdiv j)\]
+
+          This means that $b(x,i)\in \pr$.  Eventually we can write a
+          function $a(x,i)$ s.t. $a(x,i) = a_i$.
+          \[a(x,1) = b(x,1)\]
+          \[a(x,i+1) = (b(x,i+1) \dotdiv b(x,i))-1\]
+
+          We can finally express $\tau^{-1}$ for $x \in \nat$ as
+          \[\tau^{-1} = (a(x,1), \dots, a(x, \ell(x)))\] and is
+          effective.
         \end{itemize}
       }
     \end{enumerate}
@@ -146,19 +180,30 @@ The decoding of this monstrosity is obtained from the previous inverse
 functions applied on the basis of the dimension and the rest of the
 number.
 
-\textbf{Example:} P = T (1,2); S (2); T (2,1) = $ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
+\textbf{Example:} P = T (1,2); S (2); T (2,1) =
+$ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
 
 The two-way function between programs and numbers has been demonstrated.
 
-\begin{notation} given an effective enumeration (in our case the one defined previously) we say that $ \gamma(P) $ is the code of P (also called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the $n$-th program.
+\begin{notation} given an effective enumeration (in our case the one
+  defined previously) we say that $ \gamma(P) $ is the code of P (also
+  called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the
+  $n$-th program.
 \end{notation}
 
-\begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of $K$ arguments computed by program $n$, that is, by program $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain  is $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} | \Phi_k^{(k)})(\vec{x})\downarrow  \} \subseteq \nat^k$
+\begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of
+  $K$ arguments computed by program $n$, that is, by program
+  $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain is
+  $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} |
+  \Phi_k^{(k)})(\vec{x})\downarrow \} \subseteq \nat^k$
 
-  The function codomain: $ E^{(k)}_n = \Phi_k^{(k)}) = \{\vec{x} | \vec{x} \in W_n^{(k)} \} \subseteq \nat^k$
+  The function codomain:
+  $ E^{(k)}_n = \Phi_k^{(k)}) = \{\vec{x} | \vec{x} \in W_n^{(k)} \}
+  \subseteq \nat^k$
 \end{notation}
 
-So for example the program $ \Phi_{19439999998} = x+1 $, $ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
+So for example the program $ \Phi_{19439999998} = x+1 $,
+$ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
 
 Now we have an enumeration of all the unary computable functions that is \{$ \Phi_n $ . $ n \in \nat $ \} each function with infinite repetitions.
 
