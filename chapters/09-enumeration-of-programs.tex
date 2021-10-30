@@ -1,4 +1,5 @@
 \chapter{Enumeration of programs}
+\newcommand{\pr}{\mathcal{PR}}
 The objective is to define an \emph{``effective'' enumeration} of URM
 programs and URM-computable functions. These results will be
 fundamental for our theory, and in particular for
@@ -42,8 +43,61 @@ function.
 % when it is computable or
 % made from pieces that are computable (e.g. ennuple of results).
 
-\textbf{Observation:} $ \nat^2 $, $ \nat^3 $ and
-$ \bigcup_{k\geq 1} \nat^k $ can be numbered effectively.
+\begin{lemma}
+  The following sets are effectively enuerable:
+  \begin{enumerate}[label=(\arabic*)]
+  \item $ \nat^2 $
+  \item $ \nat^3 $
+  \item $\bigcup_{k\geq 1} \nat^k $
+  \end{enumerate}
+  \begin{proof}
+    \begin{enumerate}[label=(\arabic*)]
+    \item we alredy saw that \[\Pi : \nat^2 \rightarrow
+        \nat\] \[\Pi(x,y) = 2^x(2y+1)-1\] Both are computable
+      ($\in \pr$) with inverse
+      \[\Pi^{-1} : \nat \rightarrow \nat^2\]
+      \[\Pi^{-1}(x) = (\Pi_1(x), \Pi_2(x))\]
+      \[\Pi_1, \Pi_2 \in \pr \Rightarrow \text{ computable}\]
+    \item{
+        We can consider \[\nu : \nat^3 \rightarrow
+          \nat \] \[\nu(x,y,z)= \Pi(\Pi(x,y),z) \quad \nu \in \pr\] with
+        the inverse built upon projections
+        \[\nu^{-1} : \nat \rightarrow \nat^3\]
+        \(\nu^{-1}(x) = (\nu_1(x), \nu_2(x), \nu_3(x))\)
+
+        \(\nu_1(x) = \Pi_1(\Pi_1(x)), \nu_2(x) = \Pi_2(\Pi_2(x)),
+        \nu_3(x) = \Pi_3(\Pi_3(x))\)
+
+        Since $\nu_1, \nu_2, \nu_3 \in \pr$ are computable $\nu^{-1}$
+        is computable }
+    \item{ Observe that the encoding
+        \[(a_1, \dots, a_k) \mapsto \prod^k_{i=1}p_i^{a_i+1}\] can't
+        be used since it is injective, but not surjective (the
+        codomain does not contain $0,1$ and any number $x$
+        s.t. \(\exists i,j \; i<j \quad p_i \times x \wedge p_j | x\))
+
+        The idea it to leverage the uniqueness of the binary
+        rapresentation of natural numbers (positional).
+        \[\tau : \cup_{k \geq 1} \nat^k \rightarrow \nat \]
+        \[\tau (a_1, \dots, a_k ) = 2^{a_1}+2^{a_1+a_2+1}+ \dots + 2^{a_1+\dots + a_k + (k-1)} - 1\]
+        \[\tau (a_1, \dots, a_k ) = \sum^k_{i=1}2^{(\sum_{j=1}^i a_j)
+            + (i-1)}-1\]
+        \begin{itemize}
+        \item $\tau$ is intuitively effective (it uses only
+          exclusively functions), but the domain doesn't allow us to
+          prove its computability.
+        \item $\tau$ is bijective: let $x \in \nat$, we need to find
+          $(a_1, \dots, a_k)$ s.t. $\tau(a_1,\dots,a_k) = x$.
+        \end{itemize}
+      }
+    \end{enumerate}
+  \end{proof}
+\end{lemma}
+
+% everything after this was wrote by the professor, but is a lot less
+% stuff for the same things in the italian notes, so I'll translate
+% also the parts that he already translated here.
+\textbf{Observation:} 
 
 In particular the couples in $ \nat^2 $ can be encoded as
 $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is
