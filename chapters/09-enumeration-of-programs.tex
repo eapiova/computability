@@ -128,83 +128,166 @@ function.
   \end{proof}
 \end{lemma}
 
+\section{Alternative encoding of tuples}
+$$\tau \cup_{k \geq 1} \nat^k \rightarrow \nat$$
+$$\tau(a_1, \dots, a_k) = \prod_{i=1}^{k}p_i^{a_i}$$
+Does not work, since encodes $(1,4)$ as $(1,4,0,0)$. In a sense
+``forgets'' tailing zeros.
+
+\textbf{idea:} we can ``increment'' the last component
+$$\tau(a_1, \dots, a_k) = (\prod_{i=1}^{k-1}p_i^{a_i}) \cdot p_k^{a_k+1} - 2$$
+\textbf{inverse:} given $x \in \nat$ to be intended as encoding of a
+tuple of elements:
+
+\begin{description}
+\item[length]
+  $\ell(x) = \max k \; . \; p_k \; | \; (x+2) = x - \mu (h \leq x) \;
+  . \; p_{x-h} \; | \;(x+2)$
+\item[components] \[a(x,i) = \begin{cases}
+      (x+2)_i & i = 1, \dots, \ell(x)-1 \\
+      (x+2)_i - 1 & i = \ell(x) 
+    \end{cases}\]
+\item[alternative]{
+    $\tau(a_1, \dots, a_k) = \Pi(\prod_{i=1}^k p_i^{a_i}, k)$
+
+    $\ell(x) = \Pi_2(x)$
+
+    $a(x,i) = (\Pi_1(x))_i$
+  }
+\end{description}
+
+\begin{notation}
+  \begin{itemize}
+  \item[$\mathfrak{F}$:] the set of URM instructions;
+    \item[$\mathcal{P}$:] the set URM programs.
+  \end{itemize}
+\end{notation}  
+
+\begin{theorem}
+  $\mathcal{P}$ is effectively enumerable.
+  \begin{proof}
+    First, we'll prove that there exists
+    \[\beta : \mathfrak{F} \rightarrow \nat \]
+    a bijective effective correspondence. The idea is to use the
+    enumeration of couples and triples, sending
+    \begin{itemize}
+    \item $z(n)$ instructions to multiples of 4
+    \item $s(n)$ instructions to numbers $\equiv 1 \mod 4$
+    \item $t(n)$ instructions to numbers $\equiv 2 \mod 4$
+    \item $j(n)$ instructions to numbers $\equiv 3 \mod 4$
+    \end{itemize}
+    this means that
+
+    $\beta(z(n)) = 4*(n-1)$
+
+    $\beta(s(n)) = 4*(n-1) + 1$
+
+    $\beta(t(n)) = 4*(n-1) \Pi(m-1, n-1) + 2$
+
+    $\beta(j(n)) = 4*(n-1) + \nu(m-1, n-1, t-1) + 3$
+
+    with inverse \[\beta^{-1} : \nat \rightarrow \mathfrak{F}\] such
+    that, given $x \in \nat$ let $r = \mbox{rm}(4,x)$ and
+    $q = \mbox{qt}(4,x)$
+    \[
+      \beta^{-1}(x) = \begin{cases}
+        z(q+1) & \mbox{if } r=0 \\
+        s(q+1) & \mbox{if } r=1 \\
+        t(\Pi_1(q)+1, \Pi_2(q)+1) & \mbox{if } r=2 \\
+        j(\nu_1(q)+1, \nu_2(q)+1, \nu_3(q)+1) & \mbox{if } r=3
+      \end{cases}
+    \]
+    Of couse, both $\beta$ and $\beta^{-1}$ are effective. At this
+    point, to define a bijective function
+    $\gamma : \mathcal{P} \rightarrow \nat$ we need to observe that a
+    program is a finite sequence of instructions that with $\beta$ can
+    be translated in a finite sequence of natural numbers: given
+    $P \in \mathcal{P} \quad P = I_1 \dots I_s$
+    \[\gamma(P) = \tau(\beta(I_1), \dots, \beta(I_s))\]
+    this way, $\gamma$ is bijective because is made of bijective
+    functions. Since $\gamma, \gamma^{-1}$ are effective (intuitively)
+    since built on composition of effective functions
+    $\Rightarrow \mathcal{P}$ is effectively enumerable
+  \end{proof}
+\end{theorem}
+
 % everything after this was wrote by the professor, but is a lot less
 % stuff for the same things in the italian notes, so I'll translate
 % also the parts that he already translated here.
-\textbf{Observation:} 
+% \textbf{Observation:} 
 
-In particular the couples in $ \nat^2 $ can be encoded as
-$ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is
-$ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
+% In particular the couples in $ \nat^2 $ can be encoded as
+% $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is
+% $ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
 
-The triple instead is a pair of a pair and an element.
-$ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained
-from the inverse of the first.
+% The triple instead is a pair of a pair and an element.
+% $ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained
+% from the inverse of the first.
 
-For lists we need an encoding
-$ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the
-uniqueness of the prime numbers:
-$ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
-$i$-th prime number. \\
-This, however, leads us to lose any zeros, since
-the encodings for (1,1) and (1,1,0) would be the same because the
-exponential function in 0 = 1.
+% For lists we need an encoding
+% $ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the
+% uniqueness of the prime numbers:
+% $ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
+% $i$-th prime number. \\
+% This, however, leads us to lose any zeros, since
+% the encodings for (1,1) and (1,1,0) would be the same because the
+% exponential function in 0 = 1.
 
-So we use something that works:
-$ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
-can proceed as usual, but limited minimization can be used.\\ Hint:
-$ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
+% So we use something that works:
+% $ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
+% can proceed as usual, but limited minimization can be used.\\ Hint:
+% $ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
 
-But I don't just want the length, I also need the list of items. I
-need a function:
-\begin{equation*}
-  a(x,i) = \begin{cases}
-    (x+2)_i   & 1 \leq i \leq k-1 \\
-    (x+2)_k-1 & i = k
-  \end{cases}
-\end{equation*}
-And this is the inverse function of $\tau$. And these functions are
-computable recursive primitives.
+% But I don't just want the length, I also need the list of items. I
+% need a function:
+% \begin{equation*}
+%   a(x,i) = \begin{cases}
+%     (x+2)_i   & 1 \leq i \leq k-1 \\
+%     (x+2)_k-1 & i = k
+%   \end{cases}
+% \end{equation*}
+% And this is the inverse function of $\tau$. And these functions are
+% computable recursive primitives.
 
-To compute instructions: Let us take $ \mathcal{F} $ set of URM
-instructions, $ \mathcal{P} $ URM programs. Let's take function
-$ \beta:\mathcal{F}\rightarrow\nat $
-\begin{itemize}
-\item $ \beta(z(n)) = 4 \times (n-1) $;
-\item $ \beta(s(n)) = 4 \times (n-1)+1 $;
-\item $ \beta(t(m,n)) = 4 \times \pi(m-1,n-1)+2 $;
-\item $ \beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3 $;
-\end{itemize}
+% To compute instructions: Let us take $ \mathcal{F} $ set of URM
+% instructions, $ \mathcal{P} $ URM programs. Let's take function
+% $ \beta:\mathcal{F}\rightarrow\nat $
+% \begin{itemize}
+% \item $ \beta(z(n)) = 4 \times (n-1) $;
+% \item $ \beta(s(n)) = 4 \times (n-1)+1 $;
+% \item $ \beta(t(m,n)) = 4 \times \pi(m-1,n-1)+2 $;
+% \item $ \beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3 $;
+% \end{itemize}
 
-The decoding of this monstrosity is obtained from the previous inverse
-functions applied on the basis of the dimension and the rest of the
-number.
+% The decoding of this monstrosity is obtained from the previous inverse
+% functions applied on the basis of the dimension and the rest of the
+% number.
 
-\textbf{Example:} P = T (1,2); S (2); T (2,1) =
-$ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
+% \textbf{Example:} P = T (1,2); S (2); T (2,1) =
+% $ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
 
-The two-way function between programs and numbers has been demonstrated.
+% The two-way function between programs and numbers has been demonstrated.
 
-\begin{notation} given an effective enumeration (in our case the one
-  defined previously) we say that $ \gamma(P) $ is the code of P (also
-  called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the
-  $n$-th program.
-\end{notation}
+% \begin{notation} given an effective enumeration (in our case the one
+%   defined previously) we say that $ \gamma(P) $ is the code of P (also
+%   called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the
+%   $n$-th program.
+% \end{notation}
 
-\begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of
-  $K$ arguments computed by program $n$, that is, by program
-  $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain is
-  $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} |
-  \Phi_k^{(k)})(\vec{x})\downarrow \} \subseteq \nat^k$
+% \begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of
+%   $K$ arguments computed by program $n$, that is, by program
+%   $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain is
+%   $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} |
+%   \Phi_k^{(k)})(\vec{x})\downarrow \} \subseteq \nat^k$
 
-  The function codomain:
-  $ E^{(k)}_n = \Phi_k^{(k)}) = \{\vec{x} | \vec{x} \in W_n^{(k)} \}
-  \subseteq \nat^k$
-\end{notation}
+%   The function codomain:
+%   $ E^{(k)}_n = \Phi_k^{(k)}) = \{\vec{x} | \vec{x} \in W_n^{(k)} \}
+%   \subseteq \nat^k$
+% \end{notation}
 
-So for example the program $ \Phi_{19439999998} = x+1 $,
-$ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
+% So for example the program $ \Phi_{19439999998} = x+1 $,
+% $ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
 
-Now we have an enumeration of all the unary computable functions that is \{$ \Phi_n $ . $ n \in \nat $ \} each function with infinite repetitions.
+% Now we have an enumeration of all the unary computable functions that is \{$ \Phi_n $ . $ n \in \nat $ \} each function with infinite repetitions.
 
-Remember we have indicated the computable functions of $k$ arguments as $ \mathcal{C} ^ {(k)} $, where $ | \mathcal{C} ^ {(k)} | \leq (=) | \nat | $ and therefore being $ \mathcal{C} = \bigcup_{K \geq 1} \mathcal{C} ^ {(k)} $ a union of countable sets it is still countable.
+% Remember we have indicated the computable functions of $k$ arguments as $ \mathcal{C} ^ {(k)} $, where $ | \mathcal{C} ^ {(k)} | \leq (=) | \nat | $ and therefore being $ \mathcal{C} = \bigcup_{K \geq 1} \mathcal{C} ^ {(k)} $ a union of countable sets it is still countable.
