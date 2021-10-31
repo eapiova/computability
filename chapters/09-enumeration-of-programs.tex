@@ -211,10 +211,173 @@ tuple of elements:
   \end{proof}
 \end{theorem}
 
-% everything after this was wrote by the professor, but is a lot less
-% stuff for the same things in the italian notes, so I'll translate
-% also the parts that he already translated here.
-% \textbf{Observation:} 
+\begin{definition}[Gödel number of $P$]
+  Given $P \in \mathcal{P}$ the value $\gamma(P)$ is called code (or
+  Gödel number) of $P$. Usually we'll write $P_n$ to rapresent
+  $\gamma^{-1}(n)$, in other words the $n^{\mbox{th}}$ program of the
+  enumeration.
+\end{definition}
+
+\textbf{Note:} from now on we'll reference, often indirectly, to the
+enumeration $\gamma$ of programs that we intend as fixed and that
+determines the meaning of $P_n$.  This fixed enumeration could be
+definied in another way, but is absolutely necessary for $\gamma$ and
+$\gamma^{-1}$ to be effective. In other words that
+\begin{itemize}
+\item given a program $P$ we can find in an effective way its code
+  $\gamma(P)$
+\item given a number is possible to find the $n^{\mbox{th}}$ program
+  $P_n = \gamma^{-1}(n)$
+\end{itemize}
+
+and note that (even with a grain of informality) there are no doubts
+on the effectiveness of $\gamma$ and $\gamma^{-1}$.
+
+\begin{example}
+  Lets consider the program P:
+  \begin{itemize}
+  \item[] $T(1,2)$
+  \item[] $S(2)$
+  \item[] $T2,1)$
+  \end{itemize}
+  encoded by
+
+  \begin{itemize}
+  \item[] $\beta(T(1,2)) = 4 * \Pi(1-1,2-1) + 2 = 4 * \Pi(0,1) + 2 = 10$
+  \item[] $\beta(S(2)) = 4 * (2-1) + 1 = 5$
+  \item[] $\beta(T(2,1)) = 4 * \Pi(2-1,1-1) + 2 = 4 * \Pi(1,0) + 2 = 6$
+  \end{itemize}
+
+  \[\begin{split}
+      \gamma(P) = \tau(10,5,6) & = 2^{10} + 2^{10+5+1} + 2^{10+5+6+2} - 1 \\
+      & = 2^{10} + 2^{16} + 2^{23} - 1 \\
+      & = 8455167
+    \end{split}
+  \]
+
+  \[
+    \left[
+      \begin{split}
+        \mbox{alternative encoding: } p_1^{10} \cdot p_2^5 \cdot p_3^{6+1} - 2 & = 2^{10} \cdot 3^5 \cdot 5^7 -2 \\
+        & = 19439999998
+      \end{split}
+    \right]
+  \]
+  
+  What does it compute? $\lambda x . x+1$.
+
+  But also does $P^\prime : S(1)$. In this case the encoding is
+  \[\beta(S(1)) = 4 * (1-1) + 1 = 1\] and so
+  \[\gamma(P^\prime) = \tau(1) = 2^1 - 1 = 1\]
+  \[\left[ \mbox{alternative encoding: } 2^{1+1} - 2 = 2 \right] \]
+\end{example}
+
+\begin{example}
+  Show what $P_{100} = \gamma^{-1}(100)$ is.
+
+  We observe that $100 = 1100101 - 1$. 100 is the encoding of a
+  quadruple (program with 4 instructions). So
+  $\tau^{-1}(100) = (a_1 a_2 a_3 a_4)$ and the components can be
+  expressed as before.
+
+  \[
+    \begin{split}
+      a_1 = b_1 = 0 & \Rightarrow Z(1) \\
+      a_2 = b_2 - b_1 - 1 = 1 & \Rightarrow S(1) \\
+      a_3 = b_3 - b_2 - 1 = 2 & \Rightarrow T(1,1) \\
+      a_4 = b_4 - b_3 - 1 = 0 & \Rightarrow Z(1)
+    \end{split}
+  \]
+  
+  \[\gamma^{-1}(100) = (Z(1), S(1), T(1,1), Z(1))\]
+
+  With the alternative encoding:
+  \[100 + 2 = 2^1 * 3^1 * 17^1 = p_1^1 \cdot p_2^1 \cdot p_3^1 \cdot
+    p_4^0 \cdot p_5^0 \cdot p_6^0 \cdot p_7^1 \]
+
+  \[
+    \begin{split}
+      \beta^{-1}(1) & \quad S(1) \\
+      \beta^{-1}(1) & \quad S(1) \\
+      \beta^{-1}(0) & \quad Z(1) \\
+      \vdots & \quad\vdots \\
+      \beta^{-1}(0) & \quad Z(1)
+    \end{split}
+  \]
+\end{example}
+
+Clearly, an enumeration of URM programs induces an enumeration of computable functions
+
+\begin{definition}
+  Fixed an effective enumeration
+  $\gamma : \mathcal{P} \rightarrow \nat$ we define:
+  \begin{enumerate}[label=\arabic*.]
+  \item $\varphi_n^{(k)}$: the function of k arguments (k-ary
+    function) computed by the program $P_n = \gamma^{-1}(n)$ (with
+    the notation precently introduced: $\varphi_n^{(k)} = f_{P_n}^{(k)}$)
+  \item $W_n^{(k)} = \mbox{dom}(\varphi_n^{(k)}) \subseteq \nat^k $
+  \item $E_n^{(k)} = \mbox{cod}(\varphi_n^{(k)}) \subseteq \nat$
+  \end{enumerate}
+
+  usually if $k=1$, it is omitted. $\varphi_n = \varphi_n^{(1)}$
+\end{definition}
+
+\textbf{Observation:} The function \[
+  \begin{split}
+    \varphi^{(k)} : & \quad \nat \rightarrow \mathcal{C}^{(k)} \\
+    & \quad n \mapsto \varphi_n^{(k)}
+  \end{split}
+\]
+
+Is obviously surjective (each computable function is computed by a
+program!), and so $\mathcal{C}^{(k)}$ is enumerable:
+\[|\mathcal{C}^{(k)}| = |\nat|\]
+
+The existence of a surjective function $\nat \rightarrow \mathcal{C}$
+follows that $|\mathcal{C}^{(k)}| \leq |\nat|$, but obviously there
+exists infinitely many computable functions, for example constants
+$\lambda x_1 \dots x_k . c$, and so $|\mathcal{C}^{(k)}| \geq |\nat|$
+is also true.
+
+Clearly $\varphi^{(k)} : \nat \rightarrow \mathcal{C}^{(k)}$ is not
+injective. In fact, for each computable function there are inifinitely
+many programsthat computes it
+\[\forall f \in \mathcal{C} \quad \quad |(\varphi^{(k)})^{-1}(f)| =
+  |\nat|\] wich means
+\(\varphi_0^{(k)}, \varphi_1^{(k)}, \varphi_2^{(k)}, \dots\) is an
+enumeration of $\mathcal{C}$ with infinitely many repetitions. An
+enumeration without repetitions can be defined:
+\begin{itemize}
+\item[] $\chi(0) = 0$
+\item[]
+  $\chi(n+1) = \mu z \; . \; (\varphi_z \notin \{\varphi_{\chi(0)},
+  \dots, \varphi_{\chi(n)}\})$
+\end{itemize}
+wich rises the enumeration
+$\varphi_{\chi(0)}, \varphi_{\chi(1)}, \varphi_{\chi(2)}, \dots$
+
+But this enumeration is highly ineffective.
+
+(Can be proved that there exists an enumeration
+$h : \nat \rightarrow \nat$ total and computable s.t.
+$\varphi_{h(0)}, \varphi_{h(1)}, \varphi_{h(2)}, \dots$ is an
+enumeration without repetitions \cite{firedberg:1958}, but for us an
+enumeration with repetitions is sufficent).
+
+\begin{theorem}[$|\mathcal{C}| = |\nat|$]
+  The class $\mathcal{C}$ of computable functions is enumerable.
+  \begin{proof}
+    \[ \mathcal{C} = \bigcup_{k \geq 1}\mathcal{C}^{(k)} \] Since the
+    union of enumerable sets is enumerable, $\mathcal{C}$ is
+    enumerable.
+  \end{proof}
+\end{theorem}
+
+\textbf{Note:} form now on we'll implicitly use the enumeration of
+programs $\gamma$. The meaning of
+$\varphi_n^{(k)}, W_n^{(k)}, E_n^{(k)}$ is fixed and determined
+starting from $\gamma$.
+% \textbf{Observation:}m 
 
 % In particular the couples in $ \nat^2 $ can be encoded as
 % $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is

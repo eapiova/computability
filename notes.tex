@@ -1,8 +1,7 @@
 \documentclass{amsbook}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{hyperref}
-%\usepackage{ucs}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -15,10 +14,16 @@
 \usepackage{xcolor}
 \usepackage{mathabx}
 \hypersetup{
-	colorlinks,
+	colorlinks=false,
 	linkcolor={blue!50!black}
 }
 \usepackage{mathtools}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{bibliography.bib}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
@@ -110,6 +115,8 @@
 \input{chapters/13-rices-theorem}
 \input{chapters/14-recursively-enumerable-set}
 \input{chapters/15-rices-shapiros-theorem}
+
+\printbibliography
 
 \end{document}
 %%% Local Variables:
