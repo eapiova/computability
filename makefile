@@ -1,11 +1,8 @@
 all: del gen compile
 
 compile:
-	latexmk -outdir=output -auxdir=aux -pdf 
-
+	latexmk -outdir=output -pdf 
 del:
 	rm -rf output
-	rm -rf aux
 gen:
 	mkdir output
-	mkdir aux
