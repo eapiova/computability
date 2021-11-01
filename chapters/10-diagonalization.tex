@@ -149,6 +149,46 @@ functions in the form
   (g is not computable).
 \end{exercise}
 
+\begin{exercise}
+  Given a family of functions
+  $\{f_i\}_{i\in \nat} \quad f_i : \nattonat$ define $g: \nattonat$
+  s.t. $\dom{g} \neq \dom{f_i} \quad \forall i \in N$
+
+  \[
+    g(n) = \begin{cases}
+      0 & \mbox{if } n \notin \dom{f_n} \\
+      \uparrow & \mbox{if } n \in \dom{f_n}
+    \end{cases}
+  \]
+
+  This way $\forall n \quad n \in \dom{g}$ if and only if
+  $n \notin \dom{f_n}$.
+\end{exercise}
+
+\begin{exercise}
+  Deifne a non computable total function that returns 1 when the input
+  is even
+  \[
+    f(x) = \begin{cases}
+      1 & x \mbox{ is even} \\
+      \varphi_{\frac{x-1}{2}} + 1 & x \mbox{ is odd, and } x \in
+      W_{\frac{x-1}{2}} \\
+      0 & x \mbox{ is odd, and } x \notin W_{\frac{x-1}{2}}
+    \end{cases}
+  \]
+
+  is easy to prove that the function $f$ is not computable. In fact,
+  $\forall n \quad f(2n + 1) \neq \varphi_n(2n+1)$. This means that
+
+  if
+  $2n+1 \in W_n \Rightarrow f(2n+1) = \varphi(2n+1) + 1 \neq
+  \varphi_n(2n+1)$
+
+  if
+  $2n+1 \notin W_n \Rightarrow f(2n+1) = 0 \neq \varphi_n(2n+1)
+  \uparrow $
+
+\end{exercise}
 % Same as the previous chapter, these notes are very different form
 % the italian version and not complete in the same way
 
