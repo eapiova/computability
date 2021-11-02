@@ -52,6 +52,7 @@ fixing an argument of a program is effective.
   hence the name.
 \end{example}
 
+\section{\smn Theorem}
 \begin{theorem}[\smn theorem]
   Given $m, n \geq 1$ exists a computable total function
   \[S_{m,n} : \nat^{m+1} \rightarrow \nat\] s.t.
@@ -121,6 +122,26 @@ fixing an argument of a program is effective.
     are) and so the existence, totality and computability of $S$ are
     proved (even if informally, by appealing to the Church-Turing
     thesis.
+
+    The formal proof of calculability is long, but not difficult. We
+    just need to proceed by steps, following the intuitions of the
+    informal proof.
+
+    \paragraph{function to update a program}
+    \newcommand{\up}[1]{\ensuremath{\mathit{up}({#1})}}
+    \[
+      \mathit{up} : \nat^2 \rightarrow \nat
+    \]
+
+    \begin{center}
+      \begin{tabular}{rl}
+        $\up{\ell, t}=$ & code of a program obtained from
+                          $P_\ell = \gamma^{-1}(\ell)$ \\
+                        & adding $t$ to each jump instruction
+      \end{tabular}
+    \end{center}
+    For this reason is useful to define a support function that works
+    on each single instruction. We call it $\beta$
   \end{proof}
 \end{theorem}
 % Again, here he goes very fast, where in the notes he approaches it
