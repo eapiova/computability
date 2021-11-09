@@ -127,7 +127,7 @@ fixing an argument of a program is effective.
     just need to proceed by steps, following the intuitions of the
     informal proof.
 
-    \paragraph{function to update a program}
+    \paragraph{\textbf{function to update a program}}
     \newcommand{\up}[1]{\ensuremath{\mathit{up}({#1})}}
     \[
       \mathit{up} : \nat^2 \rightarrow \nat
@@ -135,15 +135,230 @@ fixing an argument of a program is effective.
 
     \begin{center}
       \begin{tabular}{rl}
-        $\up{\ell, t}=$ & code of a program obtained from
-                          $P_\ell = \gamma^{-1}(\ell)$ \\
-                        & adding $t$ to each jump instruction
+        $\up{e, t}=$ & code of a program obtained from
+                       $P_e = \gamma^{-1}(e)$ \\
+                     & adding $t$ to each jump instruction
       \end{tabular}
     \end{center}
     For this reason is useful to define a support function that works
-    on each single instruction. We call it $\beta$
+    on each single instruction (encoded with $\beta$).
+    \newcommand{\tup}[1]{\ensuremath{\tilde{\mathit{up}}({#1})}}
+    \[
+      \tilde{\mathit{up}} : \nat^2 \rightarrow \nat
+    \]
+
+    \begin{center}
+      \begin{tabular}{rl}
+        $\tup{i, t}=$ & code of the instruction obtaining updating
+                        $\beta^{-1}(i)$ : \\
+                      & if it is $J(\_,\_,\_) \rightsquigarrow
+                        J(\_,\_,\_ + t)$. untouched otherwise
+      \end{tabular}
+    \end{center}
+    \newcommand{\qt}[1]{\ensuremath{\mathit{qt}({#1})}}
+    \newcommand{\rmf}[1]{\ensuremath{\mathit{rm}({#1})}}
+    given $i,t \in \nat$ and said $q=\qt{4,i}, r=\rmf{4,i}$ holds that
+    \[
+      \tup{i,t} = \begin{cases}
+        4 * \nu(\nu_1(q), \nu_2(q), \nu_3(q) + t) + 3 & r=3 \\
+        i & r \neq 3
+      \end{cases}
+    \]
+    that is $\tup{i,t} \in \pr$. At this point
+    \begin{center}
+      $\up{e,t} = \tau(\tup{a(e,1), t}, \dots, \tup{a(e, \ell(e)), t})$
+
+      $= \sum^{\ell(e)}_{i=1}2^{(\sum^i_{j=1}\tup{a(e,i), t} + (i-1))}-1$
+    \end{center}
+
+    \newcommand{\seq}[1]{\ensuremath{\mathit{seq}({#1})}}
+    \paragraph{\textbf{Concatenation of programs}}
+    \[
+      \mathit{seq} : \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \seq{e_1, e_2} = \gamma \left( \begin{array}{c}
+                                P_{e_1} \\
+                                P_{e_2}
+                              \end{array} \right)
+                              = \gamma(p_{e_1} P_{\up{e_2,
+                                  \ell(e_1)}})
+    \]
+
+    We'll  later need also a fnuction to concatenate sequences:
+
+    \newcommand{\conc}[1]{\ensuremath{\mathit{c}({#1})}}
+    \[
+      \mathit{c}: \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \conc{e_1, e_2} &= \tau(a(e_1,1), \dots, a(e_1,\ell(e_1)),
+        a(e_2,1), a(e_2, \ell(e_2))) \\
+        & = e_1 + \sum\limits^{\ell(e_2)}_{i=1} 2^{b(e_1, \ell(e_1))
+          +\sum\limits^i_{j=1}a(e_2,j) + i}
+      \end{aligned}
+    \]
+
+    at this point we know that
+    \[
+      \seq{e_1, e_2} = \conc{e_1, \up{e_2, \ell(e_1)}} \quad \in \pr
+    \]
+
+    \paragraph{\textbf{Subroutine to transfer $[1 .. n] \rightsquigarrow [m+1 .. m+n]$}}
+    \newcommand{\tran}[1]{\ensuremath{\mathit{transf}({#1})}}
+    \[
+      \mathit{transf}: \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \tran{m,n} &= \gamma(T([1,n],[m+1, m+n])) \\
+        &= \tau(\beta(T(1,m+1)), \dots, \beta(T(n,n+m))) \\
+        &= \sum\limits^n_{i=1}2^{(\sum\limits^i_{j=1}\beta(T(j,m+j))) + i - 1}-1 \\
+        &\in \pr
+      \end{aligned}
+    \]
+
+    \paragraph{\textbf{Subroutine to set $r_i = x_i$}}
+    \newcommand{\set}[1]{\ensuremath{\mathit{set}({#1})}}
+    \[
+      \mathit{set} : \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \set{i,x} &= \gamma\left( \begin{array}{c}
+                                    z(i) \\
+                                    s(i) \\
+                                    \vdots \\
+                                    s(i)
+                                  \end{array} \right) \\
+        &= \tau(\beta(z(i)), \beta(s(i)), \dots, \beta(s(i))) \\
+        &= 2^{\beta(z(i))} + \sum^x_{k=1}2^{\sum\limits^k_{j=1}\beta(s(i)) \quad + (k+1)-1} \quad -1 \\
+        &\in pr
+      \end{aligned}
+    \]
+
+    at this point, with
+    \newcommand{\pref}[1]{\ensuremath{\mathit{pref}_{m,n}({#1})}}
+    \[
+      \mathit{pref}_{m,n}: \nat^m \rightarrow \nat
+    \]
+
+    \[
+      \pref{\vec{x}} = \seq{\tran{m,n}, \seq{\set{1,x_1}, \seq{\dots , \set{m.x_m}}} \dots}
+    \]
+
+    we have that
+
+    \[
+      S_{m,n}: \nat^{m+1} \rightarrow \nat
+    \]
+
+    \[
+      S_{m,n}(e, \vec{x}) = \seq{\pref{\vec{x}}, e}
+    \]
+    wich is $\in \pr$
   \end{proof}
 \end{theorem}
+
+\textbf{Note:} we proved that \smn is not just computable and total,
+but also primitively recursive. Also, the theorem is usually presented
+in a simpler shape:
+
+\begin{corollary}[simplified \smn theorem]\label{corollary:simple-smn}
+  Let $f: \nat^{m,n} \rightarrow \nat$ be a computable function. Then,
+  exists a computable total function $S: \nat^m\rightarrow \nat$ s.t.
+  \[
+    f(\vec{x}, \vec{y}) = \varphi_{S(\vec{x})}(\vec{y}) \quad \quad
+    \forall x \in \nat^m \quad \forall y \in \nat^n
+  \]
+  \begin{proof}
+    $f$ is computable $\Rightarrow f = \varphi_e^{(m+n)}$ for some
+    $e \in \nat$. $\rightsquigarrow S(\vec{x}) = S_{m,n}(e, \vec{x})$
+  \end{proof}
+\end{corollary}
+
+\begin{exercise}
+  Prove that exists a total computable function $k : \nattonat$ s.t.
+  \[
+    \forall n \quad \varphi_{k(n)} = \lambda x \; . \; \lfloor \sqrt[n]{x} \rfloor
+  \]
+
+  That is to say $k$ is an enumeration of functions of the kind
+  $\lfloor \sqrt[n]{x} \rfloor$. Better, $k$ is a function that given
+  $n$ returns the program that computes $\lfloor \sqrt[n]{x}
+  \rfloor$.
+
+  \textbf{solution:} We define
+  \[
+    \begin{aligned}
+      f(n,x) = \lfloor \sqrt[n]{x} \rfloor &= \mu y \leq x \quad \mbox{``}(y+1)^n > x\mbox{''} \\
+      &= \mu y \leq x \; . \; (x+1 \dotdiv (y+1)^n)
+    \end{aligned}
+  \]
+  the function $f$ is computable as we wanted. For the corollary
+  \ref{corollary:simple-smn} $\exists \; k: \nattonat$ s.t.
+  \[
+    \varphi_{k(n)}(x) = f(n,x) = \lfloor \sqrt[n]{x} \rfloor
+  \]
+\end{exercise}
+
+\begin{exercise}
+  Proe that exists $k : \nattonat$ computable and total s.t.
+  $\forall n \quad \varphi_{k(n)}$ is defined only on $n^{th}$
+  powers. That is to say
+  \[
+    W_{k(n)} = \{ \; x \; | \; \exists y \in \nat \quad x = yn \; \}
+  \]
+
+  \textbf{solution:} we define
+  \[
+    f : \nat^2 \rightarrow \nat
+  \]
+  \[
+    f(n,x) = \begin{cases}
+      0 & \quad \mbox{if } x \mbox{ is the } n^{th} \mbox{ power} \\
+      \uparrow &\quad \mbox{otherwise}
+    \end{cases}
+  \]
+  \[
+    = \underline{0} (\mu y \; . \; |y^n-x|)
+  \]
+  is computable. Therefore for the \smn theorem
+  $\exists \quad k : \nattonat$ total and computable s.t.
+  \[
+    f(n,x) = \varphi_{k(x)}(x) \quad \forall n
+  \]
+  $k$ is a valid answer, infact: $x \in W_{k(n)}$ iff
+  $\varphi_{k(n)}(x)\downarrow$ iff $f(n,x)\downarrow$ iff $x$ is the
+  $n^{th}$ power.
+\end{exercise}
+
+\begin{exercise}
+  Prove that exists a function $s: \nattonat$ total and computable
+  s.t.
+  \[W_{s(x)}^{(k)} = \{(y_1, \dots, y_k) \; | \;
+    \sum\limits_{i=1}^ky_i = x)\}\]
+
+  \textbf{solution:} We can define
+  \[
+    \begin{aligned}
+      f(x, \vec{y}) &=
+      \begin{cases}
+        0 & \quad \sum_{i=1}^ky_i = x \\
+        \uparrow & \quad \mbox{otherwise}
+      \end{cases} \\
+      &= \mu z \; . \; |(\sum_{i=1}^ky_i) - x|
+    \end{aligned}
+  \]
+
+  and the rest of the prove is the same as before.
+\end{exercise}
+
 % Again, here he goes very fast, where in the notes he approaches it
 % with more calm
 
@@ -152,7 +367,6 @@ fixing an argument of a program is effective.
 % the first fixed argument: $ f(x,y) = f_x(y) $, where
 % $ f_x:\nat\rightarrow\nat $ computable, therefore there is a program
 % that calculates it.
-
 % For example let's take $ f(x,y) = y^x $ then $ f_0(y) = 1 $, \dots all
 % these functions are computable.
 
