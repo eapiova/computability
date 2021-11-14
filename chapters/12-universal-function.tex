@@ -1,16 +1,74 @@
 \chapter {Universal Function}
-Program that takes input $ e $ and $ \vec{x} $ and returns $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
+We'll now see how the theory we described up until now allows us to
+prove something a bit surprising. This is to say, the existence of
+universal functions/programs, able to reproduce the behaviour of each
+and every other computable function/program. Let's consider the function
 
-More specifically, the function $ \psi_u(x,y) = \phi_x(y)$, $ \psi : \nat^2 \rightarrow \nat $
+\[
+  \psi(x,y) = \varphi_x(y)
+\]
 
-In other words, the interpreter exists.
+We can already observe that $\psi$ is a ``universal function'', that
+captures all unary functions $\varphi_1, \varphi_2, \dots$. In fact,
+for all fixed $e \in \nat$
+\[
+  g(y) = \psi(e,y) = \varphi_e(y) \quad \rightsquigarrow \quad g = \varphi_e
+\]
+so, thanks to $e$, $\psi$ rapresents all computable functions in the
+form $\nattonat$.
 
-\textbf{Theorem}: This is computable. $ \forall k \geq 1  \quad  \psi_u^{(k)} $ is computable.
+\begin{definition}
+  The universal function for k-ary functions (with $k \in \nat$) is
+  defined as
+  \[
+    \psi_{\mathcal{U}}^{(k)} : \nat^{k+1} \rightarrow \nat
+  \]
+  \[
+    \psi_{\mathcal{U}}^{(k)} (e, \vec{x}) = \varphi_e^{(k)}(\vec{x})
+  \]
+\end{definition}
+$\psi$ functions are this well defined, but are they computable? If
+the answer is yes a program $P_{\mathcal{U}}$ computing $\psi$ would
+be able to compute all k-ary functions. It includes in itself all
+other computable programs, and we can call it a Universal Computer
+\cite{davis:2011}.
 
-Let's prove it. Suppose we have a fixed $ k \geq 1 $.
+At first glance this might seem odd, but tinking again it recives in
+input:
+\begin{itemize}
+\item $e$ (the index of the program, a \textit{description} of the
+  program $P_e$ to run)
+\item $\vec{x}$ the arguments
+\end{itemize}
+We observe that it fits the description of an interpreter.
 
-How do I calculate $ e \in \nat, \vec{x} \in \nat^k, \psi_u^{k}(e, \vec{x}) $?
+In fact, the following result applies
 
-Fact $e$, calculation $ \gamma^{-1}(e) = P_e $
+\begin{theorem}
+  $\forall k \geq 1$ the universal function $\psi_{\mathcal{U}}^{(k)}$
+  is computable.
 
-But we don't want to decode the program.
+  \begin{proof}
+    
+  \end{proof}
+\end{theorem}
+
+% Program that takes input $ e $ and $ \vec{x} $ and returns
+% $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
+
+% More specifically, the function $ \psi_u(x,y) = \phi_x(y)$,
+% $ \psi : \nat^2 \rightarrow \nat $
+
+% In other words, the interpreter exists.
+
+% \textbf{Theorem}: This is computable.
+% $ \forall k \geq 1 \quad \psi_u^{(k)} $ is computable.
+
+% Let's prove it. Suppose we have a fixed $ k \geq 1 $.
+
+% How do I calculate
+% $ e \in \nat, \vec{x} \in \nat^k, \psi_u^{k}(e, \vec{x}) $?
+
+% Fact $e$, calculation $ \gamma^{-1}(e) = P_e $
+
+% But we don't want to decode the program.
