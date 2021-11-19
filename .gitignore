@@ -10,4 +10,9 @@ notes.out
 notes.toc
 notes.dvi
 notes.pdf
+notes.bbl
+notes.bcf
+notes.blg
+notes.run.xml
+notes.synctex.gz
 aux

@@ -1,4 +1,6 @@
 \chapter {Universal Function}
+\newcommand{\psiex}{\ensuremath{\psi_{\mathcal{U}}^{(k)} (e, \vec{x})}}
+\newcommand{\psiuex}{\ensuremath{\psi_e^{(k)} (\vec{x})}}
 We'll now see how the theory we described up until now allows us to
 prove something a bit surprising. This is to say, the existence of
 universal functions/programs, able to reproduce the behaviour of each
@@ -24,7 +26,7 @@ form $\nattonat$.
     \psi_{\mathcal{U}}^{(k)} : \nat^{k+1} \rightarrow \nat
   \]
   \[
-    \psi_{\mathcal{U}}^{(k)} (e, \vec{x}) = \varphi_e^{(k)}(\vec{x})
+    \psiex = \psiuex
   \]
 \end{definition}
 $\psi$ functions are this well defined, but are they computable? If
@@ -49,10 +51,204 @@ In fact, the following result applies
   is computable.
 
   \begin{proof}
-    
+    Informally, we can say that if we fix $k \geq 1$ and an index
+    $e \in \nat$ and the arguments $\vec{x} \in \nat^k$ we can compute
+    $\psiex = \psiuex$ as follows:
+    \begin{itemize}
+    \item we build the program $P_e = \gamma^{-1}(e)$;
+    \item we simulate $P_e$ on input $\vec{x}$
+    \item if $P_e(\vec{x})\downarrow$, the value of $\psiex$ is in
+      $R_1$, otherwise it is ok.
+    \end{itemize}
+    This way everything is effective, and for the Church-Turing
+    thesis computable.
+
+    But we want to be more formal than this. More precisely we'll need
+    some programs in order to accomplish this:
+
+    \paragraph{Configuration of registers}
+    Given the registers of the machine $(r_1, r_2, \dots, r_n)$
+    \[
+      \begin{tabu}{|c|c|c|c|c}
+        \hline
+        r_1 & r_2 & r_3 & 0 & \dots \\ \hline
+      \end{tabu}
+    \]
+    the \textit{configuration of registers} is given by
+    \[ c = \prod_{i \geq 1} p_i^{r_i} \]
+    This way the value of the registers $\forall i \quad r_i = (c)_i$
+
+    \paragraph{The state of the machine}
+    The state of the machine is encoded with \[ \sigma = \Pi(j, c) \]
+    where $j$ is the next instruction to execute and $c$ is the
+    configuration of registers.
+
+    We want to show that the functions
+
+    \[
+      c_k : \nat^{k+2} \rightarrow \nat
+    \]
+
+    \[
+      c_k(e, \vec{x}, t) = \begin{cases}
+        % Insert the function definition we saw in class
+        x & 0 \\
+        y & 1
+      \end{cases}
+    \]
+
+    \[
+      j_k : \nat^{k+2} \rightarrow \nat
+    \]
+
+    \[
+      j_k(e, \vec{x}, t) = \begin{cases}
+        % Insert the function definition we saw in class
+        x & 0 \\
+        y & 1
+      \end{cases}
+    \]
+
+    At this point we have that
+    \[\psiex = \psiuex = (c_k(e,\vec{x}, \mu t \; . \; j_k(e, \vec{x}, t)))_1\]
+    so if we prove that $c_k, j_k$ are computable we can conclude that
+    also $\psi_{\mathcal{U}}^{(k)}$ si computable.  We proceed in the
+    same manner way we did in the proof \S\ref{reqc}, by proving that
+    $c_k, j_k \in \pr$ (in fact, this can be seen as a more formal
+    prove of the same fact, the only difference is that in the latter
+    demonstration we defined $c_p, j_p$ with \emph{a fixed $P$}, here
+    instead $P$ is a parameter). 
+
+    Explictly, each step:
+
+    \newcommand{\uarg}{{\mbox{arg}}}
+    \newcommand{\uargh}{{\mbox{arg}_h}}
+    \begin{enumerate}[label=(\alph*)]
+    \item arguments of an URM instruction $( i = \beta(\mbox{Instruction}))$
+
+      $Z_\uarg (i) = qt(4, i) + 1$
+              
+      $S_\uarg (i) = qt(4,i) + 1$
+              
+      $T_\uargh(i) = \Pi_h(qt(4,i)) + 1 \quad h \in \{1,2\}$
+              
+      $J_\uargh(i) = \nu_h(qt(4,i)) + 1 \quad h \in \{1,2,3\}$
+      
+    \item effect of executing an instruction on the configuration $C$
+
+      \[
+        \begin{tabu}{l l}
+          \mbox{zero}(c,n) = qt(p_n^{(c)_n}, c) & Z(n) \\
+          \mbox{succ}(c,n) = p_n \cdot c & S(n) \\
+          \mbox{tfr}(c,m,n) = qt(p_n^{(c)_n}, x) \cdot p_n^{(c)_m} & T(m,n)
+        \end{tabu}
+      \]
+
+    \item effect on the configuration of registers of the execution of
+      the instruction $i=\beta(\mbox{Instruction})$
+
+      \newcommand{\change}{\mbox{change}}
+      \[
+        \change(c,i) = \begin{cases}
+          \mbox{zero}(c, Z_\uarg(i)) & rm(4,i) = 0 \\
+          \mbox{succ}(c, S_\uarg(i)) & rm(4,i) = 1 \\
+          \mbox{tfr}(c, T_{\uarg_1}(i), T_{\uarg_2}(i)) & rm(4,i) = 2 \\
+          c & rm(4,i) = 3
+      \end{cases} 
+    \]
+
+  \item configuration of the registers if the current one ($c$) and
+    the $t$ instruction of $P_e$ is executed
+
+    \newcommand{\nextconf}{\mbox{nextconf}}
+    \[
+      \nextconf(e,c,t) = \begin{cases}
+        \change(c, a(e,t)) & 1 \leq t \leq \ell(e) \\
+        c & \mbox{otherwise}
+      \end{cases}
+    \]
+
+  \item next configuration of registersif the $t^{\mbox{th}}$
+    instruction $i=\beta(\mbox{Instruction})$ is executed
+
+    \newcommand{\instr}{\mbox{instr}}
+    \[
+      \instr(c, i, t) = \begin{cases}
+
+        t+1 & (rm(4,1) \neq 3) \vee (rm(4,i) = 3 \wedge (c)_{J_{\uarg_1(c)}} \neq (c)_{J_{\uarg_2(i)}}) \\
+        J_{\uarg_3(c)} & \mbox{otherwise}
+      \end{cases}
+    \]
+
+  \item number of the next instruction if the $t^{\mbox{th}}$
+    instruction of $P_e$ is execeuted on the configuration $c$
+
+    \newcommand{\nextinstr}{\mbox{nextinstr}}
+    \[
+      \nextinstr(e,c,t) = \begin{cases}
+        \instr(c, a(e,t), t) & 1 \leq t \leq \ell(e) \wedge \instr(c, a(e,t), t) \leq \ell(e) \\
+        0 & \mbox{otherwise}
+      \end{cases}
+    \]
+  \end{enumerate}
+
+  At this point we can define $c_k$ and $j_k$
+
+  $c_k(e, \vec{x}, 0) = \prod_{i=1}^kp_i^{x_i}$
+
+  $j_k(e, \vec{x}, 0) = 1$
+
+  $c_k(e, \vec{x}, t+1) = \mbox{nextconf} (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t))$
+
+  $j_k(e, \vec{x}, t+1) = \mbox{nextinstr} (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t))$
+
+  Therefore
+
+  \[
+    \sigma_k(e,\vec{x},t) = \Pi(j_k(e,\vec{x},t), c_k(e,\vec{x},t))
+  \]
+
+  can be defined with primitive recursion, therefore $\sigma \in \pr \Rightarrow c_k, j_j \in \pr$
+
+  \[
+    \psiex = c_k(e, \vec{x}, \mu t \; . \; j_k(e,\vec{x},t)) \quad \in \mathcal{R} = \mathcal{C}
+  \]
   \end{proof}
 \end{theorem}
 
+As a corollary, we obtain the decidability of two statements that will
+be really useful in the next chapters.
+
+\begin{corollary}
+  The following predicates are decidable:
+  \begin{enumerate}[label=(\alph*)]
+  \item $H_k(e, \vec{x}, t) \equiv$ ``$P_e(\vec{x})\downarrow$ in $t$
+    or less steps''
+  \item $S_k(e, \vec{x}, y, t) \equiv$ ``$P_e(\vec{x})\downarrow y$ in
+    $t$ or less steps''
+  \end{enumerate}
+  \begin{proof}
+    \begin{enumerate}[label=(\alph*)]
+    \item We observe that
+      $H_k(e, \vec{x}, t) \equiv (j_k(e,\vec{x}, t) = 0)$ and therefore
+      we have
+      
+      $\chi_{H_k}(e, \vec{x}, t) = \overline{sg}(j_k(e,\vec{x},t))$
+    \item We observe that
+      $S_k(e, \vec{x}, y, t) \equiv ((j_k(e,\vec{x},t) = 0) \wedge ((c_k(e,\vec{x},t))_1)=y)$
+    \end{enumerate}
+  \end{proof}
+\end{corollary}
+
+Also, from the theorem we deduce the possibility to express every
+computbale function in the so said Kleene normal form (KNF)
+
+\begin{corollary}[Kleene Normal Form]
+  $\forall e,k \in \nat \quad \forall x \in \nat^k$
+  \[
+    \psiuex = (\mu z \;.\; |\chi_{S_k}(e, \vec{x}, (z)_1, (z)_2) - 1|)_1
+  \]
+\end{corollary}
 % Program that takes input $ e $ and $ \vec{x} $ and returns
 % $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
 
