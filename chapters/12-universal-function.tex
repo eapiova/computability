@@ -249,6 +249,37 @@ computbale function in the so said Kleene normal form (KNF)
     \psiuex = (\mu z \;.\; |\chi_{S_k}(e, \vec{x}, (z)_1, (z)_2) - 1|)_1
   \]
 \end{corollary}
+
+\textbf{Observations:}
+\begin{enumerate}[label=\roman*.]
+\item This corollary highlights how each computable function (or
+  equivlently $\in\pr$) can be obtained from primitive recursion
+  functions using minimalization maximum one time (we can use just one
+  \texttt{while})
+\item Minimalization allows us to ``search'' a single value that has a
+  certain property. The one we used is a technique to search couples
+  of values generalizable to tuples.
+\end{enumerate}
+
+\section{Applications of the universal function}
+Reminding that we already observed that if $f : \nattonat$ is a total
+computable injective function, then
+\[
+  f^{-1}(x) = \begin{cases}
+    y & \quad \mbox{if exists $y$ s.t. } f(y) = x \\
+    \uparrow & \quad \mbox{otherwise}
+\end{cases}
+\]
+is computable since $f^{-1} = \mu y \; . \; |f(y) = x|$. We can verify
+that the hypotesis of \emph{totalyty} can be omitted.
+
+\begin{theorem}
+  Let $f: \nattonat$ computable and injective. Then
+  $f^{-1}: \nattonat$ si computable.
+  \begin{proof}
+
+  \end{proof}
+\end{theorem}
 % Program that takes input $ e $ and $ \vec{x} $ and returns
 % $ \phi_e(\vec{x}) \forall e$ so I find all the computable functions.
 
