@@ -242,7 +242,7 @@ be really useful in the next chapters.
 \end{corollary}
 
 Also, from the theorem we deduce the possibility to express every
-computbale function in the so said Kleene normal form (KNF)
+computable function in the so said Kleene normal form (KNF)
 
 \begin{corollary}[Kleene Normal Form]
   $\forall e,k \in \nat \quad \forall x \in \nat^k$
@@ -420,7 +420,7 @@ then
 \end{proof}
 
 \subsection{Effectiveness of the inverse function}
-Exists $k: \nattonat$ total and computbale s.t.
+Exists $k: \nattonat$ total and computable s.t.
 \[\forall x \in \nat \quad \mbox{if } \varphi_x \mbox{ is injetive }
   \Rightarrow \varphi_{k(x)} = (\varphi_x)^{-1}\]
 
@@ -549,21 +549,20 @@ computable and total s.t. $\forall x \quad W_{k(x)} = f^{-1}(W_x)$
 \end{proof}
 
 \section{Operations on predicates}
-% Program that takes input $ e $ and $ \vec{x} $ and returns
-% $ \Psi_e(\vec{x}) \forall e$ so I find all the computable functions.
-
-% More specifically, the function $ \Psi_u(x,y) = \Psi_x(y)$,% $ \Psi : \nat^2 \rightarrow \nat $
-
-% In other words, the interpreter exists.
-
-% \textbf{Theorem}: This is computable.
-% $ \forall k \geq 1 \quad \Psi_u^{(k)} $ is computable.
-
-% Let's prove it. Suppose we have a fixed $ k \geq 1 $.
-
-% How do I calculate
-% $ e \in \nat, \vec{x} \in \nat^k, \Psi_u^{k}(e, \vec{x}) $?
-
-% Fact $e$, calculation $ \gamma^{-1}(e) = P_e $
-
-% But we don't want to decode the program.
+Exists $k : \nattonat$ computable and total s.t. if
+$\varphi_x = \chi_a$ is the charateristic function of a decidable
+predicate $Q$, then $\varphi_{k(x)} = \chi_{\neg Q}$
+\begin{proof}
+  we can define \[g(x,y) = 1 \dotdiv \varphi_x(y) = 1 - \univ(x,y) \]
+  wich is computable by deifinition. So, for the \smn theorem exists
+  $k$ computable and total s.t. \[g(x,y) = \varphi_{k(x)}\] this way
+  if $\varphi_x = \chi_Q$
+  \[
+    g(x,y) = 1-\varphi_x(y) = \varphi_{k(x)}(y) = 1 \Leftrightarrow
+    \varphi_x(y) = 0 \Leftrightarrow \chi_Q(y) = 0
+  \]
+  therefore
+  \[
+    \varphi_{k(x)} = \chi_{\neg Q}
+  \]
+\end{proof}
