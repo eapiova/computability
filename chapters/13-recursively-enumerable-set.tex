@@ -1,67 +1,190 @@
-\chapter {Recursively enumerable set}
+\chapter{Recursive and recursively enumerable sets}
+Up to now we saw many computable functions, decidable problems, but
+only in few cases we gave examples of the large class of
+non-computable functions and undecidable predicates. Fro this reason
+we want to start a mathematical study of:
+\begin{itemize}
+\item classes of undecidable predicates
+\item techniques to prove the undecidaility of some predicates
+\end{itemize}
+This way we can highlight the limits of computers abilities and give a
+structure to problems classes (spoiler: the majority of interesting
+predicates are undecidable).
 
-$ A \subseteq \nat $ if the semi-characteristic function is computable.
+We'll focus on \emph{numerical sets} $X \subseteq \nat$ trying to find
+an answer to the problem ``how difficult it is to determine weather
+$x \in X$''? This way we'll find
+\begin{itemize}
+\item recursive sets
+\item recursively enuerable sets
+\end{itemize}
+
+\section{Recursive sets}
+\begin{definition}
+  A set $A \subseteq \nat$ is \emph{recursive} if its charateristic
+  function
+  \begin{gather*}
+    \chi_A : \nattonat \\
+    \chi_A(x) = \begin{cases}
+      1 & x\in A \\
+      0 & x \notin A
+    \end{cases}
+  \end{gather*}
+  is computable.
+\end{definition}
+
+In other words, if the predicate ``$x \in A$'' is decidable.
+
+\textbf{Note:}
+\begin{itemize}
+\item if $\chi_A \in \pr$ we'll say that $A$ is \emph{primitively}
+  recursive.
+\item the notion can be extended to subsets of $\nat^k$, but we'll
+  stick to $\nat$ subsets, since every $\nat^k$ subset can be encoded
+  into $\nat$
+\end{itemize}
+
+\paragraph{Examples}
+Are recursive:
+\begin{enumerate}[label=(\alph*)]
+\item $\nat$, since $\chi_\nat (x) = 1$ is computable;
+\item prime numbers
+  \[
+    Pr(x) = \begin{cases}
+      1 & \mbox{if $x$ is prime} \\
+      0 & \mbox{otherwise}
+    \end{cases}
+  \]
+  is computable;
+\item each and every finite set. In fact, given $A \subset \nat$ with
+  $|A| < \infty \quad A = \{x_1, x_2, \dots, x_n\}$ we have that
+  \[
+    \chi_A(x) = \overline{sg}\left( \prod_{i=1}^n|x - x_i| \right)
+  \]
+  is computable
+\end{enumerate}
+
+On the other hand, are definetly not recursive:
+\begin{enumerate}[label=(\alph*)]
+\item $k = \left\{ x \; | \; x \in W_x \right\} $, since
+  \[
+    \chi){k(x)} = \begin{cases}
+      1 & x \in W_x \\
+      0 & x \notin W_x
+    \end{cases}
+  \]
+  is not computable;
+\item $\left\{ x \; | \; \varphi_x \mbox{ total } \right\} $
+\end{enumerate}
+
+\mbox{\\}
+
+\paragraph{Closure of recursive sets}
+If $A,B \subset \nat$ are recursive, then are alsp recursive
+\begin{enumerate}[label=\arabic*)]
+\item $\overline{A} = \nat - A$
+\item $A \cap B$
+\item $A \cup B$
+\end{enumerate}
+
+\subsection{Reduction process}
+It is a simple but very important process for study decidability
+problems. It tries to formalize the intuition of a problem
+$\mathcal{A}$ being ``easyer'' then another one, $\mathcal{B}$
+
+\newcommand{\red}{\ensuremath{\leq_m}}
+\begin{definition}
+  Let $A,B \subseteq \nat$. We say that the problem $x \in A$ is
+  \emph{reducible} to the problem $x \in B$ (or also that directly $A$
+  is reducible to $B$), and we write $A \red B$ if exists
+  $f : \nattonat$ computable and total s.t.
+  \[x \in A \quad  \Leftrightarrow \quad f(x) \in B\]
+\end{definition}
+In this case, $f$ is the \emph{reduction function}.
+
+\textbf{Proposition:} Let $A,B \subseteq \nat$ s.t. $A \red B$ then
+\begin{enumerate}[label=\arabic*)]
+\item if $B$ is recursive, then $A$ is recursive
+\item of $A$ is not recursive, then $B$ is not recursive
+\end{enumerate}
+
+\begin{proof}
+We just need to observe that $\chi_A = \chi_B \circ f$
+\end{proof}
+
+\section{Recursively enumerable sets}
+We say that $ A \subseteq \nat $ is \emph{recursive} if
+the semi-characteristic function is computable.
 \begin{equation*}
-  sc_A(x) = \begin{cases}
-    1        & x \in A        \\
-    \uparrow & $ altrimenti $
+  sc_A(x) = \begin{cases} 1 & x \in A \\ \uparrow & $
+    otherwise $
   \end{cases}
 \end{equation*}
 
 Predicate $ Q(\vec{x}) \subseteq \nat^k $ semi-decidable
 
-\begin{equation*}
-  sc_Q(\vec{x}) = \begin{cases}
-    1        & Q(\vec{x})     \\
+\begin{equation*} sc_Q(\vec{x}) = \begin{cases} 1 & Q(\vec{x}) \\
     \uparrow & $ altrimenti $
   \end{cases}
 \end{equation*}
 
-So say $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A" $ is semi-decidable
+So say $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A"
+$ is semi-decidable
 
-\textbf{Proprietà}: All recursive sets are also recursively enumerable:
+\textbf{Proprietà}: All recursive sets are also recursively
+enumerable:
 
 \textit{A} recursive if $ A, \bar{A} $ r.e.
 
-If $A$ recursive, \begin{equation*}
-  \mathcal{X}_A(x)=\begin{cases}
-    1 & x\in A        \\
-    0 & $ otherwise $
+If $A$ recursive, \begin{equation*} \mathcal{X}_A(x)=\begin{cases} 1 &
+    x\in A \\ 0 & $ otherwise $
   \end{cases}
 \end{equation*}
 
-Then $ sc_A(x) = \mu z.\bar{sg}(\mathcal{X}(x)) + 1 $ computable. Computable, therefore \textit{A} is r.e. Same goes for $ \bar{A} $.
+Then $ sc_A(x) = \mu z.\bar{sg}(\mathcal{X}(x)) + 1 $
+computable. Computable, therefore \textit{A} is r.e. Same goes for $
+\bar{A} $.
 
 \section {Theorem of structure of semidecidable predicates}
 
 Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
 
-This is decidable $ \Leftrightarrow $ there is a predicate $ Q'(t,\vec{x}) \subseteq \nat^{k+1} $ s.t. $ Q(\vec{x}) = \exists t. Q'(t,\vec{x}) $
+This is decidable $ \Leftrightarrow $ there is a predicate $
+Q'(t,\vec{x}) \subseteq \nat^{k+1} $ s.t. $ Q(\vec{x}) = \exists
+t. Q'(t,\vec{x}) $
 
-So try 0,1,2, \dots if there is a point where it holds then yes, otherwise I try endlessly.
+So try 0,1,2, \dots if there is a point where it holds then yes,
+otherwise I try endlessly.
 
 \section {Projection theorem}
 
-Let $ P(x,\vec{y}) $ be semi-decidable; then $ \exists x $ s.t. $ P(x,\vec{y}) = P'(\vec{y})$ is semi-decidable.
+Let $ P(x,\vec{y}) $ be semi-decidable; then $ \exists x $ s.t. $
+P(x,\vec{y}) = P'(\vec{y})$ is semi-decidable.
 
-So if you use existential identifier you go out of the set of the decidable predicates and enter the semi-decidable set, but if you use it twice you don't go outside the semi-decidable set.
+So if you use existential identifier you go out of the set of the
+decidable predicates and enter the semi-decidable set, but if you use
+it twice you don't go outside the semi-decidable set.
 
-\textbf{observation:} $ P_1(\vec{x}), P_2(\vec{x}) $ semi-dec. $ \Rightarrow P_1(\vec{x}) \lor P_2(\vec{x}) $; $ P_1(\vec{x}) \land P_2(\vec{x}) $ semi-dec.
+\textbf{observation:} $ P_1(\vec{x}), P_2(\vec{x}) $ semi-dec. $
+\Rightarrow P_1(\vec{x}) \lor P_2(\vec{x}) $; $ P_1(\vec{x}) \land
+P_2(\vec{x}) $ semi-dec.
 
-Because you quantify existentially a single number whose components are equivalent to quantifying the two numbers of the individual predicates. In the \textit{OR} case and in the \textit{AND} case you look for the same number directly.
+Because you quantify existentially a single number whose components
+are equivalent to quantifying the two numbers of the individual
+predicates. In the \textit{OR} case and in the \textit{AND} case you
+look for the same number directly.
 
-\textbf{Exercize:} If $ P(\vec{x}) $ is semi-decidable and is not decidable then $ \lnot P(\vec{x}) $ is not semi-decidable.
+\textbf{Exercize:} If $ P(\vec{x}) $ is semi-decidable and is not
+decidable then $ \lnot P(\vec{x}) $ is not semi-decidable.
 
 \textbf{Observation:} $ A,B \subseteq \nat, A\leq_m B $ then:
 \begin{itemize}
 \item B is r.e. $ \Rightarrow $ A is r.e .;
 \item A is not r.e. $ \Rightarrow $ B not r.e.
-\end{itemize}
-Demonstration: If B r.e. then
-\begin{equation*}
-  SC_B(x) = \begin{cases}
-    1        & x \in B       \\
-    \uparrow & $ otherwise $
+\end{itemize} Demonstration: If B r.e. then
+\begin{equation*} SC_B(x) = \begin{cases} 1 & x \in B \\ \uparrow & $
+    otherwise $
   \end{cases}
-\end{equation*}
-This is computable. Let $ f:\nat\rightarrow\nat $ be a total computable reduction function\\  $ A\leq B $ Then $ SC_A(x) = SC_B(f(x)) $, therefore $ SC_A $ is computable by composition.
+\end{equation*} This is computable. Let $ f:\nat\rightarrow\nat $ be a
+total computable reduction function\\ $ A\leq B $ Then $ SC_A(x) =
+SC_B(f(x)) $, therefore $ SC_A $ is computable by composition.
