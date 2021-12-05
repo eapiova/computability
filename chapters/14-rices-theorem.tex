@@ -1,82 +1,146 @@
-\chapter {Rice's theorem}
+\chapter {Rice theorem}
 
-If a property $Q$ of the programs concerns the computed function then
-it is not decidable.
+Rice thorem gives an undecidability result very general. In broad
+terms it states that \emph{no property} of computable functions
+(besides obvois ones) are decidable.
 
-Example: $ T_2 = \{ e | P_e(e)\downarrow $ in two steps $ \} $ = $
-\{e|\phi_e \in \mathcal{T}_2 \} $
+To state it in terms of of subsets of $\nat$, we need the following
+notion
 
-But two programs can calculate the same function and finish one in
-less than 2 steps and the other in more than 2, so the set is not
-saturated.
+\section{Saturated sets}
+\begin{definition}[Saturated set]
+  A subset $A \subseteq \nat$ is \emph{saturated} if
+  \[
+    \forall x \in A \wedge \varphi_x = \varphi_y \Rightarrow y \in A \}
+  \]
+\end{definition}
 
-Example: $ K = \{e \mid e\in W_e \} = \{e \mid \phi_e\in \mathcal{K}
-\} \mathcal{K} = \{f \mid ? \}$ I don't know what to write in this.
+In other words $A$ is saturated if it expresses a property of
+functions, independently from indices
+\[A = \{x \mid P(\varphi_x)\}\]
+or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
+\[A = \{ x \mid \varphi_x \in \mathcal{A}\]
 
-It is not actually saturated. Difficult to prove this, but we can show
-that there is a program $e$ such that:
-\begin{equation*} \phi_e(x) = \begin{cases} 0 & x = e \\ \uparrow & $
-else $
-  \end{cases}
-\end{equation*}
+\begin{example}
+  \[
+    T_2 = \{ e | P_e(e)\downarrow \mbox{ in two steps } \} =
+    \{e|\phi_e \in \mathcal{T}_2 \}
+  \]
 
-And if you try to write such a program you realize that it is
-impossible.
+  But two programs can calculate the same function and finish one in
+  less than 2 steps and the other in more than 2, so the set is not
+  saturated.
+\end{example}
 
-\subsection {Rice's theorem} Let $ A \in \nat $ be saturated. $ A \not=
-\emptyset, A \not= \nat $ then it is non-recursive.
+\begin{example}
+  
+  \begin{center}
+    $ K = \{e \mid e\in W_e \} = \{e \mid \phi_e\in \mathcal{K} \}
+  \mathcal{K} = \{f \mid ? \}$ I don't know what to write in this.
+  \end{center}
 
-Demonstration: $ K \leq A $? We show that it reduces, that is, we find
-$f$ total computable s.t. all the elements of $K$ go to $A$ and all
-the elements of the complenent of $K$ go to the complement of $A$.
+  It is not actually saturated. Difficult to prove this, but we can
+  show that there is a program $e$ such that:
+  \begin{equation*}
+    \phi_e(x) = \begin{cases}
+      0 & x = e \\
+      \uparrow & $ else $
+    \end{cases}
+  \end{equation*}
+  And if you try to write such a program you realize that it is
+  impossible.
+\end{example}
 
-Let $ e:0 $ s.t. $ \phi_{e_0}(x)\uparrow\forall x $ suppose $
-e_0\not\in A $ and let $ e_1\in A $
+\section {Rice theorem}
 
-Now let's define the following function:
-\begin{equation*} g(x,y) = \begin{cases} \phi_{e1}(y) & x \in K \\
-\phi_{e0}(y) & x \not\in K
-  \end{cases}
-\end{equation*}
+\begin{theorem}[Rice theorem]
+  Let $ A \in \nat $ be saturated. $ A \neq \emptyset, A \neq \nat $
+  then it is non-recursive.
+\end{theorem}
 
-Which is equal to:
+\begin{proof}
+  We wanto to prove that $ K \leq A $. We will show that it reduces,
+  that is, we'll find $f$ total and computable s.t. all the elements
+  of $K$ go to $A$ and all the elements of the complenent of $K$ go to
+  the complement of $A$.
 
-\begin{equation*} g(x,y) = \begin{cases} \phi_{e1}(y) & x \in K \\
-\uparrow & x \not\in K
-  \end{cases}
-\end{equation*}
+  \begin{itemize}
+  \item[($e_0 \notin A$)]
+    Let $ e_0$ s.t. $ \phi_{e_0}(x)\uparrow\forall x $ suppose
+    $ e_0\notin A $ and let $ e_1\in A $
+    
+    Now let's define the following function:
+    \begin{equation*}
+      g(x,y) = \begin{cases}
+        \phi_{e1}(y) & x \in K \\
+        \phi_{e0}(y) & x \notin K
+      \end{cases}
+    \end{equation*}
 
-and to calculate if $x$ is in $K$, we just need to run $ \phi_e(x) $
-and see if it ends.
+    Which is equal to:
 
-If $ x\in K \Rightarrow \phi_{f(x)} ? g(x,y) = \phi_{e1}(y)$
+    \begin{equation*}
+      g(x,y) =
+      \begin{cases}
+        \phi_{e1}(y) & x \in K \\
+        \uparrow & x \notin K
+      \end{cases}
+    \end{equation*}
 
-For the smn theorem there exists $f$ s.t. $ \phi_{f(x)} = \phi_{e1}
-\Rightarrow f(x)\in A$
+    and to calculate if $x$ is in $K$, we just need to run $ \phi_e(x) $
+    and see if it ends.
 
-If $ x \not\in K \Rightarrow \phi_{f(x)}(y) = g(x,y) \uparrow \forall
-y $
+    For the \smn theorem there exists $f$ s.t.
+    $ \phi_{f(x)} = \phi_{e1} \Rightarrow f(x)\in A$
 
-$ \Rightarrow \phi_{f(x)} = \phi_{e0} $, $ e_0 \not\in A $, $A$ is
-saturated, $ f(x)\not\in A $
+    \begin{equation}\label{eq:one14}
+      x \in K
+      \Rightarrow x \in W_x
+      \Rightarrow \varphi_{f(x)}(y) = g(x,y) = \varphi_{e_1}(x)
+      \Rightarrow e_1 \in A
+    \end{equation}
+    \begin{equation}\label{eq:two14}
+      x \notin K
+      \Rightarrow x \notin W_x
+      \Rightarrow \varphi_{f(x)}(y) = g(x,y)\uparrow \forall y
+      \Rightarrow e_0 \notin A
+    \end{equation}
 
-if $ e_0 \in A $ then $ e_0 \not \in \bar{A} $, $ \bar{A} \subseteq
-\nat, \bar{A} \not= \emptyset, \bar{A}\not=\nat $ then $ \bar{A} $
-non-recursive and therefore not even $A$.
+    And since $A$ is saturated, for (\ref{eq:one14})
+    $x \in K \Rightarrow S(x) \in A$, for (\ref{eq:two14})
+    $x\notin K \Rightarrow S(x) \notin A$.
 
+    This way we proved that $K \leq_m A$, and since $K$ is not
+    recursive, also $A$ is not recursive.
+    
+  \item[($e_0 \in A$)] if $ e_0 \in A $ then $ e_0 \not \in \bar{A}
+    $. But we remember that
+    $ \bar{A} \subseteq \nat, \bar{A} \neq \emptyset, \bar{A} \neq
+    \nat $ then for the last point $ \bar{A} $ non-recursive and
+    therefore neither $A$ is recursive.
+  \end{itemize}
+\end{proof}
 
-Another example: $ T = \{e | \phi_e $ total $ \} $ non-recursive.
+\begin{example}
+  \[ T = \{e \mid \varphi_e \mbox{ total } \} \mbox{ non-recursive} \]
 
-$T$ is saturated: $ T = \{e | \phi_e \in \mathcal{T} \} $, $
-\mathcal{T} = \{f | f $ total $ \} $, $ T\not=\emptyset $, $ e_1 $\\
-s.t. $ \phi_{e_1}(x) = 0 \forall x $
+  $T$ is saturated: $ T = \{e \mid \varphi_e \in \mathcal{T} \} $, $
+  \mathcal{T} = \{f \mid f $ total $ \} $, $ T\neq\emptyset $, $ e_1 $\\
+  s.t. $ \varphi_{e_1}(x) = 0 \quad \forall x $
 
-$ e_0 \not\in \mathcal{T} $. Saturated, other than empty and $ \nat $
-therefore for Rice theorem it is non-recursive.
+  $ e_0 \notin \mathcal{T} $. Saturated, other than empty and $ \nat $
+  therefore for Rice theorem it is non-recursive.
+\end{example}
 
-$ B_n = \{e | n \in E_e \} $ saturated, $ B_n \not= \emptyset $
-because it exists $ e. \phi_e(x) = n \forall x \Rightarrow e \in B_n $
+\begin{example}[output problem]
+  \[ B_n = \{e \mid n \in E_e \} \quad \mbox{is not saturated} \]
 
-$ B_n \not= \nat e_0$ as first $ e_0 \not\in B_n $
+  In this case we can use Rice theorem, since
+  \begin{itemize}
+  \item $B_n$ is saturated;
+  \item $B_n \neq \emptyset$
+  \item $B_n \neq \nat$ 
+  \end{itemize}
 
-Hence $ B_n $ non-recursive.
+  Hence $ B_n $ non-recursive.
+\end{example}
