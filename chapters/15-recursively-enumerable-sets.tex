@@ -1,62 +1,174 @@
 \chapter{Recursively enumerable sets}
-We say that $ A \subseteq \nat $ is \emph{recursive} if
-the semi-characteristic function is computable.
-\begin{equation*}
-  sc_A(x) = \begin{cases} 1 & x \in A \\ \uparrow & $
-    otherwise $
-  \end{cases}
-\end{equation*}
+This is a wider set that contains recursive sets. To see this we can
+already see the definition:
 
-Predicate $ Q(\vec{x}) \subseteq \nat^k $ semi-decidable
+\begin{definition}[recursively enumerable set]
+  We say that $ A \subseteq \nat $ is \emph{recursive} if
+  the semi-characteristic function is computable.
+  \begin{equation*}
+    sc_A(x) = \begin{cases} 1 & x \in A \\ \uparrow & $
+      otherwise $
+    \end{cases}
+  \end{equation*}
 
-\begin{equation*} sc_Q(\vec{x}) = \begin{cases} 1 & Q(\vec{x}) \\
-    \uparrow & $ altrimenti $
-  \end{cases}
-\end{equation*}
+  Predicate $ Q(\vec{x}) \subseteq \nat^k $ semi-decidable
+
+  \begin{equation*} sc_Q(\vec{x}) = \begin{cases} 1 & Q(\vec{x}) \\
+      \uparrow & $ altrimenti $
+    \end{cases}
+  \end{equation*}
+\end{definition}
 
 So say $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A"
-$ is semi-decidable
+$ is semi-decidable. This notion is also easily extensible to
+\begin{itemize}
+\item subsets of $\nat^k$
+\item $k$-ary predicates
+\end{itemize}
+trough encoding or direct deifinition.
 
-\textbf{Property}: All recursive sets are also recursively
-enumerable:
+\begin{theorem}\label{th:aiffanota}
+  \[A \subseteq \nat \mbox{ r.e. } \Leftrightarrow A, \bar{A} \mbox{
+      are r.e.} \]
+  \begin{proof}\mbox{}\\*
+    \begin{itemize}
+    \item[($\Rightarrow$)]
+      If $A$ recursive,
+      \begin{equation*}
+        \mathcal{X}_A(x)= \begin{cases}
+          1 & x\in A \\
+          0 & $ otherwise $
+        \end{cases}
+      \end{equation*}
+      
+      Then $ sc_A(x) = \mathds{1}(\mu z. | \chi_A(x)- z | )$
+      computable. Computable, therefore \textit{A} is r.e. Also
+      $\bar{A}$ is r.e. In fact, since $A$ is r.e., by closure on
+      negation, also $\bar{A}$ is r.e.
 
-\textit{A} recursive if $ A, \bar{A} $ r.e.
+    \item[($\Leftarrow$)] Let $A, \bar{A}$ be r.e., then by definition
+      $sc_a$ and $sc_B$ are computable, and we can define
+      \[
+        \mathds{1} - sc_{\bar{A}}(x) = 1 - sc_{\bar{A}}(x) = \begin{cases}
+          0 & x \in \bar{A} \\
+          \uparrow & \mbox{otherwise}
+        \end{cases}
+      \]
+      is computable. This means that $\exists e_0, e_1 \in \nat$ s.t.
+      \[
+        \varphi_{e_0} = sc_A \quad \varphi_{e_1} = \mathds{1} -
+        sc_{\bar{A}}
+      \]
+      therefore intuitively we can ``combine two machines'' until one
+      of the two terminates. Note that it will terminate for sure,
+      since either $x \in A$ or $x \in \bar{A}$. We can build the
+      charateristic function of $A$:
+      \[
+          \chi_A(x) = (\mu \omega \; . \; |\chi_{s(e_0, x,
+            (\omega)_1, (\omega)_2 \wedge s(e_1, x, (\omega)_1,
+            (\omega)_2))}-1|)_1
+        \]
+        wich is computable, therefore $A$ is recursive.
+    \end{itemize}
+  \end{proof}
+\end{theorem}
 
-If $A$ recursive,
-\begin{equation*}
-  \mathcal{X}_A(x)= \begin{cases}
-    1 & x\in A \\
-    0 & $ otherwise $
-  \end{cases}
-\end{equation*}
-
-Then $ sc_A(x) = \mu z.\bar{sg}(\mathcal{X}(x)) + 1 $
-computable. Computable, therefore \textit{A} is r.e. Same goes for $
-\bar{A} $.
+\begin{observation}
+  the set $k = \{x \mu x \in W_x\}$ is r.e. In fact
+  \[
+    sc_k(x) = \begin{cases}
+      1 & x \in k \\
+      \uparrow & \mbox{otherwise}
+    \end{cases}
+    = \mathds{1}(\varphi_x(x)) = \mathds{1}(\univ(x,x))
+  \]
+  is computable by deifinition and for the theorem \ref{th:aiffanota}
+  \[
+    \bar{K} = \{x \mid x \notin W_x\}
+  \]
+  is \emph{not} r.e. Otherwise $k,\bar{k}$ would have been both r.e.,
+  and therefore $k$ would have been recursive, wich is a
+  contraddiction.
+\end{observation}
 
 \section {Theorem of structure of semidecidable predicates}
 
-Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
+\begin{theorem}\label{th:structure}
+  Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
 
-This is decidable $ \Leftrightarrow $ there is a predicate $
-Q'(t,\vec{x}) \subseteq \nat^{k+1} $ s.t. $ Q(\vec{x}) = \exists
-t. Q'(t,\vec{x}) $
+  This is decidable $ \Leftrightarrow $ there is a predicate $
+  Q'(t,\vec{x}) \subseteq \nat^{k+1} $ s.t. $ Q(\vec{x}) = \exists
+  t. Q'(t,\vec{x}) $
+  \begin{proof}
+    \begin{itemize}
+    \item[($\Rightarrow$)] Let $P(\vec{x})$ be
+      semi-decidable. Therefore it has a semi characteristic function
+      $sc_P$ and by definition
+      \[
+        P(\vec{x}) \equiv \exists t \; . \; H(e,\vec{x}, t)
+      \]
+      therefore if we can rewrite $H$ as
+      $Q(t, \vec{x}) = H(e,\vec{x}, t)$, this way $Q$ is decidable as
+      we wanted. \[P(\vec{x}) \equiv \exists t \; . \; Q(t, \vec{x})\]
 
-So try 0,1,2, \dots if there is a point where it holds then yes,
-otherwise I try endlessly.
+    \item[($\Leftarrow$)] Let
+      \(P(\vec{x}) \equiv \exists t \; . \; Q(t, \vec{x})\) be
+      decidable. We can build
+      \[
+        sc_P(\vec{x}) = \mathds{1}(\mu t \; . \; |\chi_Q(t,\vec{x}) - 1|)
+      \]
+      wch is computable by definition, and therefore $P(\vec{x})$ is
+      semidecidable
+    \end{itemize} 
+  \end{proof}
+\end{theorem}
 
 \section {Projection theorem}
 
-Let $ P(x,\vec{y}) $ be semi-decidable; then $ \exists x $ s.t. $
-P(x,\vec{y}) = P'(\vec{y})$ is semi-decidable.
+From the last theorem we had a hint about the fact that the class of
+semi-decidable predicates is closed unde \emph{existential
+  quantification}. The projection theorem states this:
+
+\begin{theorem}
+  Let $ P(x,\vec{y}) $ be semi-decidable; then
+  \[
+    \exists x \mbox{ s.t. } P(x,\vec{y}) = P'(\vec{y})
+  \]
+  is semi-decidable.
+
+  \begin{proof}
+    Let $P(x,\vec{y})$ be semi-decidable. The by theorem
+    (\ref{th:structure}) exists $Q(t,x,\vec{y})$ decidable s.t.
+    \[
+      P(\vec{x}, vec{y}) \equiv \exists t \; . \; Q(t,x,\vec{y})
+    \]
+    then if $P^\prime(\vec{y}) = \exists x \; . \; P(x, \vec{y})$ it
+    holds that
+    \[
+      \begin{split}
+        P^\prime(\vec{y}) &\equiv \exists x \exists t \; . \;
+        Q(t,x,\vec{y}) \\
+        &\equiv \exists \omega \; . \; Q((\omega)_1, (\omega)_2, \vec{y})
+      \end{split}
+    \]
+    therefore since the last one is a decidable predicate, again for
+    the theorem (\ref{th:structure}) $P^\prime(\vec{y})$ is
+    semi-decidable
+  \end{proof}
+\end{theorem}
 
 So if you use existential identifier you go out of the set of the
 decidable predicates and enter the semi-decidable set, but if you use
 it twice you don't go outside the semi-decidable set.
 
-\textbf{observation:} $ P_1(\vec{x}), P_2(\vec{x}) $ semi-dec. $
-\Rightarrow P_1(\vec{x}) \lor P_2(\vec{x}) $; $ P_1(\vec{x}) \land
-P_2(\vec{x}) $ semi-dec.
+\begin{theorem}
+  Let $ P_1(\vec{x}), P_2(\vec{x}) $ be semi-decidable predicates. Then
+  \begin{itemize}
+    \item $  P_1(\vec{x}) \lor P_2(\vec{x}) $;
+    \item $ P_1(\vec{x}) \land P_2(\vec{x}) $
+    \end{itemize}
+    are semi-decidable.
+\end{theorem}
 
 Because you quantify existentially a single number whose components
 are equivalent to quantifying the two numbers of the individual
