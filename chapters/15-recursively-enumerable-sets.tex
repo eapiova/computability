@@ -93,7 +93,7 @@ trough encoding or direct deifinition.
 
 \section {Theorem of structure of semidecidable predicates}
 
-\begin{theorem}\label{th:structure}
+\begin{theorem}[Structure of semidecidable predicates]\label{th:structure}
   Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
 
   This is decidable $ \Leftrightarrow $ there is a predicate $
@@ -129,7 +129,7 @@ From the last theorem we had a hint about the fact that the class of
 semi-decidable predicates is closed unde \emph{existential
   quantification}. The projection theorem states this:
 
-\begin{theorem}
+\begin{theorem}[Projection theorem]
   Let $ P(x,\vec{y}) $ be semi-decidable; then
   \[
     \exists x \mbox{ s.t. } P(x,\vec{y}) = P'(\vec{y})
@@ -161,31 +161,94 @@ So if you use existential identifier you go out of the set of the
 decidable predicates and enter the semi-decidable set, but if you use
 it twice you don't go outside the semi-decidable set.
 
-\begin{theorem}
+\begin{theorem}[Closure property]
   Let $ P_1(\vec{x}), P_2(\vec{x}) $ be semi-decidable predicates. Then
   \begin{itemize}
-    \item $  P_1(\vec{x}) \lor P_2(\vec{x}) $;
-    \item $ P_1(\vec{x}) \land P_2(\vec{x}) $
-    \end{itemize}
-    are semi-decidable.
+  \item $  P_1(\vec{x}) \lor P_2(\vec{x}) $;
+  \item $ P_1(\vec{x}) \land P_2(\vec{x}) $
+  \end{itemize}
+  are semi-decidable.
+
+  \begin{proof}
+    Let $ P_1(\vec{x}), P_2(\vec{x}) $ be semi-decidable
+    predicates. Then for (\ref{th:structure}) there are two
+    decidable predicates: \( Q_1(t, \vec{x}), Q_2(t, \vec{x})\) s.t.
+    \begin{gather*}
+      P_1(\vec{x}) \equiv \exists t \; . \; Q_1(t, \vec{x}) \\
+      P_2(\vec{x}) \equiv \exists t \; . \; Q_2(t, \vec{x})
+    \end{gather*}
+
+    so
+    \begin{enumerate}[label=(\arabic*)]
+    \item
+      \[
+        \begin{split}
+          P_1(\vec{x}) \lor P_2(\vec{x}) &\equiv \exists t \; . \;
+          Q_1(t, \vec{x}) \lor \exists t \; . \; Q_2(t, \vec{x}) \\
+          &\equiv \exists \omega \; . \; (Q_1((\omega)_1, \vec{x})
+          \lor Q_2((\omega)_2, \vec{x}))
+        \end{split}
+      \]
+      This means that for (\ref{th:structure}),
+      $P_1(\vec{x}) \lor P_2(\vec{x})$ is decidable.
+
+    \item
+      \[
+        P_1(\vec{x}) \land P_2(\vec{x}) \equiv \exists t \; . \;
+        (Q_1(t, \vec{x}) \land Q_2(t, \vec{x}))
+      \]
+      which is decidable by definition.
+    \end{enumerate}
+  \end{proof}
 \end{theorem}
 
-Because you quantify existentially a single number whose components
-are equivalent to quantifying the two numbers of the individual
-predicates. In the \textit{OR} case and in the \textit{AND} case you
-look for the same number directly.
+\begin{observation}
+  The set of semidecidable predicates is closed under $\land, \lor$
+  and $\exists$. It is not closed under $\forall$ and $\lnot$
+\end{observation}
 
-\textbf{Exercize:} If $ P(\vec{x}) $ is semi-decidable and is not
-decidable then $ \lnot P(\vec{x}) $ is not semi-decidable.
+\begin{exercize}
+  Prove that if $ P(\vec{x}) $ is semi-decidable and is not decidable
+  then $ \lnot P(\vec{x}) $ is not semi-decidable.
+\end{exercize}
 
-\textbf{Observation:} $ A,B \subseteq \nat, A\leq_m B $ then:
-\begin{itemize}
-\item B is r.e. $ \Rightarrow $ A is r.e .;
-\item A is not r.e. $ \Rightarrow $ B not r.e.
-\end{itemize} Demonstration: If B r.e. then
-\begin{equation*} SC_B(x) = \begin{cases} 1 & x \in B \\ \uparrow & $
-    otherwise $
-  \end{cases}
-\end{equation*} This is computable. Let $ f:\nat\rightarrow\nat $ be a
-total computable reduction function\\ $ A\leq B $ Then $ SC_A(x) =
-SC_B(f(x)) $, therefore $ SC_A $ is computable by composition.
+\begin{observation}
+  The latter results have an active translation in terms of r.e. sets
+  properites:
+  \begin{enumerate}[label=(\arabic*)]
+  \item $A \subseteq \nat$ is recursive iff $A, \bar{A}$ are r.e.
+  \item if $A \subseteq \nat$ r.e. and $f : \nattonat$ computable
+    $\Rightarrow f^{-1}(A)$ is r.e. (projection).
+  \item us $A,B \subseteq \nat$ r.e. $\Rightarrow A \cup B, A \cap B$
+    are r.e.
+  \end{enumerate}
+\end{observation}
+
+\subsection{r.e. sets and reducibility}
+
+Properties similar to those already seen for recursive sets hold. That
+is to say:
+
+\begin{observation}
+  $ A,B \subseteq \nat, A\leq_m B $ then:
+  \begin{itemize}
+  \item B is r.e. $ \Rightarrow $ A is r.e .;
+  \item A is not r.e. $ \Rightarrow $ B not r.e.
+  \end{itemize}
+  \begin{proof}
+    If $B$ r.e. then
+    \begin{equation*}
+      SC_B(x) = \begin{cases}
+        1 & x \in B \\
+        \uparrow & $ otherwise $
+      \end{cases}
+    \end{equation*}
+    Which is computable.  Let $ f:\nat\rightarrow\nat $ be a total
+    computable reduction function\\ $ A\leq B $ Then
+    $ SC_A(x) = SC_B(f(x)) $, therefore $ SC_A $ is computable by
+    composition.  Therefore $A$ is r.e.
+
+    To prove that also $B$ r.e., we just need to reverse the names in
+    the last proof (exercise).
+  \end{proof}
+\end{observation}
