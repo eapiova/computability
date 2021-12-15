@@ -241,3 +241,69 @@ understand two core situations in wich we can apply the theorem:
     And therefore $\bar{A}$ is not r.e.
   \end{enumerate}
 \end{exercise}
+
+\begin{observation}
+  Rice-Shapiro therem is a necessary condition, but not sufficent to
+  be r.e., that is to say that does not hold that
+  \begin{equation}\label{eq:star}
+    \forall f \; (\; f \in \mathcal{A} \mbox{ iff } \exists \theta \mbox{
+      finite, } \theta \subseteq f, \; \theta \in \mathcal{A} \; ) \quad
+    \Rightarrow \quad A \mbox{ r.e. } 
+  \end{equation}
+
+  In other words, Rice-Shapiro can be used to prove that a set is
+  \emph{not} r.e., \underline{not} to prove that a set is r.e.
+\end{observation}
+
+\begin{counterexample}
+  Let
+  $\mathcal{A} = \{ f \in \mathcal{C} \mid dom(f) \cap \bar{k} \neq
+  \emptyset\}$ , $A = \{x \mid \varphi_x \in \mathcal{A}\}$
+
+  \begin{enumerate}
+  \item[(*)] $\mathcal{A}$ satisfies (\ref{eq:star})
+    \begin{itemize}
+    \item \[
+        \begin{aligned}
+          \mbox{if } f \in \mathcal{A} & \Rightarrow dom(f) \cap \bar{k} \neq \emptyset \\
+                                       & \Rightarrow \mbox{ called } x \in dom(f) \cap \bar{k} \mbox{ we have that } \theta = \{(x, f(x))\} \\
+                                       & \quad \mbox{ is finite, } \theta \subseteq f \mbox{ and } dom(\theta)\cap \bar{k} = \{x\} \neq \emptyset
+        \end{aligned}
+      \]
+
+    \item \[
+        \begin{aligned}
+          \mbox{if $\theta$ finite, } \theta \subseteq f, \theta \in \mathcal{A} & \\
+          & \Rightarrow \mbox{ since } \theta \subseteq f \; dom(\theta) \subseteq dom(f) \\
+          & \Rightarrow dom(f) \cap \bar{k} \supseteq dom(\theta) \subseteq dom(f) \neq \emptyset \\
+          & \Rightarrow f \in \mathcal{A}
+        \end{aligned}
+      \]
+    \end{itemize}
+
+  \item[(**)] $A$ is not r.e., since $\bar{k} \leq_m A$
+
+    we can define
+    \[
+      g(x,y) = \begin{cases}
+        0        & x=y \\
+        \uparrow & \mbox{otherwise}
+      \end{cases}
+    \]
+    wich is $= \mu z \; . \; |x-y|$, and therefore computabl. Again,
+    for the \smn theorem $\exists s : \nattonat$ computable and total
+    s.t.
+    \[
+      g(x,y) = \varphi_{s(x)}(y)
+    \]
+    and therefore $dom(\varphi_{s(x)}) = \{x\}$. So
+    \begin{itemize}
+    \item
+      \(x \in \bar{k} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{k} =
+      \{x\} \neq \emptyset \Rightarrow s(x) \in A\)
+    \item
+      \(x \notin \bar{k} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{k}
+      = \{x\} = \emptyset \Rightarrow s(x) \notin A\)
+    \end{itemize}
+  \end{enumerate}
+\end{counterexample}
