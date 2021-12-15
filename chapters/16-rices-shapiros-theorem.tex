@@ -30,12 +30,12 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
 
 \begin{notation}\mbox{}\\*
   \begin{itemize}
-  \item $ W_e $ domain of the function $ \phi_e $ that is the function
+  \item $ W_e $ domain of the function $ \varphi_e $ that is the function
     computed by the program of index $e$;
-  \item $ E_e = \{\phi_e(x)|x\in W_e \}$;
+  \item $ E_e = \{\varphi_e(x)|x\in W_e \}$;
   \item $ H(x,y,t) = P_x(y)\downarrow $ in \textit{t} steps or less;
   \item $ S(x,y,z,t) = P_x(y)\downarrow z $
-  \item $ K = \{x|x\in W_x \} = \{x|\phi_x(x)\downarrow \} =
+  \item $ K = \{x|x\in W_x \} = \{x|\varphi_x(x)\downarrow \} =
     \{x|P_x(x)\downarrow \}$
   \end{itemize}
 \end{notation}
@@ -106,15 +106,15 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
       \end{cases}
     \end{equation*}
 
-    $ g(x,y) = \phi_{S(x)}(y)$
+    $ g(x,y) = \varphi_{S(x)}(y)$
 
     $S$ is the reduction function for $ \bar{K}\leq A $
 
     \begin{itemize}
-    \item $ x\in\bar{K} \Rightarrow \forall y. \phi_{S(x)}(y) = g(x,y) =
-      \theta(y) \Rightarrow \phi_{S(x)} = \theta \Rightarrow S(x) \in A $
+    \item $ x\in\bar{K} \Rightarrow \forall y. \varphi_{S(x)}(y) = g(x,y) =
+      \theta(y) \Rightarrow \varphi_{S(x)} = \theta \Rightarrow S(x) \in A $
     \item $ x\not\in\bar{K}\Rightarrow x\in K\Rightarrow\forall
-      y\phi_{S(x)}(y) = g(x,y)=f(y)\Rightarrow\phi_{S(x)}=f\Rightarrow
+      y\varphi_{S(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{S(x)}=f\Rightarrow
       S(x)\in\bar{A}$
     \end{itemize}
 
@@ -129,7 +129,7 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
 
     We want it to be in quotes because it's not formal: \begin{equation*}
       g(x,y) = \begin{cases}
-        f(y) & x \in\bar{K} $ cioè $ \phi_x(x)\uparrow \\
+        f(y) & x \in\bar{K} $ cioè $ \varphi_x(x)\uparrow \\
         \theta(y) & $ for some $ \theta\subseteq f $ finite, otherwise ($ x\in K $) $
       \end{cases}
     \end{equation*}
@@ -138,22 +138,106 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
     computable.
 
     for SMN there exists $ S:\nat\rightarrow\nat $ total computable s.t. $
-    \forall x,y. \phi_{S(x)}(y) = g(x,y) $
+    \forall x,y. \varphi_{S(x)}(y) = g(x,y) $
 
     We have to prove that S is a reduction function for $ \bar{K}\leq A $
 
     \begin{itemize}
-    \item $ x\in\bar{K}\\ \Rightarrow\phi_{S(x)}\uparrow \\
+    \item $ x\in\bar{K}\\ \Rightarrow\varphi_{S(x)}\uparrow \\
       \Rightarrow\forall y\lnot H(x,x,y)\\ \Rightarrow \forall
-      y.\phi_{S(x)}(y) = g(x,y) = f(y)\\ \Rightarrow f = \phi_{S(x)}\\
+      y.\varphi_{S(x)}(y) = g(x,y) = f(y)\\ \Rightarrow f = \varphi_{S(x)}\\
       \Rightarrow S(x)\in A$
-    \item $ x\not\in\bar{K}\\ \Rightarrow x\in K\\ \Rightarrow
-      \phi_x(x)\downarrow\\ \Rightarrow \exists t_0 $ s.t. $ \forall
+    \item
+      $ x\not\in\bar{K}\\ \Rightarrow x\in K\\ \Rightarrow
+      \varphi_x(x)\downarrow\\ \Rightarrow \exists t_0 $ s.t.
+      $ \forall
       t>t_0. H(x,x,t), \forall t<t_0. \lnot H(x,x,y)\\
-      \Rightarrow\phi_{S(x)}(y) = g(x,y)\\ \Rightarrow \phi_{S(x)}\subseteq
-      f$ finite $\\ \Rightarrow S(x) \in \bar{A} $
+      \Rightarrow\varphi_{S(x)}(y) = g(x,y)\\ \Rightarrow
+      \varphi_{S(x)}\subseteq f$ finite
+      $\\ \Rightarrow S(x) \in \bar{A} $
     \end{itemize}
   \end{proof}
 
   Rice-Shapiro's theorem proved.
 \end{proof}
+
+\section{Rice-Shapiro Exercises}
+
+\begin{example}\label{exe:rice1}
+  $A = \{ x \mid \varphi_x $ total $\}$ is not r.e.
+
+  \begin{proof}
+    Clearly $A$ is saturated, and the set of functions from wich it
+    comes is $\mathcal{A} = \{f \in \mathcal{C} \mid f $ total
+    $\}$. That is to say $A = \{x \mid \varphi_x \in
+    \mathcal{A}\}$. Given any function $f \in \mathcal{A}$ (total by
+    definition) clearly we know that $\forall \theta \subseteq f$
+    finite $\theta \notin \mathcal{A}$, since each and every finite
+    function is partial $\rightarrow$ for Rice-Shapiro theorem $A$ is
+    not r.e.
+  \end{proof}
+\end{example}
+
+\begin{example}\label{exe:rice2}
+  $\bar{A} = \{x \mid \varphi_x $ non total $\}$ is not r.e.
+
+  \begin{proof}
+    Let $\bar{\mathcal{A}} = \{f \in \mathcal{C} \mid f $ non total
+    $\}$. We observe that each $\theta$ finite is in
+    $\bar{\mathcal{A}}$, but no total extension of such $\theta$ can
+    be included in $\bar{\mathcal{A}}$. Again, for Rice-Shapiro
+    $\bar{A}$ is not r.e.
+  \end{proof}
+\end{example}
+
+The exercises \ref{exe:rice1} and \ref{exe:rice2} are essential to
+understand two core situations in wich we can apply the theorem:
+
+\begin{observation}
+  Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
+  functions s.t. $A = \{ x \mid \varphi_x \in \mathcal{A}\}$ is
+  r.e. Then
+  \begin{enumerate}[label=(i)]
+  \item if \(\forall \theta \) finite
+    \( \theta \notin \mathcal{A} \Rightarrow \mathcal{A} = \emptyset\)
+  \item
+    \(\emptyset \in \mathcal{A} \Rightarrow \mathcal{A} =
+    \mathcal{C}\)
+  \end{enumerate}
+
+  \begin{proof}
+    \begin{enumerate}[label=(i)]
+    \item given $f \in \mathcal{C}$ we know that $f \in \mathcal{A}$
+      iff $\exists \theta \subseteq f$ finite
+      $\theta \in \mathcal{A} \rightarrow f \notin \mathcal{A}$
+    \item given $f \in \mathcal{C}$, since $\emptyset \subseteq f$ and
+      $\emptyset \in \mathcal{A} \Rightarrow f \in \mathcal{A}$
+    \end{enumerate}
+  \end{proof}
+\end{observation}
+
+\begin{exercise}
+  Study the recursiveness of $A = \{x \mid \varphi_x = \mathds{1}\}$
+
+  \begin{enumerate}
+  \item[(*)] $A$ is not r.e.
+
+    Infact the set of functions is in this case
+    $\mathcal{A} = \{\mathds{1}\}$, wich
+    \begin{itemize}
+    \item does not contain finite functions
+    \item is not empty
+    \end{itemize}
+    And therefore is not r.e.
+
+  \item[(**)] $\bar{A}$ is not r.e.
+
+    Infact $\bar{\mathcal{A}} = \mathcal{C} - \{\mathds{1}\}$, and we
+    have that
+    \begin{itemize}
+    \item $\emptyset \in \bar{\mathcal{A}}$
+    \item $\bar{\mathcal{A}} \neq \mathcal{C}$
+    \end{itemize}
+    And therefore $\bar{A}$ is not r.e.
+  \end{enumerate}
+\end{exercise}
