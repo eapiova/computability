@@ -1,2 +1,169 @@
 \chapter{First recursion theorem}
 
+Usually with programming languages we have functions that uses other
+functions as arguments.  E.g. in ML, the function \texttt{succ} that
+given a function $f$ returns $f+1$ can be defined form
+\begin{quote}
+    fun succ f x = f x + 1
+\end{quote}
+From the computability point of view is still somewhat natural to ask
+how can be carachterized effective/computable operations on
+functions. We'll later seee that this idea leads to the concept of
+\emph{recursive functional}.
+
+\begin{definition}
+  We'll call $\mathfrak{F}(\nat^k)$ the set of all the functions
+  (computable and not) of k arguemnts $\nat^k \rightarrow \nat^k$.
+\end{definition}
+
+a \emph{functional} is just a function
+\[
+  \Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)
+\]
+(we'll just conside total functions)
+
+When can we say that a funcitonal is effective (computable), in fact,
+given $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
+\begin{itemize}
+\item a function $f \in \mathfrak{F}$ and its image
+  $\Phi(f) \in \mathfrak{F}(\nat^k)$ are both infinite objects in
+  general.
+\item We can not ask for $\Phi(f)$ to be computable in a finite time
+  from $f$
+\end{itemize}
+
+What we need is a way to see functions as numbers
+
+\subsection{Encoding of finite functions}
+for each finite function its encoding $\tilde{\theta} \in \nat$ is defined
+as
+\begin{itemize}
+\item if $\theta = \emptyset$ then $\tilde{\theta} = 0$
+\item if $\theta = \{(x_1, y_1), \dots, (x_2, y_2)\}$ then
+  $\tilde{\theta} = \prod_{i=1}^n p_{x_1}^{y_i+1}$
+\end{itemize}
+wich is both injective and effective. Given the encoding of a function
+$z= \tilde{\theta}$
+\[
+  x \in \dom{\theta} \quad \mbox{iff} \quad (z)_1 \neq \emptyset
+\]
+\[
+  \begin{aligned}
+    app(z,x) = \theta(x) & = \begin{cases}
+      (z)_x = 1 & x\in\dom{\theta} \\ 
+      \uparrow & \mbox{otherwise}
+    \end{cases} \\
+    &= ((z)_x \dotdiv 1) \mathds{1}(\mu \omega \; . \; |1 - (z)_x|)
+  \end{aligned}
+\]
+
+this way we can give the following dfinition of functional
+
+\begin{definition}
+  A functional
+  $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
+  \emph{recursive} if exists $\varphi : \nat^{h+1} \rightarrow \nat$
+  computable s.t.
+  $\forall f \in \mathfrak{F}(\nat^k) \quad \forall \vec{x} \in \nat^h
+  \quad \forall y \in \nat$
+
+  \[
+    \Phi(f)(y) = y \quad \mbox{iff} \quad \exists \theta \subseteq f
+    \mbox{ finite s.t. } \varphi(\tilde{\theta}, \vec{x}) = y
+  \]
+\end{definition}
+
+\begin{example}
+  The functional
+  \newcommand{\fib}[1]{\ensuremath{\mbox{fib}(#1)}}
+  \[
+    \mbox{fib} : \mathfrak{F}(\nat) \rightarrow \mathfrak{F}(\nat)
+  \]
+  \[
+    \fib{f}(x) = \begin{cases}
+      1 & x=0 \lor x=1 \\
+      f(x-2) + f(x-1) & x \geq 2
+    \end{cases}
+  \]
+  is recursive, the function $\varphi: \nat^2 \rightarrow \nat$ can be
+  \[
+    \begin{aligned}
+      \varphi(z, x) &= \begin{cases}
+        1 & x=0 \lor x=1 \\
+        \theta(x-2) + \theta(x-1) & x \geq 2 \land z = \tilde{\theta}
+      \end{cases} \\
+      &= \begin{cases}
+        1 & x = 0 \lor x = 1 \\
+        app(z, x-2) + app(z, x-1) & x > 2
+      \end{cases}
+    \end{aligned}
+  \]
+  wich is computable
+\end{example}
+
+\begin{example}
+Te functional associalted to Ackermann function:
+\[
+  \Psi_{ack} : \mathfrak{F}(\nat^2) \rightarrow \mathfrak{F}(\nat^2)
+\]
+\[
+  \begin{tabu}{r l l}
+    \Psi_{ack}(f)(0,y)  & = & y+1 \\
+    \Psi_{ack}(f)(x+1, 0) & = & f(x,1) \\
+    \Psi_{ack}(f)(x+1, y+1)  & = & f(x, f(x+1, y)) \\
+  \end{tabu}
+\]
+wich is computable as before.
+\end{example}
+We can also veify that this definition of recursive functional
+computable functions into computable functions:
+
+\begin{theorem}\label{th:unknown}
+  Let $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
+  be a recursive functional and let $f \in \mathfrak{F}(\nat^k)$ be
+  computable. Then $\Phi(f) \in \mathfrak{F}(\nat^h)$ is computable
+\end{theorem}
+
+\section{Myhill-Sheperdson theorems}
+Gien a recusrsive functional $\Phi$, for (\ref{th:unknown})
+
+\[
+  f \mbox{ computable } \rightsquigarrow \Phi(f) \mbox{ computable }
+\]
+\[
+  f = \varphi_e \rightsquigarrow \Phi(f) = \varphi_{e'}
+\]
+
+so we can see a recursive functional as a function that transforms
+indexes (programs) in indexes (other programs), but with the property
+that the transformation depends on the firstly indexed function and
+\emph{not} on the index
+
+\begin{definition}[Extensional function]
+  Let $h : \nattonat$ a total function. It is \emph{extentional} if
+  \[
+    \forall e,e' \quad \varphi_e = \varphi_{e'} \Rightarrow
+    \varphi_{h(e)} = \varphi_{h(e')}
+  \]
+\end{definition}
+
+\begin{theorem}[Myhill-Shepherdson (Part I)]
+  If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
+  recursive functional then it exists a total computable function
+  $h_\Phi : \nattonat$ s.t.
+  \[
+    \forall e \quad \Phi(\varphi_e) = \varphi_{h_\Phi(e)}^{(k)}
+  \]
+\end{theorem}
+
+Intuitively the behaviour of the recursive functional on computable
+functions is captured entirely by a total extentional function on the
+indexes
+
+\begin{theorem}[Myhill-Shepherdson (Part II)]
+  If $h : \nattonat$ is a total computable extensional function, then
+  exists \emph{only one} recursive functional $Phi_h$ s.t.
+  \[
+    \forall e \quad \Phi_h(\varphi_e) = \varphi_{h(e)}
+  \]
+\end{theorem}
