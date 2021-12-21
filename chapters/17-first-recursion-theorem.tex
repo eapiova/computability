@@ -162,8 +162,27 @@ indexes
 
 \begin{theorem}[Myhill-Shepherdson (Part II)]
   If $h : \nattonat$ is a total computable extensional function, then
-  exists \emph{only one} recursive functional $Phi_h$ s.t.
+  exists \emph{only one} recursive functional $\Phi_h$ s.t.
   \[
     \forall e \quad \Phi_h(\varphi_e) = \varphi_{h(e)}
   \]
 \end{theorem}
+That is to say that a toal computable extensional function identifies
+only one recursive functional.  Is interesting to observe that
+$\Phi_n$ exists also for non computable functions.
+
+\begin{theorem}[I thorem of recursion (Kleene)]
+  If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
+  a recursive functional, then $\Phi$ has a fixed minimum point
+  $f_\Phi$ wich is computable.
+\end{theorem}
+
+That is to say that $\exists f_\Phi \in \mathfrak{F}(\nat^k)$
+computable s.t.
+\begin{itemize}
+\item $\Phi(f_\Phi) = f_\Phi$
+\item
+  $\forall g \in \mathfrak{F}(\nat^k) \quad \Phi(g) = g \; \Rightarrow
+  \; f_\Phi \subseteq g$
+\end{itemize}
+and we can see that $f_\Phi = \bigcup\limits_n \Phi^{n}(\emptyset)$
