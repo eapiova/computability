@@ -147,7 +147,7 @@ that the transformation depends on the firstly indexed function and
   \]
 \end{definition}
 
-\begin{theorem}[Myhill-Shepherdson (Part I)]
+\begin{theorem}[Myhill-Shepherdson (I)]
   If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
   recursive functional then it exists a total computable function
   $h_\Phi : \nattonat$ s.t.
@@ -160,7 +160,7 @@ Intuitively the behaviour of the recursive functional on computable
 functions is captured entirely by a total extentional function on the
 indexes
 
-\begin{theorem}[Myhill-Shepherdson (Part II)]
+\begin{theorem}[Myhill-Shepherdson (II)]
   If $h : \nattonat$ is a total computable extensional function, then
   exists \emph{only one} recursive functional $\Phi_h$ s.t.
   \[
@@ -185,4 +185,79 @@ computable s.t.
   $\forall g \in \mathfrak{F}(\nat^k) \quad \Phi(g) = g \; \Rightarrow
   \; f_\Phi \subseteq g$
 \end{itemize}
-and we can see that $f_\Phi = \bigcup\limits_n \Phi^{n}(\emptyset)$
+and we can see that $f_\Phi = \bigcup\limits_n
+\Phi^{n}(\emptyset)$. And since a functional can be associated to a
+fixed point, the theorem proves the closure of the set of computable
+functions with respect to extremely general forms of recursion. As
+exceptions we have:
+
+\mbox{}\\*
+\paragraph{\textbf{Primitive recursion}}
+given $f : \nat^h \rightarrow \nat$ and
+$g : \nat^{h+2} \rightarrow \nat$, the function defined by primitive
+recursion is the minimum fixed point of
+$\Phi_r \in \mathfrak{F}(\nat^{h+1})$, defined by
+\[
+  \begin{tabu}{r l l}
+    \Phi_r(h)(\vec{x}, 0) & = & f(\vec{x}) \\
+    \Phi_r(h)(\vec{x}, y+1) & = & g(\vec{x}, y h(\vec{x},y))
+  \end{tabu}
+\]
+and if $f,g$ are computable, then $\Phi_r$ is a recursive
+functional. This way the theorem assures us that:
+\begin{itemize}
+\item exists a minimal fixed point;
+\item it is computable.
+\end{itemize}
+
+\mbox{}\\*
+\paragraph{\textbf{Minimalization}}
+given a function $f: \nat^{k+1} \rightarrow \nat$ we can see the
+minimalization $\mu y \; . \; f(\vec{x}, y)$ as a fixed point. Let's
+consider, for a fixed f
+\[
+  \Phi_\mu \in \mathfrak{F}(\nat^{k+1})
+\]
+\[
+  \Phi_\mu(h)(\vec{x}, y) = \begin{cases}
+    y & f(\vec{x},y) = 0 \\
+    h(\vec{x}, y+1) & f(\vec{x}, y)\downarrow \land f(\vec{x}, y) \neq 0 \\
+    \uparrow & \mbox{otherwise}
+  \end{cases}
+\]
+wich is recursive and has a minimum fixed point:
+\[
+  f_{\Phi_\mu}(\vec{x}, y) = \mu (z \geq y) \; . \; f(\vec{x}, y)
+\]
+
+\mbox{}\\*
+\paragraph{\textbf{Ackermann function}}
+We saw that $\Phi_{ack}$ is recursive, therefore has a computable
+minimum fixed point (the Ackermann function itself $\Psi$). The fact
+that $\Psi$ is total implies that that such fixed point is the
+\emph{only} fixed point.
+
+
+\begin{observation}
+  Generally speaking the fixed point is not unique. Counterexample:
+  \[
+    \Phi(f)(x) = \begin{cases}
+      0 & x=0 \\
+      f(x+1) & \mbox{otherwise}
+    \end{cases}
+  \]
+  is recursive, and therefore has a minimum fixed point
+  \[
+    f_\Phi(x) = \begin{cases}
+      0 & x=0 \\
+      \uparrow & \mbox{otherwise}
+    \end{cases}
+  \]
+  but has other fixed points, for example:
+  \[
+    f(x) = \begin{cases}
+      0 & x=0 \\
+      k & x>0
+    \end{cases}
+  \]
+\end{observation}
