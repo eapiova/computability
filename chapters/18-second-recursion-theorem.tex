@@ -67,7 +67,7 @@ inspection clearly appears to be a simple diagonalization.
 deep. This way, many theorems we've seen up until now are just
 corollaries of it:
 
-\begin{theorem}[Rice theorem -- second recurrsion theorem proof]
+\begin{corollary}[Rice theorem]
   Let $\emptyset \neq A \subsetneq \nat$. If $A$ is saturated, then
   $A$ is not rich.
   \begin{proof}
@@ -90,6 +90,44 @@ corollaries of it:
     theorem (\ref{th:second-recursion}) $\exists n$ s.t.
     $\varphi_n = \varphi_{f(n)}$ and $A$ is saturated, wich means that
     either $n, f(n) \in A$ or $n, f(n) \in \bar{A}$, wich contraddicts
-    \ref{eq:xinafxinbara}
+    \ref{eq:xinafxinbara}.
   \end{proof}
-\end{theorem}
+\end{corollary}
+
+\begin{corollary}
+  $K$ is not saturated
+  \begin{proof}
+    Let $k = \{ x \mid x \in W_x\}$ recursive for the sake of the
+    argument. and let $e_0, e_1$ be indexes s.t.
+    $\varphi_{e_0} = \emptyset$ and
+    $\varphi_{e_1} = \lambda x \; . \; x$. We can define
+    \[
+      f(x) = \begin{cases}
+        e_0 & x \in K \\
+        e_0 & x \notin K
+      \end{cases}
+    \]
+    $f$ is both computable and total, therefore according to
+    (\ref{th:second-recursion})
+    $\exists n \; . \; \varphi_n = \varphi_{f(n)}$, but:
+    \[
+      \begin{tabu}{l l l l l l l}
+        n \in K & \Rightarrow & \varphi_n = \varphi_{f(n)} = \varphi_{e_0} & \Rightarrow & \varphi_n(n) = \varphi_{e_0} (n) \uparrow & \Rightarrow & n \notin K \\
+        n \notin K & \Rightarrow & \varphi_n = \varphi_{f(n)} = \varphi_{e_1} & \Rightarrow & \varphi_n(n) = \varphi_{e_1} (n) = n & \Rightarrow & n \in K \\
+      \end{tabu}
+    \]
+    wich is absurd.
+  \end{proof}
+\end{corollary}
+
+\begin{corollary}
+  $K$ is not saturated
+  \begin{proof}
+    Let $n_0$ s.t. $\varphi_{n_0} = \{(n_0, n_0)\}$. We know that
+    there are infinitely many indeces for the same function; so let
+    $n \neq n_0$ s.t. $\varphi_n = \varphi_{n_0}$.
+    \[
+      \varphi_n(n) \uparrow \Rightarrow n \notin K
+    \]
+  \end{proof}
+\end{corollary}
