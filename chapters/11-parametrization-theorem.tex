@@ -1,30 +1,421 @@
 \chapter {Parameterization theorem}
+\newcommand{\smn}{$S_n^m$}
 
-Suppose we have a computable function $ f:\nat^2\rightarrow\nat$ therefore $ \exists e \in \nat . f = \phi_e^{(2)} $, now consider for the first fixed argument: $ f(x,y) = f_x(y) $, where $ f_x:\nat\rightarrow\nat $ computable, therefore there is a program that calculates it.
+We'll start by giving an intuition on what the theorem talks
+about. Let $f : \nat^2 \rightarrow \nat$ be a computable
+function. Surely there exists an index (to be precise infinitely many
+of them) $\ell$ s.t. \[f(x,y) = \varphi_\ell^{(2)}(x,y)\]
 
-For example let's take $ f(x,y) = y^x $ then $ f_0(y) = 1 $, \dots all these functions are computable.
+Now, if we fix the first argument to a certain value $x$, we obtain a
+function of a single argument $f_x : \nattonat$
+\[f_x(y) = \varphi_\ell^{(2)}(x,y)\] and $\forall x \in \nat, \; f_x$
+is computable (since obtained from composition of computable
+functions. This means that exists a $d \in \nat$ s.t.
+\[f_x = \varphi_d\] in other words, $\forall y \in \nat$
+\[f_x(y) = \varphi_\ell^{(2)}(x,y) = \varphi_d(y)\] Clearly $d$
+depends on $\ell$ and $x$, since $d = S(\ell, x)$ with
+$S : \nat^2 \rightarrow \nat$ total function. The \smn
+(\textit{smn}) theorem tells us that $S$ is computable. Intuitively,
+how can I compute $S(\ell, x)$?
 
-We had the program that computed $ f(x,y) = \phi_e^{(x)}(x,y) $, so there is some program $d$ that calculates $ f_x = \phi_d $, but obviously they are all different programs for each $d$. We observe that this program depends on \textit{e} and on \textit{x}.
+\begin{itemize}
+\item form $\ell$ I can determine the program
+  $P_\ell = \gamma^{-1}(\ell)$ that computes $\varphi_\ell^{(2)}(x,y)$
+\item the program that computes $f_x = \lambda y \; . \; f(x,y)$ with
+  fixed $x$, we can easily obtain from $P_\ell$:
+  \begin{itemize}
+  \item move $y$ in the register 2;
+  \item put $x$ in the register 1;
+  \item execute $P_\ell$
+  \end{itemize}
+\item we take the code of the obtained program
+\end{itemize}
 
-What we are saying is that there exists total $ s:\nat^2\rightarrow\nat$ such that $ \phi_{s(e,x)}(y) = \phi_e^{(2)}(x,y)$, the theorem says it is computable. In general we can take a function of $ m+n $ arguments, $ m,n \in \nat $, $ m,n \geq 1 $ there exists $ S_{m,n} : \nat^{m+1}\rightarrow\nat \in \mathcal{PR}$ s.t. \begin{equation*}
-  \phi_e^{m+n}(\vec{x},\vec{y}) = \phi_{s_{m,n}(e, \vec{x})}^{n}(\vec{y})
-\end{equation*}
+Again, intuitively, functions on indices, like $S$ are functions that
+transform programs. The \smn theorem states that the operation of
+fixing an argument of a program is effective.
 
-But now let's see how to calculate $ \gamma $. First we define function $ agg:\nat^2\rightarrow\nat $ where $ agg(e,t) =$ program obtained by \textit{e} adding \textit{t} to the destination of each jump.
+\begin{example}
+  Consider the computable function \[f(x,y) = x^y\]. We know that an
+  indices s.t. \(\varphi_ell = f\) must exist, in other
+  words \[\varphi_\ell(x,y) = f(x,y) = x^y\] So, when $x$ varies we
+  obtain computable functions
+  \begin{itemize}
+  \item[] \(f_0(y) = y^0 = 1 \rightarrow \mbox{ index} \quad S(\ell,0)\)
+  \item[] \(f_1(y) = y^1 = y \rightarrow \mbox{ index} \quad S(\ell,1)\)
+  \item[] \(f_2(y) = y^2 = y^2 \rightarrow \mbox{ index} \quad S(\ell,2)\)
+  \item[] \(\dots\)
+  \end{itemize}
+  thanks to the \smn theorem we can determine those indices in an
+  effective way. The theorem also does this in general for functions
+  in the form $f(\vec{x}, \vec{y}) : \nat^{(m+n)} \rightarrow \nat$,
+  hence the name.
+\end{example}
 
-Now let's take $ \overline{agg} $ where $ \overline{agg}(i,t) = $ update of instruction i (meaning $ \beta^{-1}(i) $)
+\section{\smn Theorem}
+\begin{theorem}[\smn theorem]
+  Given $m, n \geq 1$ exists a computable total function
+  \[S_{m,n} : \nat^{m+1} \rightarrow \nat\] s.t.
 
-\dots
+  \[
+    \varphi_\ell^{(m+n)}(\vec{x},\vec{y}) = \varphi_{s_{m,n}(\ell,
+      \vec{x})}^{(n)}(\vec{y}) \quad \forall \ell \in \nat, \; x \in
+    \nat^m, y \in \nat^n
+  \]
 
-\section {Corollary SMN theorem}
-Given the function $ f:\nat^{n+m}\rightarrow\nat,\\ \exists S:\nat^m\rightarrow\nat $ total computable s.t. $ f(\vec{x},\vec{y}) = \phi_{s(\vec{x})}^{(n)}(\vec{y}) \forall \vec{x},\vec{y}$
+  \begin{proof}
+    intuitively, given $\ell \in \nat$, $\vec{x}\in \nat^m$ we can:
+    \begin{itemize}
+    \item with $\gamma^{-1}$ obtain the program
+      $P_\ell = \gamma^{-1}(\ell)$ in standard form that computes the
+      function $\varphi_\ell^{(m+n)}$, that is to say that starting
+      from ( $\vec{x}, \vec{y}$ occupying respectively $m$ and $n$
+      registers)
+      \[
+        \begin{tabu}{|c|c|c|c|c}
+          \hline
+          \vec{x} & \vec{y} & 0 & 0 & \dots \\ \hline
+        \end{tabu}
+        \quad \quad \mbox{it computes }
+        \varphi_\ell^{(m+n)}(\vec{x},\vec{y})
+      \]
+    \item starting from $P_\ell$ we can build a new program $P$:
+      starting from
+      \[
+        \begin{tabu}{|c|c|c|c}
+          \hline
+          \vec{y} & 0 & 0 & \dots \\ \hline
+        \end{tabu}
+        \quad \quad \mbox{it computes }
+        \varphi_\ell^{(m+n)}(\vec{x},\vec{y})
+      \]
+    \end{itemize}
 
-\section {Exercise}
+    In fact, it is sufficient
+    \begin{itemize}
+    \item move $\vec{y}$ ``forward'' of $m$ registers
+    \item load $\vec{x}$ in the free $m$ registers
+    \item execute $P_\ell$
+    \end{itemize}
 
-Show that there exists $s$ total computable s.t. $ \phi_{s(n)}(x) = \sqrt[n]{x} $
+    The program P can be
 
-\textbf{Execution:} I take the function $ f(n,x) = \sqrt[n]{x} $ so I have to search \\ $ max(y) . y^n \leq x $, but I can only use the minimum, so I try $ min(y). (y+1)^n > x $
+    \begin{center}
+      \begin{tabular}{lr}
+        $T([1,n], [m+1, m+n])$    &          \\
+        $z(n)$                    &          \\
+        $s(n)$                    &          \\
+        $\dots$                   & \comment{$x_1$ times} \\
+        $z(m)$                    &          \\
+        $s(m)$                    &          \\
+        $\dots$                   & \comment{$x_m$ times}
+      \end{tabular}
+    \end{center}
+    (\textbf{Reminder:} the concatenation has to update all the jump
+    instructions in $P_\ell$,
+    $j(m^\prime, n^\prime, t) \rightsquigarrow j(m^\prime, n^\prime, t
+    + m + n + \sum_{i=1}^mx_i)$
 
-that is: $ \mu y \leq x . x+1 - (y+1)^n $. Even without bound it worked, but so we also show that it is recursive primitive (it was not required).
+    Once we build $P$ we can say that
+    \[S(\ell, \vec{x}) = \gamma(P)\] Each function and construction
+    method used are effective (in particular $\gamma, \gamma^{-1}$
+    are) and so the existence, totality and computability of $S$ are
+    proven (even though informally, by appealing to the Church-Turing
+    thesis.
 
-We see that it is computable, therefore by corollary of the smn theorem there exists the total computable function $s$ such that $ f(n,x) = \phi_{s(n)}(x) $.
+    The formal proof of calculability is long, but not difficult. We
+    just need to follow the intuitions of the informal proof step by step.
+
+    \paragraph{\textbf{function to update a program}}
+    \newcommand{\up}[1]{\ensuremath{\mathit{up}({#1})}}
+    \[
+      \mathit{up} : \nat^2 \rightarrow \nat
+    \]
+
+    \begin{center}
+      \begin{tabular}{rl}
+        $\up{e, t}=$ & code of a program obtained from
+                       $P_e = \gamma^{-1}(e)$ \\
+                     & by adding $t$ to each jump instruction
+      \end{tabular}
+    \end{center}
+    For this reason, it is useful to define a support function that works
+    on each single instruction (encoded with $\beta$).
+    \newcommand{\tup}[1]{\ensuremath{\tilde{\mathit{up}}({#1})}}
+    \[
+      \tilde{\mathit{up}} : \nat^2 \rightarrow \nat
+    \]
+
+    \begin{center}
+      \begin{tabular}{rl}
+        $\tup{i, t}=$ & code of the instruction obtained by updating
+                        $\beta^{-1}(i)$ : \\
+                      & if it is $J(\_,\_,\_) \rightsquigarrow
+                        J(\_,\_,\_ + t)$. untouched otherwise
+      \end{tabular}
+    \end{center}
+    \newcommand{\qt}[1]{\ensuremath{\mathit{qt}({#1})}}
+    \newcommand{\rmf}[1]{\ensuremath{\mathit{rm}({#1})}}
+    given $i,t \in \nat$ and $q=\qt{4,i}, r=\rmf{4,i}$ the following holds:
+    \[
+      \tup{i,t} = \begin{cases}
+        4 * \nu(\nu_1(q), \nu_2(q), \nu_3(q) + t) + 3 & r=3 \\
+        i & r \neq 3
+      \end{cases}
+    \]
+    that is $\tup{i,t} \in \pr$. At this point
+    \begin{center}
+      $\up{e,t} = \tau(\tup{a(e,1), t}, \dots, \tup{a(e, \ell(e)), t})$
+
+      $= \sum^{\ell(e)}_{i=1}2^{(\sum^i_{j=1}\tup{a(e,i), t} + (i-1))}-1$
+    \end{center}
+
+    \newcommand{\seq}[1]{\ensuremath{\mathit{seq}({#1})}}
+    \paragraph{\textbf{Concatenation of programs}}
+    \[
+      \mathit{seq} : \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \seq{e_1, e_2} = \gamma \left( \begin{array}{c}
+                                P_{e_1} \\
+                                P_{e_2}
+                              \end{array} \right)
+                              = \gamma(p_{e_1} P_{\up{e_2,
+                                  \ell(e_1)}})
+    \]
+
+    We will also need a function to concatenate sequences:
+
+    \newcommand{\conc}[1]{\ensuremath{\mathit{c}({#1})}}
+    \[
+      \mathit{c}: \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \conc{e_1, e_2} &= \tau(a(e_1,1), \dots, a(e_1,\ell(e_1)),
+        a(e_2,1), a(e_2, \ell(e_2))) \\
+        & = e_1 + \sum\limits^{\ell(e_2)}_{i=1} 2^{b(e_1, \ell(e_1))
+          +\sum\limits^i_{j=1}a(e_2,j) + i}
+      \end{aligned}
+    \]
+
+    at this point we know that
+    \[
+      \seq{e_1, e_2} = \conc{e_1, \up{e_2, \ell(e_1)}} \quad \in \pr
+    \]
+
+    \paragraph{\textbf{Subroutine to transfer $[1 .. n] \rightsquigarrow [m+1 .. m+n]$}}
+    \newcommand{\tran}[1]{\ensuremath{\mathit{transf}({#1})}}
+    \[
+      \mathit{transf}: \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \tran{m,n} &= \gamma(T([1,n],[m+1, m+n])) \\
+        &= \tau(\beta(T(1,m+1)), \dots, \beta(T(n,n+m))) \\
+        &= \sum\limits^n_{i=1}2^{(\sum\limits^i_{j=1}\beta(T(j,m+j))) + i - 1}-1 \\
+        &\in \pr
+      \end{aligned}
+    \]
+
+    \paragraph{\textbf{Subroutine to set $r_i = x_i$}}
+    \newcommand{\set}[1]{\ensuremath{\mathit{set}({#1})}}
+    \[
+      \mathit{set} : \nat^2 \rightarrow \nat
+    \]
+
+    \[
+      \begin{aligned}
+        \set{i,x} &= \gamma\left( \begin{array}{c}
+                                    z(i) \\
+                                    s(i) \\
+                                    \vdots \\
+                                    s(i)
+                                  \end{array} \right) \\
+        &= \tau(\beta(z(i)), \beta(s(i)), \dots, \beta(s(i))) \\
+        &= 2^{\beta(z(i))} + \sum^x_{k=1}2^{\sum\limits^k_{j=1}\beta(s(i)) \quad + (k+1)-1} \quad -1 \\
+        &\in pr
+      \end{aligned}
+    \]
+
+    at this point, with
+    \newcommand{\pref}[1]{\ensuremath{\mathit{pref}_{m,n}({#1})}}
+    \[
+      \mathit{pref}_{m,n}: \nat^m \rightarrow \nat
+    \]
+
+    \[
+      \pref{\vec{x}} = \seq{\tran{m,n}, \seq{\set{1,x_1}, \seq{\dots , \set{m.x_m}}} \dots}
+    \]
+
+    we have that
+
+    \[
+      S_{m,n}: \nat^{m+1} \rightarrow \nat
+    \]
+
+    \[
+      S_{m,n}(e, \vec{x}) = \seq{\pref{\vec{x}}, e}
+    \]
+    which is $\in \pr$
+  \end{proof}
+\end{theorem}
+
+\textbf{Note:} we proved that \smn is not just computable and total,
+but is also primitively recursive. Furthermore, the theorem is usually presented
+in the following simpler shape:
+
+\begin{corollary}[simplified \smn theorem]\label{corollary:simple-smn}
+  Let $f: \nat^{m,n} \rightarrow \nat$ be a computable function. Then,
+  exists a computable total function $S: \nat^m\rightarrow \nat$ s.t.
+  \[
+    f(\vec{x}, \vec{y}) = \varphi_{S(\vec{x})}(\vec{y}) \quad \quad
+    \forall x \in \nat^m \quad \forall y \in \nat^n
+  \]
+  \begin{proof}
+    $f$ is computable $\Rightarrow f = \varphi_e^{(m+n)}$ for some
+    $e \in \nat$. $\rightsquigarrow S(\vec{x}) = S_{m,n}(e, \vec{x})$
+  \end{proof}
+\end{corollary}
+
+\begin{exercise}
+  Prove that there exists a total computable function $k : \nattonat$ s.t.
+  \[
+    \forall n \quad \varphi_{k(n)} = \lambda x \; . \; \lfloor \sqrt[n]{x} \rfloor
+  \]
+
+  That is to say $k$ is an enumeration of functions of the kind
+  $\lfloor \sqrt[n]{x} \rfloor$. Even better, $k$ is a function that given
+  $n$, it returns the program that computes $\lfloor \sqrt[n]{x}
+  \rfloor$.
+
+  \textbf{solution:} We define
+  \[
+    \begin{aligned}
+      f(n,x) = \lfloor \sqrt[n]{x} \rfloor &= \mu y \leq x \quad \mbox{``}(y+1)^n > x\mbox{''} \\
+      &= \mu y \leq x \; . \; (x+1 \dotdiv (y+1)^n)
+    \end{aligned}
+  \]
+  the function $f$ is computable as we wanted. For the corollary
+  \ref{corollary:simple-smn} $\exists \; k: \nattonat$ s.t.
+  \[
+    \varphi_{k(n)}(x) = f(n,x) = \lfloor \sqrt[n]{x} \rfloor
+  \]
+\end{exercise}
+
+\begin{exercise}
+  Prove that there exists $k : \nattonat$ computable and total s.t.
+  $\forall n \quad \varphi_{k(n)}$ is defined only on $n^{th}$
+  powers. That is to say
+  \[
+    W_{k(n)} = \{ \; x \; | \; \exists y \in \nat \quad x = yn \; \}
+  \]
+
+  \textbf{solution:} we define
+  \[
+    f : \nat^2 \rightarrow \nat
+  \]
+  \[
+    f(n,x) = \begin{cases}
+      0 & \quad \mbox{if } x \mbox{ is the } n^{th} \mbox{ power} \\
+      \uparrow &\quad \mbox{otherwise}
+    \end{cases}
+  \]
+  \[
+    = \underline{0} (\mu y \; . \; |y^n-x|)
+  \]
+  is computable. Therefore for the \smn theorem
+  $\exists \quad k : \nattonat$ total and computable s.t.
+  \[
+    f(n,x) = \varphi_{k(x)}(x) \quad \forall n
+  \]
+  $k$ is a valid answer, in fact: $x \in W_{k(n)}$ iff
+  $\varphi_{k(n)}(x)\downarrow$ iff $f(n,x)\downarrow$ iff $x$ is the
+  $n^{th}$ power.
+\end{exercise}
+
+\begin{exercise}
+  Prove that there exists a function $s: \nattonat$ which is total and computable
+  s.t.
+  \[W_{s(x)}^{(k)} = \{(y_1, \dots, y_k) \; | \;
+    \sum\limits_{i=1}^ky_i = x)\}\]
+
+  \textbf{solution:} We can define
+  \[
+    \begin{aligned}
+      f(x, \vec{y}) &=
+      \begin{cases}
+        0 & \quad \sum_{i=1}^ky_i = x \\
+        \uparrow & \quad \mbox{otherwise}
+      \end{cases} \\
+      &= \mu z \; . \; |(\sum_{i=1}^ky_i) - x|
+    \end{aligned}
+  \]
+
+  and the rest of the prove is the same as we have seen before.
+\end{exercise}
+
+% Again, here he goes very fast, where in the notes he approaches it
+% with more calm
+
+% Suppose we have a computable function $ f:\nat^2\rightarrow\nat$
+% therefore $ \exists e \in \nat . f = \phi_e^{(2)} $, now consider for
+% the first fixed argument: $ f(x,y) = f_x(y) $, where
+% $ f_x:\nat\rightarrow\nat $ computable, therefore there is a program
+% that calculates it.
+% For example let's take $ f(x,y) = y^x $ then $ f_0(y) = 1 $, \dots all
+% these functions are computable.
+
+% We had the program that computed $ f(x,y) = \phi_e^{(x)}(x,y) $, so
+% there is some program $d$ that calculates $ f_x = \phi_d $, but
+% obviously they are all different programs for each $d$. We observe
+% that this program depends on \textit{e} and on \textit{x}.
+
+% What we are saying is that there exists total
+% $ s:\nat^2\rightarrow\nat$ such that
+% $ \phi_{s(e,x)}(y) = \phi_e^{(2)}(x,y)$, the theorem says it is
+% computable. In general we can take a function of $ m+n $ arguments,
+% $ m,n \in \nat $, $ m,n \geq 1 $ there exists
+% $ S_{m,n} : \nat^{m+1}\rightarrow\nat \in \mathcal{PR}$
+% s.t.
+
+% \begin{equation*}
+%   \phi_e^{m+n}(\vec{x},\vec{y}) = \phi_{s_{m,n}(e, \vec{x})}^{n}(\vec{y})
+% \end{equation*}
+
+% But now let's see how to calculate $ \gamma $. First we define
+% function $ agg:\nat^2\rightarrow\nat $ where $ agg(e,t) =$ program
+% obtained by \textit{e} adding \textit{t} to the destination of each
+% jump.
+
+% Now let's take $ \overline{agg} $ where $ \overline{agg}(i,t) = $
+% update of instruction i (meaning $ \beta^{-1}(i) $)
+
+% \dots
+
+% \section {Corollary SMN theorem}
+% Given the function
+% $ f:\nat^{n+m}\rightarrow\nat,\\ \exists S:\nat^m\rightarrow\nat $
+% total computable s.t.
+% $ f(\vec{x},\vec{y}) = \phi_{s(\vec{x})}^{(n)}(\vec{y}) \forall
+% \vec{x},\vec{y}$
+
+% \section {Exercise}
+
+% Show that there exists $s$ total computable s.t.
+% $ \phi_{s(n)}(x) = \sqrt[n]{x} $
+
+% \textbf{Execution:} I take the function $ f(n,x) = \sqrt[n]{x} $ so I
+% have to search \\ $ max(y) . y^n \leq x $, but I can only use the
+% minimum, so I try $ min(y). (y+1)^n > x $
+
+% that is: $ \mu y \leq x . x+1 - (y+1)^n $. Even without bound it
+% worked, but so we also show that it is recursive primitive (it was not
+% required).
+
+% We see that it is computable, therefore by corollary of the smn
+% theorem there exists the total computable function $s$ such that
+% $ f(n,x) = \phi_{s(n)}(x) $.

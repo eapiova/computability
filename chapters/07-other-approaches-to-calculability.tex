@@ -47,8 +47,8 @@ And finally we define:
 \textbf{Definition} The set of the partially recursive functions is:
 
 $\mathcal{R} = \bigcap_{\mathcal{A} \subseteq \bigcup_k \nat^k\rightarrow\nat
-\land
-\mathcal{A}rich} \mathcal{A}$
+  \land
+  \mathcal{A}rich} \mathcal{A}$
 
 \textbf{Note} $\mathcal{R}$ admits an inductive characteristic\\
 $\mathcal{R}_0 = \{a,b,c\}$\\
@@ -61,109 +61,125 @@ Another interesting class, on which we will come back:
 
 The class of the primitive recursive functions is the least class of functions $\mathcal{PR}\subseteq \bigcup_k\nat^k\rightarrow\nat$ that contains (a),(b) and (c) and is closed for (1) and (2).
 
-\textbf{Theorem:} $\mathcal{R} = \mathcal{C}$, the partially recursive functions coincide with those URM-computable
+\begin{theorem}[$\mathcal{R} = \mathcal{C}$]\label{reqc} The partially recursive
+  functions coincide with those URM-computable
+  
+  \begin{proof}
+    $ \mathcal{R} \subseteq \mathcal{C} $ because $\mathcal{R}$ is the
+    least rich class, the other is a rich class
+    $\Rightarrow \mathcal{R}\subseteq\mathcal{C}$.
 
-\textbf{Proof} $ \mathcal{R} \subseteq \mathcal{C} $ because $\mathcal{R}$ is the least rich class, the other is a rich class $\Rightarrow \mathcal{R}\subseteq\mathcal{C}$.
+    Let us now consider $ \mathcal{C} \subseteq \mathcal{R} $. Let
+    $ f:\nat^k\rightarrow\nat \in \mathcal{C} $ be a function and show
+    that $ f \in \mathcal{R} $. We know that $ \exists P \in URM $
+    programs $ f_P^{(k)} = f$.
 
-Let us now consider $ \mathcal{C} \subseteq \mathcal{R} $. Let $ f:\nat^k\rightarrow\nat \in \mathcal{C} $ be a function and show that $ f \in \mathcal{R} $. We know that $ \exists P \in URM $ programs $ f_P^{(k)} = f$.
+    Considering the following functions (dependant on $P$)
 
-Considering the following functions (dependant on $P$)
+    With $ C_p^1(\vec{x}, t) $ we indicate contents of register 1 after $t$ steps of $ P(\vec{x}) $. A computation step is the execution of an instruction.
 
-With $ C_p^1(\vec{x}, t) $ we indicate contents of register 1 after $t$ steps of $ P(\vec{x}) $. A computation step is the execution of an instruction.
+    It is understood that if $P(\vec{x})$ terminates in less than $t$ steps, $ C_p^1(\vec{x}, t) $ gives the content of $R_1$ in the final configuration.
 
-It is understood that if $P(\vec{x})$ terminates in less than $t$ steps, $ C_p^1(\vec{x}, t) $ gives the content of $R_1$ in the final configuration.
+    With $ J_P(\vec{x},t) $ we indicate instruction to be executed at the $t+1$-th step (after $t$ steps) of $P(\vec{x})$ (program counter) If the program has already ended, it is worth 0.
 
-With $ J_P(\vec{x},t) $ we indicate instruction to be executed at the $t+1$-th step (after $t$ steps) of $P(\vec{x})$ (program counter) If the program has already ended, it is worth 0.
+    Clearly $C_p^1$ and $J_p$ are total functions (we will need this later\dots)
 
-Clearly $C_p^1$ and $J_p$ are total functions (we will need this later\dots)
+    If $ f(\vec{x})\downarrow $ then $ P(\vec{x})\downarrow $ after $ t_0 $ pass, $ t_0 = \mu t. J_P(\vec{x},t) \Rightarrow f(\vec{x}) = C_p^1(\vec{x},t_0) = C_P^1(\vec{x}, \mu t.J_P(\vec{x},t)) $.
+    Otherwise, if $ f(\vec{x})\uparrow $ then $P(\vec{x})\uparrow$ too and $ \mu t.J_P(\vec{x},t)\uparrow $
 
-If $ f(\vec{x})\downarrow $ then $ P(\vec{x})\downarrow $ after $ t_0 $ pass, $ t_0 = \mu t. J_P(\vec{x},t) \Rightarrow f(\vec{x}) = C_p^1(\vec{x},t_0) = C_P^1(\vec{x}, \mu t.J_P(\vec{x},t)) $.
-Otherwise, if $ f(\vec{x})\uparrow $ then $P(\vec{x})\uparrow$ too and $ \mu t.J_P(\vec{x},t)\uparrow $
+    Therefore:
+    $f(\vec{x}) = c_p^1(\vec{x}),\mu t.J_p(\vec{x},t)$
 
-Therefore:
-$f(\vec{x}) = c_p^1(\vec{x}),\mu t.J_p(\vec{x},t)$
+    % =======================================================
 
-%=======================================================
+    If you knew that $ C_P^1, J_P \in \mathcal{R} $ then here it is shown that $ f \in \mathcal{R} $
 
-If you knew that $ C_P^1, J_P \in \mathcal{R} $ then here it is shown that $ f \in \mathcal{R} $
+    We prove that they are even in $ \mathcal{PR} $
 
-We prove that they are even in $ \mathcal{PR} $
+    The idea of the proof is the following:
 
-The idea of the proof is the following:
+    \begin{itemize}
+    \item we can work on sequances encodings taht rapresents the registers and program counter configuraiton
+    \item we then manipulate such sequences  with the funcitons (\( p_x, q_t, \text{div}, \dots \) ) that we built by:
+      \begin{itemize}
+      \item composition
+      \item primitive recursion
+      \end{itemize}
+    \item this way we obtain $C_p^1, J_p$ through primitive recursion
+    \end{itemize}
+    More precisely, the computation state is a tuple
+    $\langle \vec{R}, t \rangle$ where $\vec{R}$ are the registers of the
+    machine and $t$ is the current instruction.
 
-\begin{itemize}
-\item we can work on sequances encodings taht rapresents the registers and program counter configuraiton
-\item we then manipulate such sequences  with the funcitons (\( p_x, q_t, \text{div}, \dots \) ) that we built by:
-\begin{itemize}
-\item composition
-\item primitive recursion
-\end{itemize}
-\item this way we obtain $C_p^1, J_p$ through primitive recursion
-\end{itemize}
-More precisely, the computation state is a tuple $\langle \vec{R}, t \rangle$ where $\vec{R}$ are the registers of the machine and $t$ is the current instruction.
+    To a register configuration in which a finite number of registers
+    contains a value other than 0 can be encoded with
 
-To a register configuration  in which a finite number of registers contains a value other than 0 can be encoded with
+    \begin{center}
+      $\text{cod}(\vec{R}) = \prod\limits_{i \geq 1}p_i^{r_i}$
+    \end{center}
 
-\begin{center}
-$\text{cod}(\vec{R}) = \prod\limits_{i \geq 1}p_i^{r_i}$
-\end{center}
+    where just a finite number of factors is $\neq 1$. At this point,
+    given $x \geq 1$ interpreted as $\text{cod}(\vec{R})$
 
-where just a finite number of factors is $\neq 1$. At this point, given $x \geq 1$ interpreted as $\text{cod}(\vec{R})$
+    \begin{center}
+      $r_i = (x)_i$
+    \end{center}
 
-\begin{center}
-$r_i = (x)_i$
-\end{center}
+    Using this encoding, we can consider the function $C_p(\vec{x},t)$
+    (the registers' configuration after t steps of $P(\vec{x})$) as a
+    function $C_p : \nat^{k+1} \rightarrow \nat$. This way we can define:
 
-Using this encoding, we can consider the function $C_p(\vec{x},t)$ (the registers' configuration after t steps of $P(\vec{x})$) as a function $C_p : \nat^{k+1} \rightarrow \nat$. This way we can define:
+    \begin{center}
+      $\sigma_p(\vec{x},t) = \langle C_p(\vec{x},t), J_p(\vec{x},t) \rangle$
+    \end{center}
 
-\begin{center}
-$\sigma_p(\vec{x},t) = \langle C_p(\vec{x},t), J_p(\vec{x},t) \rangle$
-\end{center}
+    the state of the computation of $P(\vec{x})$ after $t$ steps. And
+    using the encoding function for the $\pi$ couples we can view
+    $\sigma_p$ as:
 
-the state of the computation of $P(\vec{x})$ after $t$ steps. And using the encoding function for the $\pi$ couples we can view $\sigma_p$ as:
+    $\sigma_p : \nat^{k+1} \rightarrow \nat$
 
-$\sigma_p : \nat^{k+1} \rightarrow \nat$
+    $\sigma_p(\vec{x}, t) = \pi(C_p(\vec{x},t), J_p(\vec{x},t))$
 
-$\sigma_p(\vec{x}, t) = \pi(C_p(\vec{x},t), J_p(\vec{x},t))$
+    and we can define it with the primitive recursion:
 
-and we can define it with the primitive recursion:
+    $\sigma_p(\vec{x}, 0) = \pi(\prod\limits_{i=1}^k p_i^{x_i}, 1)$
 
-$\sigma_p(\vec{x}, 0) = \pi(\prod\limits_{i=1}^k p_i^{x_i}, 1)$
+    $\sigma_p(\vec{x}, t+1) = \pi(C_p(\vec{x},t+1), J_p(\vec{x},t+1))$
 
-$\sigma_p(\vec{x}, t+1) = \pi(C_p(\vec{x},t+1), J_p(\vec{x},t+1))$
+    with
 
-with
+    \[
+      C_p(\vec{x},t+1) = \begin{cases}
+        qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = z(n) \\
+        p_n \cdot C_p(\vec{x},t) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = s(n) \\
+        qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) \cdot p_n^{(C_p(\vec{x},t))_m} & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = T(m,n) \\
+        C_p(\vec{x}, t) & \quad \text{otherwise}
+      \end{cases}
+    \]
 
-\[
-C_p(\vec{x},t+1) = \begin{cases}
-qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = z(n) \\
-p_n \cdot C_p(\vec{x},t) & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = s(n) \\
-qt(p_n^{(C_p(\vec{x},t))_n}, C_p(\vec{x},t)) \cdot p_n^{(C_p(\vec{x},t))_m} & \quad \text{if }1 \leq J_p(\vec{x},t) \leq s \; \And \; I_{J_p(\vec{x},t)} = T(m,n) \\
-C_p(\vec{x}, t) & \quad \text{otherwise}
-\end{cases}
-\]
+    \[
+      J_p(\vec{x}, t+1) = \begin{cases}
+        J_p(\vec{x}, t) + 1 & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = z(n), s(n), T(m,n) \\
+        & \quad \quad \text{ or } J(m,n,q) \text{ with } (\sigma_p(\vec{x}, t))_m \neq (\sigma_p(\vec{x}, t))_n \\
+        q & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = J(m,n,q) \text{ with } q\leq 5 \\
+        & \quad \quad \And (C_p(\vec{x}, t))_m = (C_p(\vec{x}, t))_n \\
+        0 & \quad \text{otherwise}
+      \end{cases}
+    \]
 
-\[
-J_p(\vec{x}, t+1) = \begin{cases}
-J_p(\vec{x}, t) + 1 & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = z(n), s(n), T(m,n) \\
-& \quad \quad \text{ or } J(m,n,q) \text{ with } (\sigma_p(\vec{x}, t))_m \neq (\sigma_p(\vec{x}, t))_n \\
-q & \quad \text{if } 1 \leq J_p(\vec{x}, t) < s \And I_{J_p(\vec{x}, t)} = J(m,n,q) \text{ with } q\leq 5 \\
-& \quad \quad \And (C_p(\vec{x}, t))_m = (C_p(\vec{x}, t))_n \\
-0 & \quad \text{otherwise}
-\end{cases}
-\]
+    this way we define by primitive recursion $\sigma_p$, even if not in
+    detail, starting from functions in $\mathcal{R}$.
 
-this way we define by primitive recursion $\sigma_p$, even if not in
-detail, starting from functions in $\mathcal{R}$.
+    $\sigma_p \in \mathcal{R}$
 
-$\sigma_p \in \mathcal{R}$
+    \textbf{Observation:} all the functions we used are in  $\mathcal{PR} \Rightarrow \sigma_p \in \mathcal{PR}$
 
-\textbf{Observation:} all the functions we used are in  $\mathcal{PR} \Rightarrow \sigma_p \in \mathcal{PR}$
+    $C_p^1(\vec{x}, t) = (\pi_1(\sigma_p(\vec{x}, t)))_1 \in \mathcal{R}$
 
-$C_p^1(\vec{x}, t) = (\pi_1(\sigma_p(\vec{x}, t)))_1 \in \mathcal{R}$
+    $J_p(\vec{x}, t) = \pi_2(\sigma_p(\vec{x}, t)) \in \mathcal{R}$
 
-$J_p(\vec{x}, t) = \pi_2(\sigma_p(\vec{x}, t)) \in \mathcal{R}$
+    so $f$, defined by composition and minimization by $C_p^1, J_p$ is in $\mathcal{R}$ as we wanted.
 
-so $f$, defined by composition and minimization by $C_p^1, J_p$ is in $\mathcal{R}$ as we wanted.
-
-\hfill \qedsymbol
+  \end{proof}
+\end{theorem}

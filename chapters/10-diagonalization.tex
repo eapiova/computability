@@ -1,29 +1,260 @@
-\chapter{Diagonalization}
+\chapter{Cantor diagonalization method}
 
-Given a set $X$ we know that $ |X| \geq |2^X| $ is never valid, that is, the set of its parts is always bigger. Suppose there is $ f:X\rightarrow2^X $ surjective. Hence $ R = \{y . y \in X $ and $ x \not \in f(y) \ \} \in 2^X $, since f is surjective then $ \exists y_R \in X . f(y_R)  = R$. I consider the cases separately:
-\begin{itemize}
-\item $ y_R \in R $ then $f(y_R) \Rightarrow y_R \not \in R $
-\item $ y_R \not \in R $ then $ f(y_R) \Rightarrow y_R \in R$
-\end{itemize}
-Now we prove that the set of the parts of the natural numbers is not countable. We assume there is a surjective function $ \nat \rightarrow 2^\nat $. This means that I can enumerate subsets $ X_i $ s.t. $ i \in \nat $. At this point I create a matrix where each row $i$ of column $j = 1$ if $ x_i \in X_j $ and 0 otherwise. Now consider the inverted diagonal, that is if $ x_i \not \in X_i $, in this way it is different from all the columns, that is $ \forall i . R \not= X_i $ because $ n \in R \Leftrightarrow b \not \in X_n $ absurd since I assumed that $ \{X_0 \dots X_n \} = 2^\nat$.
+The diagonalization technique, in a general sense, allows to build an
+object that differs from an enumerable infinity of similar objects.
+The idea behind it is; given an enumerable set of objects
+(functions, numbers, ...) with structure $\{x_1, x_2, x_3, \dots \}$
+we can build another object $x$ based on the its' own structure with the
+same nature of all the other objects, but different from each of them
+by making it ``differ from $x_n$ on $n$''.
 
-We conclude that $ |\nat| \not \geq |2^\nat| $
+\begin{example}[$|2^\nat| > |\nat|$]
+  This is the original use of the Cantor method from Cantor himself,
+  who is the founder of the modern theory of sets in order to prove that there are
+  various ``levels of infinity''.
+  \begin{proof}
+    Lets suppose that $|2^\nat| = |\nat|$. This means that there exists an
+    enumeration of $2^\nat$: $x_0, x_1, x_3, \dots$
 
-But we want $ |\nat| < |2^\nat| $.
+    Consider
+    \[
+      \begin{tabu}{c | c c c c}
+        & x_0 & x_1 & x_2 & \dots \\ \hline
+        0 &  ?  & \vdots & \vdots & \\
+        1 &  \dots  & ? & \vdots & \\
+        2 &  \dots  & \dots & ? & \\
+        \vdots & & & &
+      \end{tabu}
+    \]
+    We can define $X = \{n \mid n \notin X_n\}$ which differs from
+    $X_n$ on its $n^{\mbox{th}}$ element. Obviously $X \in 2^\nat $
+    which means that $\exists k$ s.t. $X = X_k$. But is $k \in X$?
+    \begin{gather*}
+      k \in X \quad \Rightarrow \quad k \notin X_k = X \\
+      k \notin X \quad \Rightarrow \quad k \in X_k = X
+    \end{gather*}
+    Which is absurd. Therefore $2^\nat$ is not enumerable.
+  \end{proof}
+\end{example}
 
-But: $ |\nat| \leq |2^\nat| \land |\nat| \not\geq |2^\nat| \implies |\nat| < |2^\nat| $
+\newcommand{\nattonat}{\nat \rightarrow \nat}
+\begin{corollary}\label{corollary:nattonat}
+  if $\nattonat = \{$ partial functions from $\nat$ to $\nat \}$
+  then \[|\nattonat| > |\nat|\]
 
-I take the set of the characteristic functions $g$ of $ 2^\nat $ and I call it $Y$, I take the set of all the functions $ \mathcal{F} $, of course it holds that $ Y \subseteq \mathcal{F} $ and therefore $ |Y| \leq |\mathcal{F}| $ but being that $ |\nat < |2^\nat| $ then I also have that $ |\nat| \leq |\mathcal{F}| $
+  \begin{proof}
+    We can observe that
+    \[2^\nat = |\{f: \nat \rightarrow \{0,1\} \; | \; f \mbox{ total }
+      \} | \; \leq | \nattonat | \]
 
-There is a total function that cannot be computed. We know how to enumerate computable functions because we can enumerate them in the form of numbers, repeating some of them. Now let's define $ f(n) $ as non-total computable.
+    and so \[|\nattonat| \geq |2^\nat| > |\nat|\]
 
-Matrix where the columns are the functions computed by the program $ i \in \nat $, that is $ \{\phi_i . i \in \nat \} $ and the rows are the arguments 0,1, \dots.
+    Alternatively we can prove it with the diagonalization
+    technique. Let $f_1, f_2, f_3,$ be an enumeration of elements in
+    $\nattonat$ and consider
 
-\begin{equation*}
-  f(n) = \begin{cases}
-    \phi_n(n)+1 & $ se $\phi(n)\downarrow \\
-    0           & $ se $\phi(n)\uparrow
+    \[
+      \begin{tabu}{c | c c c c}
+        & f_0 & f_1 & f_2 & \dots \\ \hline
+        0 &  f_0(0)  & \vdots & \vdots & \\
+        1 &  \dots  & f_1(1) & \vdots & \\
+        2 &  \dots  & \dots & f_2(2) & \\
+        \vdots & & & &
+      \end{tabu}
+    \]
+
+    we can define a function $f$ that differs from every other
+    function on the diagonal based on the input:
+    \[f(n) = \begin{cases}
+        0 & \quad \mbox{if } f_n(n)\uparrow \\
+        \uparrow & \quad \mbox{if } f_n(n) \downarrow
+      \end{cases}
+    \] \[f \in \nattonat\] so that
+    $\forall n \quad f(n) \neq f_n(n) \quad \Rightarrow f \neq f_n$
+  \end{proof}
+\end{corollary}
+
+\newcommand{\noc}{\bar{\mathcal{C}}}
+
+\textbf{Note:} the set
+$\noc = \{f : \nattonat \; | \; f \mbox{ not computable}\}$ is not
+enumerable.
+
+\begin{proof}
+  We know that $|\mathcal{C}| = |\nat|$. if $\noc$ was enumerable then
+  $\nattonat = \mathcal{C} \cup \noc$ would be enumerable, which is
+  absurd for the corollary \ref{corollary:nattonat}.
+\end{proof}
+
+\begin{exercise}
+  Exists a total function non computable. We already knew that, but for
+  cardinality reasons, now we are able to exhibit it.
+  \[
+    f(n) = \begin{cases}
+
+      \varphi_n(n) + 1 & \quad \mbox{if } \varphi_n(n) \downarrow (n
+      \in W_n) \\
+
+       0 & \quad \mbox{if } \varphi_n(n)\uparrow (n \notin W_n)
+    \end{cases}
+  \]
+
+  again, with the Cantor method we can build
+  \[f(0) = \varphi_0(0), f(1) = \varphi_1(1), f(2) = \varphi_2(2),
+    \dots \]
+  is easy to see that
+  \begin{itemize}
+  \item $f$ is total
+  \item $\forall n \; f \neq \varphi_n \; \Rightarrow f$ is not
+    computable
+  \end{itemize}
+\end{exercise}
+
+\textbf{Note:} there are infinitely many total non computable
+functions in the form
+
+\[
+  f(n)  = \begin{cases}
+    \varphi_n(n) + k & n \in W_n \\
+    k & n \notin W_n
   \end{cases}
-\end{equation*}
+\]
 
-we observe that $f$ is total by construction and $ f \not= \phi_n \forall n, n \in \nat $ Furthermore by construction it is different from all computable functions and therefore it is not computable.
+\begin{exercise}
+  Let $f: \nat \rightarrow \nat$ (partial), $m \in \nat$
+
+  Define a function $g : \nat \rightarrow \nat$ non computable
+  s.t. \[g(x) = f(x) \quad \forall x < m\]
+
+  You can use a ``translated diagonal'';
+
+  % again, complex matrix
+
+  \[
+    g(x) = \begin{cases}
+      f(x) & x < m \\
+      \varphi_n(x) + 1 & x \geq m \mbox{ and } x \in W_{x-m} \\
+      0 & x \geq m \mbox{ and } x \notin W_{x-m}
+    \end{cases}
+  \]
+
+  clearly $\forall x \quad g\neq \varphi_x$ since
+  $g(x + m) \neq \varphi_x(x+m)$.
+
+  \textbf{Note:} we could have defined
+
+  \[
+    g(x) = \begin{cases}
+      f(x) & x < m \\
+      \varphi_n(x) + 1 & x \geq m \mbox{ and } x \in W_{x} \\
+      0 & x \geq m \mbox{ and } x \notin W_{x}
+    \end{cases}
+  \]
+
+  Why? Because each function appears infinitely many times in the enumeration,
+  and skipping the first $m-1$ steps that doesn't create any
+  problems... Formally we know that
+  $\forall x \geq m \quad g \neq \varphi_x$ so $\forall y$ since there
+  are infinitely many indices for $\varphi_x$
+  \[\exists x \geq m \mbox{ s.t. } \quad \varphi_y = \varphi_x \quad
+    \mbox{and } \varphi_x \neq y\] so, $\forall y \; \varphi_y \neq g$
+  (g is not computable).
+\end{exercise}
+
+\begin{exercise}
+  Given a family of functions
+  $\{f_i\}_{i\in \nat} \quad f_i : \nattonat$ define $g: \nattonat$
+  s.t. $\dom{g} \neq \dom{f_i} \quad \forall i \in N$
+
+  \[
+    g(n) = \begin{cases}
+      0 & \mbox{if } n \notin \dom{f_n} \\
+      \uparrow & \mbox{if } n \in \dom{f_n}
+    \end{cases}
+  \]
+
+  This way $\forall n \quad n \in \dom{g}$ if and only if
+  $n \notin \dom{f_n}$.
+\end{exercise}
+
+\begin{exercise}
+  Define a non-computable total function that returns 1 when the input
+  is even
+  \[
+    f(x) = \begin{cases}
+      1 & x \mbox{ is even} \\
+      \varphi_{\frac{x-1}{2}} + 1 & x \mbox{ is odd, and } x \in
+      W_{\frac{x-1}{2}} \\
+      0 & x \mbox{ is odd, and } x \notin W_{\frac{x-1}{2}}
+    \end{cases}
+  \]
+
+  is easy to prove that the function $f$ is not computable. In fact,
+  $\forall n \quad f(2n + 1) \neq \varphi_n(2n+1)$. This means that
+
+  if
+  $2n+1 \in W_n \Rightarrow f(2n+1) = \varphi(2n+1) + 1 \neq
+  \varphi_n(2n+1)$
+
+  if
+  $2n+1 \notin W_n \Rightarrow f(2n+1) = 0 \neq \varphi_n(2n+1)
+  \uparrow $
+
+\end{exercise}
+% Same as the previous chapter, these notes are very different form
+% the italian version and not complete in the same way
+
+% Given a set $X$ we know that $ |X| \geq |2^X| $ is never valid, that
+% is, the set of its parts is always bigger. Suppose there is
+% $ f:X\rightarrow2^X $ surjective. Hence $ R = \{y . y \in X $ and
+% $ x \not \in f(y) \ \} \in 2^X $, since f is surjective then
+% $ \exists y_R \in X . f(y_R) = R$. I consider the cases separately:
+% \begin{itemize}
+% \item $ y_R \in R $ then $f(y_R) \Rightarrow y_R \not \in R $
+% \item $ y_R \not \in R $ then $ f(y_R) \Rightarrow y_R \in R$
+% \end{itemize}
+% Now we prove that the set of the parts of the natural numbers is not
+% countable. We assume there is a surjective function
+% $ \nat \rightarrow 2^\nat $. This means that I can enumerate subsets
+% $ X_i $ s.t. $ i \in \nat $. At this point I create a matrix where
+% each row $i$ of column $j = 1$ if $ x_i \in X_j $ and 0 otherwise. Now
+% consider the inverted diagonal, that is if $ x_i \not \in X_i $, in
+% this way it is different from all the columns, that is
+% $ \forall i . R \not= X_i $ because
+% $ n \in R \Leftrightarrow b \not \in X_n $ absurd since I assumed that
+% $ \{X_0 \dots X_n \} = 2^\nat$.
+
+% We conclude that $ |\nat| \not \geq |2^\nat| $
+
+% But we want $ |\nat| < |2^\nat| $.
+
+% But:
+% $ |\nat| \leq |2^\nat| \land |\nat| \not\geq |2^\nat| \implies |\nat|
+% < |2^\nat| $
+
+% I take the set of the characteristic functions $g$ of $ 2^\nat $ and I
+% call it $Y$, I take the set of all the functions $ \mathcal{F} $, of
+% course it holds that $ Y \subseteq \mathcal{F} $ and therefore
+% $ |Y| \leq |\mathcal{F}| $ but being that $ |\nat < |2^\nat| $ then I
+% also have that $ |\nat| \leq |\mathcal{F}| $
+
+% There is a total function that cannot be computed. We know how to
+% enumerate computable functions because we can enumerate them in the
+% form of numbers, repeating some of them. Now let's define $ f(n) $ as
+% non-total computable.
+
+% Matrix where the columns are the functions computed by the program
+% $ i \in \nat $, that is $ \{\phi_i . i \in \nat \} $ and the rows are
+% the arguments 0,1, \dots.
+
+% \begin{equation*}
+%   f(n) = \begin{cases}
+%     \phi_n(n)+1 & $ se $\phi(n)\downarrow \\
+%     0           & $ se $\phi(n)\uparrow
+%   \end{cases}
+% \end{equation*}
+
+% we observe that $f$ is total by construction and
+% $ f \not= \phi_n \forall n, n \in \nat $ Furthermore by construction
+% it is different from all computable functions and therefore it is not
+% computable.

@@ -1,9 +1,9 @@
 \documentclass{amsbook}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{hyperref}
-%\usepackage{ucs}
 \usepackage{amsmath}
+\usepackage{dsfont}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
@@ -15,10 +15,16 @@
 \usepackage{xcolor}
 \usepackage{mathabx}
 \hypersetup{
-	colorlinks,
+	colorlinks=false,
 	linkcolor={blue!50!black}
 }
 \usepackage{mathtools}
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{bibliography.bib}
 
 \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
@@ -38,15 +44,18 @@
 % theorems
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{observation}[theorem]{Observation}
 
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem{notation}[theorem]{Notation}
+\newtheorem{counterexample}[theorem]{Counterexample}
 
 \numberwithin{section}{chapter}
 \numberwithin{equation}{chapter}
@@ -107,9 +116,14 @@
 \input{chapters/10-diagonalization}
 \input{chapters/11-parametrization-theorem}
 \input{chapters/12-universal-function}
-\input{chapters/13-rices-theorem}
-\input{chapters/14-recursively-enumerable-set}
-\input{chapters/15-rices-shapiros-theorem}
+\input{chapters/13-recursive-sets}
+\input{chapters/14-rices-theorem}
+\input{chapters/15-recursively-enumerable-sets}
+\input{chapters/16-rices-shapiros-theorem}
+\input{chapters/17-first-recursion-theorem}
+\input{chapters/18-second-recursion-theorem}
+
+\printbibliography
 
 \end{document}
 %%% Local Variables:
