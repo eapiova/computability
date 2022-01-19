@@ -25,7 +25,7 @@ $ is semi-decidable. This notion is also easily extensible to
 \item subsets of $\nat^k$
 \item $k$-ary predicates
 \end{itemize}
-trough encoding or direct deifinition.
+through encoding or direct definition.
 
 \begin{theorem}\label{th:aiffanota}
   \[A \subseteq \nat \mbox{ r.e. } \Leftrightarrow A, \bar{A} \mbox{
@@ -40,7 +40,7 @@ trough encoding or direct deifinition.
           0 & $ otherwise $
         \end{cases}
       \end{equation*}
-      
+
       Then $ sc_A(x) = \mathds{1}(\mu z. | \chi_A(x)- z | )$
       computable. Computable, therefore \textit{A} is r.e. Also
       $\bar{A}$ is r.e. In fact, since $A$ is r.e., by closure on
@@ -60,15 +60,14 @@ trough encoding or direct deifinition.
         sc_{\bar{A}}
       \]
       therefore intuitively we can ``combine two machines'' until one
-      of the two terminates. Note that it will terminate for sure,
-      since either $x \in A$ or $x \in \bar{A}$. We can build the
-      charateristic function of $A$:
+      of the two terminates. Note that since either $x \in A$ or $x \in \bar{A}$,
+      it will terminate for sure. We can build the characteristic function of $A$:
       \[
           \chi_A(x) = (\mu \omega \; . \; |\chi_{s(e_0, x,
             (\omega)_1, (\omega)_2 \wedge s(e_1, x, (\omega)_1,
             (\omega)_2))}-1|)_1
         \]
-        wich is computable, therefore $A$ is recursive.
+        which is computable, therefore $A$ is recursive.
     \end{itemize}
   \end{proof}
 \end{theorem}
@@ -82,18 +81,18 @@ trough encoding or direct deifinition.
     \end{cases}
     = \mathds{1}(\varphi_x(x)) = \mathds{1}(\univ(x,x))
   \]
-  is computable by deifinition and for the theorem \ref{th:aiffanota}
+  is computable by definition and for the theorem \ref{th:aiffanota}
   \[
     \bar{K} = \{x \mid x \notin W_x\}
   \]
   is \emph{not} r.e. Otherwise $k,\bar{k}$ would have been both r.e.,
-  and therefore $k$ would have been recursive, wich is a
-  contraddiction.
+  and therefore $k$ would have been recursive, which is a
+  contradiction.
 \end{observation}
 
-\section {Theorem of structure of semidecidable predicates}
+\section {Theorem of structure of semi-decidable predicates}
 
-\begin{theorem}[Structure of semidecidable predicates]\label{th:structure}
+\begin{theorem}[Structure of semi-decidable predicates]\label{th:structure}
   Let $ Q(\vec{x}) \subseteq \nat^k $ be a predicate.
 
   This is decidable $ \Leftrightarrow $ there is a predicate $
@@ -117,17 +116,17 @@ trough encoding or direct deifinition.
       \[
         sc_P(\vec{x}) = \mathds{1}(\mu t \; . \; |\chi_Q(t,\vec{x}) - 1|)
       \]
-      wch is computable by definition, and therefore $P(\vec{x})$ is
-      semidecidable
-    \end{itemize} 
+      which is computable by definition, and therefore $P(\vec{x})$ is
+      semi-decidable
+    \end{itemize}
   \end{proof}
 \end{theorem}
 
 \section {Projection theorem}
 
 From the last theorem we had a hint about the fact that the class of
-semi-decidable predicates is closed unde \emph{existential
-  quantification}. The projection theorem states this:
+semi-decidable predicates is closed under \emph{existential
+  quantification}. The projection theorem further states that:
 
 \begin{theorem}[Projection theorem]
   Let $ P(x,\vec{y}) $ be semi-decidable; then
@@ -157,7 +156,7 @@ semi-decidable predicates is closed unde \emph{existential
   \end{proof}
 \end{theorem}
 
-So if you use existential identifier you go out of the set of the
+So if you use existential identifier, you go out of the set of the
 decidable predicates and enter the semi-decidable set, but if you use
 it twice you don't go outside the semi-decidable set.
 
@@ -203,7 +202,7 @@ it twice you don't go outside the semi-decidable set.
 \end{theorem}
 
 \begin{observation}
-  The set of semidecidable predicates is closed under $\land, \lor$
+  The set of semi-decidable predicates is closed under $\land, \lor$
   and $\exists$. It is not closed under $\forall$ and $\lnot$
 \end{observation}
 
@@ -214,7 +213,7 @@ it twice you don't go outside the semi-decidable set.
 
 \begin{observation}
   The latter results have an active translation in terms of r.e. sets
-  properites:
+  properties:
   \begin{enumerate}[label=(\arabic*)]
   \item $A \subseteq \nat$ is recursive iff $A, \bar{A}$ are r.e.
   \item if $A \subseteq \nat$ r.e. and $f : \nattonat$ computable
@@ -246,9 +245,9 @@ is to say:
     Which is computable.  Let $ f:\nat\rightarrow\nat $ be a total
     computable reduction function\\ $ A\leq B $ Then
     $ SC_A(x) = SC_B(f(x)) $, therefore $ SC_A $ is computable by
-    composition.  Therefore $A$ is r.e.
+    composition. Therefore $A$ is r.e.
 
-    To prove that also $B$ r.e., we just need to reverse the names in
+    To prove that $B$ is also r.e., we just need to reverse the names in
     the last proof (exercise).
   \end{proof}
 \end{observation}

@@ -1,27 +1,27 @@
 \chapter{Recursive sets}
-Up to now we saw many computable functions, decidable problems, but
+In previous chapters, we saw many computable functions and decidable problems, but
 only in few cases we gave examples of the large class of
-non-computable functions and undecidable predicates. Fro this reason
+non-computable functions and undecidable predicates. For this reason,
 we want to start a mathematical study of:
 \begin{itemize}
 \item classes of undecidable predicates
-\item techniques to prove the undecidaility of some predicates
+\item techniques to prove the undecidability of some predicates
 \end{itemize}
 This way we can highlight the limits of computers abilities and give a
 structure to problems classes (spoiler: the majority of interesting
 predicates are undecidable).
 
-We'll focus on \emph{numerical sets} $X \subseteq \nat$ trying to find
+We'll focus on \emph{numerical sets} $X \subseteq \nat$ and try to find
 an answer to the problem ``how difficult it is to determine weather
 $x \in X$''? This way we'll find
 \begin{itemize}
 \item recursive sets
-\item recursively enuerable sets
+\item recursively enumerable sets
 \end{itemize}
 
 \section{Recursive sets}
 \begin{definition}
-  A set $A \subseteq \nat$ is \emph{recursive} if its charateristic
+  A set $A \subseteq \nat$ is \emph{recursive} if its characteristic
   function
   \begin{gather*}
     \chi_A : \nattonat \\
@@ -33,7 +33,7 @@ $x \in X$''? This way we'll find
   is computable.
 \end{definition}
 
-In other words, if the predicate ``$x \in A$'' is decidable.
+(In other words, if the predicate ``$x \in A$'' is decidable.)
 
 \textbf{Note:}
 \begin{itemize}
@@ -45,7 +45,7 @@ In other words, if the predicate ``$x \in A$'' is decidable.
 \end{itemize}
 
 \paragraph{Examples}
-Are recursive:
+These are recursive:
 \begin{enumerate}[label=(\alph*)]
 \item $\nat$, since $\chi_\nat (x) = 1$ is computable;
 \item prime numbers
@@ -64,7 +64,7 @@ Are recursive:
   is computable
 \end{enumerate}
 
-On the other hand, are definetly not recursive:
+On the other hand, these are definitely not recursive:
 \begin{enumerate}[label=(\alph*)]
 \item $k = \left\{ x \; | \; x \in W_x \right\} $, since
   \[
@@ -80,7 +80,7 @@ On the other hand, are definetly not recursive:
 \mbox{\\}
 
 \paragraph{Closure of recursive sets}
-If $A,B \subset \nat$ are recursive, then are alsp recursive
+If $A,B \subset \nat$ are recursive, then they are also recursive
 \begin{enumerate}[label=\arabic*)]
 \item $\overline{A} = \nat - A$
 \item $A \cap B$
@@ -88,9 +88,9 @@ If $A,B \subset \nat$ are recursive, then are alsp recursive
 \end{enumerate}
 
 \subsection{Reduction process}
-It is a simple but very important process for study decidability
-problems. It tries to formalize the intuition of a problem
-$\mathcal{A}$ being ``easyer'' then another one, $\mathcal{B}$
+This process is a simple but very important process to study decidability
+problems. It basically tries to formalize the intuition of a problem
+$\mathcal{A}$ being ``easier'' then another one, $\mathcal{B}$
 
 \newcommand{\red}{\ensuremath{\leq_m}}
 \begin{definition}
@@ -113,21 +113,21 @@ We just need to observe that $\chi_A = \chi_B \circ f$
 \end{proof}
 
 We know that $k = \{ x | x \in W_x \}$ is not recursive. Let's see how
-the recursiveness of other sets can be proved by reduction to this
-set.
+the recursiveness of other sets can be proven by reduction to this
+set which we know for certain is not recursive.
 \begin{example}[$k \leq \{x | \varphi_x $ total $ \}$ ]
   \begin{proof}
-    we need to prove that exists $f : \nattonat$ computable and total
+    we need to prove that there exists $f : \nattonat$ computable and total
     s.t. $x \in k \Leftrightarrow f(x) \in A$. In other words
     \[ x\in W_x \Leftrightarrow  \varphi_{f(x)} \mbox{ is total} \]
     To do so we can define
     \[
       g(x,y) = \begin{cases}
         1 & x\in W_x \\
-        \uparrow & \mbox{otherewise} 
+        \uparrow & \mbox{otherwise}
       \end{cases}
     \]
-    wich is computable. This fact is easily proven by rewriting it as
+    which is computable. This fact is easily proven by rewriting it as
     \[
       g(x,y) = \mathds{1}(\varphi_x(x)) = \mathds{1}(\univ(x,x))
     \]
@@ -144,7 +144,7 @@ set.
 \end{example}
 
 \begin{example}[$\{(x,y) | y \in W_x\}$]
-  To see it as a subset of $\nat$ we just need to encode couplesas
+  To see it as a subset of $\nat$ we just need to encode couples as
   numbers
   \[B = \{ n | \Pi_2(n) \in W_{\Pi_1(n)}\}\]
 
@@ -155,7 +155,7 @@ set.
   \[
     \begin{tabu}{c c c c c c c}
       n \in k & \Rightarrow & n \in W_n & \Rightarrow & Pi_2(f(n)) \in W_{\Pi_1(f(n))} & \Rightarrow f(n) \in B \\
-      & \Leftarrow & & \Leftarrow & & \Leftarrow & 
+      & \Leftarrow & & \Leftarrow & & \Leftarrow &
 
     \end{tabu}
   \]
@@ -204,7 +204,7 @@ set.
         &= \mathds{1}(\univ(x,x))
       \end{split}
     \]
-    wich is computable, and therefore for the \smn theorem exists
+    which is computable, and therefore for the \smn theorem exists
     $f: \nattonat$ computable and total s.t.
     $g(x,y) = \varphi_{f(x)}(y)$, and so
     \begin{gather*}
@@ -214,7 +214,7 @@ set.
   \end{proof}
 \end{example}
 
-\begin{example}[The aoutput problem]
+\begin{example}[The output problem]
   Since $n \in \nat \quad B_n\{ x | n \in E_x\}$ is not recursive
   \begin{proof}
     we'll prove that $k \leq_m B_n$
@@ -241,8 +241,8 @@ set.
 \end{example}
 
 \textbf{Observation:} Let $A,B \subseteq \nat$ with $A \leq_m B$
-trough a reduction function $f : \nattonat$ (total and computable)
+through a reduction function $f : \nattonat$ (total and computable)
 injective. One could think that since $f^{-1}$ is computable, then
 also $B \leq_m A$. In reality this does not happen, since $f^{-1}$ is
-nottotal and so reduces to $A$ a ``subproblem'' of $B$, that, in
-principle, has no complexity relationships with $B$.
+not total and so reduces $A$ to a ``subproblem'' of $B$ even though
+it has no complexity relationships with $B$ in principle.

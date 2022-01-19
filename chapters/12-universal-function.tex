@@ -2,9 +2,9 @@
 \newcommand{\Psiex}{\ensuremath{\Psi_{\mathcal{U}}^{(k)} (e, \vec{x})}}
 \newcommand{\Psiuex}{\ensuremath{\Psi_e^{(k)} (\vec{x})}}
 \newcommand{\univ}{\ensuremath{\Psi_{\mathcal{U}}}}
-We'll now see how the theory we described up until now allows us to
+We'll now see how the theory which was described up until now allows us to
 prove something a bit surprising. This is to say, the existence of
-universal functions/programs, able to reproduce the behaviour of each
+universal functions/programs which are able to reproduce the behaviour of each
 and every other computable function/program. Let's consider the function
 
 \[
@@ -17,7 +17,7 @@ for all fixed $e \in \nat$
 \[
   g(y) = \Psi(e,y) = \varphi_e(y) \quad \rightsquigarrow \quad g = \varphi_e
 \]
-so, thanks to $e$, $\Psi$ rapresents all computable functions in the
+so, thanks to $e$, $\Psi$ represents all computable functions in the
 form $\nattonat$.
 
 \begin{definition}
@@ -36,7 +36,7 @@ be able to compute all k-ary functions. It includes in itself all
 other computable programs, and we can call it a Universal Computer
 \cite{davis:2011}.
 
-At first glance this might seem odd, but tinking again it recives in
+At first glance this might seem odd, but thinking again it receives in
 input:
 \begin{itemize}
 \item $e$ (the index of the program, a \textit{description} of the
@@ -59,7 +59,7 @@ In fact, the following result applies
     \item we build the program $P_e = \gamma^{-1}(e)$;
     \item we simulate $P_e$ on input $\vec{x}$
     \item if $P_e(\vec{x})\downarrow$, the value of $\Psiex$ is in
-      $R_1$, otherwise it is ok.
+      $R_1$, otherwise it is okay.
     \end{itemize}
     This way everything is effective, and for the Church-Turing
     thesis computable.
@@ -112,15 +112,15 @@ In fact, the following result applies
 
     At this point we have that
     \[\Psiex = \Psiuex = (c_k(e,\vec{x}, \mu t \; . \; j_k(e, \vec{x}, t)))_1\]
-    so if we prove that $c_k, j_k$ are computable we can conclude that
-    also $\Psi_{\mathcal{U}}^{(k)}$ si computable.  We proceed in the
-    same manner way we did in the proof \S\ref{reqc}, by proving that
+    so if we prove that $c_k, j_k$ are computable, we can conclude that
+    $\Psi_{\mathcal{U}}^{(k)}$ is also computable. We proceed in the
+    same way we did in the proof \S\ref{reqc}, by proving that
     $c_k, j_k \in \pr$ (in fact, this can be seen as a more formal
-    prove of the same fact, the only difference is that in the latter
-    demonstration we defined $c_p, j_p$ with \emph{a fixed $P$}, here
-    instead $P$ is a parameter). 
+    proof of the same fact, the only difference is that we defined
+    $c_p, j_p$ with \emph{a fixed $P$} in the latter demonstration.
+    Nevertheless, $P$ is instead a parameter here).
 
-    Explictly, each step:
+    Explicitly, each step:
 
     \newcommand{\uarg}{{\mbox{arg}}}
     \newcommand{\uargh}{{\mbox{arg}_h}}
@@ -128,13 +128,13 @@ In fact, the following result applies
     \item arguments of an URM instruction $( i = \beta(\mbox{Instruction}))$
 
       $Z_\uarg (i) = qt(4, i) + 1$
-              
+
       $S_\uarg (i) = qt(4,i) + 1$
-              
+
       $T_\uargh(i) = \Pi_h(qt(4,i)) + 1 \quad h \in \{1,2\}$
-              
+
       $J_\uargh(i) = \nu_h(qt(4,i)) + 1 \quad h \in \{1,2,3\}$
-      
+
     \item effect of executing an instruction on the configuration $C$
 
       \[
@@ -155,7 +155,7 @@ In fact, the following result applies
           \mbox{succ}(c, S_\uarg(i)) & rm(4,i) = 1 \\
           \mbox{tfr}(c, T_{\uarg_1}(i), T_{\uarg_2}(i)) & rm(4,i) = 2 \\
           c & rm(4,i) = 3
-      \end{cases} 
+      \end{cases}
     \]
 
   \item configuration of the registers if the current one ($c$) and
@@ -169,7 +169,7 @@ In fact, the following result applies
       \end{cases}
     \]
 
-  \item next configuration of registersif the $t^{\mbox{th}}$
+  \item next configuration of registers if the $t^{\mbox{th}}$
     instruction $i=\beta(\mbox{Instruction})$ is executed
 
     \newcommand{\instr}{\mbox{instr}}
@@ -182,7 +182,7 @@ In fact, the following result applies
     \]
 
   \item number of the next instruction if the $t^{\mbox{th}}$
-    instruction of $P_e$ is execeuted on the configuration $c$
+    instruction of $P_e$ is executed on the configuration $c$
 
     \newcommand{\nextinstr}{\mbox{nextinstr}}
     \[
@@ -233,7 +233,7 @@ be really useful in the next chapters.
     \item We observe that
       $H_k(e, \vec{x}, t) \equiv (j_k(e,\vec{x}, t) = 0)$ and therefore
       we have
-      
+
       $\chi_{H_k}(e, \vec{x}, t) = \overline{sg}(j_k(e,\vec{x},t))$
     \item We observe that
       $S_k(e, \vec{x}, y, t) \equiv ((j_k(e,\vec{x},t) = 0) \wedge ((c_k(e,\vec{x},t))_1)=y)$
@@ -242,7 +242,7 @@ be really useful in the next chapters.
 \end{corollary}
 
 Also, from the theorem we deduce the possibility to express every
-computable function in the so said Kleene normal form (KNF)
+computable function in the Kleene normal form (KNF).
 
 \begin{corollary}[Kleene Normal Form]
   $\forall e,k \in \nat \quad \forall x \in \nat^k$
@@ -254,10 +254,10 @@ computable function in the so said Kleene normal form (KNF)
 \textbf{Observations:}
 \begin{enumerate}[label=\roman*.]
 \item This corollary highlights how each computable function (or
-  equivlently $\in\pr$) can be obtained from primitive recursion
-  functions using minimalization maximum one time (we can use just one
+  equivalently $\in\pr$) can be obtained from primitive recursion
+  functions using minimization maximum one time (we can use just one
   \texttt{while})
-\item Minimalization allows us to ``search'' a single value that has a
+\item Minimization allows us to ``search'' a single value that has a
   certain property. The one we used is a technique to search couples
   of values generalizable to tuples.
 \end{enumerate}
@@ -272,14 +272,14 @@ computable injective function, then
 \end{cases}
 \]
 is computable since $f^{-1} = \mu y \; . \; |f(y) = x|$. We can verify
-that the hypotesis of \emph{totalyty} can be omitted.
+that the hypothesis of \emph{totalyty} can be omitted.
 
 \begin{theorem}
   Let $f: \nattonat$ computable and injective. Then
   $f^{-1}: \nattonat$ is computable.
   \begin{proof}
     Since $f$ is computable, exists $e \in \nat$ s.t. $\varphi_e =
-    f$. Now is sufficent to observe that
+    f$. Now is sufficient to observe that
     \[
       \begin{split}
         f^{-1}(x) &= (\mu z \; . \;  "S(e, (z)_1, x, (z)_2)")_1 \\
@@ -289,14 +289,14 @@ that the hypotesis of \emph{totalyty} can be omitted.
   \end{proof}
 \end{theorem}
 
-We can now find new uncomputable functions and undecidable predicates:
+We can now find new non-computable functions and undecidable predicates:
 
 \begin{theorem}
   The statement ``$\varphi_x$ is total'' is undecidable
   \begin{proof}
     Let $Tot(x)$ be the predicate
     \[ Tot(x) \equiv \mbox{ ``$\varphi_x$ is total''} \] and assume
-    that it si decidable. Then the charateristic function
+    that it is decidable. Then the characteristic function
     \[
       \chi_{Tot}(x) = \begin{cases}
         1 & \varphi_x \mbox{ is total} \\
@@ -310,12 +310,12 @@ We can now find new uncomputable functions and undecidable predicates:
         1 & \mbox{otherwise}
       \end{cases}
     \]
-    is both total and computable, since by hypotesis ``$\varphi_x$
+    is both total and computable since by hypothesis ``$\varphi_x$
     total'' is decidable and $\varphi_x(x) + 1 = \Psi(x,x) + 1$ is
     computable. But by looking at the definition by cases that it is
-    false. It required the used functions to be total:
+    false, it is required for the used functions to be total:
     \[ g(x) \neq (\Psi(x,x) + 1) \cdot \chi_{Tot}(x) + 0 \cdot (1
-      \dotdiv \chi_{Tot}(x))\] wich is undefined if
+      \dotdiv \chi_{Tot}(x))\] which is undefined if
     $\Psi(x,x) \uparrow$. The theorem of definition by cases continues
     to be valid for non total functions, but the proof must be
     changed. More in detail:
@@ -327,13 +327,13 @@ We can now find new uncomputable functions and undecidable predicates:
     \]
     and $\forall x$ if $\varphi_x$ total
     $\Rightarrow g(x) = \varphi_x(x) + 1 \Rightarrow \varphi_x \neq
-    g$. That is to say that $g$ is total and computa but different
-    from every other total computable function, wich is
-    absurd. Therefore $Tot(x)$ is not computable.
+    g$. That is to say that $g$ is total and computable, but is
+    absurdly different from every other total computable function
+    Therefore $Tot(x)$ is not computable.
   \end{proof}
 \end{theorem}
 
-\textbf{Observation:} The ame applies to prove that the following
+\textbf{Observation:} The same applies to prove that the following
 statements are undecidable (Halting problem):
 \begin{itemize}
 \item
@@ -346,8 +346,8 @@ statements are undecidable (Halting problem):
 
 \section{Effective operations on computable functions}
 The existence of the universal function, together with the \smn
-theorem allows us to prove formally the effectivity of various
-operations on indices of computable functions (in other words,
+theorem allows us to prove the effectivity of various
+operations on indices of computable functions formally (in other words:
 programs). For example:
 \begin{description}
 \item[product] given $x,y$ find $\omega$ s.t.
@@ -357,7 +357,7 @@ programs). For example:
   $\varphi_\omega = \varphi_x^{-1}$
 \end{description}
 It is more or less intuitive that these operations are effective on
-programs, but is less obvious how they can be proved to be computable.
+programs, but is less obvious how they can be proven to be computable.
 \subsection{Product}
 Exists a function $s: \nat^2 \rightarrow \nat$ total and computable
 s.t. \[\varphi_{s(x,y)} = \varphi_x \cdot \varphi_y\]
@@ -370,7 +370,7 @@ s.t. \[\varphi_{s(x,y)} = \varphi_x \cdot \varphi_y\]
       &= \Psi_{\mathcal{U}}(x,z) \cdot \Psi_{\mathcal{U}}(y,z)
     \end{split}
   \]
-  and thats is computable by defnition. For the \smn theorem there
+  and that is computable by definition. For the \smn theorem there
   exists $s: \nat^2 \rightarrow \nat$ s.t.
   \[
     \varphi_{s(x,y)}(z) = g(x,y,z) = \varphi_x(z) \cdot \varphi_y(z)
@@ -442,13 +442,13 @@ Exists $k: \nattonat$ total and computable s.t.
     \varphi_x \mbox{ is injective}\]
 \end{proof}
 
-\section{manipulating domains and codomains}
+\section{manipulating domains and co-domains}
 (a) Exists a total computable function $S : \nat^2 \rightarrow \nat$
 s.t. \[W_{S(x,y)} = W_x \cup W_y\]
 \begin{proof}
   we want a function s.t. $\varphi_{S(x,y)}(z)\downarrow$ iff
   $\varphi_x(z)\downarrow$ or $\varphi_y(z) \downarrow$. We can define
-  a function with $x,y$ as arguments that capures both properties
+  a function with $x,y$ as arguments that captures both properties
 
   \[
     g(x,y,z) = \begin{cases}
@@ -456,7 +456,7 @@ s.t. \[W_{S(x,y)} = W_x \cup W_y\]
       \uparrow  & \mbox{otherwise}
     \end{cases}
   \]
-  wich is computable:
+  which is computable:
   \[
     g(x,y,z) = \underline{0}(\mu \omega \; . \; |\chi_{H(x,z,\omega)
       \wedge H(y,z,\omega)} - 1|)
@@ -474,7 +474,7 @@ s.t. \[W_{S(x,y)} = W_x \cup W_y\]
 \[\forall x,y \quad E_{K(x,y)} = E_x \cup E_y\]
 \begin{proof}
   We want the value of $\varphi_{S(x,y)}$ to be the same of the
-  functions $\varphi_x and \varphi_y$. To do this we can simulate
+  functions $\varphi_x and \varphi_y$. In order to do this, we can simulate
   $\varphi_x$ on even numbers and $\varphi_y$ on odd numbers. We
   define a function where $x$ and $y$ are arguments
   \[
@@ -519,7 +519,7 @@ s.t. \[W_{S(x,y)} = W_x \cup W_y\]
       &= \mathds{1}( \univ (x,y)) \cdot y
     \end{split}
   \]
-  wich is computable, so for the \smn theorem exists $k : \nattonat$
+  which is computable, so for the \smn theorem exists $k : \nattonat$
   computable and total s.t. \[\varphi_{k(x)} = g(x,y)\]
   in other words
   \[y \in E_{k(x)} \Leftrightarrow \varphi_{k(x)}(y) = y
@@ -550,11 +550,11 @@ computable and total s.t. $\forall x \quad W_{k(x)} = f^{-1}(W_x)$
 
 \section{Operations on predicates}
 Exists $k : \nattonat$ computable and total s.t. if
-$\varphi_x = \chi_a$ is the charateristic function of a decidable
+$\varphi_x = \chi_a$ is the characteristic function of a decidable
 predicate $Q$, then $\varphi_{k(x)} = \chi_{\neg Q}$
 \begin{proof}
   we can define \[g(x,y) = 1 \dotdiv \varphi_x(y) = 1 - \univ(x,y) \]
-  wich is computable by deifinition. So, for the \smn theorem exists
+  which is computable by definition. So, for the \smn theorem exists
   $k$ computable and total s.t. \[g(x,y) = \varphi_{k(x)}\] this way
   if $\varphi_x = \chi_Q$
   \[

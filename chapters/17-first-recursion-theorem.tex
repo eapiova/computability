@@ -1,28 +1,28 @@
 \chapter{First recursion theorem}
 
-Usually with programming languages we have functions that uses other
-functions as arguments.  E.g. in ML, the function \texttt{succ} that
+Usually, we have functions that uses other functions as arguments
+in programming languages.  E.g. in ML, the function \texttt{succ} that
 given a function $f$ returns $f+1$ can be defined form
 \begin{quote}
     fun succ f x = f x + 1
 \end{quote}
 From the computability point of view is still somewhat natural to ask
-how can be carachterized effective/computable operations on
-functions. We'll later seee that this idea leads to the concept of
+how can be characterized effective/computable operations on
+functions. We'll later see that this idea leads to the concept of
 \emph{recursive functional}.
 
 \begin{definition}
   We'll call $\mathfrak{F}(\nat^k)$ the set of all the functions
-  (computable and not) of k arguemnts $\nat^k \rightarrow \nat^k$.
+  (computable and not) of k arguments $\nat^k \rightarrow \nat^k$.
 \end{definition}
 
 a \emph{functional} is just a function
 \[
   \Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)
 \]
-(we'll just conside total functions)
+(only total functions will be considered)
 
-When can we say that a funcitonal is effective (computable), in fact,
+When can we say that a functional is effective (computable), in fact,
 given $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
 \begin{itemize}
 \item a function $f \in \mathfrak{F}$ and its image
@@ -35,29 +35,29 @@ given $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
 What we need is a way to see functions as numbers
 
 \subsection{Encoding of finite functions}
-for each finite function its encoding $\tilde{\theta} \in \nat$ is defined
+for each finite function its' encoding $\tilde{\theta} \in \nat$ is defined
 as
 \begin{itemize}
 \item if $\theta = \emptyset$ then $\tilde{\theta} = 0$
 \item if $\theta = \{(x_1, y_1), \dots, (x_2, y_2)\}$ then
   $\tilde{\theta} = \prod_{i=1}^n p_{x_1}^{y_i+1}$
 \end{itemize}
-wich is both injective and effective. Given the encoding of a function
-$z= \tilde{\theta}$
+which is both injective and effective. Given the encoding of a function:
+$z= \tilde{\theta}$;
 \[
   x \in \dom{\theta} \quad \mbox{iff} \quad (z)_1 \neq \emptyset
 \]
 \[
   \begin{aligned}
     app(z,x) = \theta(x) & = \begin{cases}
-      (z)_x = 1 & x\in\dom{\theta} \\ 
+      (z)_x = 1 & x\in\dom{\theta} \\
       \uparrow & \mbox{otherwise}
     \end{cases} \\
     &= ((z)_x \dotdiv 1) \mathds{1}(\mu \omega \; . \; |1 - (z)_x|)
   \end{aligned}
 \]
 
-this way we can give the following dfinition of functional
+this way we can give the following definition of functional
 
 \begin{definition}
   A functional
@@ -98,11 +98,11 @@ this way we can give the following dfinition of functional
       \end{cases}
     \end{aligned}
   \]
-  wich is computable
+  which is computable
 \end{example}
 
 \begin{example}
-Te functional associalted to Ackermann function:
+Te functional associated to Ackermann function:
 \[
   \Psi_{ack} : \mathfrak{F}(\nat^2) \rightarrow \mathfrak{F}(\nat^2)
 \]
@@ -113,10 +113,9 @@ Te functional associalted to Ackermann function:
     \Psi_{ack}(f)(x+1, y+1)  & = & f(x, f(x+1, y)) \\
   \end{tabu}
 \]
-wich is computable as before.
+which is computable as before.
 \end{example}
-We can also veify that this definition of recursive functional
-computable functions into computable functions:
+We can also verify:
 
 \begin{theorem}\label{th:unknown}
   Let $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
@@ -125,7 +124,7 @@ computable functions into computable functions:
 \end{theorem}
 
 \section{Myhill-Sheperdson theorems}
-Gien a recusrsive functional $\Phi$, for (\ref{th:unknown})
+Given a recursive functional $\Phi$, for (\ref{th:unknown})
 
 \[
   f \mbox{ computable } \rightsquigarrow \Phi(f) \mbox{ computable }
@@ -135,9 +134,9 @@ Gien a recusrsive functional $\Phi$, for (\ref{th:unknown})
 \]
 
 so we can see a recursive functional as a function that transforms
-indexes (programs) in indexes (other programs), but with the property
+indices (programs) in indices (other programs), but with the property
 that the transformation depends on the firstly indexed function and
-\emph{not} on the index
+\emph{not} on the index itself
 
 \begin{definition}[Extensional function]
   Let $h : \nattonat$ a total function. It is \emph{extentional} if
@@ -156,9 +155,9 @@ that the transformation depends on the firstly indexed function and
   \]
 \end{theorem}
 
-Intuitively the behaviour of the recursive functional on computable
-functions is captured entirely by a total extentional function on the
-indexes
+Intuitively, the behaviour of the recursive functional on computable
+functions is captured entirely by a total extensional function on the
+indices
 
 \begin{theorem}[Myhill-Shepherdson (II)]\label{th:myhill-shepherdson2}
   If $h : \nattonat$ is a total computable extensional function, then
@@ -167,14 +166,14 @@ indexes
     \forall e \quad \Phi_h(\varphi_e) = \varphi_{h(e)}
   \]
 \end{theorem}
-That is to say that a toal computable extensional function identifies
+That is to say that a total computable extensional function identifies
 only one recursive functional.  Is interesting to observe that
 $\Phi_n$ exists also for non computable functions.
 
-\begin{theorem}[I thorem of recursion (Kleene)]\label{th:first-recursion}
+\begin{theorem}[I theorem of recursion (Kleene)]\label{th:first-recursion}
   If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
   a recursive functional, then $\Phi$ has a fixed minimum point
-  $f_\Phi$ wich is computable.
+  $f_\Phi$ which is computable.
 \end{theorem}
 
 That is to say that $\exists f_\Phi \in \mathfrak{F}(\nat^k)$
@@ -186,10 +185,10 @@ computable s.t.
   \; f_\Phi \subseteq g$
 \end{itemize}
 and we can see that $f_\Phi = \bigcup\limits_n
-\Phi^{n}(\emptyset)$. And since a functional can be associated to a
-fixed point, the theorem proves the closure of the set of computable
-functions with respect to extremely general forms of recursion. As
-exceptions we have:
+\Phi^{n}(\emptyset)$, and since a functional can be associated to a
+fixed point; the theorem proves the closure of the set of computable
+functions with respect to extremely general forms of recursion. The
+following are the exceptions:
 
 \mbox{}\\*
 \paragraph{\textbf{Primitive recursion}}
@@ -211,9 +210,9 @@ functional. This way the theorem assures us that:
 \end{itemize}
 
 \mbox{}\\*
-\paragraph{\textbf{Minimalization}}
+\paragraph{\textbf{Minimization}}
 given a function $f: \nat^{k+1} \rightarrow \nat$ we can see the
-minimalization $\mu y \; . \; f(\vec{x}, y)$ as a fixed point. Let's
+minimization $\mu y \; . \; f(\vec{x}, y)$ as a fixed point. Let's
 consider, for a fixed f
 \[
   \Phi_\mu \in \mathfrak{F}(\nat^{k+1})
@@ -225,21 +224,21 @@ consider, for a fixed f
     \uparrow & \mbox{otherwise}
   \end{cases}
 \]
-wich is recursive and has a minimum fixed point:
+which is recursive and has a minimum fixed point:
 \[
   f_{\Phi_\mu}(\vec{x}, y) = \mu (z \geq y) \; . \; f(\vec{x}, y)
 \]
 
 \mbox{}\\*
 \paragraph{\textbf{Ackermann function}}
-We saw that $\Phi_{ack}$ is recursive, therefore has a computable
+We saw that $\Phi_{ack}$ is recursive, therefore it has a computable
 minimum fixed point (the Ackermann function itself $\Psi$). The fact
-that $\Psi$ is total implies that that such fixed point is the
+that $\Psi$ is total implies that such fixed point is the
 \emph{only} fixed point.
 
 
 \begin{observation}
-  Generally speaking the fixed point is not unique. Counterexample:
+  Generally speaking, the fixed point is not unique. Counter-example:
   \[
     \Phi(f)(x) = \begin{cases}
       0 & x=0 \\

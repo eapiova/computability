@@ -1,5 +1,5 @@
 \chapter {Rice-Shapiro theorem}
-Rice-Shapiro states that A property of the functions computed by
+Rice-Shapiro states that a property of the functions computed by
 programs can be semi-decidable \textbf{only if} it depends on a finite
 part of the function (behavior on finite inputs). That is to say:
 
@@ -15,7 +15,7 @@ part of the function (behavior on finite inputs). That is to say:
   \]
 \end{theorem}
 
-In order to prove it we'll need some tools:
+In order for us to prove this we'll need some more tools:
 
 \begin{definition}[Finite function]
   A finite function is a function $ \theta: \nat\rightarrow\nat $
@@ -25,7 +25,7 @@ In order to prove it we'll need some tools:
   otherwise.
 \end{definition}
 
-Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
+Given $ f:\nat\rightarrow\nat $, $ \theta $ is a sub-function of
 \textit{f} if $ \theta \subseteq f $
 
 \begin{notation}\mbox{}\\*
@@ -43,10 +43,10 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
 \section{Proof of Rice-Shapiro theorem}
 
 \begin{proof}
-  
+
   $ \forall f \in \mathcal{C} (f \in \mathcal{A} \Leftrightarrow
   \exists\theta\subseteq f \mid \theta $ finite and $ \theta\in A)$
-  
+
   1)
   $ \exists f \in \mathcal{C} \; . \; f \not\in \mathcal{A} \land
   \exists\theta\subseteq f, \theta\in\mathcal{A} \Rightarrow
@@ -167,13 +167,13 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
   $A = \{ x \mid \varphi_x $ total $\}$ is not r.e.
 
   \begin{proof}
-    Clearly $A$ is saturated, and the set of functions from wich it
+    Clearly $A$ is saturated, and the set of functions from which it
     comes is $\mathcal{A} = \{f \in \mathcal{C} \mid f $ total
     $\}$. That is to say $A = \{x \mid \varphi_x \in
     \mathcal{A}\}$. Given any function $f \in \mathcal{A}$ (total by
     definition) clearly we know that $\forall \theta \subseteq f$
-    finite $\theta \notin \mathcal{A}$, since each and every finite
-    function is partial $\rightarrow$ for Rice-Shapiro theorem $A$ is
+    is finite $\theta \notin \mathcal{A}$, since each and every finite
+    function is partial $\rightarrow$ for Rice-Shapiro theorem, $A$ is
     not r.e.
   \end{proof}
 \end{example}
@@ -191,7 +191,7 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a subfunction of
 \end{example}
 
 The exercises \ref{exe:rice1} and \ref{exe:rice2} are essential to
-understand two core situations in wich we can apply the theorem:
+understand two core situations in which we can apply the theorem:
 
 \begin{observation}
   Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
@@ -222,8 +222,8 @@ understand two core situations in wich we can apply the theorem:
   \begin{enumerate}
   \item[(*)] $A$ is not r.e.
 
-    Infact the set of functions is in this case
-    $\mathcal{A} = \{\mathds{1}\}$, wich
+    In fact the set of functions is in this case
+    $\mathcal{A} = \{\mathds{1}\}$, which
     \begin{itemize}
     \item does not contain finite functions
     \item is not empty
@@ -232,7 +232,7 @@ understand two core situations in wich we can apply the theorem:
 
   \item[(**)] $\bar{A}$ is not r.e.
 
-    Infact $\bar{\mathcal{A}} = \mathcal{C} - \{\mathds{1}\}$, and we
+    In fact $\bar{\mathcal{A}} = \mathcal{C} - \{\mathds{1}\}$, and we
     have that
     \begin{itemize}
     \item $\emptyset \in \bar{\mathcal{A}}$
@@ -243,12 +243,12 @@ understand two core situations in wich we can apply the theorem:
 \end{exercise}
 
 \begin{observation}
-  Rice-Shapiro therem is a necessary condition, but not sufficent to
+  Rice-Shapiro theorem is a necessary condition, but not sufficient to
   be r.e., that is to say that does not hold that
   \begin{equation}\label{eq:star}
     \forall f \; (\; f \in \mathcal{A} \mbox{ iff } \exists \theta \mbox{
       finite, } \theta \subseteq f, \; \theta \in \mathcal{A} \; ) \quad
-    \Rightarrow \quad A \mbox{ r.e. } 
+    \Rightarrow \quad A \mbox{ r.e. }
   \end{equation}
 
   In other words, Rice-Shapiro can be used to prove that a set is
@@ -289,7 +289,7 @@ understand two core situations in wich we can apply the theorem:
         \uparrow & \mbox{otherwise}
       \end{cases}
     \]
-    wich is $= \mu z \; . \; |x-y|$, and therefore computabl. Again,
+    which is $= \mu z \; . \; |x-y|$, and therefore computable. Again,
     for the \smn theorem $\exists s : \nattonat$ computable and total
     s.t.
     \[
