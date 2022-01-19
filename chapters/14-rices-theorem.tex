@@ -19,7 +19,7 @@ In other words; $A$ is saturated if it expresses a property of
 functions, independently from indices
 \[A = \{x \mid P(\varphi_x)\}\]
 or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
-\[A = \{ x \mid \varphi_x \in \mathcal{A}\]
+\[A = \{ x \mid \varphi_x \in \mathcal{A}\}\]
 
 \begin{example}
   \[
@@ -33,13 +33,13 @@ or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
 \end{example}
 
 \begin{example}
-
+  
   \begin{center}
     $ K = \{e \mid e\in W_e \} = \{e \mid \phi_e\in \mathcal{K} \}
-  \mathcal{K} = \{f \mid ? \}$ I don't know what to write in this.
+  \mathcal{K} = \{f \mid ? \}$
   \end{center}
 
-  It is actually not saturated. Although it is difficult to prove this,
+  It is actually not saturated. Although it is difficult to prove this, 
   we can show that there is a program $e$ such that:
   \begin{equation*}
     \phi_e(x) = \begin{cases}
@@ -68,7 +68,7 @@ or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
   \item[($e_0 \notin A$)]
     Let $ e_0$ s.t. $ \phi_{e_0}(x)\uparrow\forall x $ suppose
     $ e_0\notin A $ and let $ e_1\in A $
-
+    
     Now let's define the following function:
     \begin{equation*}
       g(x,y) = \begin{cases}
@@ -110,9 +110,9 @@ or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
     $x \in K \Rightarrow S(x) \in A$, for (\ref{eq:two14})
     $x\notin K \Rightarrow S(x) \notin A$.
 
-    This way we proved that $K \leq_m A$, and $A$ is not recursive
+    This way we proved that $K \leq_m A$, and $A$ is not recursive 
     since $K$ is not recursive.
-
+    
   \item[($e_0 \in A$)] if $ e_0 \in A $ then $ e_0 \not \in \bar{A}
     $. But we remember that
     $ \bar{A} \subseteq \nat, \bar{A} \neq \emptyset, \bar{A} \neq
@@ -139,7 +139,7 @@ or, again, if exists $\mathcal{A} \subseteq \mathcal{C}$ s.t.
   \begin{itemize}
   \item $B_n$ is saturated;
   \item $B_n \neq \emptyset$
-  \item $B_n \neq \nat$
+  \item $B_n \neq \nat$ 
   \end{itemize}
 
   Hence $ B_n $ non-recursive.
