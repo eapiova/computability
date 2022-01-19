@@ -2,18 +2,18 @@
 
 The diagonalization technique, in a general sense, allows to build an
 object that differs from an enumerable infinity of similar objects.
-The idea behind it is that when given an enumerable et of objects
+The idea behind it is; given an enumerable set of objects
 (functions, numbers, ...) with structure $\{x_1, x_2, x_3, \dots \}$
-we can build another object $x$ based on the structure itself with the
-same nature of all the other objects, but different from each of them,
+we can build another object $x$ based on the its' own structure with the
+same nature of all the other objects, but different from each of them
 by making it ``differ from $x_n$ on $n$''.
 
 \begin{example}[$|2^\nat| > |\nat|$]
-  This is the original use of the Cantor method, from Cantor himself,
-  founder of the modern theory of sets, to prove that there are
+  This is the original use of the Cantor method from Cantor himself,
+  who is the founder of the modern theory of sets in order to prove that there are
   various ``levels of infinity''.
   \begin{proof}
-    Lets suppose that $|2^\nat| = |\nat|$. This means that exists an
+    Lets suppose that $|2^\nat| = |\nat|$. This means that there exists an
     enumeration of $2^\nat$: $x_0, x_1, x_3, \dots$
 
     Consider
@@ -26,9 +26,9 @@ by making it ``differ from $x_n$ on $n$''.
         \vdots & & & &
       \end{tabu}
     \]
-    We can define $X = \{n \mid n \notin X_n\}$ wich differs from
-    $X_n$ on its $n^{\mbox{th}}$ element.  Obviously $X \in 2^\nat $
-    wich means that $\exists k$ s.t. $X = X_k$. But is $k \in X$?
+    We can define $X = \{n \mid n \notin X_n\}$ which differs from
+    $X_n$ on its $n^{\mbox{th}}$ element. Obviously $X \in 2^\nat $
+    which means that $\exists k$ s.t. $X = X_k$. But is $k \in X$?
     \begin{gather*}
       k \in X \quad \Rightarrow \quad k \notin X_k = X \\
       k \notin X \quad \Rightarrow \quad k \in X_k = X
@@ -63,7 +63,7 @@ by making it ``differ from $x_n$ on $n$''.
       \end{tabu}
     \]
 
-    we can define a functoin $f$ that differs from every other
+    we can define a function $f$ that differs from every other
     function on the diagonal based on the input:
     \[f(n) = \begin{cases}
         0 & \quad \mbox{if } f_n(n)\uparrow \\
@@ -87,8 +87,8 @@ enumerable.
 \end{proof}
 
 \begin{exercise}
-  Exists a total function non computable. We lready knew that, but for
-  cardinality reasons, now we are able to exibhit it.
+  Exists a total function non computable. We already knew that, but for
+  cardinality reasons, now we are able to exhibit it.
   \[
     f(n) = \begin{cases}
 
@@ -151,9 +151,9 @@ functions in the form
     \end{cases}
   \]
 
-  why? Each function appears infinitely many times in the enumeration,
-  and skip the first $m-1$ steps doesn't create any
-  problem... Formally we know that
+  Why? Because each function appears infinitely many times in the enumeration,
+  and skipping the first $m-1$ steps that doesn't create any
+  problems... Formally we know that
   $\forall x \geq m \quad g \neq \varphi_x$ so $\forall y$ since there
   are infinitely many indices for $\varphi_x$
   \[\exists x \geq m \mbox{ s.t. } \quad \varphi_y = \varphi_x \quad
@@ -178,7 +178,7 @@ functions in the form
 \end{exercise}
 
 \begin{exercise}
-  Deifne a non computable total function that returns 1 when the input
+  Define a non-computable total function that returns 1 when the input
   is even
   \[
     f(x) = \begin{cases}

@@ -1,24 +1,24 @@
 \chapter{Second recursion theorem}
-Let h be total computable and extensional function. Then, for the
-theorem (\ref{th:myhill-shepherdson2}) exists only one recursive
-functoinal $\Phi$ such that
+Let h be total, computable and extensional function. Then, for the
+theorem (\ref{th:myhill-shepherdson2}) there exists only one recursive
+functional $\Phi$ such that
 \[ \forall e \quad \Phi(\varphi_e) = \varphi_{h(e)} \] Since $\Phi$ is
 recursive, for the first recursion theorem (\ref{th:first-recursion})
-it has a minimum fixed point $f_\Phi$ computale, and therefore exists
-$e\in \nat$ s.t. $f_\Phi = \varphi$. This means that
+it has a minimum fixed point $f_\Phi$ computable, and therefore exists
+$e\in \nat$ s.t. $f_\Phi = \varphi$. This means that:
 \[
   \varphi_e = \Phi(\varphi_e) = \varphi_{h(e)}
 \]
 That is to say that if $h$ is computable total and extensional then it
-exists $n$ s.t. \[\varphi_n = \varphi_{h(n)}\] The second recusrsion
-theorem states that this is valid also when h is not extensinal.  This
+exists $n$ s.t. \[\varphi_n = \varphi_{h(n)}\] The second recursion
+theorem states that this is valid also when h is not extensional.  This
 means that a function $h : \nattonat$ cannot be thought as a
 functional on computable functions. Instead, we can think that it is a
 \emph{function} that is defined on \emph{programs}.
 
-\begin{theorem}[Second recusrsion theorem]\label{th:second-recursion}
-  If $h : \nattonat$ a function computable and total, then exists
-  $n \in \nat$ s.t.
+\begin{theorem}[Second recursion theorem]\label{th:second-recursion}
+  If $h : \nattonat$ a function computable and total, then there exists
+  $n \in \nat$ such that:
   \[
     \varphi_{h(n)} = \varphi_n
   \]
@@ -31,16 +31,16 @@ functional on computable functions. Instead, we can think that it is a
     \[
       g(x,y) = \varphi_{S(x)}(y) \quad \forall y
     \]
-    Since $S$ is computable $\exists m$ s.t. $S = \varphi_m$ and so,
+    Since $S$ is computable $\exists m$ s.t. $S = \varphi_m$ and therefore
     we can substitute the variables
     \[
       \varphi_{h(\varphi_x(x))}(y) = \varphi_{\varphi_m(x)}(y) \quad \forall y
     \]
-    therefore, if $m=x$
+    consequently, if $m=x$
     \[
       \varphi_{h(\varphi_m(m))}(y) = \varphi_{\varphi_m(m)}(y) \quad \forall y
     \]
-    and if we consider $n = \varphi_m(m)$ (wich is defined since
+    and if we consider $n = \varphi_m(m)$ (which is defined since
     $S = \varphi_m$ is total)
     \[
       \varphi_{h(n)}(y)  = \varphi_n(y) \quad \forall y
@@ -53,15 +53,15 @@ functional on computable functions. Instead, we can think that it is a
 \end{theorem}
 
 This theorem can therefore be interpreted in the following manner:
-``given any effective procedute to transform programs, exists a
+``given any effective procedure to transform programs, there exists a
 program such that when properly modified does exactly what it did
 before''.
 
 Or again ``it is impossible to write a program that edits the core of
 all programs''.
 
-\textbf{Note:} the proof can appear misterious, but to a closer
-inspection clearly appears to be a simple diagonalization.
+\textbf{Note:} the proof can appear mysterious, but after a closer
+inspection, it clearly appears to be a simple diagonalization.
 
 \textbf{Note again:} the result of this theorem is extremely
 deep. This way, many theorems we've seen up until now are just
@@ -71,7 +71,7 @@ corollaries of it:
   Let $\emptyset \neq A \subsetneq \nat$. If $A$ is saturated, then
   $A$ is not rich.
   \begin{proof}
-    Let $\emptyset \subsetneq A \subsetneq \nat$ and suppone that $A$
+    Let $\emptyset \subsetneq A \subsetneq \nat$ and suppose that $A$
     (and therefore $\bar{A}$) is recursive. This means that
     $\chi_A, \chi_{\bar{A}}$ are computable. Now, let
     $a_0 \in \bar{A}, a_1 \in A$ be fixed elements (they clearly
@@ -79,7 +79,7 @@ corollaries of it:
     \[
       f(x) = \begin{cases}
         a_0 & x \in A \\
-        a_1 & x \in \bar{A} 
+        a_1 & x \in \bar{A}
       \end{cases} = a_0\chi_A(x) + a_1\chi_{\bar{A}}(x)
     \]
     it's  easy to see that
@@ -88,8 +88,8 @@ corollaries of it:
     \end{equation}
     Since $f$ is computable and total, for the second recursion
     theorem (\ref{th:second-recursion}) $\exists n$ s.t.
-    $\varphi_n = \varphi_{f(n)}$ and $A$ is saturated, wich means that
-    either $n, f(n) \in A$ or $n, f(n) \in \bar{A}$, wich contraddicts
+    $\varphi_n = \varphi_{f(n)}$ and $A$ is saturated, which means that
+    either $n, f(n) \in A$ or $n, f(n) \in \bar{A}$, which contradicts
     \ref{eq:xinafxinbara}.
   \end{proof}
 \end{corollary}
@@ -116,7 +116,7 @@ corollaries of it:
         n \notin K & \Rightarrow & \varphi_n = \varphi_{f(n)} = \varphi_{e_1} & \Rightarrow & \varphi_n(n) = \varphi_{e_1} (n) = n & \Rightarrow & n \in K \\
       \end{tabu}
     \]
-    wich is absurd.
+    which is absurd.
   \end{proof}
 \end{corollary}
 
@@ -124,7 +124,7 @@ corollaries of it:
   $K$ is not saturated
   \begin{proof}
     Let $n_0$ s.t. $\varphi_{n_0} = \{(n_0, n_0)\}$. We know that
-    there are infinitely many indeces for the same function; so let
+    there are infinitely many indices for the same function; so let
     $n \neq n_0$ s.t. $\varphi_n = \varphi_{n_0}$.
     \[
       \varphi_n(n) \uparrow \Rightarrow n \notin K

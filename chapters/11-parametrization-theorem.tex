@@ -3,14 +3,14 @@
 
 We'll start by giving an intuition on what the theorem talks
 about. Let $f : \nat^2 \rightarrow \nat$ be a computable
-function. Surely there exists an indice (to be precise infinitely many
+function. Surely there exists an index (to be precise infinitely many
 of them) $\ell$ s.t. \[f(x,y) = \varphi_\ell^{(2)}(x,y)\]
 
 Now, if we fix the first argument to a certain value $x$, we obtain a
 function of a single argument $f_x : \nattonat$
 \[f_x(y) = \varphi_\ell^{(2)}(x,y)\] and $\forall x \in \nat, \; f_x$
 is computable (since obtained from composition of computable
-funcitons. This means that exists a $d \in \nat$ s.t.
+functions. This means that exists a $d \in \nat$ s.t.
 \[f_x = \varphi_d\] in other words, $\forall y \in \nat$
 \[f_x(y) = \varphi_\ell^{(2)}(x,y) = \varphi_d(y)\] Clearly $d$
 depends on $\ell$ and $x$, since $d = S(\ell, x)$ with
@@ -22,7 +22,7 @@ how can I compute $S(\ell, x)$?
 \item form $\ell$ I can determine the program
   $P_\ell = \gamma^{-1}(\ell)$ that computes $\varphi_\ell^{(2)}(x,y)$
 \item the program that computes $f_x = \lambda y \; . \; f(x,y)$ with
-  $x$ fixed we can easly obtain from $P_\ell$:
+  fixed $x$, we can easily obtain from $P_\ell$:
   \begin{itemize}
   \item move $y$ in the register 2;
   \item put $x$ in the register 1;
@@ -31,7 +31,7 @@ how can I compute $S(\ell, x)$?
 \item we take the code of the obtained program
 \end{itemize}
 
-Again, intuitively, funcitons on indices, like $S$ are functions that
+Again, intuitively, functions on indices, like $S$ are functions that
 transform programs. The \smn theorem states that the operation of
 fixing an argument of a program is effective.
 
@@ -41,13 +41,13 @@ fixing an argument of a program is effective.
   words \[\varphi_\ell(x,y) = f(x,y) = x^y\] So, when $x$ varies we
   obtain computable functions
   \begin{itemize}
-  \item[] \(f_0(y) = y^0 = 1 \rightarrow \mbox{ indice} \quad S(\ell,0)\)
-  \item[] \(f_1(y) = y^1 = y \rightarrow \mbox{ indice} \quad S(\ell,1)\)
-  \item[] \(f_2(y) = y^2 = y^2 \rightarrow \mbox{ indice} \quad S(\ell,2)\)
+  \item[] \(f_0(y) = y^0 = 1 \rightarrow \mbox{ index} \quad S(\ell,0)\)
+  \item[] \(f_1(y) = y^1 = y \rightarrow \mbox{ index} \quad S(\ell,1)\)
+  \item[] \(f_2(y) = y^2 = y^2 \rightarrow \mbox{ index} \quad S(\ell,2)\)
   \item[] \(\dots\)
   \end{itemize}
   thanks to the \smn theorem we can determine those indices in an
-  effective way. The thoerem also does this in general for functions
+  effective way. The theorem also does this in general for functions
   in the form $f(\vec{x}, \vec{y}) : \nat^{(m+n)} \rightarrow \nat$,
   hence the name.
 \end{example}
@@ -79,7 +79,7 @@ fixing an argument of a program is effective.
         \quad \quad \mbox{it computes }
         \varphi_\ell^{(m+n)}(\vec{x},\vec{y})
       \]
-    \item starting from $P_\ell$ we can build a new program $P$ tht
+    \item starting from $P_\ell$ we can build a new program $P$:
       starting from
       \[
         \begin{tabu}{|c|c|c|c}
@@ -91,13 +91,13 @@ fixing an argument of a program is effective.
       \]
     \end{itemize}
 
-    In fact, it is sufficent
+    In fact, it is sufficient
     \begin{itemize}
     \item move $\vec{y}$ ``forward'' of $m$ registers
     \item load $\vec{x}$ in the free $m$ registers
     \item execute $P_\ell$
     \end{itemize}
-    
+
     The program P can be
 
     \begin{center}
@@ -112,20 +112,19 @@ fixing an argument of a program is effective.
       \end{tabular}
     \end{center}
     (\textbf{Reminder:} the concatenation has to update all the jump
-    instrutions in $P_\ell$,
+    instructions in $P_\ell$,
     $j(m^\prime, n^\prime, t) \rightsquigarrow j(m^\prime, n^\prime, t
     + m + n + \sum_{i=1}^mx_i)$
 
-    Once we have build $P$ we can say that
+    Once we build $P$ we can say that
     \[S(\ell, \vec{x}) = \gamma(P)\] Each function and construction
     method used are effective (in particular $\gamma, \gamma^{-1}$
     are) and so the existence, totality and computability of $S$ are
-    proved (even if informally, by appealing to the Church-Turing
+    proven (even though informally, by appealing to the Church-Turing
     thesis.
 
     The formal proof of calculability is long, but not difficult. We
-    just need to proceed by steps, following the intuitions of the
-    informal proof.
+    just need to follow the intuitions of the informal proof step by step.
 
     \paragraph{\textbf{function to update a program}}
     \newcommand{\up}[1]{\ensuremath{\mathit{up}({#1})}}
@@ -137,10 +136,10 @@ fixing an argument of a program is effective.
       \begin{tabular}{rl}
         $\up{e, t}=$ & code of a program obtained from
                        $P_e = \gamma^{-1}(e)$ \\
-                     & adding $t$ to each jump instruction
+                     & by adding $t$ to each jump instruction
       \end{tabular}
     \end{center}
-    For this reason is useful to define a support function that works
+    For this reason, it is useful to define a support function that works
     on each single instruction (encoded with $\beta$).
     \newcommand{\tup}[1]{\ensuremath{\tilde{\mathit{up}}({#1})}}
     \[
@@ -149,7 +148,7 @@ fixing an argument of a program is effective.
 
     \begin{center}
       \begin{tabular}{rl}
-        $\tup{i, t}=$ & code of the instruction obtaining updating
+        $\tup{i, t}=$ & code of the instruction obtained by updating
                         $\beta^{-1}(i)$ : \\
                       & if it is $J(\_,\_,\_) \rightsquigarrow
                         J(\_,\_,\_ + t)$. untouched otherwise
@@ -157,7 +156,7 @@ fixing an argument of a program is effective.
     \end{center}
     \newcommand{\qt}[1]{\ensuremath{\mathit{qt}({#1})}}
     \newcommand{\rmf}[1]{\ensuremath{\mathit{rm}({#1})}}
-    given $i,t \in \nat$ and said $q=\qt{4,i}, r=\rmf{4,i}$ holds that
+    given $i,t \in \nat$ and $q=\qt{4,i}, r=\rmf{4,i}$ the following holds:
     \[
       \tup{i,t} = \begin{cases}
         4 * \nu(\nu_1(q), \nu_2(q), \nu_3(q) + t) + 3 & r=3 \\
@@ -186,7 +185,7 @@ fixing an argument of a program is effective.
                                   \ell(e_1)}})
     \]
 
-    We'll  later need also a fnuction to concatenate sequences:
+    We will also need a function to concatenate sequences:
 
     \newcommand{\conc}[1]{\ensuremath{\mathit{c}({#1})}}
     \[
@@ -261,13 +260,13 @@ fixing an argument of a program is effective.
     \[
       S_{m,n}(e, \vec{x}) = \seq{\pref{\vec{x}}, e}
     \]
-    wich is $\in \pr$
+    which is $\in \pr$
   \end{proof}
 \end{theorem}
 
 \textbf{Note:} we proved that \smn is not just computable and total,
-but also primitively recursive. Also, the theorem is usually presented
-in a simpler shape:
+but is also primitively recursive. Furthermore, the theorem is usually presented
+in the following simpler shape:
 
 \begin{corollary}[simplified \smn theorem]\label{corollary:simple-smn}
   Let $f: \nat^{m,n} \rightarrow \nat$ be a computable function. Then,
@@ -283,14 +282,14 @@ in a simpler shape:
 \end{corollary}
 
 \begin{exercise}
-  Prove that exists a total computable function $k : \nattonat$ s.t.
+  Prove that there exists a total computable function $k : \nattonat$ s.t.
   \[
     \forall n \quad \varphi_{k(n)} = \lambda x \; . \; \lfloor \sqrt[n]{x} \rfloor
   \]
 
   That is to say $k$ is an enumeration of functions of the kind
-  $\lfloor \sqrt[n]{x} \rfloor$. Better, $k$ is a function that given
-  $n$ returns the program that computes $\lfloor \sqrt[n]{x}
+  $\lfloor \sqrt[n]{x} \rfloor$. Even better, $k$ is a function that given
+  $n$, it returns the program that computes $\lfloor \sqrt[n]{x}
   \rfloor$.
 
   \textbf{solution:} We define
@@ -308,7 +307,7 @@ in a simpler shape:
 \end{exercise}
 
 \begin{exercise}
-  Proe that exists $k : \nattonat$ computable and total s.t.
+  Prove that there exists $k : \nattonat$ computable and total s.t.
   $\forall n \quad \varphi_{k(n)}$ is defined only on $n^{th}$
   powers. That is to say
   \[
@@ -333,13 +332,13 @@ in a simpler shape:
   \[
     f(n,x) = \varphi_{k(x)}(x) \quad \forall n
   \]
-  $k$ is a valid answer, infact: $x \in W_{k(n)}$ iff
+  $k$ is a valid answer, in fact: $x \in W_{k(n)}$ iff
   $\varphi_{k(n)}(x)\downarrow$ iff $f(n,x)\downarrow$ iff $x$ is the
   $n^{th}$ power.
 \end{exercise}
 
 \begin{exercise}
-  Prove that exists a function $s: \nattonat$ total and computable
+  Prove that there exists a function $s: \nattonat$ which is total and computable
   s.t.
   \[W_{s(x)}^{(k)} = \{(y_1, \dots, y_k) \; | \;
     \sum\limits_{i=1}^ky_i = x)\}\]
@@ -356,7 +355,7 @@ in a simpler shape:
     \end{aligned}
   \]
 
-  and the rest of the prove is the same as before.
+  and the rest of the prove is the same as we have seen before.
 \end{exercise}
 
 % Again, here he goes very fast, where in the notes he approaches it
