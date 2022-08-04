@@ -7,7 +7,7 @@ We present a list of features that an algorithm should satisfy in
 order to capture the intuitive idea of \textbf{effective procedure}. Roughly,
 what we will ask is that it is ``implementable'' on some sort of
 idealised machine, the computational model. Hence, in turn, we will
-list some requirements that the computational model should meet to be
+list some requirements that the computational model should respect to be
 considered effective.
 
 An \textbf{algorithm} is a sequence of instructions with the following characteristics:
@@ -16,36 +16,34 @@ An \textbf{algorithm} is a sequence of instructions with the following character
   \label{as:prog_fin}
   it is of \textbf{finite length};
 \item there exists a \textbf{computing agent} able to execute its instructions;
-\item the agent as a \textbf{memory} available (to store input, intermediate results to be used in subsequent steps and output)
-\item the computation consists of discrete steps (it does not rely on analog devices)*
-\item the computation is neither non-deterministic nor probabilistic (
-  we model a  digital computer)
+\item the agent has available \textbf{memory} (to store input, intermediate results to be used in subsequent steps and output);
+\item the computation consists of discrete steps;
+\item the computation is neither non-deterministic nor probabilistic (we model a digital computer);
 
-\item there must be no limit to the size of the input data\\
+\item there is no limit to the size of the input data\\
   (we want to be able to define algorithms that work on any possible
-  input, e.g. sum \dots operating on summands of any size);
+  input, e.g. $+$ operating on summands of any size);
 
-\item there is no limit to the memory that can be used\\
-  This requirement could appear less natural, but having an unlimited
-  memory is essential to avoid the notion of computability depends
-  on the specific resources which are available. In fact, for many
-  functions the space required for the intermediate results depends on
-  the size of the input.
+\item there is no limit to the memory that can be used.\\
+  This requirement may seem less natural, but having unlimited memory is essential to avoid the notion of computability being dependent
+  from available resources. In fact, for many
+  functions the space required for intermediate results depends on
+  the size of the input,
 
   e.g. $f(n) = n^2$ $(1000)^2 = 1000000 \leftarrow$ I must add a
   number of zeroes that depends on $n \rightarrow n$ must be stored
-  (the states are finite).
+  (the states are finite);
 
 \item
   \label{as:istr_fin}
-  there must exist a finite limit to the number/complexity of the
-  instructions
+  there exist a finite limit to the number of the
+  instructions and to their complexity.
 
   This is intended to capture the intrinsic finiteness of the
   calculation device (justified by Turing with the limits of the human
-  mind/memory);
+  mind/memory),
 
-  E.g. for a computer, the memory that can be accessed with a single
+  e.g. for a computer, the memory that can be accessed with a single
   instruction must be finite (even if by (g), the memory is unlimited);
 
 \item computations might
@@ -72,7 +70,7 @@ We start by recalling some basic notions and introducing useful notation.
 \item Given the sets $A, B$ their \emph{Cartesian product} is
   $A \times B = \{ (a,b) \mid a \in A\ \land\ b \in B\}$. We will
   write $A^n$ for $A \times A \times A \times \ldots \times A$ $n$
-  times. More formally $A^1 = A$ and $ A^{n+1} = A \times A^n$.
+  times. Thus, we have $A^1 = A$ and $ A^{n+1} = A \times A^n$.
 
 \item A (binary) \emph{relation} or \emph{predicate} is
   $r \subseteq A \times B$.
@@ -93,164 +91,166 @@ We start by recalling some basic notions and introducing useful notation.
   \begin{itemize}
   \item $|A| = |B|$ if there exists a bijective function $f : A \to B$;
   \item $|A| \leq |B|$ if there exists an injective function
-    $f: A \to B$ injective or equivalently\footnote{Stritly speaking,
+    $f: A \to B$ or equivalently\footnote{Stritly speaking,
       the equivalence requires the axiom of choice.} a surjective
     function $g : B \to A$.
   \end{itemize}
   Observe that if $A \subseteq B$ then $|A| \leq |B|$ as witnessed by
   the inclusion, which is an injective function
-  \begin{quote}
+  \begin{center}
     $\begin{array}{cc}
        i: & A \to B  \\
           & a \mapsto a
      \end{array}$
-   \end{quote}
+   \end{center}
 
- \item We say that $A$ is \emph{countable} or \emph{denumerable} when
-   $|A| \leq |\nat|$, i.e., there is a surjective function
-   $f: B \to A$. Note that, when this is the case, we can
-   list (enumerate, whence the name) the elements of $A$ as
-   \begin{center}
-     $\begin{array}{cccc}
-        f(0) & f(1) & f(2) & \dots\\
-        a_0  & a_1  & a_2 & \dots
+\item We say that $A$ is \emph{countable} or \emph{denumerable} when
+  $|A| \leq |\nat|$, i.e., there is a surjective function
+  $f: \nat \to A$. Note that, when this is the case, we can
+  list (enumerate, whence the name) the elements of $A$ as
+  \begin{center}
+    $\begin{array}{cccc}
+      f(0) & f(1) & f(2) & \dots\\
+      a_0  & a_1  & a_2 & \dots
+    \end{array}
+    $
+  \end{center}
+
+\item When $A, B$ are countable then $A\times B$ is countable.
+
+  Idea of the proof:
+  \begin{itemize}
+  \item Since $A$ and $B$ are countable, we can consider the
+    corresponding enumerations
+
+    \begin{quote}
+      $
+      \begin{array}{cccc}
+        A & a_0 & a_1 & a_2 \\
+        B & b_0 & b_1 & b_2
       \end{array}
       $
+    \end{quote}
+    and place the elements of $A \times B$ in a matrix
+    \begin{center}
+      $
+      \begin{tabu}{c|ccc}
+        & b_0       & b_1       & b_2       \\
+        \hline
+        a_0 & (a_0,b_0) & (a_0,b_1) & (a_0,b_2) \\
+        a_1 & (a_1,b_0) & (a_1,b_1) & (a_1,b_2) \\
+        a_2 & (a_2,b_0) & (a_2,b_1) & (a_2,b_2)
+      \end{tabu}
+      $
     \end{center}
-
-  \item When $A, B$ are countable then $A\times B$ is countable.
-
-    Idea of the proof:
-    \begin{itemize}
-    \item Since $A$ and $B$ are countable, we can consider the
-      corresponding enumerations
-
-      \begin{quote}
-        $
-        \begin{array}{cccc}
-          A & a_0 & a_1 & a_2 \\
-          B & b_0 & b_1 & b_2
-        \end{array}
-        $
-      \end{quote}
-      and place the elements of $A \times B$  in a sort of matrix
-      \begin{center}
-        $
-        \begin{tabu}{c|ccc}
-          & b_0       & b_1       & b_2       \\
-          \hline
-          a_0 & (a_0,b_0) & (a_0,b_1) & (a_0,b_2) \\
-          a_1 & (a_1,b_0) & (a_1,b_1) & (a_1,b_2) \\
-          a_2 & (a_2,b_0) & (a_2,b_1) & (a_2,b_2)
-        \end{tabu}
-        $
-      \end{center}
-      in a way that they can be enumerated following along the diagonals
-      as follows:
-      $(a_0,b_0), (a_0,b_1), (a_1,b_0), (a_0,b_2), (a_1,b_1), (a_2,b_0),
-      \dots$ (this is referred to as ``dove tail'' enumeration)
-    \end{itemize}
-
-
-  \item A countable union of countable sets is countable: if
-    $\{A_i\}_{i\in\nat}$ is a collection of countable sets then
-    $\bigcup \limits_{i \in \nat} A_i$ is countable.
+    so that they can be enumerated along the diagonals
+    as follows:\\
+    $(a_0,b_0), (a_0,b_1), (a_1,b_0), (a_0,b_2), (a_1,b_1), (a_2,b_0),
+    \dots$ (this is referred to as \emph{dove tail} enumeration)
   \end{itemize}
 
-  \section{Existence of non-computable functions in each computational model}\label{se:existence-non-2}
 
-  Let us consider some fixed computational model satisfying the
-  assumptions in \S\ref{se:alg-char}. We want to show that there are
-  functions which are not computable in such a model.
+\item A countable union of countable sets is countable: if
+  $\{A_i\}_{i\in\nat}$ is a collection of countable sets then
+  $\bigcup \limits_{i \in \nat} A_i$ is countable.
+\end{itemize}
 
-  We focus on unary functions over the natural numbers. Let
-  $\mathcal{F} = \{f \mid f:\nat\rightarrow\nat\}$ be the set of all the
-  (partial) unary functions on $\nat$.
+\section{Existence of non-computable functions in each computational model}\label{se:existence-non-2}
 
-  Let $\mathcal{A}$ be the set of all algorithms in our fixed
-  computational model.
-  %
-  Every algorithm $A \in \mathcal{A}$ computes a function
-  $f_A: \nat \to \nat$ and a function is said to be computable in our model if
-  there exists an algorithm that computes it. Hence the set
-  $F_\mathcal{A}$ set of computable functions in the given computational
-  model is
-  \begin{center}
-    $\mathcal{F}_{\mathcal{A}} = \{ f_A \mid A \in \mathcal{A} \}$.
-  \end{center}
+Let us consider some fixed computational model satisfying the
+assumptions in \S\ref{se:alg-char}. We want to show that there are
+functions which are not computable in such a model.
 
-  Certainly $\mathcal{F}_A \subseteq \mathcal{F}$. But, is the inclusion
-  strict (i.e., is there a non-computable function)?
+We focus on unary functions over the natural numbers. Let
+$\mathcal{F} = \{f \mid f:\nat\rightarrow\nat\}$ be the set of all the
+(partial) unary functions on $\nat$.
 
-  The answer is yes. Essentially, algorithms are considered too few to compute all of the functions for combinatory reasons.
+Let $\mathcal{A}$ be the set of all algorithms in our fixed
+computational model.
+%
+Every algorithm $A \in \mathcal{A}$ computes a function
+$f_A: \nat \to \nat$ and a function is said to be computable in our model if
+there exists an algorithm that computes it. Hence the set
+$\mathcal{F}_\mathcal{A}$ set of computable functions in the given computational
+model is
+\begin{equation*}
+  \mathcal{F}_{\mathcal{A}} = \{ f_A \mid A \in \mathcal{A} \}
+\end{equation*}
+Certainly $\mathcal{F}_\mathcal{A} \subseteq \mathcal{F}$. But, is the inclusion
+strict (i.e., is there a non-computable function)?
 
+The answer is yes. Basically, the algorithms are too few to compute all the
+functions for combinatorial reasons.
 
-  In fact, an algorithm $A \in \mathcal{A}$ will be a finite, by
-  assumption (\ref{as:prog_fin}), sequence of instructions taken from
-  some instruction set $I$. Moreover, by assumption (\ref{as:istr_fin}),
-  $I$ must be finite. Hence:
-  \begin{center}
-    $\mathcal{A} \subseteq \bigcup_{i \in \nat} I^n$
-  \end{center}
-  Since  a countable union of finite (hence countable) sets is countable, we have:
-  \begin{center}
-    $|\mathcal{A}| \leq |\bigcup_{n\in\nat} I^n| \leq |\nat|$
-  \end{center}
-  and since the function
-  \begin{quote}
-    $\mathcal{A} \to F_\mathcal{A}$\\
-    $A \mapsto f_A$
-  \end{quote}
-  is surjective by definition, we have that
-  \begin{center}
-    $|F_\mathcal{A}| \leq |\mathcal{A}| \leq |\nat|$
-  \end{center}
+In fact, an algorithm $A \in \mathcal{A}$ will be a finite sequence of instructions taken from
+some instruction set $I$, by
+assumption \ref{as:prog_fin}. Moreover, by assumption \ref{as:istr_fin},
+$I$ must be finite. Hence:
+\begin{equation*}
+  \mathcal{A} \subseteq \bigcup_{i \in \nat} I^n
+\end{equation*}
+Since a countable union of finite (hence countable) sets is countable, we have
+\begin{equation*}
+  |\mathcal{A}| \leq |\bigcup_{n\in\nat} I^n| \leq |\nat|
+\end{equation*}
+and since the function
+\begin{align*}
+  \mathcal{A} & \to \mathcal{F}_\mathcal{A}\\
+  A & \mapsto f_A
+\end{align*}
 
-  On the other hand the set of all functions, $\mathcal{F}$, is not countable. Let $\mathcal{T}$ the subset of $\mathcal{F}$ consisting of the total functions $\mathcal{T} = \{ f \mid f \in \mathcal{F}\ \land\ \dom{f} = \nat\}$. We show that
-  \begin{center}
-    $|\mathcal{F}| \geq |\mathcal{T}| > |\nat|$.
-  \end{center}
+is surjective by definition, we have that
+\begin{equation*}
+    |\mathcal{F}_\mathcal{A}| \leq |\mathcal{A}| \leq |\nat|
+\end{equation*}
 
-  We prove that $|\mathcal{T}| > |\nat|$ by contradiction. Let us suppose that $\mathcal{T}$ is countable. Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ and thus a matrix like the following:
-  \begin{center}
-    \begin{tabular}{c|ccc}
-      & $f_0$    & $f_1$    & $f_2$\\
-      \hline
-      0 & $f_0(0)$ & $f_1(0)$ & $f_2(0)$ \\
-      1 & $f_1(0)$ & $f_1(1)$ & $f_1(2)$ \\
-      2 & $f_2(0)$ & $f_2(1)$ & $f_2(2)$
-    \end{tabular}
-  \end{center}
-  and build a function, that consists of the values that are on the diagonal, systematically changed:
-  \begin{quote}
-    $d: \nat \to \nat$\\
-    $d(n) = f_n(n)+1$
-  \end{quote}
+On the other hand the set of all functions, $\mathcal{F}$, is not countable. Let $\mathcal{T}$ the subset of $\mathcal{F}$ consisting of the total functions $\mathcal{T} = \{ f \mid f \in \mathcal{F}\ \land\ \dom{f} = \nat\}$. We show that
+\begin{equation*}
+  |\mathcal{F}| \geq |\mathcal{T}| > |\nat|
+\end{equation*}
 
-  We can observe that
-  \begin{itemize}
-  \item $d$ total, by definition;
-  \item $d \neq f_n$ for all $n \in \nat$ (since $d(n) = f(n)+1 \neq f(n)$.
-  \end{itemize}
-  This is absurd since $f_0, f_1, f_2, \ldots$ is an enumeration of all the total functions.
+We prove that $|\mathcal{T}| > |\nat|$ by contradiction. Let us suppose that $\mathcal{T}$ is countable. 
+Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ such as the following matrix
+\begin{center}
+  \begin{tabular}{c|ccc}
+    & $f_0$    & $f_1$    & $f_2$\\
+    \hline
+    0 & $f_0(0)$ & $f_1(0)$ & $f_2(0)$ \\
+    1 & $f_1(0)$ & $f_1(1)$ & $f_1(2)$ \\
+    2 & $f_2(0)$ & $f_2(1)$ & $f_2(2)$
+  \end{tabular}
+\end{center}
+and build a function $d$ using the diagonal values 
+\begin{align*}
+  d :\ & \nat \to \nat\\
+  & n \mapsto f_n(n)+1
+\end{align*}
 
-  \medskip
+We can observe that
+\begin{itemize}
+\item $d$ is total, by definition;
+\item $d \neq f_n$ for all $n \in \nat$, since $d(n) = f_n(n)+1 \neq f_n(n)$.
+\end{itemize}
+This is absurd, since $f_0, f_1, f_2, \ldots$ is an enumeration of all the total functions.
 
-  Summing up:
-  \begin{center}
-    $\mathcal{F}_A \subsetneq F$ and
-    $|F_A| \leq |\nat| < |\mathcal{T}| = |\mathcal{F}|$
-  \end{center}
-  therefore $F_A \subsetneq F$, as desired.
+\medskip
 
-  Note that non-computable functions are not countable:
-  \begin{center}
-    $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| > |\nat|$.
-  \end{center}
-  In fact, $\mathcal{F} = \mathcal{F}_{\mathcal{A}} \cup (\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}})$. Thus, if it were to be $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| \leq |\nat|$, we would have $\|\mathcal{F}| \leq |\nat$ simply because of the fact that union of countable sets is countable.
+Summing up
+\begin{gather*}
+  \mathcal{F}_\mathcal{A} \subseteq \mathcal{F}\\
+  |\mathcal{F}_\mathcal{A}| \leq |\nat| < |\mathcal{T}| = |\mathcal{F}|
+\end{gather*}
+we get $\mathcal{F}_\mathcal{A} \subset \mathcal{F}$, as desired.
 
-  We conclude that
-  \begin{enumerate}
-  \item no computational model can compute all functions;
-  \item the non-computable functions are the majority.
-  \end{enumerate}
+Note that the set of non-computable functions is not countable
+\begin{equation*}
+  |\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| > |\nat|
+\end{equation*}
+In fact, $\mathcal{F} = \mathcal{F}_{\mathcal{A}} \cup (\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}})$. 
+Thus, if it were to be $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| \leq |\nat|$, we would have had $|\mathcal{F}| \leq |\nat|$ because union of countable sets is countable.
+
+We conclude that
+\begin{enumerate}
+\item no computational model can compute all functions;
+\item there are more non-computable than computable functions.
+\end{enumerate}
