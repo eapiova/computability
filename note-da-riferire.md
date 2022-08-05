@@ -1,3 +1,13 @@
+
+Stima ore:
+4
+
+Da finire:
+- esercizi capitolo 3
+- tabularray invece di tabu
+- esercizi capitolo 4 dal terzo in poi
+
+
 Cosa ho sistemato:
 - poco inglese (frasi convolute)
 - vari errori tipo cambio nome di variabile (dimenticanze)

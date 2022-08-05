@@ -1,26 +1,38 @@
 \chapter{Decidable Predicates}
 
-In mathematics we often want to establish \textbf{properties}, for example: $ div(m,n)  \quad  div \subseteq \nat \times \nat \quad  div = \{(m,Km) \mid m \in \nat, K \in \nat \} $
+In mathematics we often want to establish \textbf{properties}, for example \emph{$m$ is a divisor of $n$}. 
+We can define it using a relation such as
+\begin{align*}
+    div & \subseteq \nat \times \nat\\
+    div & = \{(m,k \cdot m) \mid m \in \nat, k \in \nat \}
+\end{align*}
 
-We can say $ div: \nat \times \nat \rightarrow \{0,1\} $|
+We can also characterise $div$ as 
+\begin{align*}
+    div & : \nat \times \nat \rightarrow \{true, false\}\\
+    div & = \begin{cases}
+                true & \mbox{if $m$ is a divisor of $n$}\\
+                false & \mbox{otherwise}
+            \end{cases}
+\end{align*}
 
-In the field of calculability theory we talk about \textbf{predicates} or \textbf{problems}.
+In the field of calculability theory we talk about \textbf{predicates}.
 
-A \textbf{K-ary predicate} on $\nat $ indicated with $Q(x_1,x_k)$ is therefore a property that can be true or false, formally we can see it as:
+A \textbf{k-ary predicate} on $\nat $ indicated with $Q(x_1,\dots,x_k)$ is a property that can be true or false, formally we can see it as
 
 \begin{itemize}
 \item a function $Q: \nat^k\rightarrow \{true,false\}$
 \item a set $Q \subseteq \nat^k$
 \end{itemize}
 
-we write $Q(x_1,\dots,x_k)$ to indicate $(x_1,\dots,x_k) \in Q$ or $Q(x_1,\dots,x_k) = true$
+we write $Q(x_1,\dots,x_k)$ to denote $(x_1,\dots,x_k) \in Q$ or $Q(x_1,\dots,x_k) = true$
 
-When is it computable? Int. when there exists a URM where given a k-tuple $(x_1,\dots,x_k)$ as input, it returns $true$ if $Q(x_1,\dots,x_k)$ and $false$ otherwise. To represent $true$ and $false$ we use conventionally use values 1 and 0.
+When is $Q$ computable? When there exists a URM such that given a k-tuple $(x_1,\dots,x_k)$ in input, it returns $true$ if $Q(x_1,\dots,x_k)$ and $false$ otherwise. 
 
-\subsection{Definition of decidable predicate}
+To represent $true$ and $false$ we conventionally use values $1$ and $0$.
 
-A predicate $Q \subseteq \nat^k$ is said to be \textbf{decidable} if its \textbf{characteristic function}
-
+\begin{definition}
+    A predicate $Q \subseteq \nat^k$ is said to be \textbf{decidable} if its \textbf{characteristic function}
 \begin{equation*}
 \mathcal{X}_Q(x_1,\dots,x_k) = \begin{cases}
 1 & $ if $ Q(x_1,\dots,x_k) \\
@@ -28,115 +40,120 @@ A predicate $Q \subseteq \nat^k$ is said to be \textbf{decidable} if its \textbf
 \end{cases}
 \end{equation*}
 
-is computable (for now URM-computable).
+is (URM) computable.
+\end{definition}
 
-\textbf{Note} $\mathcal{X}_Q$ is a \textbf{total} function (when one studies the decidability of predicates, one works only with total functions)
 
-\section {Example of decidable predicate}
+\begin{remark}
+    $\mathcal{X}_Q$ is a \textbf{total} function (dealing with decidability of predicates, involves only total functions).
+\end{remark}
 
-The example is equality. $ Q(x,y) \subseteq \nat^2 $, $ Q(x,y) \equiv x = y $
 
-In fact the characteristic function
+\section {Examples of decidable predicates}
+\begin{enumerate}
+    \item Equality\\
+    $ Q \subseteq \nat^2 $, $ Q(x,y) \equiv x = y $
 
-\begin{equation*}
-\mathcal{X}_a(x,y) = \begin{cases}
-1 & $ if $ x = y  \\
-0 & $ otherwise $
-\end{cases}
-\end{equation*}
+    The characteristic function
+    \begin{equation*}
+    \mathcal{X}_Q(x,y) = \begin{cases}
+    1 & $ if $ x = y  \\
+    0 & $ otherwise $
+    \end{cases}
+    \end{equation*}
+    is computed, for instance, by the program
+    \begin{quote}
+    \begin{tabular}{lll}
+    $I_1$ & J(1,2,3)  \\
+    $I_2$ & J(1,1,4)       \\
+    $I_3$ & S(3) \\
+    $I_4$ & T(3,1)
+    \end{tabular}
+    \end{quote}
 
-is computed by the program
+    \item $ Q(x) \equiv x \text{ is even} $
 
-\begin{quote}
-\begin{tabular}{lll}
-& J(1,2,SI)  \\
-NO:  & Z(1)       \\
-& J(1,2,END) \\
-SI:  & Z(1)       \\
-& S(1)       \\
-END: &
-\end{tabular}
-\end{quote}
+    \begin{quote}
+    \begin{tabular}{lll}
+    $I_1$ & J(1,2,6)   \\
+    $I_2$ & S(2)        \\
+    $I_3$ & J(1,2,7)   \\
+    $I_4$ & S(2)        \\
+    $I_5$ & J(1,1,1) \\
+    $I_6$ & S(3)        \\
+    $I_7$ & T(3,1)
+    \end{tabular}
+    \end{quote}
+    
+    \begin{tabu}{|c|c|c|}
+    \hline
+    x & k & r \\
+    \hline
+    \end{tabu} in memory where k is a growing index and r is the result.
+    
+    \item $Q(x,y) \equiv x \leq y$\\
+    We can either increment both $x$ and $y$ until $x+k=y$, so that $x\leq y$, or until $y+k=x$, so that $x>y$ (not equal for the order of comparisons).
+    
+    \begin{quote}
+    \begin{tabular}{lll}
+    & T(1,3)      &        \\
+    & T(2,4)      &        \\
+    LOOP: & J(2,3,SI)   & \comment{x+k=y?} \\
+    & J(1,4,NO)   & \comment{y+k=x?} \\
+    & S(3)        &        \\
+    & S(4)        &        \\
+    & J(1,1,LOOP) &        \\
+    SI:   & S(5)        &        \\
+    NO:   & T(5,1)      &
+    \end{tabular}
+    \end{quote}
+    
+    Memory: $\begin{tabu}{|c|c|c|c|c|}
+    \hline
+    x & y & x+k & y+k & r \\
+    \hline
+    \end{tabu}$ where $r$ is the result.
+    
+    Another approach is to increment a register starting from 0. If we reach $x$ first then $x \leq y$, otherwise $x > y$.
+    
+    \begin{quote}
+    \begin{tabular}{lll}            
+    LOOP: & J(1,3,SI)   & \\
+    & J(2,3,NO)   & \\
+    & S(3)        & \\
+    & J(1,1,LOOP) & \\
+    SI:   & S(4)        & \\
+    NO:   & T(4,1)      &
+    \end{tabular}
+    \end{quote}
+    
+    $\begin{tabu}{|c|c|c|c|}
+    \hline
+    x+k & y & k & r \\
+    \hline
+    \end{tabu}$ where $r$ is the result.
+    
+    Example of $div(x,y)$, suppose $x \not= 0$:
+    
+    \begin{quote}
+    \begin{tabular}{lll}            
+    LOOP: & J(2,3,SI)   &                                   \\
+    & Z(4)        & \comment{sum $x$ to $R_2$}         \\
+    ADDX: & J(1,4,LOOP) &                                   \\
+    & J(2,3,NO)   & \comment{if for $h<x$  $kx+h=y$ then no!} \\
+    & S(3)        &                                   \\
+    & S(4)        &                                   \\
+    & J(1,1,ADDX) &                                   \\
+    SI:   & S(5)        &                                   \\
+    NO:   & T(5,1)      &
+    \end{tabular}
+    \end{quote}
+    
+    $\begin{tabu}{|c|c|c|c|c|}
+    \hline
+    x & y & kx+h & h & r \\
+    \hline
+    \end{tabu}$ where $r$ is the result.
+\end{enumerate}
 
-Another example: $ Q(x) \equiv x $ is even:
 
-\begin{quote}
-\begin{tabular}{lll}
-LOOP: & T(1,2,SI)   \\
-& S(2)        \\
-& J(1,2,NO)   \\
-& S(2)        \\
-& J(1,2,LOOP) \\
-SI:   & S(3)        \\
-NO:   & T(3,1)
-\end{tabular}
-\end{quote}
-
-\begin{tabu}{|c|c|c|}
-\hline
-x & k & r \\
-\hline
-\end{tabu} in memory where k is a growing index and r is the result.
-
-Another example is $Q(x,y) \equiv x \leq y$. We can either increment both $x$ and $y$ until $x+k=y$, so that $x\leq y$, or until $y+k=x$, so that $x>y$ (not equal for the order of comparisons).
-
-\begin{quote}
-\begin{tabular}{lll}
-& T(1,3)      &        \\
-& T(2,4)      &        \\
-LOOP: & J(2,3,SI)   & \comment{x+k=y?} \\
-& J(1,4,NO)   & \comment{y+k=x?} \\
-& S(3)        &        \\
-& S(4)        &        \\
-& J(1,1,LOOP) &        \\
-SI:   & S(5)        &        \\
-NO:   & T(5,1)      &
-\end{tabular}
-\end{quote}
-
-Memory: $\begin{tabu}{|c|c|c|c|c|}
-\hline
-x & y & x+k & y+k & r \\
-\hline
-\end{tabu}$ where $r$ is the result.
-
-Another approach is to increment a register starting from 0. If we reach $x$ first then $x \leq y$, otherwise $x > y$.
-
-\begin{quote}
-\begin{tabular}{lll}            
-LOOP: & J(1,3,SI)   & \\
-& J(2,3,NO)   & \\
-& S(3)        & \\
-& J(1,1,LOOP) & \\
-SI:   & S(4)        & \\
-NO:   & T(4,1)      &
-\end{tabular}
-\end{quote}
-
-$\begin{tabu}{|c|c|c|c|}
-\hline
-x+k & y & k & r \\
-\hline
-\end{tabu}$ where $r$ is the result.
-
-Example of $div(x,y)$, suppose $x \not= 0$:
-
-\begin{quote}
-\begin{tabular}{lll}            
-LOOP: & J(2,3,SI)   &                                   \\
-& Z(4)        & \comment{sum $x$ to $R_2$}         \\
-ADDX: & J(1,4,LOOP) &                                   \\
-& J(2,3,NO)   & \comment{if for $h<x$  $kx+h=y$ then no!} \\
-& S(3)        &                                   \\
-& S(4)        &                                   \\
-& J(1,1,ADDX) &                                   \\
-SI:   & S(5)        &                                   \\
-NO:   & T(5,1)      &
-\end{tabular}
-\end{quote}
-
-$\begin{tabu}{|c|c|c|c|c|}
-\hline
-x & y & kx+h & h & r \\
-\hline
-\end{tabu}$ where $r$ is the result.

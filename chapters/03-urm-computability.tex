@@ -60,7 +60,7 @@ which is an abstraction of a computer based on the Von Neumann's model. It is ch
 
   the $n$-th register is indicated with $R_n$, its content with $r_n$
 
-  the sequence $r_1, r_2,\dots, r_n, \dots \in \nat^w$ is called
+  the sequence $(r_1, r_2,\dots, r_n,\dots) \in \nat^\omega$ is called
   \textbf{configuration} of the URM;
 
 \item a \textbf{computing agent} capable of executing an URM program;
@@ -160,21 +160,24 @@ Then there is another instruction
 \end{example}
 
 
-The \textbf{state} of the URM machine in which it executes a program $P = I_1 \dots I_s$ is given by a pair $\langle c, t \rangle$ that consists of;
+The \textbf{state} of the URM machine in which it executes a program $P = I_1 \dots I_s$ 
+is given by a pair $\langle c, t \rangle$ that consists of a
 
 \begin{itemize}
-\item \emph{register configuration} $c: \nat \rightarrow \nat$\\
+\item \emph{register configuration} $c$\\
   a total function $c : \nat \to \nat$ such that $c(n)$ is the content
   of register $R_n$;
 
 \item \emph{program counter} $t$, i.e., index of the current instruction.
 \end{itemize}
 
-An \emph{operational semantics} could easily be defined via a set of deduction rules axiomatising the state transitions  $\langle c, t \rangle \rightarrow \langle c', t' \rangle$. However we do not need this degree of formality, and we will rely on an informal description of the program execution.
+An \emph{operational semantics} can easily be defined via a set of deduction rules 
+axiomatising the state transitions  $\langle c, t \rangle \rightarrow \langle c', t' \rangle$. 
+However we do not need this degree of formality, and we will rely on an informal description of the program execution.
 
 
-\begin{remark}[non termination]
-  A computation might \textbf{not terminate}! Consider for instance the program:
+\begin{remark}
+  A computation might \textbf{not terminate}! Consider for instance the program
 
   \begin{quote}
     \begin{tabular}{ll}
@@ -183,7 +186,7 @@ An \emph{operational semantics} could easily be defined via a set of deduction r
     \end{tabular}
   \end{quote}
 
-  Then none of the computations will terminate. For instance:
+  Then the computation will not terminate. For instance
   \begin{center}
     $\begin{tabu}{|c|c|c|c|}
       \hline
@@ -221,7 +224,7 @@ An \emph{operational semantics} could easily be defined via a set of deduction r
 
 
 \begin{notation}
-  Let $P$ be an URM program, and $a_1,a_2,a_3,\dots \in \nat^w$ a sequence
+  Let $P$ be an URM program, and $(a_1,a_2,a_3,\dots) \in \nat^\omega$ a sequence
   of natural numbers. We indicate the computation of $P$ starting from the
   initial configuration by $P(a_1,a_2,\dots)$:
 
@@ -247,12 +250,13 @@ An \emph{operational semantics} could easily be defined via a set of deduction r
   We will work on computations that start from an initial configuration
   where only a \textbf{finite number of registers contain a non-zero value} for
   the majority of the time (almost always for obvious reasons of input
-  finiteness). Hence; given $a_1,a_2,\dots,a_k \in \nat$ we write:
+  finiteness). Hence; given $a_1,a_2,\dots,a_k \in \nat$ we will write
 
-  \begin{quote}
-    $P(a_1,\dots,a_k)$ for the computation
+  \begin{center}
+    $P(a_1,\dots,a_k)$ for 
     $P(a_1,\dots,a_k,0,\dots,0)$
-  \end{quote}
+  \end{center}
+
   The notation extend to $P(a_1,\dots,a_k)\downarrow$ or
   $P(a_1,\dots,a_k)\uparrow$.
 \end{notation}
@@ -261,33 +265,38 @@ An \emph{operational semantics} could easily be defined via a set of deduction r
 
 Let $f : \nat^k \rightarrow \nat$ be a partial function. What does it mean for  $f$ to be computable by an URM machine?
 
-Intuitively, it means that there exists a program $P$ s.t. for each $(a_1,\dots,a_k) \in \nat^k \quad P(a_1,\dots,a_k)$ computes the value of $f$. i.e. when $(a_1,\dots,a_k)  \in \dom{f}$, $P$ terminates and outputs $f(a_1, \ldots, a_k)$. However, $P$ does not terminate if $(a_1,\dots,a_k) \not\in \dom{f}$.
+Intuitively, it means that there exists a program $P$ such that for each $(a_1,\dots,a_k) \in \nat^k$, 
+$P(a_1,\dots,a_k)$ computes the value of $f$, i.e. when $(a_1,\dots,a_k) \in \dom{f}$, 
+$P$ terminates and outputs $f(a_1, \ldots, a_k)$. 
+However, $P$ does not terminate if $(a_1,\dots,a_k) \not\in \dom{f}$.
 
-A doubt could still concern the place where the output is stored. We conventionally decide that the output will be in the first register $R_1$ (at the end of the computation, any registers other than the first register are basically just garbage to us \dots). For this reason we introduce the following notation.
+A doubt could be about where the output is stored. 
+We conventionally decide that the output will be in the first register $ R_1 $ (at the end of the computation, any register other than the first register contains irrelevant data). 
+For this reason we introduce the following notation
 
 \begin{notation}
-  Let $P$ be a program, $a_1,\dots,a_k \in \nat^k$, we write
+  Let $P$ be a program and $(a_1,\dots,a_k) \in \nat^k$, we write
   $P(a_1,\dots,a_k)\downarrow a$ if $P(a_1,\dots,a_k) \downarrow$ and
   the final configuration contains $a$ in $R_1$
 \end{notation}
 
 \begin{definition}[URM-computable function]
   A function $f:\nat^k\rightarrow\nat$ is said to be
-  \textbf{URM-computable} if there exists a URM program $P$ s.t.
-  $\forall (a_1,\dots,a_k) \in \nat^k, a\in\nat$,
-  $P(a_1,\dots,a_k)\downarrow$ iff $(a_1,\dots,a_k)\in dom(f)$ and
-  $f(a_1,\dots,a_k) = a$. In this case we say that $P$ computes $f$.
+  \textbf{URM-computable} if there exists a URM program $P$ such that for all
+  $(a_1,\dots,a_k) \in \nat^k$ and $ a\in\nat$,
+  $P(a_1,\dots,a_k)\downarrow$ if and only if $(a_1,\dots,a_k)\in dom(f)$ and
+  $f(a_1,\dots,a_k) = a$. 
+  
+  In this case we say that $P$ computes $f$.
 
   We denote by $\mathcal{C}$ the class of all URM-computable
   functions and by $\mathcal{C}^{(k)}$ the class of the k-ary
-  URM-computable function.
+  URM-computable functions.
   Therefore we have
   $\mathcal{C} = \bigcup_{k\geq 1} \mathcal{C}^{(k)}$
 \end{definition}
 
-FIN QUA
-
-\section{Some examples of URM-computable functions}
+\section{Examples of URM-computable functions}
 
 \begin{enumerate}
 \item $f:\nat^2 \rightarrow \nat$\\
@@ -329,15 +338,15 @@ FIN QUA
     \end{tabu}$
   \end{center}
 
-  \emph{Idea}: if $x=0$ ok, end; if $x>0$ keep a value $k-1$ in
+  \emph{Idea}: if $x=0$ it trivially terminates; if $x>0$ keep a value $k-1$ in
   $R_2$ and $k$ in $R_5$, with $k>1$ ascending until $R_3=x$, at that
-  point $R_2 = x-1$
+  point $R_2 = x-1$.
 
   Here's the program
 
   \begin{quote}
     \begin{tabular}{lll}
-      $I_1$: & J(1,4,8) \\
+      $I_1$: & J(1,3,8) \\
       $I_2$: & S(3)     \\
       $I_3$: & J(1,3,7) \\
       $I_4$: & S(2)     \\
@@ -350,8 +359,8 @@ FIN QUA
 
 \item $f:\nat \rightarrow \nat$\\
   $f(x) = \begin{cases}
-    \frac{1}{2} x & \mbox{if $x$ even}\\
-    \uparrow      & \mbox{if $x$ odd}
+    \dfrac{x}{2} & \mbox{if $x$ even}\\
+    \uparrow      & \mbox{otherwise}
   \end{cases}$
 
   \emph{Idea:} Store and increasing even number in $R_2$ and store its' half in
@@ -380,20 +389,20 @@ FIN QUA
 \end{enumerate}
 
 \section {Function computed by a program}
-Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exists a unique \textbf{function computed by $P$} that we denote by $f_p^{(k)} : \nat^k \to \nat$ defined by:
+Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exists a unique \textbf{function computed by $P$} that we denote by $f_P^{(k)} : \nat^k \to \nat$ defined by:
 
 \begin{equation*}
-  f_p^{(k)}(a_1, \dots, a_k) = \begin{cases}
+  f_P^{(k)}(a_1, \dots, a_k) = \begin{cases}
     a        & $ if $ P(a_1, \dots, a_k) \downarrow a  \quad \\
     \uparrow & $ if $ P(a_1, \dots, a_k) \uparrow
   \end{cases}
 \end{equation*}
 
 \begin{remark}
-  The same function can be computed by different programs, essentially for the following two reasons;
+  The same function can be computed by different programs, for the following two reasons
 
   \begin{itemize}
-  \item we can add useless instructions to a program (dead code, $T(n,n)$, etc.)
+  \item we can add useless instructions to a program (dead code, $T(n,n)$, ...)
 
   \item the same function can be computed via different algorithms
     (e.g., for sorting we have quicksort, mergesort, heapsort, etc.)
@@ -402,18 +411,15 @@ Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exist
   A function can be computed either by no program or by infinitely many programs.
 \end{remark}
 
-
-SO FAR
-
 \section {Exercises}
 
 \subsection{Reduced URM}
 
 Let URM be reduced without transfer instruction $T(m, n)$. We indicate the class
-of functions that can be computed with the reduced machine $ \mathcal{C}' $ and
-compare it with $ \mathcal{C} $. Obviously $ \mathcal{C}' \subseteq \mathcal{C}
-$. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^R$? \\
-(The answer is ``yes because $T(m, n)$ can be replaced with other instructions.)
+of functions that can be computed with the reduced machine $ \mathcal{C}^- $ and
+we compare it with $ \mathcal{C} $. Obviously $ \mathcal{C}^- \subseteq \mathcal{C}
+$. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^-$? \\
+(The answer is yes because $T(m, n)$ can be replaced with other instructions.)
 
 \begin{quote}
   \begin{tabular}{lll}
