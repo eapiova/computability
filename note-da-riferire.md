@@ -3,6 +3,7 @@ Cosa ho sistemato:
 - vari errori tipo cambio nome di variabile (dimenticanze)
 - usare equation, align in math mode invece di center o al limite \[ ... \]
 
+Troppe parentesi con informazioni
 
 
 Controllare:

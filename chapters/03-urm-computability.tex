@@ -2,7 +2,8 @@
 
 \section {Which model?}
 
-In order to give a formal notion of computability we need to choose a concrete model of computation which will induce a class algorithms and thus of computable functions. Despite the fact that we focus on abstract ideal model, there are still a lot of possibilities. Many models have been considered in the literature:
+To give a formal notion of computability we must choose a concrete model of computation that induces a class of algorithms and therefore of computable functions. 
+Despite the fact that we focus on an abstract ideal model, there are still a lot of possibilities. Many models have been considered in the literature:
 
 \begin{enumerate}
 \item Turing machine (Turing, 1936)
@@ -13,15 +14,14 @@ In order to give a formal notion of computability we need to choose a concrete m
 \item Unlimited register machine (URM) (Shepherdson - Sturgis, 1963)
 \end{enumerate}
 
-In principle, each computational model determines a class of
-computable functions. We could be worried by thinking that
-theory developed is only good for a specific model. Actually, one can
-verify that the class of computable functions for all of the mentioned
-models (and actually, for all ``sufficiently expressive'' models
-considered in the literature) is always the same.
-This leads to the so-called Church-Turing thesis:
+In principle, each computational model determines a class of computable functions.
+We may be concerned thinking that the developed theory is valid only for a specific one
+model. In fact, it can be verified that the class of computable functions for all
+models cited (for all the models "sufficiently expressive" considered
+in literature) is always the same. This leads to the so-called Church-Turing
+thesis:
 
-\textbf{Church-Turing Thesis}: A function is computable by an
+\textbf{Church-Turing thesis}: A function is computable by an
 effective procedure (i.e., in a finitary computational model, obeying the conditions (a)-(e) from the chapter before) if and only if it is computable
 by a Turing machine.
 
@@ -29,20 +29,22 @@ by a Turing machine.
 This means that the notion of ``computable function'' is robust (i.e. independent of the specific computational model), and we can choose our favorite one for developing our theory.
 
 \begin{remark}
-  The \emph{Church-Turing Thesis} is called a thesis and not a theorem
-  because of its' informal nature. It can not be proven with the reference to
-  the concept of effective procedure. It is only supported by evidence: a lot of
-  independent computational models have been considered until now and all of
-  them confirm this thesis. [e.g. Yuri Gurevich, claims that it should
-  be proved on the basis of a formal axiomatization of conditions (a)-(e)]
+  The \emph{Church-Turing thesis} is called a thesis and not a theorem due
+  of its informal nature. 
+  It cannot be proved w.r.t effective procedures, but is supported only by evidence: 
+  several computational models have been considered and all respect the thesis 
+  (e.g. Yuri Gurevich, argues that it should be proved on the basis of a formal
+  axiomatization of conditions (a) - (e)).
 \end{remark}
 
-Sometimes we will resort to Church-Turing Thesis in order to shorten the proof  that something is computable, but it can be always avoided. Somehow, it can be used only when ``it is not needed'', i.e.,  when it could be replaced by a formal proof (however, doing that might hide the intuitive idea under a heap of technical details).
-
+Sometimes we resort to the Church-Turing thesis to shorten the proof that a certain entity is computable, however it can only be used when it is not strictly necessary, i.e. when it could be replaced by a formal proof
+(however, this could hide the intuitive idea under a bunch of technical details).
 
 \section{URM (Unlimited register machine)}
 
-We will formalise the notion of \textbf{computable function} by using an \textbf{abstract machine} which is called \textbf{URM-machine} (Unlimited Register Machine), which is an abstraction of a computer based on the Von Neumann's model. It is characterized by;
+We will formalise the notion of \textbf{computable function} by using an \textbf{abstract machine} 
+called \textbf{URM-machine} (Unlimited Register Machine), 
+which is an abstraction of a computer based on the Von Neumann's model. It is characterized by
 
 \begin{itemize}
 \item \textbf{unbounded memory} that consists of a infinite sequence of \textbf{registers}, each of which can store a  natural number
@@ -59,34 +61,34 @@ We will formalise the notion of \textbf{computable function} by using an \textbf
   the $n$-th register is indicated with $R_n$, its content with $r_n$
 
   the sequence $r_1, r_2,\dots, r_n, \dots \in \nat^w$ is called
-  \textbf{configuration} of the URM
+  \textbf{configuration} of the URM;
 
-\item \textbf{computing agent} capable of executing an URM program
+\item a \textbf{computing agent} capable of executing an URM program;
 
-\item \textbf{URM program} finite sequence of instructions
+\item an execution of a \textbf{URM program}, i.e. a finite sequence of instructions
   $I_1, I_2, \dots, I_s$ that can ``locally'' alter the configuration
   of the URM.
 \end{itemize}
 
 
-Program instructions can be the following:
+Program instructions can be the following
 
 \begin{itemize}
 
-\item \textbf{zero} $Z(n)$ sets the content of the register $R_n$ to zero, $r_n \leftarrow 0$
+\item \textbf{zero} $Z(n)$ sets the content of the register $R_n$ to zero: $r_n \leftarrow 0$;
 
-\item \textbf{successor} $S(n)$ increments the content of the $R_n$ register: $r_n \leftarrow r_n+1$
+\item \textbf{successor} $S(n)$ increments the content of the $R_n$ register by 1: $r_n \leftarrow r_n+1$;
 
-
-\item \textbf{transfer} $T(m,n)$ transfers the content of the register $R_m$ in the register $R_n$, $R_m$ stays untouched, $r_n\leftarrow r_m$ (assignment)
+\item \textbf{transfer} $T(m,n)$ transfers the content of the register $R_m$ in the register $R_n$, $R_m$ stays untouched: $r_n\leftarrow r_m$.
 \end{itemize}
-These are called arithmetic functions, where the instruction to execute on the next step is what follows the current instruction in the program.
-
+These are called arithmetic functions, where the instruction to be executed in the next step
+ follows the current instruction in the program.
+Then there is another instruction
 \begin{itemize}
 \item \textbf{conditional jump} $J(m,n,t)$ compares the content of the registers $R_m$ and $R_n$
   \begin{itemize}
-  \item if $r_m = r_n$ it jumps to the $t$-th instruction
-  \item otherwise, it continues with the next instruction
+  \item if $r_m = r_n$ it jumps to the $t$-th instruction;
+  \item otherwise, it continues with the next instruction.
   \end{itemize}
 \end{itemize}
 
@@ -158,7 +160,7 @@ These are called arithmetic functions, where the instruction to execute on the n
 \end{example}
 
 
-The \textbf{state} of the URM machine while it executes a program $P = I_1 \dots I_s$ is given by a pair $\langle c, t \rangle$ that consists of;
+The \textbf{state} of the URM machine in which it executes a program $P = I_1 \dots I_s$ is given by a pair $\langle c, t \rangle$ that consists of;
 
 \begin{itemize}
 \item \emph{register configuration} $c: \nat \rightarrow \nat$\\
