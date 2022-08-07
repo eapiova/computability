@@ -6,6 +6,7 @@ Da finire:
 - esercizi capitolo 3
 - tabularray invece di tabu
 - esercizi capitolo 4 dal terzo in poi
+- controllare parte iniziale cap 5
 
 
 Cosa ho sistemato:

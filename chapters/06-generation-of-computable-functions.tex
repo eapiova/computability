@@ -1,51 +1,75 @@
 \chapter {Generation of computable functions}
 
-We can prove that certain functions are computable if they are simpler combinations of modules that are computable. We have the set $ \mathcal{C} $ of the computable functions and if we take $ f_1, f_2 \in \mathcal{C} $ and compose them with a suitable operation $ op(f_1, f_2) $ we are still in the set $ \mathcal{C} $.
+We can prove that certain functions are computable if they are simpler combinations of functions that are computable. 
+We have the set $ \mathcal{C} $ of the computable functions and if we take $ f_1, f_2 \in \mathcal{C} $ and compose them with a suitable operation $ op(f_1, f_2) $ we are still in the set $ \mathcal{C} $.
 
 More precisely we will prove that the $\mathcal{C}$ class is closed with respect to the following operations:
 \begin{itemize}
-\item composition (generalized)
+\item (generalized) composition 
 \item primitive recursion
-\item minimization (unlimited)
+\item (unlimited) minimization 
 \end{itemize}
 
-So to prove that the function $f:\nat^k\rightarrow \nat$ is computable we could write the URM program P that computes $f$ ($f_P^{(k)} = f$), or we could use the theorems of the closure of $\mathcal{C}$.
+So to prove that the function $f:\nat^k\rightarrow \nat$ is computable 
+we could write the URM program P that computes $f$ (such that $f_P^{(k)} = f$), 
+or we could use the theorems of the closure of $\mathcal{C}$.
 
-Actually the three operations we consider are not chosen randomly; the long term objective is to show that $\mathcal{C}$ coincides with the class of generable functions through composition, primitive recursion and minimization, starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
+Actually the three operations we consider are not chosen randomly; 
+the long term objective is to show that $\mathcal{C}$ coincides with the class of generable functions 
+through composition, primitive recursion and minimization, 
+starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
 
+\section {Basic computable functions}
+Consider the following basic functions
+\begin{enumerate}
+\item zero constant 
+      \begin{align*}
+        z: &\ \nat^k \rightarrow \nat\\
+           & (x_1,\dots, x_k) \mapsto 0
+      \end{align*}
+\item successor 
+      \begin{align*}
+        s: &\ \nat \rightarrow \nat\\
+        & x \mapsto x + 1
+      \end{align*}
+\item projection 
+      \begin{align*}
+        U_i^k: &\ \nat^k \rightarrow \nat\\
+        & (x_1,\dots, x_k) \mapsto x_i
+      \end{align*}
+      
+\end{enumerate}
+
+\begin{remark}
+  Identity is a sub-case of projection.
+\end{remark}
+
+
+The functions that compute these basic functions are the arithmetic instructions
+\begin{enumerate}
+\item $z$ computed by $Z(1)$;
+\item $s$ computed by $S(1)$;
+\item $U_i^k$ computed by $T(i, 1)$.
+\end{enumerate}
+
+To prove the properties of closure we will need to ``combine'' programs so we need a bit of notation.
 \begin{notation}
-  Given $f,g:\nat^k\rightarrow\nat$ and
-  $\vec{x}\in\nat^k$ we write $f(\vec{x}) \simeq g(\vec{x}) $ for
-  $f(\vec{x})\downarrow$ if and only if $g(\vec{x})\downarrow$ and if
-  $f(\vec{x})\downarrow \Rightarrow f(\vec{x}) = g(\vec{x})$.
+  Given a URM program $P$
+  \begin{itemize}
+    \item $ \rho(P) $ is the \textbf{maximum register index} used by $P$
+    \item $ l(P) $ is the \textbf{number of instructions} in P;
+    \item $P$ is in \textbf{standard form} if, for each $J(m,n,t)$ instruction, $t\leq l(P)+1$ (if it ends, it does so at the instruction $l(P)+1$).
+  \end{itemize}
 \end{notation}
 
-\section {The basic functions are computable}
-Basic functions:
-\begin{enumerate}
-\item $ \underline{0}: \nat^k \rightarrow \nat $, $\lambda x_1\dots x_k . 0$
-\item $ s: \nat \rightarrow \nat $, $\lambda x . x+1$
-\item projection $ U_i^k: \nat_i^k \rightarrow \nat $,  $\lambda x_1\dots x_k . x_i$
-\end{enumerate}
 
-Identity is a sub-case of projection.
 
-The functions that calculate these basic functions are the arithmetic instructions:
-\begin{enumerate}
-\item $\underline{0}$ computed by z(1)
-\item $s$ computed by s(1)
-\item $ U_i^k$ computed by T(i, 1)
-\end{enumerate}
-
-To prove the properties of closure we will need to ``combine'' programs\dots we need a bit of notation.
-
-Given $P$ URM program we indicate with $ \rho(P) $ \textbf{the maximum register index} used by $P$. $P$ is in \textbf{standard form} if, being $S$ its length, for each $J(m,n,t)$ instruction $t\leq s+1$ (if it ends, it does so at the instruction $s+1$).
-
-Obviously considering only standard form programs is not limitative, meaning the following holds:
-
-\textbf{Lemma:} For each URM program $P$ there exists a program $P'$ in standard form which is equivalent, meaning s.t. $\forall k f_p^{(k)} = f_{P'}^{(k)}$
-
-\textbf{proof}: It's enough to replace every instruction $J(m,n,t)$ in $P$ s.t. $t>s+1$ with $J(m,n,s+1)$
+Considering only standard form programs is not limitative, as stated by the following lemma 
+\begin{lemma}
+  For each URM program $P$ there exists an equivalent program $P'$ in standard form, i.e. for all $ k$, $f_p^{(k)} = f_{P'}^{(k)}$
+\begin{proof} It's enough to replace every instruction $J(m,n,t)$ in $P$ such that $t>l(P)+1$ with $J(m,n,l(P)+1)$
+\end{proof}
+\end{lemma}
 
 Often we will have to \textbf{concatenate} programs, let $P, Q$ be programs, the concatenation consists in executing $P$ and when it terminates executing $Q$, that is, every jump instruction in $Q$ is replaced by adding the length of $P$, $S$.
 
