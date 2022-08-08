@@ -1,4 +1,4 @@
-\chapter{Other approaches to calculability (Church-Turing thesis)}
+\chapter{Other approaches to computability}
 We already observed that the URM machine is just one of the many possible computational models that allow us to formalize the notion of computable functions.
 
 We could have used:
@@ -9,34 +9,38 @@ We could have used:
 \item Partial recursive functions of Gödel-Kleene
 \end{itemize}
 
-All of these approaches define the \textbf{same class of computable functions}, leading to the:
+All of these approaches define the \textbf{same class of computable functions}, leading to the
 
-\textbf{Church thesis}: a function is computable through an effective procedure if and only if it is URM-computable (partisan version)
+\textbf{Church-Turing thesis}: a function is computable through an effective procedure 
+if and only if it is URM-computable
 
-Compared to the Church thesis now we want to introduce another formalism for the definition of computable functions; \textbf{partial recursive functions} of Gödel-Kleene $\rightarrow$ class $\mathcal{R}$; and prove that it is ``equivalent'' to the URM, meaning it defines the same class of functions $\mathcal{R} = \mathcal{C}$
+Now, we introduce another formalism for the definition of computable functions, the set $\mathcal{R}$ of \textbf{partial recursive functions} of Gödel-Kleene and prove that it is equivalent to the URM, meaning it defines the same class of functions: $\mathcal{R} = \mathcal{C}$.
 
 \section{Partially recursive functions}
 
-\textbf{Def:} The class $ \mathcal{R} $ of \textbf{partially recursive functions} is the least class of partial functions on the naturals $\mathcal{R}\subseteq \cup_k \nat^k\rightarrow\nat$ that contains:
+\begin{definition}
+  The class $ \mathcal{R} $ of \textbf{partially recursive functions} is the least class of partial functions on the natural numbers which contains
+  \begin{enumerate}[label=(\alph*)]
+    \item zero function;
+    \item successor;
+    \item projections
+    \end{enumerate}
+    
+    and \textbf{closed} under
+    \begin{enumerate}
+    \item composition;
+    \item primitive recursion;
+    \item minimalisation.
+    \end{enumerate}
+\end{definition}
 
-\begin{enumerate}[label=(\alph*)]
-\item \textbf{Zero} $ \underline{0}: \nat^k \rightarrow \nat $, $\lambda x_1\dots x_k . 0$
-\item \textbf{Successor} $ s: \nat \rightarrow \nat $, $\lambda x . x+1$
-\item \textbf{Projection} $ U_i^k: \nat_i^k \rightarrow \nat $,  $\lambda x_1\dots x_k . x_i$
-\end{enumerate}
+It is a well given definition.
 
-and \textbf{closed} with respect to:
-\begin{enumerate}
-\item generalized composition
-\item primitive recursion
-\item unlimited minimization
-\end{enumerate}
+\begin{definition}[Rich class]
+    A class of functions $\mathcal{A}$ is said to be \textbf{rich} if it includes (a),(b) and (c) and it's closed under (1), (2) and (3).
+\end{definition}
 
-Is it a good definition? What does ``least'' mean? Does such a class exists?
-
-More precisely we can define:
-
-\textbf{Definition}: (Rich class): a class of functions $\mathcal{A} \subseteq \cup_k \nat^k\rightarrow\nat$ is said to be \textbf{rich} if it contains (a),(b) and (c) and it's closed with respect to (1), (2) and (3).
+$\mathcal{R}$ is rich and for all $\mathcal{A}$, we have $\mathcal{R}\subseteq\mathcal{A}$
 
 We observe that the property of being ``rich class'' is \textbf{closed for intersection}:
 

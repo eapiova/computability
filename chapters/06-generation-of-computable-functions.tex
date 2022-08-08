@@ -64,50 +64,113 @@ To prove the properties of closure we will need to ``combine'' programs so we ne
 
 
 
-Considering only standard form programs is not limitative, as stated by the following lemma 
+Considering only standard form programs is not limitative, as stated by the following lemma:
 \begin{lemma}
   For each URM program $P$ there exists an equivalent program $P'$ in standard form, i.e. for all $ k$, $f_p^{(k)} = f_{P'}^{(k)}$
 \begin{proof} It's enough to replace every instruction $J(m,n,t)$ in $P$ such that $t>l(P)+1$ with $J(m,n,l(P)+1)$
 \end{proof}
 \end{lemma}
 
-Often we will have to \textbf{concatenate} programs, let $P, Q$ be programs, the concatenation consists in executing $P$ and when it terminates executing $Q$, that is, every jump instruction in $Q$ is replaced by adding the length of $P$, $S$.
+Often we will have to \textbf{concatenate} programs, let $P, Q$ be programs, 
+the concatenation consists in executing $P$ and when it terminates executing $Q$, 
+that is, every jump instruction $J(m,n,t)$ in $Q$ is replaced with $J(m,n,t+l(P))$
 
-\textbf{Note:} if $P,Q$ in standard form $\Rightarrow PQ$ is in standard form; moreover $(PQ)R = P(QR)$. We will assume every program is in standard form and we will use concatenation ``freely''.
+\begin{remark}
+  If $P$ and $Q$ are in standard form then $PQ$ is in standard form; moreover $(PQ)R = P(QR)$. We will assume every program is in standard form and we will use concatenation freely.
+\end{remark} 
+It will be useful to take the input and give the output in arbitrary registers. 
+Given a program $P$, we want a program $ P[i_1,\dots,i_k \rightarrow h] $ that takes input from $ R_{i1},\dots,R_{ik} $, puts the output in $ R_h $ without assuming that the rest of the registers are set to 0. 
+This is easily obtainable with transfer and reset operations to move the contents of registers from $ i_1,\dots,i_k $ to $ 1,\dots,k $ and the output from $h$ to 1.
 
-It will be useful to take the input and give the output in arbitrary registers. Given $P$ I want $ P[i_1,\dots,i_k \rightarrow h] $ ie that it has input in the registers of index $ R_{i1},\dots,R_{ik} $, puts the output in $ R_h $ and does not assume that the rest of the registers is 0. This is easily obtainable with transfer and reset operations to move the contents of registers from $ i_1,\dots,i_k $ to $ 1,\dots,k $ and the output from $h$ to 1.
+$ P[i_1,\dots,i_k \rightarrow h] $ is as follows:\\
+
+$\begin{tabu}{l}
+  T(i_1, 1)\\
+  \dots    \\     
+  T(i_k, k)\\          
+  Z(k+1) \\
+  \dots  \\
+  Z(\rho(P))     \\     
+  P \\
+  T(1, l)
+\end{tabu}$
 
 \section {Generalized composition}
-given a function
+\begin{definition}
+  Given a function
 $ f: \nat^k \rightarrow \nat $ and functions
-$ g_1,\dots,g_k: \nat^m \rightarrow \nat $
-the composition $ h: \nat^m \rightarrow \nat $
-is $ \forall \vec{x} \in \nat^m $ then
-$ h(\vec{x}) = f(g_1(\vec{x}), \dots g_k(\vec{x}))
-$ means that $ h(\vec{x}) \downarrow $ if $ n_1 = g_1(\vec{x}) \downarrow $
-\dots $ n_k = g_k(\vec{x}) \downarrow $ and $ f(n_1,\dots,n_k) \downarrow $
+$ g_1,\dots,g_k: \nat^n \rightarrow \nat $
+we define the \textbf{composition} $ h: \nat^n \rightarrow \nat $ by 
+  \begin{equation*}
+    h(\vec{x}) = \begin{cases}
+      f(g_1(\vec{x}), \dots, g_k(\vec{x})) & \mbox{if } g_1(\vec{x})\downarrow, \dots, g_k(\vec{x})\downarrow \mbox{ and } f(g_1(\vec{x}), \dots, g_k(\vec{x}))\downarrow\\
+      \uparrow & \mbox{otherwise}
+    \end{cases}
+  \end{equation*}
+\end{definition}
 
-\textbf{Proposition:} if $f:\nat^k\rightarrow\nat$ and $ g_1,\dots,g_k $ computable \textbf{then} $h(\vec{x}) = f(g_1(\vec{x}), \dots g_k(\vec{x}))$ is computable.
+\begin{example}
+  Consider
+  \begin{equation*}
+    z(x)=0\quad \forall x \qquad \varnothing(x)\uparrow\quad \forall x
+  \end{equation*}
+  then
+  \begin{equation*}
+    z(\varnothing(x))\uparrow \quad \forall x
+  \end{equation*}
+\end{example}
 
-\textbf{proof}: Let's take URM programs in standard form $ F, G_1, \dots, G_k $ for the computable functions mentioned above. Let us consider a register number not used by anyone, $m = max\{\rho(F),\rho(G_1), \dots \rho(G_k),k,n\}$, the program for the composition can be:
+\begin{example}
+  Consider $\varnothing$ and $U^2_1$, then
+  \begin{equation*}
+    U^2_1(x_1, x_2)=x_1 \quad \text{but} \quad U^2_1(x_1, \varnothing(x_2))\uparrow
+  \end{equation*}
+\end{example}
+
+\begin{proposition}
+  $\mathcal{C}$ is closed under generalised composition
+  \begin{proof}
+    Let
+    \begin{align*}
+      f& :\nat^k\rightarrow\nat\\
+      g_1,\dots,g_k& : \nat^n\rightarrow\nat
+    \end{align*}
+    in $\mathcal{C}$, consider the composition
+    \begin{align*}
+      h :\ & \nat^k\rightarrow\nat\\
+      & \vec{x} \mapsto f(g_1(\vec{x}), \dots, g_k(\vec{x}))
+    \end{align*}
+    Since $ f, g_1,\dots,g_k\in\mathcal{C} $,
+    we can take $ F, G_1, \dots, G_k $ programs in standard form for them.
+
+    Let us consider a register index $m = max\{\rho(F),\rho(G_1), \dots \rho(G_k),k,n\}$ not used, the program for the composition can be
+
 
 $\begin{tabu}{|c|c|c|c|c|c|c|c|c|}
   \hline
   1                      & \dots                        & m                                 & m+1   & \dots & m+n   & m+n+1 & \dots & m+n+k \\
   \hline
-  \dots                  & \dots                        & x1                                & \dots & n_n   & \dots & \dots & \dots &       \\
-  \hline
-  \multicolumn{3}{|c|}{} & \multicolumn{3}{c|}{\vec{x}} & \multicolumn{3}{c|}{g_i(\vec{x})}                                                 \\
+  \multicolumn{3}{|c|}{\dots} & x_1 & \dots & x_n & g_1(\vec{x}) & \dots & g_k(\vec{x})                                                 \\
   \hline
 \end{tabu}$
 
 $\begin{tabu}{l}
-  T([1,n], [m+1,m+n])                   \\
+  T(1, m+1)\\ 
+  \dots\\
+  T(n, m+n)\\
   G_1 [m+1,\dots,m+n \rightarrow m+n+1] \\
   \dots                                 \\
-  G_k [m+1,\dots,m+n\rightarrow b+n+k]  \\
-  P[m+n+1,\dots,m+n+k \rightarrow 1]
-\end{tabu}$
+  G_k [m+1,\dots,m+n\rightarrow m+n+k]  \\
+  F[m+n+1,\dots,m+n+k \rightarrow 1]
+\end{tabu}$\\
+
+then $h\in\mathcal{C}$.
+  \end{proof}
+\end{proposition}
+
+\iffalse
+
+SISTEMARE
 
 \textbf{Corollary:} Let $f:\nat^k\rightarrow \nat$ be computable. Then $g:\nat^n\rightarrow \nat$, where $g(x_1,\dots,x_n) = f(x_{i1},\dots,x_{ik})$ is computable, where $(x_{i1},\dots,x_{ik})$ is a sequence of variables in $x_1,\dots,x_n$ with repetitions and missing variables.
 
@@ -117,41 +180,54 @@ $\begin{tabu}{l}
   g(\vec{x}) = f(\cup_{i1}^n(\vec{x}),\dots,\cup_{ik}^n\vec{x})
 \end{equation*}
 
-\textbf{Examples}:
-if $f:\nat^2 \rightarrow \nat $ is computable, then the following are also computable:
+\fi
+
+
+\begin{example}
+  if $f:\nat^2 \rightarrow \nat $ is computable, then the following are also computable
 \begin{itemize}
-\item $f_1(x,y) = f(y,x)$
-\item $f_2(x) ? f(x,x)$
-\item $f_3(x,y,z) = f(x,y)$
+\item $f_1(x,y) = f(y,x)$;
+\item $f_2(x) = f(x,x)$;
+\item $f_3(x,y,z) = f(x,y)$.
 \end{itemize}
+\end{example}
 
-\textbf{Note}: On the basis of this result we can utilize generalized composition when the $g_i$ are not functions of all the variables or are functions with repetitions.
 
-\textbf{Example}: Knowing that: $ sum: \nat^2 \rightarrow \nat $ where $ sum(x_1,x_2) = x_1 + x_2 $ is computable, we can deduce that $ f: \nat^3 \rightarrow \nat $ where $ f(x_1,x_2,x_3) = x_1 + x_2 + x_3 $ is also computable.
+\begin{remark}
+  On the basis of this result we can utilize generalized composition when the $g_i$ are not functions of all the variables or are functions with repetitions.
+\end{remark}
 
-In fact $f(x_1,x_2,x_3) = f(f(x_1,x_2),x_3) $. We can think about them as functions $\nat^3\rightarrow\nat$, so we get to $sum(sum(U_1^3(\vec{x}),U_2^3(\vec{x})), U_3^3(\vec{x}))$
+\begin{example}
+  Given $ f: \nat^2 \rightarrow \nat $ where $ f(x_1,x_2) = x_1 + x_2 $ is computable, we can derive that $ g: \nat^3 \rightarrow \nat $ where $ g(x_1,x_2,x_3) = x_1 + x_2 + x_3 $ is also computable.
+  In fact $g(x_1,x_2,x_3) = f(f(x_1,x_2),x_3) $. Then, we can think about $x_1,x_2,x_3$ as functions $\nat^3\rightarrow\nat$ on $\vec{x}$, so we get to $f(f(U_1^3(\vec{x}),U_2^3(\vec{x})), U_3^3(\vec{x}))$, that is computable.
+\end{example}
 
-The following functions are computable:
+\begin{example}
+  The following functions are computable
 \begin{itemize}
-\item \textbf{constant m} $\lambda \vec{x}.m$, as $m(\vec{x}) = S(S(\dots S(\underline{0}(\vec{x}))))$
-\item \textbf{sum of the arguments} $g(x_1,\dots,x_k) = x1 + \dots + x_k$ (see above)
-\item \textbf{product by a contant} $mx = g(x,\dots,x) \quad m$ times, where $g$ is the function at the previous step
-\item if $f(x,y)$ is computable, then also $f'(x) = f(x,m)$ is
-
-  in fact $f'(x) = f(x,m) = f(U_1^1(x)), m(x))$
+\item \textbf{constant} $\lambda \vec{x}.m$, as $m(\vec{x}) = s(s(\dots s(z(\vec{x}))))$, $s$ applied $m$ times;
+\item \textbf{addition} $g(x_1,\dots,x_k) = x_1 + \dots + x_k$, seen before;
+\item \textbf{product by constant} $g(x,\dots,x) = k \cdot x$, where $g$ is the function at the previous step;
+\item if $f(x,y)$ is computable, then also $f'(x) = f(x,m)$ is computable.
+  In fact $f'(x) = f(x,m) = f(U_1^1(x)), m(x))$, that is computable;
 \item if $f:\nat\rightarrow\nat$ is total computable, the predicate $Q(x,y)\equiv f(x) = y$ is decidable.
 
-  in fact, we know that $\mathcal{X}_{Eq}(x,y) = \begin{cases}
+  In fact, we know that \begin{equation*}
+    \mathcal{X}_{Eq}(x,y) = \begin{cases}
     1 & x=y         \\
     0 & $otherwise$
-  \end{cases}$ is computable
+  \end{cases}
+\end{equation*}
+  is computable.
 
-  therefore $\mathcal{X}_Q(x,y) = \mathcal{X}_{Eq}(g(x),y) = \mathcal{X}_{Eq}(g((U_1^2(x,y)), (U_2^2(x,y))$
+  Therefore $\mathcal{X}_Q(x,y) = \mathcal{X}_{Eq}(f(x),y) = \mathcal{X}_{Eq}(f((U_1^2(x,y)), (U_2^2(x,y))$, so $\mathcal{X}_Q$ is computable.
 \end{itemize}
+\end{example}
+
 
 \section {Primitive recursion}
 
-\textbf{recursion} is a familiar concept; it allows to define a function specifying the values in terms of other values of the function itself (and possibly using other already defined functions).
+\textbf{Recursion} is a familiar concept; it allows to define a function specifying the values in terms of other values of the function itself (and possibly using other already defined functions).
 
 \textbf{factorial}: $0! = 1$ and $(n+1)! = n!(n+1)$
 
@@ -159,102 +235,129 @@ The following functions are computable:
 
 There are many types, here we use a ``controlled'' version of recursion.
 
-So given $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ functions
+\begin{definition}[Primitive recursion]
+  Given $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ functions,
+we define $h:\nat^{k+1}\rightarrow\nat$ by \textbf{primitive recursion} as follows
+\begin{equation*}
+  \begin{cases}
+    h(\vec{x},0) = f(\vec{x})\\
+    h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y))
+  \end{cases}
+\end{equation*}
+\end{definition}
 
-we define $ h(\vec{x},0) = f(\vec{x}) $ and $ h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y)) $
+\begin{remark}
+  The function $h$ is defined in an equational manner, with $h$ that appears on both sides: 
+  it is an implicit definition, not obvious that such $h$ exists or that it is unique, 
+  but actually it does exist and it is unique. However, a general theory that supports this observation is not trivial.
 
-\textbf{Note}: The function $h$ is defined in an equational manner, with $h$ that appears on both sides: implicit definition, not obvious that such $h$ exists or that it is unique, but actually it does exist and it is unique. However, a general theory that supports this observation is not trivial.
+  The argument proceeds as follows
 
-The argument proceeds as follows:
-
-\begin{itemize}
-\item we indicate with $[\nat^n\rightarrow\nat]$ the set of functions with $n$ arguments
-\item we define an operator:\\
-  $T: [\nat^{k+1}\rightarrow\nat] \rightarrow [\nat^{k+1}\rightarrow\nat]$
-
-  $T(h)(\vec{x},0) = f(\vec{x})$
-
-  $T(h)(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))$, no circularity
-\item the searched functions are the fixed points of $T$, $h$ s.t. $T(h) = h$
-\item existence of the fixed point:
+\begin{enumerate}
+\item let $\nat^n\rightarrow\nat$ the set of functions on natural numbers with $n$ arguments
+\item we define an operator
+  \begin{align*}
+    &T: (\nat^{k+1}\rightarrow\nat) \rightarrow (\nat^{k+1}\rightarrow\nat)\\
+    &T(h)(\vec{x},0) = f(\vec{x})\\
+    &T(h)(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))
+  \end{align*}
+\item wanted functions are fixed points of $T$, i.e. $h$ such that $T(h) = h$;
+\item existence of the fixed point follows from these properties
   \begin{itemize}
-  \item $[\nat^{k+1}\rightarrow\nat]$ cpo
-  \item $T$ continuous
-  \item Scott $\rightarrow$ it has a least fixed point
+  \item $[\nat^{k+1}\rightarrow\nat]$ is a chain partial ordered set;
+  \item $T$ is continuous;
+  \item Scott functions have a least fixed point.
   \end{itemize}
-\item uniqueness: inductively if $h,h'$ fixed points $\Rightarrow h=h'$
-\end{itemize}
+\item uniqueness follows inductively, so if $h,h'$ fixed points then $h=h'$.
+\end{enumerate}
+\end{remark}
 
-For example sum and successor: $ h(x,y) = x+y $ if $ h(x,0) = x = f(x) $ and $ h(x,y+1) = h(x,y) + 1 $ therefore $f$ is the identity and $g$ is the successor, both computable therefore the sum is computable by primitive recursion.
+\begin{example}
+  Consider the sum function $ h(x,y) = x+y $ with $ h(x,0) = x = f(x) $ and $ h(x,y+1) = h(x,y) + 1 = g(h(x,y)) $, therefore $f$ is the identity and $g$ is the successor.
+   Both are computable, so the sum is computable by primitive recursion.
+\end{example}
 
-\textbf{Observation}
-Functions obtained from total functions by:
+
+
+\begin{proposition}
+  Functions obtained from total functions by
 \begin{enumerate}
 \item generalized composition
 \item primitive recursion
 \end{enumerate}
-are still total.
+are total.
+\begin{proof}
+  \begin{enumerate}
+    \item obvious by definition;
+    \item Let $f:\nat^k\rightarrow\nat, g:\nat^{k+2}\rightarrow\nat$ be total functions and define
+    $h$ by primitive recursion.
+    
+    It can be proved by induction on $y$ that 
+    \begin{equation*}
+      \forall \vec{x}\in\nat^k  \ (\vec{x},y) \in dom(h)
+    \end{equation*}
+    \begin{itemize}
+      \item $(y=0)$: for all $\vec{x}\in\nat^k$, $h(\vec{x},0) = f(\vec{x})\downarrow$;
+      \item $(y\rightarrow y+1)$: for all $\vec{x}\in\nat^k$, $h(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))\downarrow$ by inductive hypothesis.
+    \end{itemize}
+  \end{enumerate}
+\end{proof}
+\end{proposition}
 
-\textbf{proof}
-1 is obvious by definition.
 
-Let $f\nat^k\rightarrow\nat, g:\nat^{k+2}\rightarrow\nat$ be total functions and let us define:
 
-$h: \nat^{k+1} \rightarrow \nat$
 
-$h(\vec{x},y) = f(\vec{x})$
 
-$h(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))$
+\begin{example}
+  \begin{itemize}
+    \item \textbf{sum} $x+y$\\
+      $x+0 = x\\
+      x+(y+1) = (x+y)+1\\\\
+      h(x,0) = x\\
+      h(x,y+1) = h(x,y)+1\\\\
+      f(x) = x\\
+      g(x,y,z) = z+1$
+    \item \textbf{product}
+      $x\cdot y\\
+      x\cdot 0 = 0\\
+      x\cdot (y+1) = (x\cdot y)+x\\
+      \\
+      h(x,0) = 0\\
+      h(x,y+1) = h(x,y)+x\\
+      \\
+      f(x) = 0\\
+      g(x,y,z) = z+y$
+    \item \textbf{factorial}
+      $y!\\
+      0! = 1\\
+      (y+1)! = y!\cdot (y+1)\\
+      \\
+      h(0) = 1\\
+      h(y+1) = h(y)\cdot(y+1)\\
+      \\
+      f(0) = 1\\
+      g(y,z) = z\cdot (y+1)$
+    \end{itemize}
+  
+\end{example}
 
-It can be proved by induction on $y$ that $\forall \vec{x} \quad (\vec{x},y) \in dom(h)$
 
-$(y=0): h(\vec{x},0) \simeq f(\vec{x})\downarrow$
+\begin{proposition}
+  $\mathcal{C}$ is closed under primitive recursion.
 
-$(y\rightarrow y+1): h(\vec{x},y+1) \simeq g(\vec{x},y,h(\vec{x},y))\downarrow$ by inductive hypothesis
-
-\textbf{Examples}:
-
-\begin{itemize}
-\item \textbf{sum} $x+y$\\
-  $x+0 = x\\
-  x+(y+1) = x+y+1\\\\
-  h(x,0) = x\\
-  h(x,y+1) = h(x,y)+1\\\\
-  f(x) = x\\
-  g(x,y,z) = z+1$
-\item \textbf{product}
-  $x\cdot y\\
-  x\cdot 0 = 0\\
-  x\cdot (y+1) = xy+x\\
-  \\
-  h(x,0) = 0\\
-  h(x,y+1) = h(x,y)+x\\
-  \\
-  f(x) = 0\\
-  g(x,y,z) = z+y$
-\item \textbf{factorial}
-  $y!\\
-  0! = 1\\
-  (y+1)! = y!(y+1)\\
-  \\
-  h(0) = 1\\
-  h(y+1) = h(y)(y+1)\\
-  \\
-  f(0) = 1$ constant $\\
-  g(y,z) = z(y+1)$
-\end{itemize}
-
-\textbf{Proposition} (Closure with 	respect to the primitive recursion of $\mathcal{C}$)
-
-Let $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ computable.
-
-Then $h:\nat^{k+1}\rightarrow\nat$ defined through primitive recursion:\\
-$ h(\vec{x},0) = f(\vec{x}) $\\
-$ h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y)) $\\
+\begin{proof}
+Let $f:\nat^k\rightarrow\nat$ and 
+$g:\nat^{k+2}\rightarrow\nat$ be computable functions.
+We want to prove that $h:\nat^{k+1}\rightarrow\nat$ defined through primitive recursion
+\begin{equation*}
+  \begin{cases}
+    h(\vec{x},0) = f(\vec{x})\\
+    h(\vec{x}, y+1) = g(\vec{x},y,h(\vec{x},y))
+  \end{cases}
+\end{equation*}
 is computable.
 
-\textbf{proof}
-Let $F,G$ programs in standard form for $f,g$, let us show how a program for $h$ can be constructed.
+Let $F,G$ programs in standard form for $f,g$. We want a program $H$ for $h$
 We proceed as suggested by the definition.
 
 We start from $\begin{tabu}{|c|c|c|c|c|c|}
@@ -273,15 +376,15 @@ $\begin{tabu}{|c|c|c|c|c|c|c|c|c|}
   \hline
   1                     & \dots                                  & m+1                    & \dots   & m+k   & m+k+1 & \dots        & m+k+3 &   \\
   \hline
-  \dots                 & \dots                                  & \dots                  & \vec{x} & \dots & i     & h(\vec{x},2) & y     & 0 \\
-  \hline
-  \multicolumn{2}{|c}{} & \multicolumn{5}{|c}{$arguments of g$ } & \multicolumn{2}{|c|}{}                                                      \\
+  \dots                 & \dots                                  & \dots                  & \vec{x} & \dots & i     & h(\vec{x},2) & y     & 0                                                \\
   \hline
 \end{tabu}$
 
 $\begin{tabu}{lll}
-  & T([1,k],[m+1,m+k])                   & $copy $\vec{x}                             \\
-  & T(k+1,m+k+3)                         & $copy $ y                                  \\
+  & T(1,m+1)                              &                            \\
+  & \dots                                 &                           \\
+  & T(k,m+k)                              &                            \\
+  & T(k+1,m+k+3)                         &                                 \\
   & F[m+1,\dots,m+k\rightarrow m+k+2]    & h(\vec{x},0)                               \\
   LOOP: & J(m+k+1,m+k+3,END)                   & i=y?                                       \\
   & G[m+1,\dots,m+k+2 \rightarrow m+k+2] & h(\vec{x},i+1) = g(\vec{x},i,h(\vec{x},i)) \\
@@ -289,6 +392,9 @@ $\begin{tabu}{lll}
   & J(1,1,LOOP)                          &                                            \\
   END:  & T(m+k+2,1)
 \end{tabu}$
+\end{proof}
+\end{proposition}
+
 
 \textbf{Note:} We do nothing more than implementing recursion through iteration!
 
