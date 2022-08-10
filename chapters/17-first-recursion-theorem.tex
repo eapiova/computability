@@ -1,32 +1,32 @@
 \chapter{First recursion theorem}
 
-Usually, we have functions that uses other functions as arguments
-in programming languages.  E.g. in ML, the function \texttt{succ} that
-given a function $f$ returns $f+1$ can be defined form
-\begin{quote}
-    fun succ f x = f x + 1
-\end{quote}
-From the computability point of view is still somewhat natural to ask
-how can be characterized effective/computable operations on
+In programming languages, we have functions that use other functions as arguments,
+e.g. in ML, the function \texttt{succ} that
+given a function $f$ returns $f+1$ can be defined as
+\begin{equation*}
+    fun\ succ\ f\ x = f\ x + 1
+\end{equation*}
+From the computability point of view it is still somewhat natural to ask
+how effective/computable operations can be characterized on
 functions. We'll later see that this idea leads to the concept of
 \emph{recursive functional}.
 
 \begin{definition}
-  We'll call $\mathfrak{F}(\nat^k)$ the set of all the functions
-  (computable and not) of k arguments $\nat^k \rightarrow \nat^k$.
+  We'll call $\mathcal{F}(\nat^k)$ the set of all the functions
+  (computable and not) of k arguments $\nat^k \to \nat^k$.
 \end{definition}
 
 a \emph{functional} is just a function
 \[
-  \Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)
+  \Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)
 \]
 (only total functions will be considered)
 
 When can we say that a functional is effective (computable), in fact,
-given $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
+given $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$
 \begin{itemize}
-\item a function $f \in \mathfrak{F}$ and its image
-  $\Phi(f) \in \mathfrak{F}(\nat^k)$ are both infinite objects in
+\item a function $f \in \mathcal{F}$ and its image
+  $\Phi(f) \in \mathcal{F}(\nat^k)$ are both infinite objects in
   general.
 \item We can not ask for $\Phi(f)$ to be computable in a finite time
   from $f$
@@ -61,10 +61,10 @@ this way we can give the following definition of functional
 
 \begin{definition}
   A functional
-  $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
-  \emph{recursive} if exists $\varphi : \nat^{h+1} \rightarrow \nat$
+  $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ is
+  \emph{recursive} if exists $\varphi : \nat^{h+1} \to \nat$
   computable s.t.
-  $\forall f \in \mathfrak{F}(\nat^k) \quad \forall \vec{x} \in \nat^h
+  $\forall f \in \mathcal{F}(\nat^k) \quad \forall \vec{x} \in \nat^h
   \quad \forall y \in \nat$
 
   \[
@@ -77,7 +77,7 @@ this way we can give the following definition of functional
   The functional
   \newcommand{\fib}[1]{\ensuremath{\mbox{fib}(#1)}}
   \[
-    \mbox{fib} : \mathfrak{F}(\nat) \rightarrow \mathfrak{F}(\nat)
+    \mbox{fib} : \mathcal{F}(\nat) \to \mathcal{F}(\nat)
   \]
   \[
     \fib{f}(x) = \begin{cases}
@@ -85,7 +85,7 @@ this way we can give the following definition of functional
       f(x-2) + f(x-1) & x \geq 2
     \end{cases}
   \]
-  is recursive, the function $\varphi: \nat^2 \rightarrow \nat$ can be
+  is recursive, the function $\varphi: \nat^2 \to \nat$ can be
   \[
     \begin{aligned}
       \varphi(z, x) &= \begin{cases}
@@ -104,7 +104,7 @@ this way we can give the following definition of functional
 \begin{example}
 Te functional associated to Ackermann function:
 \[
-  \Psi_{ack} : \mathfrak{F}(\nat^2) \rightarrow \mathfrak{F}(\nat^2)
+  \Psi_{ack} : \mathcal{F}(\nat^2) \to \mathcal{F}(\nat^2)
 \]
 \[
   \begin{tabu}{r l l}
@@ -118,9 +118,9 @@ which is computable as before.
 We can also verify:
 
 \begin{theorem}\label{th:unknown}
-  Let $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$
-  be a recursive functional and let $f \in \mathfrak{F}(\nat^k)$ be
-  computable. Then $\Phi(f) \in \mathfrak{F}(\nat^h)$ is computable
+  Let $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$
+  be a recursive functional and let $f \in \mathcal{F}(\nat^k)$ be
+  computable. Then $\Phi(f) \in \mathcal{F}(\nat^h)$ is computable
 \end{theorem}
 
 \section{Myhill-Sheperdson theorems}
@@ -141,13 +141,13 @@ that the transformation depends on the firstly indexed function and
 \begin{definition}[Extensional function]
   Let $h : \nattonat$ a total function. It is \emph{extentional} if
   \[
-    \forall e,e' \quad \varphi_e = \varphi_{e'} \Rightarrow
+    \forall e,e' \quad \varphi_e = \varphi_{e'} \to
     \varphi_{h(e)} = \varphi_{h(e')}
   \]
 \end{definition}
 
 \begin{theorem}[Myhill-Shepherdson (I)]
-  If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
+  If $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ is
   recursive functional then it exists a total computable function
   $h_\Phi : \nattonat$ s.t.
   \[
@@ -170,32 +170,26 @@ That is to say that a total computable extensional function identifies
 only one recursive functional.  Is interesting to observe that
 $\Phi_n$ exists also for non computable functions.
 
-\begin{theorem}[I theorem of recursion (Kleene)]\label{th:first-recursion}
-  If $\Phi : \mathfrak{F}(\nat^k) \rightarrow \mathfrak{F}(\nat^h)$ is
-  a recursive functional, then $\Phi$ has a fixed minimum point
-  $f_\Phi$ which is computable.
+\begin{theorem}[First recursion theorem (Kleene)]\label{th:first-recursion}
+  Let $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ be
+  a \textbf{recursive functional}. Then $\Phi$ has a \textbf{least fixed point}
+  $f_\Phi$ which is \textbf{computable}, i.e.
+  \begin{enumerate}
+  \item $\Phi(f_\Phi) = f_\Phi$
+  \item $\forall g \in \mathcal{F}(\nat^k) \quad \Phi(g) = g \Rightarrow f_\Phi \subseteq g$
+  \item $f_\Phi$ is computable
+  \end{enumerate}
+  and we can see that $f_\Phi = \bigcup\limits_n
+  \Phi^{n}(\emptyset)$, and since a functional can be associated to a
+  fixed point; the theorem proves the closure of the set of computable
+  functions with respect to extremely general forms of recursion.
 \end{theorem}
-
-That is to say that $\exists f_\Phi \in \mathfrak{F}(\nat^k)$
-computable s.t.
-\begin{itemize}
-\item $\Phi(f_\Phi) = f_\Phi$
-\item
-  $\forall g \in \mathfrak{F}(\nat^k) \quad \Phi(g) = g \; \Rightarrow
-  \; f_\Phi \subseteq g$
-\end{itemize}
-and we can see that $f_\Phi = \bigcup\limits_n
-\Phi^{n}(\emptyset)$, and since a functional can be associated to a
-fixed point; the theorem proves the closure of the set of computable
-functions with respect to extremely general forms of recursion. The
-following are the exceptions:
-
-\mbox{}\\*
+ The following are the exceptions:
 \paragraph{\textbf{Primitive recursion}}
-given $f : \nat^h \rightarrow \nat$ and
-$g : \nat^{h+2} \rightarrow \nat$, the function defined by primitive
+given $f : \nat^h \to \nat$ and
+$g : \nat^{h+2} \to \nat$, the function defined by primitive
 recursion is the minimum fixed point of
-$\Phi_r \in \mathfrak{F}(\nat^{h+1})$, defined by
+$\Phi_r \in \mathcal{F}(\nat^{h+1})$, defined by
 \[
   \begin{tabu}{r l l}
     \Phi_r(h)(\vec{x}, 0) & = & f(\vec{x}) \\
@@ -211,11 +205,11 @@ functional. This way the theorem assures us that:
 
 \mbox{}\\*
 \paragraph{\textbf{Minimization}}
-given a function $f: \nat^{k+1} \rightarrow \nat$ we can see the
+given a function $f: \nat^{k+1} \to \nat$ we can see the
 minimization $\mu y \; . \; f(\vec{x}, y)$ as a fixed point. Let's
 consider, for a fixed f
 \[
-  \Phi_\mu \in \mathfrak{F}(\nat^{k+1})
+  \Phi_\mu \in \mathcal{F}(\nat^{k+1})
 \]
 \[
   \Phi_\mu(h)(\vec{x}, y) = \begin{cases}

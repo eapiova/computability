@@ -1,50 +1,44 @@
 \chapter{Enumeration of programs}
 \newcommand{\pr}{\mathcal{PR}}
-The objective is to define an \emph{``effective'' enumeration} of URM
+The objective here is to define an \emph{effective enumeration} of URM
 programs and URM-computable functions. These results will be
-fundamental for our theory, and in particular for
+fundamental for our theory, and in particular to
 \begin{itemize}
-\item proving the existence of non computable functions (this proof will
-  be similar to the first one we've seen in
-  \S\ref{se:existence-non-2}, but with this method it will be possible to
-  build them)
-\item $S^m_n$ theorem (\textit{smn} theorem, or parameter theorem)
-  \item universal function/machine.
+\item prove the existence of non computable functions
+\item the \textit{smn} theorem
+\item the universal function/machine.
 \end{itemize}
 
-Review: Let $ A, B $ be two sets,
+\begin{remark}
+  Let $ A, B $ be two sets,
 \begin{itemize}
-\item $ |A| = |B| $ if $ \exists f:A\rightarrow B $ biunivocal.
+\item $ |A| = |B| $ if there exists $  f:A\to B $ biunivocal.
 
-\item $ |A| \leq |B| $ if $ \exists f:A\rightarrow B $ injective or
-  there exists $g$ opposite direction surjective.
+\item $ |A| \leq |B| $ if there exists $ f:A\to B $ injective or
+  there exists $g:B\to A$ surjective.
 
-\item if $|A| \leq |B|$ and $|B| \leq |A| \Rightarrow |A|=|B|$.
+\item if $|A| \leq |B|$ and $|B| \leq |A|$, then $|A|=|B|$.
   Assuming the axiom of choice, if we have $\{A_i\}_{i \in I}$ family
-  of non-empty sets $\forall i \in I \; A_i \neq \emptyset$, then
-  there exists a function $$f:I \rightarrow \cup_{i \in I}A_i \quad
-  \text{ s.t. }  \forall i \in I f(i) \in A_i$$
+  of non-empty sets, then
+  there exists a function $$f:I \to \bigcup_{i \in I}A_i \quad
+  \text{ s.t. }  \forall i \in I\; f(i) \in A_i$$
 \end{itemize}
+\end{remark}
 
-$A$ is countable if $ |A| \leq |\nat| $, that is,
-$ \exists g: \nat \rightarrow A $ surjective. in this case we say that
-$f$ is an enumeration of $X$, intuitively because we can enumerate all
+\begin{definition}[Countable set]
+  $A$ is \textbf{countable} if $ |A| \leq |\nat| $, i.e. we have
+$ f: \nat \to A $ surjective. We say that
+$f$ is an enumeration of $X$, because we can enumerate all
 elements in $X$ with \[f(0), f(1), f(2), \dots \]
+\end{definition}
 
-An enumeration is \emph{without repetitions} if in addition to being
-surjective it is also injective.
-
-Let's say that an enumeration $f: \nat \rightarrow X$ is
-\emph{effective} when both $f$ and $f^\prime$ are effective. When
-$X = \nat^k \quad f^{-1}: X \rightarrow \nat$ can be proved to be
-computable, otherwise we will use the intuitive notion of effective
-function.
-
-% when it is computable or
-% made from pieces that are computable (e.g. ennuple of results).
+\begin{definition}[Enumeration without repetitions]
+  An enumeration is \textbf{without repetitions} if it is injective.
+  It is also called \textbf{effective}.
+\end{definition}
 
 \begin{lemma}
-  The following sets are effectively enumerable:
+  There are effective enumerations of
   \begin{enumerate}[label=(\arabic*)]
   \item $ \nat^2 $
   \item $ \nat^3 $
@@ -52,24 +46,37 @@ function.
   \end{enumerate}
   \begin{proof}
     \begin{enumerate}[label=(\arabic*)]
-    \item we already saw that \[\Pi : \nat^2 \rightarrow
-        \nat\] \[\Pi(x,y) = 2^x(2y+1)-1\] Both are computable
-      ($\in \pr$) with inverse
-      \[\Pi^{-1} : \nat \rightarrow \nat^2\]
-      \[\Pi^{-1}(x) = (\Pi_1(x), \Pi_2(x))\]
-      \[\Pi_1, \Pi_2 \in \pr \Rightarrow \text{ computable}\]
+    \item we already saw that 
+      \begin{align*}
+        &\pi : \nat^2 \to
+        \nat \\
+        &\pi(x,y) = 2^x(2y+1)-1
+      \end{align*}  
+     is computable
+       with inverse
+       \begin{align*}
+        &\pi^{-1} : \nat \to \nat^2\\
+        &\pi^{-1}(x) = (\pi_1(x), \pi_2(x))
+       \end{align*}
+      where $\pi_1,\pi_2 : \nat \to \nat$
+      \begin{align*}
+        &\pi_1 (n) = (n+1)_1\\
+        &\pi_2(n) = \left(\left(\dfrac{n+1}{2^{\pi_1(n)}}\right)-1\right)
+       \end{align*}
+       are computable.
     \item{
-        We can consider \[\nu : \nat^3 \rightarrow
-          \nat \] \[\nu(x,y,z)= \Pi(\Pi(x,y),z) \quad \nu \in \pr\] with
-        the inverse built upon projections
-        \[\nu^{-1} : \nat \rightarrow \nat^3\]
-        \(\nu^{-1}(x) = (\nu_1(x), \nu_2(x), \nu_3(x))\)
-
-        \(\nu_1(x) = \Pi_1(\Pi_1(x)), \nu_2(x) = \Pi_2(\Pi_2(x)),
-        \nu_3(x) = \Pi_3(\Pi_3(x))\)
-
-        Since $\nu_1, \nu_2, \nu_3 \in \pr$ are computable $\nu^{-1}$
-        is computable }
+        consider 
+        \begin{align*}
+          &\nu : \nat^3 \to
+          \nat\\
+          &\nu(x,y,z)= \pi(\pi(x,y),z)
+        \end{align*}
+        with inverse built upon projections
+        \begin{align*}
+          &\nu^{-1} : \nat \to \nat^3\\
+          &\nu^{-1}(x) = (\nu_1(x), \nu_2(x), \nu_3(x))
+        \end{align*}
+        with $\nu_1, \nu_2, \nu_3$ are computable.}
     \item{ Observe that the encoding
         \[(a_1, \dots, a_k) \mapsto \prod^k_{i=1}p_i^{a_i+1}\] can't
         be used since it is injective, but not surjective (the
@@ -78,7 +85,7 @@ function.
 
         The idea is to leverage the uniqueness of the binary
         representation of natural numbers (positional).
-        \[\tau : \cup_{k \geq 1} \nat^k \rightarrow \nat \]
+        \[\tau : \cup_{k \geq 1} \nat^k \to \nat \]
 
         \[\tau (a_1, \dots, a_k ) = 2^{a_1}+2^{a_1+a_2+1}+ \dots +
           2^{a_1+\dots + a_k + (k-1)} - 1\]
@@ -129,7 +136,7 @@ function.
 \end{lemma}
 
 \section{Alternative encoding of tuples}
-$$\tau \cup_{k \geq 1} \nat^k \rightarrow \nat$$
+$$\tau \cup_{k \geq 1} \nat^k \to \nat$$
 $$\tau(a_1, \dots, a_k) = \prod_{i=1}^{k}p_i^{a_i}$$
 Does not work, since it encodes $(1,4)$ as $(1,4,0,0)$. In a sense
 ``forgets'' tailing zeros.
@@ -148,11 +155,11 @@ tuple of elements:
       (x+2)_i - 1 & i = \ell(x)
     \end{cases}\]
 \item[alternative]{
-    $\tau(a_1, \dots, a_k) = \Pi(\prod_{i=1}^k p_i^{a_i}, k)$
+    $\tau(a_1, \dots, a_k) = \pi(\prod_{i=1}^k p_i^{a_i}, k)$
 
-    $\ell(x) = \Pi_2(x)$
+    $\ell(x) = \pi_2(x)$
 
-    $a(x,i) = (\Pi_1(x))_i$
+    $a(x,i) = (\pi_1(x))_i$
   }
 \end{description}
 
@@ -167,7 +174,7 @@ tuple of elements:
   $\mathcal{P}$ is effectively enumerable.
   \begin{proof}
     First, we'll prove that there exists
-    \[\beta : \mathfrak{F} \rightarrow \nat \]
+    \[\beta : \mathfrak{F} \to \nat \]
     a bijective effective correspondence. The idea is to use the
     enumeration of couples and triples, sending
     \begin{itemize}
@@ -182,24 +189,24 @@ tuple of elements:
 
     $\beta(s(n)) = 4*(n-1) + 1$
 
-    $\beta(t(n)) = 4*(n-1) \Pi(m-1, n-1) + 2$
+    $\beta(t(n)) = 4*(n-1) \pi(m-1, n-1) + 2$
 
     $\beta(j(n)) = 4*(n-1) + \nu(m-1, n-1, t-1) + 3$
 
-    with inverse \[\beta^{-1} : \nat \rightarrow \mathfrak{F}\] such
+    with inverse \[\beta^{-1} : \nat \to \mathfrak{F}\] such
     that, given $x \in \nat$ let $r = \mbox{rm}(4,x)$ and
     $q = \mbox{qt}(4,x)$
     \[
       \beta^{-1}(x) = \begin{cases}
         z(q+1) & \mbox{if } r=0 \\
         s(q+1) & \mbox{if } r=1 \\
-        t(\Pi_1(q)+1, \Pi_2(q)+1) & \mbox{if } r=2 \\
+        t(\pi_1(q)+1, \pi_2(q)+1) & \mbox{if } r=2 \\
         j(\nu_1(q)+1, \nu_2(q)+1, \nu_3(q)+1) & \mbox{if } r=3
       \end{cases}
     \]
     Of course, both $\beta$ and $\beta^{-1}$ are effective. At this
     point, to define a bijective function
-    $\gamma : \mathcal{P} \rightarrow \nat$ we need to observe that a
+    $\gamma : \mathcal{P} \to \nat$ we need to observe that a
     program is a finite sequence of instructions that can
     be translated in a finite sequence of natural numbers with $\beta$ : given
     $P \in \mathcal{P} \quad P = I_1 \dots I_s$
@@ -207,7 +214,7 @@ tuple of elements:
     this way, $\gamma$ is bijective because is made of bijective
     functions. Since $\gamma, \gamma^{-1}$ are effective (intuitively)
     since they are built on composition of effective functions,
-    $\Rightarrow \mathcal{P}$ is effectively enumerable
+    $\to \mathcal{P}$ is effectively enumerable
   \end{proof}
 \end{theorem}
 
@@ -243,9 +250,9 @@ on the effectiveness of $\gamma$ and $\gamma^{-1}$.
   encoded by
 
   \begin{itemize}
-  \item[] $\beta(T(1,2)) = 4 * \Pi(1-1,2-1) + 2 = 4 * \Pi(0,1) + 2 = 10$
+  \item[] $\beta(T(1,2)) = 4 * \pi(1-1,2-1) + 2 = 4 * \pi(0,1) + 2 = 10$
   \item[] $\beta(S(2)) = 4 * (2-1) + 1 = 5$
-  \item[] $\beta(T(2,1)) = 4 * \Pi(2-1,1-1) + 2 = 4 * \Pi(1,0) + 2 = 6$
+  \item[] $\beta(T(2,1)) = 4 * \pi(2-1,1-1) + 2 = 4 * \pi(1,0) + 2 = 6$
   \end{itemize}
 
   \[\begin{split}
@@ -282,10 +289,10 @@ on the effectiveness of $\gamma$ and $\gamma^{-1}$.
 
   \[
     \begin{split}
-      a_1 = b_1 = 0 & \Rightarrow Z(1) \\
-      a_2 = b_2 - b_1 - 1 = 1 & \Rightarrow S(1) \\
-      a_3 = b_3 - b_2 - 1 = 2 & \Rightarrow T(1,1) \\
-      a_4 = b_4 - b_3 - 1 = 0 & \Rightarrow Z(1)
+      a_1 = b_1 = 0 & \to Z(1) \\
+      a_2 = b_2 - b_1 - 1 = 1 & \to S(1) \\
+      a_3 = b_3 - b_2 - 1 = 2 & \to T(1,1) \\
+      a_4 = b_4 - b_3 - 1 = 0 & \to Z(1)
     \end{split}
   \]
 
@@ -310,7 +317,7 @@ Clearly, an enumeration of URM programs induces an enumeration of computable fun
 
 \begin{definition}
   Fixed an effective enumeration
-  $\gamma : \mathcal{P} \rightarrow \nat$ we define:
+  $\gamma : \mathcal{P} \to \nat$ we define:
   \begin{enumerate}[label=\arabic*.]
   \item $\varphi_n^{(k)}$: the function of k arguments (k-ary
     function) computed by the program $P_n = \gamma^{-1}(n)$ (with
@@ -324,7 +331,7 @@ Clearly, an enumeration of URM programs induces an enumeration of computable fun
 
 \textbf{Observation:} The function \[
   \begin{split}
-    \varphi^{(k)} : & \quad \nat \rightarrow \mathcal{C}^{(k)} \\
+    \varphi^{(k)} : & \quad \nat \to \mathcal{C}^{(k)} \\
     & \quad n \mapsto \varphi_n^{(k)}
   \end{split}
 \]
@@ -333,13 +340,13 @@ is obviously surjective (each computable function is computed by a
 program!), and so $\mathcal{C}^{(k)}$ is enumerable:
 \[|\mathcal{C}^{(k)}| = |\nat|\]
 
-The existence of a surjective function $\nat \rightarrow \mathcal{C}$
+The existence of a surjective function $\nat \to \mathcal{C}$
 follows that $|\mathcal{C}^{(k)}| \leq |\nat|$, but obviously there
 exists infinitely many computable functions, for example constants
 $\lambda x_1 \dots x_k . c$, and so $|\mathcal{C}^{(k)}| \geq |\nat|$
 is also true.
 
-Clearly $\varphi^{(k)} : \nat \rightarrow \mathcal{C}^{(k)}$ is not
+Clearly $\varphi^{(k)} : \nat \to \mathcal{C}^{(k)}$ is not
 injective. In fact, for each computable function there are infinitely
 many programs that computes it
 \[\forall f \in \mathcal{C} \quad \quad |(\varphi^{(k)})^{-1}(f)| =
@@ -359,7 +366,7 @@ $\varphi_{\chi(0)}, \varphi_{\chi(1)}, \varphi_{\chi(2)}, \dots$
 But this enumeration is highly ineffective.
 
 (Can be proved that there exists an enumeration
-$h : \nat \rightarrow \nat$ which is total and computable s.t.
+$h : \nat \to \nat$ which is total and computable s.t.
 $\varphi_{h(0)}, \varphi_{h(1)}, \varphi_{h(2)}, \dots$ is an
 enumeration without repetitions \cite{firedberg:1958}. However, an
 enumeration with repetitions is sufficient for us).
@@ -388,16 +395,16 @@ starting from $\gamma$.
 % from the inverse of the first.
 
 % For lists we need an encoding
-% $ \tau . \bigcup_{K \geq 1} \nat^k \rightarrow \nat $ we exploit the
+% $ \tau . \bigcup_{K \geq 1} \nat^k \to \nat $ we exploit the
 % uniqueness of the prime numbers:
-% $ \tau(a_1,\dots,a_k) = \Pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
+% $ \tau(a_1,\dots,a_k) = \pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
 % $i$-th prime number. \\
 % This, however, leads us to lose any zeros, since
 % the encodings for (1,1) and (1,1,0) would be the same because the
 % exponential function in 0 = 1.
 
 % So we use something that works:
-% $ (\Pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
+% $ (\pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
 % can proceed as usual, but limited minimization can be used.\\ Hint:
 % $ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
 
@@ -414,7 +421,7 @@ starting from $\gamma$.
 
 % To compute instructions: Let us take $ \mathcal{F} $ set of URM
 % instructions, $ \mathcal{P} $ URM programs. Let's take function
-% $ \beta:\mathcal{F}\rightarrow\nat $
+% $ \beta:\mathcal{F}\to\nat $
 % \begin{itemize}
 % \item $ \beta(z(n)) = 4 \times (n-1) $;
 % \item $ \beta(s(n)) = 4 \times (n-1)+1 $;
@@ -437,7 +444,7 @@ starting from $\gamma$.
 %   $n$-th program.
 % \end{notation}
 
-% \begin{notation} $ \Phi_n^{(k)}: \nat^k\rightarrow\nat $ function of
+% \begin{notation} $ \Phi_n^{(k)}: \nat^k\to\nat $ function of
 %   $K$ arguments computed by program $n$, that is, by program
 %   $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain is
 %   $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} |

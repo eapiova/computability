@@ -1,6 +1,6 @@
 
 Stima ore:
-6
+11
 
 Da finire:
 - esercizi capitolo 3
@@ -9,7 +9,8 @@ Da finire:
 - controllare parte iniziale cap 5
 - capitolo 6 Corollario di scambio variabili
 - finire capitolo 6 da primitive recursion
-
+- ho lasciato fuori gli esercizi
+- capitolo 8 sistemare dimostrazione ackermann computabile con encoding
 
 Cosa ho sistemato:
 - poco inglese (frasi convolute)

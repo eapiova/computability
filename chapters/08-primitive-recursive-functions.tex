@@ -1,273 +1,232 @@
 \chapter{Primitive recursive functions}
-Let's consider again the class of primitive recursive functions.
-
-\textbf{Definition} (primitive recursive functions).  The class of
+\begin{definition}[Primitive recursive functions]
+  The class of
 primitive recursive functions is the smallest set
-$\mathcal{PR} \subseteq \bigcup\limits_k(\mathbb{N}^k \rightarrow
-\mathbb{N})$ containing;
-
+$\mathcal{PR}$ containing
 \begin{enumerate}[label=(\alph*)]
-\item zero
+\item zero function
 \item successor
 \item projections
 \end{enumerate}
-
 and closed under
-
 \begin{enumerate}[label=(\arabic*)]
 \item composition
 \item primitive recursion
 \end{enumerate}
-
-There are many interesting points in $\mathcal{PR}$. For example the
-fact that primitive recursion are similar to \texttt{for} loops, while
-minimization is similar to \texttt{while} loops. This fact can be
-formalized into a new variant on the URM, with \textit{structured
-  programs}, where the jump instruction is substituted with
-\texttt{for} and \texttt{while} loops. We'll call this machine
-$\text{URM}_{\text{for,while}}$ (This corresponds to consider the
-subset of URM programs where the jump instructions are used in a
-``disciplinated'' way).
-
-We can demonstrate that this model has the same expressive power as the
-URM model. This means that the class $\mathcal{C}_{\text{for,while}}$
-for functions computable in this model is
-
-\[
-  \mathcal{C}_{\text{for,while}} = \mathcal{C} = \mathcal{R}
-\]
-
-while the class of functions computable using only the \texttt{for}
-construct are partial recursive functions:
-
-\[
-  \mathcal{C}_{\text{for}} = \mathcal{PR}
-\]
-So studying the relation between $\mathcal{R}$ and $\mathcal{PR}$ is
-the same as studying the relation between the expressive power of
-\texttt{for} and \texttt{while} constructs.  We know that many
-``arithmetic'' functions, like Pr$(x), (x)_y,$ qt, mcm($x,y$),
-$x^y, \dots$ are in $\mathcal{PR}$ and that it is closed for sum,
-product and minimization (all of them limited). This class is very
-extended, but it does not contain all computable functions, in other
-words $\mathcal{PR} \subsetneq \mathcal{R}$, because $\mathcal{PR}$
-functions are always total (based on an inductive characteristic,
-$\mathcal{PR}$ functions are obtainable for base total functions by
-composition and primitive recursion).
-
-One could think that $\mathcal{PR}$ includes all total recursive
-functions, in other words if Tot is the set of all total functions:
-$\mathcal{PR} = \mathcal{R} \cap \text{Tot}$ [Hilbert, 1926].
-
-This is also false
-($\mathcal{PR} \subsetneq \mathcal{R} \cap \text{Tot}$). In fact even
-if we restrain ourselves to total functions (programs that always
-terminates) the \texttt{while} construct is essential.
-
-\section{Ackermann function}
-$ \psi: \nat^2 \rightarrow \nat $ defined as:
-
-$ \psi(0,y) = y+1 $
-
-$ \psi(x+1,0) = \psi(x,1) $
-
-$ \psi(x+1,y+1) = \psi(x, \psi(x+1, y)) $
-
-Formally, $\psi$ is the minimum fixed point of the operator associated
-to the recursive function, on the cpo % not sure about this
-of partial functions
-$T: (\mathbb{N}^2 \rightarrow \mathbb{N}) \rightarrow (\mathbb{N}^2
-\rightarrow \mathbb{N})$. More intuitively, the scheme univocally
-guesses a function, because the value $\psi(x,y)$ is always defined
-based on ``smaller'' values of $\psi$ itself. But what does it mean
-``smaller''?
-
-$\psi(x+1,0) = \psi(x,1)$; here the first component
-diminishes. $\psi(x+1,y+1)=$ at first we calculate $\psi(x+1, y)$,
-here the second component diminishes, and then $\psi(x,u)$. Whatever
-$u$ is, the first component is smaller.
-
-We can see that the arguments diminishes in a \emph{lexicographical}
-order on $\mathbb{N}^2$
-
-with $(\mathbb{N}^2, \leq_{lex} )$, we have that $(x,y) \leq (x', y')$
-if $(x < x') \wedge (x=x'$ and $y \leq y')$, and so
-$( \mathbb{N}^2, \leq_{lex} )$ is \emph{well ordered}, in the sense
-that it does not allow for infinite descending sequences.
-
-\paragraph{Parenthesis on partial orders}
-\begin{definition}
-  Let $(D, \leq)$ be a partial order. It is
-  \begin{description}
-  \item[well ordered] if each non-void subset has the minimum element:
-    $$\forall X \subseteq D, X \neq \emptyset \quad \exists \min D$$
-  \item[well based] if each non-void subset has a minimal element
-    $$ \forall X \subseteq D, X \neq \emptyset \Rightarrow \exists d \in X \text{ minimal}$$
-  \end{description}
 \end{definition}
 
-\textbf{Observation:} $D$ is well formed $\Rightarrow$ $D$ is well
-based.
+One of the interesting property of $\mathcal{PR}$ is the
+fact that primitive recursive functions are similar to \texttt{for} loops, while
+function defined also by minimalisation are similar to \texttt{while} loops. This fact can be
+formalized into a new variant on the URM, with \emph{structured
+  programs}, where the jump instruction is substituted by
+\texttt{for} and \texttt{while} loops. We'll call this machine
+$\text{URM}_{\text{for,while}}$.
 
-\textbf{Observation:} if $D$ is well based it does not allow for
-infinite descending sequences:
-\[
-  d_0 > d_1 > d_2 > \dots > d_n > d_n+1 \dots
-\]
-\newcommand{\conf}{\text{conf}} This fact can be useful when dealing
+We can prove that this model has the same expressive power as the
+URM model. This means that the class $\mathcal{C}_{\text{for,while}}$
+coincides with $\mathcal{C}$ and $\mathcal{R}$,
+while the class $\mathcal{C}_{\text{for}}$ of functions computable using only the \texttt{for}
+construct coincides with $\mathcal{PR}$.
+
+Thus, studying the relation between $\mathcal{R}$ and $\mathcal{PR}$ is
+the same as studying the relation between the expressive power of
+\texttt{for} and \texttt{while} constructs.  We know that many
+``arithmetic'' functions, like $Pr(x), (x)_y, qt, mcm(x,y),
+x^y$ are in $\mathcal{PR}$ and $\mathcal{PR}$ is closed under sum,
+product and minimalisation. This class is very
+extended, but it does not contain all computable functions, in other
+words $\mathcal{PR} \subsetneq \mathcal{R}$, because $\mathcal{PR}$
+functions are always total, since
+$\mathcal{PR}$ functions are obtainable from base total functions by
+composition and primitive recursion.
+
+One could think that $\mathcal{PR}$ includes all the total recursive
+functions, in other words if $Tot$ is the set of all total functions:
+$\mathcal{PR} = \mathcal{R} \cap Tot$ [Hilbert, 1926].
+
+This is false
+($\mathcal{PR} \subsetneq \mathcal{R} \cap \text{Tot}$) because, even
+if we restrain ourselves to total functions (programs that always
+terminates), the \texttt{while} construct is essential.
+
+\section{Ackermann's function}
+Consider the function $ \psi: \nat^2 \rightarrow \nat $ defined as
+\begin{equation*}
+  \begin{cases}
+    \psi(0,y) = y+1\\
+    \psi(x+1,0) = \psi(x,1)\\
+    \psi(x+1,y+1) = \psi(x, \psi(x+1, y))\\
+  \end{cases}
+\end{equation*}
+
+This scheme univocally
+guesses a function, because the value $\psi(x,y)$ is always defined
+based on \emph{smaller} values of $\psi$ itself. But what does \emph{smaller} mean?
+
+\begin{itemize}
+  \item in $\psi(x+1,0) = \psi(x,1)$ the first argument
+  diminishes.
+  \item in $\psi(x+1,y+1)=\psi(x, \psi(x+1, y))$ at first we calculate $\psi(x+1, y)$
+  where the second argument diminishes and then $\psi(x,u)$ in which the first argument
+  $u$ is, the first argument is smaller.
+\end{itemize}
+ 
+
+We can see that the arguments diminish in a \emph{lexicographical}
+order on $\mathbb{N}^2$, so we can define a partial ordered set 
+$(\mathbb{N}^2, \leq_{lex} )$ with $(x,y) \leq (x', y')$
+if $(x < x') \wedge (x=x'$ and $y \leq y')$ and then
+$( \mathbb{N}^2, \leq_{lex} )$ is also \emph{well ordered}, i.e.
+it does not allow for infinite descending sequences.
+
+\begin{definition}[Partially ordered set]
+  A set $D$ with a binary relation $\leq$ is a partially ordered set (poset) $(D, \leq)$ if $\leq$ is a partial order, i.e., for all $x,y,z\in D$, it is
+  \begin{enumerate}
+    \item reflexive: $ x\leq x $;
+    \item antisymmetric: if $ x\leq y $ and $ y\leq x $, then $ x=y $;
+    \item transitive: if $ x\leq y $ and $ y\leq z $, then $ x \leq z $.
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Well founded poset]
+  $(D, \leq)$ is well-founded if every non-empty $X \subseteq D$ has a minimal element $d$, i.e.
+  \[  
+  \forall d' \in X \quad d' \leq d \Rightarrow d' = d
+  \]
+\end{definition}
+
+\begin{observation}
+  $(D, \leq)$ is well-founded iff it does not allow for
+  infinite descending chains
+  \[
+    d_0 > d_1 > d_2 > \dots > d_n > d_n+1 \dots
+  \]
+\end{observation}
+\newcommand{\conf}{\text{conf}} 
+This fact can be useful when dealing
 with termination problems. If we can conclude that the set of
-configurations is well based, we simply need to prove
+configurations is well-founded, we simply need to prove
 that for each step \( \conf _i \rightarrow \conf_{i+1} \) and
 \( \conf _{i+1} < \conf _i \) to end our proof. This way our computation follows a descending sequence of values, necessarily finite.
-
 In fact, if we think the calculation of $\psi$ is based on the
 calculation of $\psi$ with smaller values, at some point it
 will for sure reach the case $\psi(0,y) = y + 1$, terminating.
 
-\textbf{Note:} $(\nat^2, \leq_{lex})$ is \emph{well ordered}
-
-(given $\emptyset \neq X \subseteq \nat^2$ we can identify
-$x_0 = \min\{x \; | \; \exists y.(x,y) \in X\}$ and
-$y_0 = \min \{ y \; | \; (x_0,y) \in X\}$ we can say that
+\begin{example}
+  $(\nat^2, \leq_{lex})$ is \emph{well-founded}.
+Let $\emptyset \neq X \subseteq \nat^2$ and define
+\begin{align*}
+  x_0 &= \min\{x \mid \exists y \in \nat . (x,y) \in X\} \\
+  y_0 &= \min \{ y \; | \; (x_0,y) \in X\}
+\end{align*}
+then we can state that
 $\min X = (x_0, y_0)$. In this way we can prove that the product of
-two well ordered sets is ordered.)
+two well-ordered sets is well-ordered.
+\end{example}
+\begin{observation}
+  $\leq_{lex}$ is total.
+\end{observation}
 
-The order is also total (\emph{left as an exercise})
-\begin{itemize}
-\item ``infinitely many copies of $\nat$, one after the other''
-\item each element has a successor, but not always a predecessor
-\item following the path back we have jumps of infinite length
-\end{itemize}
+A stronger induction principle can be defined on natural numbers:
+\begin{definition}[Complete induction]
+  To prove that $\forall n\in\nat \;.\; P(n)$, we can assume 
+  \[
+    \forall n'<n\;.\; P(n')
+    \]
+  and prove $P(n)$.
+\end{definition}
+We can generalize the complete induction on $D$ well-founded poset:
+\begin{definition}[Well-founded induction]
+  Let $(D, \leq)$ be a well-founded poset and let $P(x)$ a
+  property on elements of $D$. If for all $ d \in D $, assuming $P(d')$ for
+  $d' < d$, we can conclude that $P(d)$ holds, then
+  \[
+    \forall d\in D. P(d)
+  \]
+\end{definition}
 
-Associated with a well based order there is an induction principle:
+\newcommand{\nsqlex}{\( (\nat ^2, \leq_{lex})\)}
 
-\paragraph{\textbf{Complete (strong) induction}}
-
-Let $(D, \leq)$ be a well based order, and let $P \subseteq D$ a
-property. If
-\[
-  \forall d \in D \; . \; (\forall d' < d \quad P(d)) \Rightarrow P(d') \Rightarrow P(d)
-\]
-
-To prove that $P$ is valid on $D$ we have to prove that
-\begin{itemize}
-\item is valid on minimal elements
-\item for each other element $d$, if it holds on elements smaller than
-  $d$, then it holds on $d$
-\end{itemize}
-
-The proof is left as an exercise.
-
-\paragraph{\textbf{Back to the Ackermann function}}
-
-We will see that $\psi$:
-\begin{enumerate}
-\item It is total;
-\item $ \psi \in \mathcal{C} = \mathcal{R} $
-\item $ \psi \not \in \mathcal{PR} $
-\end{enumerate}
-
-% This part was not on the original notes but the prof added it so im
-% keeping it
-
-% We prove by induction on pairs $ (x',y') \leq_{lex} (x,y) $
-% lexicographically ordered.
-
-% \begin{enumerate}
-% \item We proceed by case. If x$ = 0$ then $y + 1$ holds then the function is defined;
-% \item $ x>0, y=0 $, then it holds $ \psi(x-1,1) $ which is def. by inductive hypothesis;
-% \item $ x>0, y>0 $, then $ \psi(x, \psi(x+1, y)) $ defined by inductive hypothesis, both inside and outside;
-% \end{enumerate}
-
-% So the function is total.
-
-\newcommand{\nsqlex}{\( (\nat ^2, \leq_{lex})\) }
-\begin{theorem}[$\psi$ is total]
+\begin{theorem}
+  $\psi$ is total, i.e.
   \[\forall (x,y) \in \nat^2 \quad \psi (x,y) \downarrow \]
   \begin{proof}
-    We can prove it with complete induction on \nsqlex:
-
-    \begin{itemize}
-    \item \textbf{base elements}. The truth is that \nsqlex has just
-      one base element $(0,0)$ and $\psi(0,0)=1\downarrow$
-    \item \textbf{inductive step}.
-      \[\forall (x,y) \in \nat^2 ((\forall (x', y') \in \nat^2 \;
-        (x',y') \leq_{lex} (x,y) \; \psi(x,y)\downarrow ) \Rightarrow
-        \psi(x,y)\downarrow)\] we have then 2 subcases:
-      \begin{enumerate}
+    We proceed by well-founded induction on \nsqlex.
+    Let $(x,y) \in \nat^2$, assume 
+    \[
+    \forall (x', y')\leq_{lex} (x,y) \;.\; \psi(x',y')\downarrow
+    \]    
+    we want to prove $\psi(x',y')\downarrow$.
+    We have 3 cases:
+    \begin{enumerate}
       \item[$(x=0)$] \(\psi(0,y) = y + 1 \downarrow\)
-      \item[$(x>0)$] again two subcases
-        \begin{enumerate}
-        \item[$(y=0)$] $\psi(x,0) = \psi(x-1,1) \downarrow $ for
+      \item[$(x>0,y=0)$] $\psi(x,0) = \psi(x-1,1) \downarrow $ for
           inductive hypothesis, since $(x-1,1) \leq_{lex} (x,0)$
-        \item[$(y>0)$] $\psi(x,y) = \psi(x-1,\psi(x,y-1)) \downarrow $
-          and $\psi(x,y-1) \downarrow$ for inductive hypothesis. If we
-          call $u = \psi(x,y-1)$ we have that
-          $\psi(x,y) = \psi(x-1,u) \downarrow $ for inductive
-          hypothesis
-        \end{enumerate}
+      \item[$(x>0,y>0)$] $\psi(x,y) = \psi(x-1,\psi(x,y-1))$
+          where $\psi(x,y-1) \downarrow$ by inductive hypothesis. Let
+           $u = \psi(x,y-1)$, so
+          $\psi(x,y) = \psi(x-1,u) \downarrow $ by inductive
+          hypothesis.
       \end{enumerate}
-    \end{itemize}
   \end{proof}
 \end{theorem}
 
 \begin{exercise}
   Given a box with an arbitrary number of balls in it, each one with a
-  number in $\nat$ do the following:
+  number in $\nat$, do the following:
   \begin{itemize}
-  \item extract a ball
+  \item extract a ball;
   \item substitute the extracted ball with an arbitrary number of
     balls, each one with a label lower than the extracted one.
   \end{itemize}
-
   Prove that this process always terminates.
 \end{exercise}
 
-\begin{theorem}[$\psi$ is computable]
+\begin{theorem}
+  $\psi$ is computable, i.e.
   \[\psi \in \mathcal{C} = \mathcal{R}\]
   \begin{proof}
     We can use the Church-Turing thesis to prove it: the computation
     of $\psi(x,y)$ is always reduced to the computation of $\psi$ on
-    smaller input values, and for the base case...
+    smaller input values.
 
     To do so, the definition of a valid set is needed. Intuitively a
-    set $S \subseteq \nat$ is considered valid if
-
+    set $S \subseteq \nat^3$ is considered valid if, for all $(x,y,z) \in S$, we have
     \begin{itemize}
-    \item \((x,y,z) \in S \quad \Rightarrow \quad z = \psi(x,y)\)
-    \item \((x,y,z) \in S \quad \Rightarrow \quad S\) contains all the
-      tuples \((x', y', \psi(x',y'))\) needed in order to calculate
+    \item $z = \psi(x,y)$
+    \item $S$ contains all the
+      triples needed to compute
       $\psi(x,y)$
     \end{itemize}
+    \begin{example}
+      $\psi(1,1) = \psi(0,\psi(1,0)) = \psi(0,\psi(0,1)) = \psi(0,2) = 3$
 
-    \textbf{example:}
-    $\psi(1,1) = \psi(0,\psi(1,0)) = \psi(0,\psi(0,1)) = \psi(0,2) = 3$
-
-    $\Rightarrow S = {(1,1,3), (0,2,3), (1,0,2), (0,1,2)}$
-
+      $\Rightarrow S = {(1,1,3), (0,2,3), (1,0,2), (0,1,2)}$
+    \end{example}
     Formally:
-
-    \begin{definition}[valid $S \subseteq \nat^3$]
-      Let $S$ be a set of tuples such that $S \subseteq \nat^3$. We say
+    \begin{definition}[Valid set]
+      Let $S$ be a set of triples such that $S \subseteq \nat^3$. We say
       that $S$ is \emph{valid} if:
-      \begin{itemize}
+      \begin{enumerate}
       \item \((0,y,z) \in S \quad \Rightarrow \quad z = y+1\)
       \item \((x+1,0,z) \in S \quad \Rightarrow \quad (x,1,z) \in S\)
-      \item
-        \((x+1,y+1,z) \in S \quad \Rightarrow \quad \exists u . (x+1,
+      \item \((x+1,y+1,z) \in S \quad \Rightarrow \quad \exists u \;.\; (x+1,
         y, u) \in S \wedge (x,u,z) \in S \)
-      \end{itemize}
+      \end{enumerate}
     \end{definition}
 
-    We can prove that
-    \(\psi(x,y) = z \Leftrightarrow \exists S \subseteq \nat^3\) valid
-    and finite s.t. \((x,y,z) \in S\) by complete induction on
+    We can prove that for every $(x,y,z)\in\nat^3$ we have
+   $\psi(x,y) = z$ if and only if there exists a valid \textbf{finite} set of triples $S \subseteq \nat^3$ 
+    such that \((x,y,z) \in S\).
+    
+    by complete induction on
     $(x,y)$, leveraging the fact that the validity of a set is
     preserved under union (left as an exercise).
 
     \newcommand{\vnu}{\text{Val}(\nu)}
 
-    A tuple $(x,y,z)$ can be encoded with an integer using the
+    A tuple $(x,y,z)$ can be encoded into an integer using the
     encoding function
     \[\Pi^3 \, : \, \nat^3 \rightarrow \nat \quad \quad (\Pi_i^3 \, : \,
       \nat \rightarrow \nat \text{ are the projections})\]. This way a
@@ -343,23 +302,17 @@ We will see that $\psi$:
 \begin{theorem}
   \[ \psi \notin \mathcal{PR} \]
   \begin{proof}
-    The fact that the definition of $\psi$ includes a recursion (and
-    does not respect the scheme of primitive recursive functions for
-    this reason) does not allow us to end our proof immediately.
-
     The proof of the fact that $\psi$ is not a primitive recursive
-    function is done by showing that $\psi$ ``grows'' faster than
-    every function in $\mathcal{PR}$. We already saw how
+    function is done by showing that $\psi$ \emph{grows} faster than
+    every function in $\mathcal{PR}$. We already saw how we obtain
     \begin{itemize}
-    \item we obtain the sum from the successor
-    \item we obtain the product from the sum
-    \item we obtain the exponential from the product
+    \item sum from successor
+    \item product from sum
+    \item exponential from product
     \end{itemize}
-    each one for primitive recursion, nested each time more.
+    each one by nested primitive recursion.
 
-    The idea of the Ackermann function is that to push to its limit
-    this procedure and capture each possible level in a unique
-    function that won't be possible to compute with a finite number of
+    The idea of the Ackermann function is that it won't be possible to compute it with a finite number of
     nested primitive recursions.
 
     In fact, by calling \[\psi_x(y) = \psi(x,y)\] we have
@@ -368,102 +321,92 @@ We will see that $\psi$:
       \psi_{x+1}(y) = \psi_x(\psi_{x+1}(y-1)) =
       \psi^2_{x}(\psi_{x+1}(y-2)) = \dots = \psi_x^{y+1}(1)
     \]
-
-    \(\psi_0(y) = y+1 = \) succ$(x)$
-
-    \(\psi_1(y) = \psi_0^{y+1}(1) = \text{ succ}^{y+1}(1) = y+2\)
-
-    \(\psi_2(y) = \psi_1^{y+1}(1) = 2y+3\)
-
-    \(\psi_3(y) = \psi_2^{y+1}(1) = 2^{y+3}-3\)
+    \begin{align*}
+      \psi_0(y) &= y+1 = succ(x)\\
+      \psi_1(y) &= \psi_0^{y+1}(1) = y+2\\
+      \psi_2(y) &= \psi_1^{y+1}(1) = 2y+3\\
+      \psi_3(y) &= \psi_2^{y+1}(1) = 2^{y+3}-3
+    \end{align*}
 
     e.g.
 
     \(\psi_0(1) = 2, \quad \psi_1(1) = 3, \quad \psi_2(1) = 5, \quad
     \psi_3(1) = 13, \quad \dots\)
 
-    Intuitively, if x grows in $\psi_x$ so does the level of nesting
-    in the functions, which is equivalent to say that we need more and
-    more \texttt{for} loops. Since $x$ can grow to infinity and
+    Intuitively, if $x$ grows so does the level of nesting
+    in the functions, which is equivalent to say that we need more\texttt{for} loops. 
+    Since $x$ can grow to infinity and
     \texttt{for} loops cannot be nested to infinity, a \texttt{while}
-    loop is needed. More precisely, we can show that for each
-    function $f \in \mathcal{PR}$ if we take $j$ as the maximum number of
-    nested \texttt{for} cycles, the following holds asymptotically
+    loop is needed. More precisely, given a
+    function $f :\nat^n \to \nat \in \mathcal{PR}$ and a program $P$ computing $f$ using only
+    \emph{for-loops} (primitive recursion),
+    if $j$ is the maximum level of nesting of \texttt{for}-loops, then
     \[
-      P(x_1, \dots, x_k)\downarrow \quad \text{with a number of steps }
+      P(x_1, \dots, x_k)\downarrow \quad \text{in a number of steps }
       < \psi_{j+1}(\max\{x_1, \dots, x_k\})
     \]
-
-    This way we see that $\psi_j$ gives a bound to the time complexity
+    in this way we see that $\psi_j$ gives a bound to the time complexity
     as well to the number of increment operations, so
-    \[f(\vec{x}) < \psi_{j+1}(\max(\vec{x})\]
+    \[f(\vec{x}) < \psi_{j+1}(\max\{x_1, \dots, x_k\})\]
 
-    However, if $\psi \in \mathcal{PR}$, we can call $j$ the
-    maximum number of nested \texttt{for} cycles in a program that
-    computes it, and so \[\psi(x,y) < \psi_{j+1}(\max\{x,y\})\] should
-    hold. In particular with $x=y=k>j+1$ big enough we have
-    that \[\psi(k,k) < \psi_{j+1}(k) < \psi_k(k) = \psi(k,k)\] which is
-    absurd.
+    Now, assume $\psi \in \mathcal{PR}$, let $j$ be the
+    level of nesting of \texttt{for}-loops for computing $\psi$, so 
+    \[\forall (x,y)\;.\;\psi(x,y) < \psi_{j+1}(\max\{x,y\})\]
+    Let $x=y=j+1$ big enough we have
+    that \[\psi(j+1,j+1) < \psi_{j+1}(j+1) = \psi(j+1,j+1)\] which is
+    absurd, so $\psi \notin \mathcal{PR}$.
   \end{proof}
 \end{theorem}
 
-\newpage
-
-\textbf{Observation:} initially Gödel and Kleene studied a class
+\begin{observation}
+Initially, Gödel and Kleene studied a class
 of functions $\mathcal{R}_0$ called $\mu$-recursive. This class
 contained
 \begin{enumerate}[label=\alph*]
-\item zero
+\item zero function
 \item successor
 \item projections
 \end{enumerate}
-
-and was closed with respect to
-
+and was closed under
 \begin{enumerate}
 \item composition;
 \item primitive recursion;
 \item minimization, restricted to the case in which the function that
-  produces it is \emph{total}.
+  produces is \emph{total}.
 \end{enumerate}
-
-Is clear that \[\mathcal{R}_0 \subsetneq \mathcal{R}\] and the
-inclusion is strict, since:
+$\mathcal{R}_0 \subset \mathcal{R}$ trivially holds, since:
 \begin{itemize}
-\item the functions in $\mathcal{R}_0$ are total;
+\item functions in $\mathcal{R}_0$ are total;
 \item some functions in $\mathcal{R}$ are partial.
 \end{itemize}
 
 Also \[\mathcal{R}_0 \subseteq \mathcal{R} \cap \text{Tot}\] but is
-not obvious that the equality holds. In fact a function
+not obvious that the equality holds. In fact, a function
 $f \in \mathcal{R} \cap \text{Tot}$ can be total, but obtained through
 minimization of partial functions. For example:
-\[
-  f(x,y) = \begin{cases}
+\begin{align*}
+  f(x,y) &= \begin{cases}
     x+1 & x<y \\
     0 & x=y \\
     \uparrow & x>y
-  \end{cases}
-\]
-
-\[
-  \mu y . f(x,y) = \lambda x . x
-\]
-
-Generally speaking, it is not obvious that if $f(x,y)$ is partial and
-$\mu y . f(x,y)$ is total then \[\mu y . f(x,y) \in \mathcal{R}_0\]
-But it is true!
-
+  \end{cases} \\
+  \mu y . f(x,y) &= \lambda x . x
+\end{align*}
+thus, $f(x,y)$ is partial and
+$\mu y . f(x,y)$ is total, then \[\mu y . f(x,y) \in \mathcal{R}_0\]
 \begin{theorem}
   \[\mathcal{R}_0 = \mathcal{R}\cap \text{Tot}\]
   \begin{proof}
     \begin{enumerate}
-    \item[$(\subseteq)$] obvious.
-    \item[$(\supseteq)$] Let $f \in \mathcal{R} \cap \text{Tot}$ so
-      $f \in \mathcal{C}$ by referring to the proof of $\mathcal{R = C}$.
+    \item[$(\subseteq)$] trivial.
+    \item[$(\supseteq)$] Let $f \in \mathcal{R} \cap \text{Tot}$, then
+      $f \in \mathcal{C}$.
       We can observe that
-      \[f(\vec{x}) = C_p^1 ( \vec{x} , \mu t . J_p(\vec{x}, t))\]
-      since it is composed of total functions, $f$ is total.
+      \[f(\vec{x}) = c_P^1 ( \vec{x} , \mu t . j_P(\vec{x}, t))\]
+      but $c_P^1, j_P$ are total, so $f$ is total.
     \end{enumerate}
   \end{proof}
 \end{theorem}
+\end{observation}
+
+
