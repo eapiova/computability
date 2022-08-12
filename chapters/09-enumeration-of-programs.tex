@@ -77,7 +77,56 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
           &\nu^{-1}(x) = (\nu_1(x), \nu_2(x), \nu_3(x))
         \end{align*}
         with $\nu_1, \nu_2, \nu_3$ are computable.}
-    \item{ Observe that the encoding
+    \item{ The following tuple encoding
+    \begin{align*}
+      &\tau : \bigcup_{k \geq 1} \nat^k \to \nat\\
+      &\tau(x_1, \dots, x_k) = \prod_{i=1}^{k}p_i^{x_i}-1
+    \end{align*}
+    does not work, since it is not injective.
+    The idea is that we can \emph{increment} the last component, in this way
+    \[
+    \tau(x_1, \dots, x_k) = \left(\prod_{i=1}^{k-1}p_i^{x_i}\right) \cdot p_k^{x_k+1} - 2
+    \]
+    with inverse $\tau^{-1} : \nat \to \bigcup_{k \geq 1} \nat^k$ defined out of the following functions:
+    \begin{itemize}
+      \item $l :\nat \to \nat$
+            \[
+            l(n) =   \max\{k : p_k | (x+2)\} = x - \mu (h \leq x) \;
+            . \; p_{x-h} | (x+2)
+            \]
+      \item $a :\nat^2 \to \nat$
+            \[
+              a(n,i)=\begin{cases}
+                (n+2)_i & i = 1, \dots, \ell(x)-1 \\
+                (n+2)_i - 1 & i = \ell(x)
+              \end{cases}
+              \]
+    \end{itemize}
+    An alternative encoding is the following
+    \begin{itemize}
+      \item $\tau(x_1, \dots, x_k) = \pi(\prod_{i=1}^k p_i^{a_i}, k)$
+      \item $l(n) = \pi_2(n)$
+      \item $a(n,i) = (\pi_1(n))_i$
+    \end{itemize}
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \iffalse
+    Observe that the encoding
         \[(a_1, \dots, a_k) \mapsto \prod^k_{i=1}p_i^{a_i+1}\] can't
         be used since it is injective, but not surjective (the
         co-domain does not contain $0,1$ and any number $x$
@@ -130,153 +179,123 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
           \[\tau^{-1} = (a(x,1), \dots, a(x, \ell(x)))\] and is
           effective.
         \end{itemize}
+    \fi
+    
+    
+       
       }
     \end{enumerate}
   \end{proof}
 \end{lemma}
 
-\section{Alternative encoding of tuples}
-$$\tau \cup_{k \geq 1} \nat^k \to \nat$$
-$$\tau(a_1, \dots, a_k) = \prod_{i=1}^{k}p_i^{a_i}$$
-Does not work, since it encodes $(1,4)$ as $(1,4,0,0)$. In a sense
-``forgets'' tailing zeros.
-
-\textbf{idea:} we can ``increment'' the last component
-$$\tau(a_1, \dots, a_k) = (\prod_{i=1}^{k-1}p_i^{a_i}) \cdot p_k^{a_k+1} - 2$$
-\textbf{inverse:} given $x \in \nat$ to be intended as encoding of a
-tuple of elements:
-
-\begin{description}
-\item[length]
-  $\ell(x) = \max k \; . \; p_k \; | \; (x+2) = x - \mu (h \leq x) \;
-  . \; p_{x-h} \; | \;(x+2)$
-\item[components] \[a(x,i) = \begin{cases}
-      (x+2)_i & i = 1, \dots, \ell(x)-1 \\
-      (x+2)_i - 1 & i = \ell(x)
-    \end{cases}\]
-\item[alternative]{
-    $\tau(a_1, \dots, a_k) = \pi(\prod_{i=1}^k p_i^{a_i}, k)$
-
-    $\ell(x) = \pi_2(x)$
-
-    $a(x,i) = (\pi_1(x))_i$
-  }
-\end{description}
-
-\begin{notation}
-  \begin{itemize}
-  \item[$\mathfrak{F}$:] the set of URM instructions;
-    \item[$\mathcal{P}$:] the set URM programs.
-  \end{itemize}
-\end{notation}
-
 \begin{theorem}
-  $\mathcal{P}$ is effectively enumerable.
+  Let $\mathcal{P}$ the set of all URM programs. 
+  Then there exists an effective bijective enumeration of $\mathcal{P}$.
+  \[
+    \gamma : \mathcal{P} \to \mathbb{N}
+    \]
   \begin{proof}
+    Let $\mathcal{F}$ the set of all URM instructions.
     First, we'll prove that there exists
-    \[\beta : \mathfrak{F} \to \nat \]
+    \[\beta : \mathcal{F} \to \nat \]
     a bijective effective correspondence. The idea is to use the
     enumeration of couples and triples, sending
     \begin{itemize}
-    \item $z(n)$ instructions to multiples of 4
-    \item $s(n)$ instructions to numbers $\equiv 1 \mod 4$
-    \item $t(n)$ instructions to numbers $\equiv 2 \mod 4$
-    \item $j(n)$ instructions to numbers $\equiv 3 \mod 4$
+    \item $Z(n)$ instructions to multiples of 4
+    \item $S(n)$ instructions to numbers equal $ 1 \mod 4$
+    \item $T(m,n)$ instructions to numbers equal $2 \mod 4$
+    \item $J(m,n,t)$ instructions to numbers equal $3 \mod 4$
     \end{itemize}
     this means that
-
-    $\beta(z(n)) = 4*(n-1)$
-
-    $\beta(s(n)) = 4*(n-1) + 1$
-
-    $\beta(t(n)) = 4*(n-1) \pi(m-1, n-1) + 2$
-
-    $\beta(j(n)) = 4*(n-1) + \nu(m-1, n-1, t-1) + 3$
-
-    with inverse \[\beta^{-1} : \nat \to \mathfrak{F}\] such
-    that, given $x \in \nat$ let $r = \mbox{rm}(4,x)$ and
-    $q = \mbox{qt}(4,x)$
+    \begin{equation*}
+      \begin{cases}
+        \beta(Z(n)) = 4*(n-1)\\
+        \beta(S(n)) = 4*(n-1) + 1\\
+        \beta(T(m,n)) = 4*\pi(m-1, n-1) + 2\\
+        \beta(J(m,n,t)) = 4*\nu(m-1, n-1, t-1) + 3
+      \end{cases}
+    \end{equation*}
+    with inverse $\beta^{-1} : \nat \to \mathcal{F}$ such
+    that, let $r = rm(4,x)$ and
+    $q = qt(4,x)$,
     \[
       \beta^{-1}(x) = \begin{cases}
-        z(q+1) & \mbox{if } r=0 \\
-        s(q+1) & \mbox{if } r=1 \\
-        t(\pi_1(q)+1, \pi_2(q)+1) & \mbox{if } r=2 \\
-        j(\nu_1(q)+1, \nu_2(q)+1, \nu_3(q)+1) & \mbox{if } r=3
+        Z(q+1) & \mbox{if } r=0 \\
+        S(q+1) & \mbox{if } r=1 \\
+        T(\pi_1(q)+1, \pi_2(q)+1) & \mbox{if } r=2 \\
+        J(\nu_1(q)+1, \nu_2(q)+1, \nu_3(q)+1) & \mbox{if } r=3
       \end{cases}
     \]
-    Of course, both $\beta$ and $\beta^{-1}$ are effective. At this
-    point, to define a bijective function
-    $\gamma : \mathcal{P} \to \nat$ we need to observe that a
-    program is a finite sequence of instructions that can
-    be translated in a finite sequence of natural numbers with $\beta$ : given
-    $P \in \mathcal{P} \quad P = I_1 \dots I_s$
+    so both $\beta$ and $\beta^{-1}$ are effective. 
+    Now
+    $\gamma : \mathcal{P} \to \nat$ can be defined as follows:
+    if 
+    $P = I_1 \dots I_s$, then
     \[\gamma(P) = \tau(\beta(I_1), \dots, \beta(I_s))\]
-    this way, $\gamma$ is bijective because is made of bijective
-    functions. Since $\gamma, \gamma^{-1}$ are effective (intuitively)
-    since they are built on composition of effective functions,
-    $\to \mathcal{P}$ is effectively enumerable
+    with inverse $\gamma^{-1}(x) = P = I_1 \dots I_{l(x)}$, where
+    $I_i = \beta ^ {-1} (a (n, i))$.
+    Thus, $\gamma$ is bijective because is composition of bijective
+    functions. Since $\gamma, \gamma^{-1}$ are effective,
+    $\mathcal{P}$ is effectively enumerable.
   \end{proof}
 \end{theorem}
 
-\begin{definition}[Gödel number of $P$]
+\begin{definition}[Gödel number]
   Given $P \in \mathcal{P}$ the value $\gamma(P)$ is called code (or
   Gödel number) of $P$. Usually we'll write $P_n$ to represent
   $\gamma^{-1}(n)$ (In other words, the $n^{\mbox{th}}$ program of the
   enumeration).
 \end{definition}
 
-\textbf{Note:} from now on we will often indirectly reference to the
-enumeration $\gamma$ of programs that we intend as fixed, which
-determines the meaning of $P_n$. This fixed enumeration could be
-defined in another way, but is absolutely necessary for $\gamma$ and
-$\gamma^{-1}$ to be effective. In other words:
+\begin{observation}
+  From now on we will consider a fixed
+enumeration $\gamma$ of programs, which
+determines the meaning of $P_n$. This fixed enumeration can be
+defined in another way, but it is absolutely necessary. In other words:
 \begin{itemize}
-\item given a program $P$ we can find in an effective way its code
-  $\gamma(P)$
-\item given a number is possible to find the $n^{\mbox{th}}$ program
+\item given a program $P$ we can compute in an effective way its code
+  $\gamma(P)$;
+\item given a number is possible to find the $n^{\mbox{th}}$ program.
   $P_n = \gamma^{-1}(n)$
 \end{itemize}
-
-and note that (even with a grain of informality) there are no doubts
-on the effectiveness of $\gamma$ and $\gamma^{-1}$.
+\end{observation}
 
 \begin{example}
-  Lets consider the program P:
+  Let's consider the program $P$
   \begin{itemize}
   \item[] $T(1,2)$
   \item[] $S(2)$
-  \item[] $T2,1)$
+  \item[] $T(2,1)$
   \end{itemize}
   encoded by
-
   \begin{itemize}
   \item[] $\beta(T(1,2)) = 4 * \pi(1-1,2-1) + 2 = 4 * \pi(0,1) + 2 = 10$
   \item[] $\beta(S(2)) = 4 * (2-1) + 1 = 5$
   \item[] $\beta(T(2,1)) = 4 * \pi(2-1,1-1) + 2 = 4 * \pi(1,0) + 2 = 6$
   \end{itemize}
+  then
+      \begin{align*}
+        \gamma(P) & = \tau(10,5,6) \\
+                  & = p_1^{10} \cdot p_2^5 \cdot p_3^{6+1} - 2 \\
+                  & = 2^{10} \cdot 3^5 \cdot 5^7 -2 \\
+                  & = 19439999998
+      \end{align*}
+  or with an alternative encoding
+  \begin{align*}
+    \gamma(P) & = \tau(10,5,6) \\
+              & = 2^{10} + 2^{10+5+1} + 2^{10+5+6+2} - 1 \\
+              & = 2^{10} + 2^{16} + 2^{23} - 1 \\
+              & = 8455167
+  \end{align*}
 
-  \[\begin{split}
-      \gamma(P) = \tau(10,5,6) & = 2^{10} + 2^{10+5+1} + 2^{10+5+6+2} - 1 \\
-      & = 2^{10} + 2^{16} + 2^{23} - 1 \\
-      & = 8455167
-    \end{split}
-  \]
+  What does this program compute? $\lambda x . x+1$.
 
-  \[
-    \left[
-      \begin{split}
-        \mbox{alternative encoding: } p_1^{10} \cdot p_2^5 \cdot p_3^{6+1} - 2 & = 2^{10} \cdot 3^5 \cdot 5^7 -2 \\
-        & = 19439999998
-      \end{split}
-    \right]
-  \]
-
-  What does it compute? $\lambda x . x+1$.
-
-  But also does $P^\prime : S(1)$. In this case the encoding is
+  The program $P^\prime : S(1)$ computes the same function. 
+  In this case the encoding is
   \[\beta(S(1)) = 4 * (1-1) + 1 = 1\] and so
+  \[\gamma(P^\prime) = \tau(1) = 2^{1+1} - 2 = 2\]
+  with the alternative encoding
   \[\gamma(P^\prime) = \tau(1) = 2^1 - 1 = 1\]
-  \[\left[ \mbox{alternative encoding: } 2^{1+1} - 2 = 2 \right] \]
 \end{example}
 
 \begin{example}

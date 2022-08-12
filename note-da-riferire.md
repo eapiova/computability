@@ -1,6 +1,6 @@
 
 Stima ore:
-11
+16.30
 
 Da finire:
 - esercizi capitolo 3
@@ -11,6 +11,9 @@ Da finire:
 - finire capitolo 6 da primitive recursion
 - ho lasciato fuori gli esercizi
 - capitolo 8 sistemare dimostrazione ackermann computabile con encoding
+- sistemare encoding alternativo capitolo 9
+- finire capitolo 9
+
 
 Cosa ho sistemato:
 - poco inglese (frasi convolute)

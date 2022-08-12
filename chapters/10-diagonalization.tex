@@ -1,118 +1,131 @@
 \chapter{Cantor diagonalization method}
 
-The diagonalization technique, in a general sense, allows to build an
+The diagonalization technique allows to build an
 object that differs from an enumerable infinity of similar objects.
-The idea behind it is; given an enumerable set of objects
-(functions, numbers, ...) with structure $\{x_1, x_2, x_3, \dots \}$
-we can build another object $x$ based on the its' own structure with the
-same nature of all the other objects, but different from each of them
+The idea behind is: given an enumerable set of objects
+$\{x_1, x_2, x_3, \dots \}$
+we can build another object $x$ with the
+same nature of all the other objects, but different from all of them
 by making it ``differ from $x_n$ on $n$''.
 
-\begin{example}[$|2^\nat| > |\nat|$]
-  This is the original use of the Cantor method from Cantor himself,
-  who is the founder of the modern theory of sets in order to prove that there are
+\begin{proposition}[Cantor diagonalization]
+  For all $X$ set, we have
+  \[ 
+    |X| < |2^X|
+  \]
+\end{proposition}
+
+This is the original method used by Cantor, one of the founders of the classic theory of sets, to prove that there are
   various ``levels of infinity''.
+
+\begin{corollary}
+  $|\nat| < |2^\nat|$
   \begin{proof}
-    Lets suppose that $|2^\nat| = |\nat|$. This means that there exists an
-    enumeration of $2^\nat$: $x_0, x_1, x_3, \dots$
+    By contradiction $|\nat| \geq |2^\nat| $, i.e. $|2^\nat| $ countable. This means that there exists an
+    enumeration of $2^\nat$: $x_0, x_1, x_2, \dots$
 
     Consider
     \[
       \begin{tabu}{c | c c c c}
         & x_0 & x_1 & x_2 & \dots \\ \hline
-        0 &  ?  & \vdots & \vdots & \\
-        1 &  \dots  & ? & \vdots & \\
-        2 &  \dots  & \dots & ? & \\
+        0 &  ?  & NO & \dots & \\
+        1 &  NO  & ? & YES & \\
+        2 &  YES  & NO & ? & \\
         \vdots & & & &
       \end{tabu}
     \]
-    We can define $X = \{n \mid n \notin X_n\}$ which differs from
-    $X_n$ on its $n^{\mbox{th}}$ element. Obviously $X \in 2^\nat $
-    which means that $\exists k$ s.t. $X = X_k$. But is $k \in X$?
+    We can define $D = \{i \mid i \notin X_i\} \subseteq \nat$ which differs from
+    $X_i$ on its $i^{\mbox{th}}$ element. Obviously $D \in 2^\nat $
+    which means that there exists $k$ such that $D = X_k$. But is $k$ in $D$?
     \begin{gather*}
-      k \in X \quad \Rightarrow \quad k \notin X_k = X \\
-      k \notin X \quad \Rightarrow \quad k \in X_k = X
+      k \in D \quad \Rightarrow \quad k \notin X_k = D \\
+      k \notin D \quad \Rightarrow \quad k \in X_k = D
     \end{gather*}
-    Which is absurd. Therefore $2^\nat$ is not enumerable.
+    which is absurd. Therefore $|\nat| < |2^\nat|$.
   \end{proof}
-\end{example}
+\end{corollary}
 
-\newcommand{\nattonat}{\nat \rightarrow \nat}
+\newcommand{\nattonat}{\nat \to \nat}
 \begin{corollary}\label{corollary:nattonat}
-  if $\nattonat = \{$ partial functions from $\nat$ to $\nat \}$
-  then \[|\nattonat| > |\nat|\]
-
+  Consider $\nattonat = \{f \mid f : \nattonat \}$, 
+  we have \[|\nattonat| > |\nat|\]
   \begin{proof}
-    We can observe that
-    \[2^\nat = |\{f: \nat \rightarrow \{0,1\} \; | \; f \mbox{ total }
-      \} | \; \leq | \nattonat | \]
+    There are two approaches to prove the corollary:
+    \begin{enumerate}
+      \item Define
+      \[
+        \mathcal{F} = \{f \mid f : \nattonat \mbox{ total }, \forall x \ f(x)\in \{0, 1\}
+        \} \subseteq \nattonat
+        \]
+      there is a bijection between $ \mathcal{F} $ and $ \nat \to 2$
+      and so 
+      \[|\nattonat| \geq |\nat \to 2| > |\nat|\]
+      \item Let $f_1, f_2, f_3, \dots$ be an enumeration of elements in
+      $\nattonat$ and consider
+      \[
+        \begin{tabu}{c | c c c c}
+          & f_0 & f_1 & f_2 & \dots \\ \hline
+          0 &  f_0(0)  & \dots & \dots & \\
+          1 &  \dots  & f_1(1) & \dots & \\
+          2 &  \dots  & \dots & f_2(2) & \\
+          \vdots & & & &
+        \end{tabu}
+      \]
+  
+      we can define a function $f$ that differs from every other
+      function on the diagonal based on the input:
+      \[f(i) = \begin{cases}
+          0 & \quad \mbox{if } f_i(i)\uparrow \\
+          \uparrow & \quad \mbox{if } f_i(i) \downarrow
+        \end{cases}
+      \] so that
+      \[
+        \forall i \quad f(i) \neq f_i(i) \quad (f \neq f_i)
+        \]
+      thus no enumeration of functions in $\mathcal{F}$ can contain all $\mathcal{F}$,
+      so $\mathcal{F}$ is not countable.
+    \end{enumerate}
+    
 
-    and so \[|\nattonat| \geq |2^\nat| > |\nat|\]
-
-    Alternatively we can prove it with the diagonalization
-    technique. Let $f_1, f_2, f_3,$ be an enumeration of elements in
-    $\nattonat$ and consider
-
-    \[
-      \begin{tabu}{c | c c c c}
-        & f_0 & f_1 & f_2 & \dots \\ \hline
-        0 &  f_0(0)  & \vdots & \vdots & \\
-        1 &  \dots  & f_1(1) & \vdots & \\
-        2 &  \dots  & \dots & f_2(2) & \\
-        \vdots & & & &
-      \end{tabu}
-    \]
-
-    we can define a function $f$ that differs from every other
-    function on the diagonal based on the input:
-    \[f(n) = \begin{cases}
-        0 & \quad \mbox{if } f_n(n)\uparrow \\
-        \uparrow & \quad \mbox{if } f_n(n) \downarrow
-      \end{cases}
-    \] \[f \in \nattonat\] so that
-    $\forall n \quad f(n) \neq f_n(n) \quad \Rightarrow f \neq f_n$
+    
   \end{proof}
 \end{corollary}
 
 \newcommand{\noc}{\bar{\mathcal{C}}}
 
-\textbf{Note:} the set
+\begin{corollary}
+  The set
 $\noc = \{f : \nattonat \; | \; f \mbox{ not computable}\}$ is not
 enumerable.
-
 \begin{proof}
-  We know that $|\mathcal{C}| = |\nat|$. if $\noc$ was enumerable then
+  We know that $|\mathcal{C}| = |\nat|$. If $\noc$ were enumerable, then
   $\nattonat = \mathcal{C} \cup \noc$ would be enumerable, which is
-  absurd for the corollary \ref{corollary:nattonat}.
+  absurd for the previous corollary.
 \end{proof}
+\end{corollary}
 
-\begin{exercise}
-  Exists a total function non computable. We already knew that, but for
-  cardinality reasons, now we are able to exhibit it.
+\begin{observation}
+  There exists a total non-computable function $f : \nattonat$ defined by
   \[
     f(n) = \begin{cases}
 
-      \varphi_n(n) + 1 & \quad \mbox{if } \varphi_n(n) \downarrow (n
-      \in W_n) \\
+      \varphi_n(n) + 1 & \quad \mbox{if } \varphi_n(n) \downarrow  \\
 
-       0 & \quad \mbox{if } \varphi_n(n)\uparrow (n \notin W_n)
+       0 & \quad \mbox{if } \varphi_n(n)\uparrow 
     \end{cases}
   \]
-
-  again, with the Cantor method we can build
-  \[f(0) = \varphi_0(0), f(1) = \varphi_1(1), f(2) = \varphi_2(2),
-    \dots \]
-  is easy to see that
+  $f$ is not computable because
   \begin{itemize}
-  \item $f$ is total
-  \item $\forall n \; f \neq \varphi_n \; \Rightarrow f$ is not
-    computable
+    \item if $\varphi_n(n) \downarrow$, then $f(n) = \varphi_n(n) + 1 \neq \varphi_n(n) $
+    \item if $\varphi_n(n)\uparrow$, then $f(n) = 0 \neq \varphi_n(n)$
   \end{itemize}
-\end{exercise}
+  so \[\forall n \; f \neq \varphi_n\]
+\end{observation}
 
-\textbf{Note:} there are infinitely many total non computable
-functions in the form
 
+\begin{observation}
+  There are infinitely many total non-computable
+functions of the followin shape
 \[
   f(n)  = \begin{cases}
     \varphi_n(n) + k & n \in W_n \\
@@ -120,85 +133,96 @@ functions in the form
   \end{cases}
 \]
 
+\end{observation}
+
 \begin{exercise}
-  Let $f: \nat \rightarrow \nat$ (partial), $m \in \nat$
+  Let $f: \nat \rightarrow \nat$, $m \in \nat$.
+  Show that there exists a non-computable function $g : \nat \rightarrow \nat$ 
+  such that \[g(x) = f(x) \quad \forall x < m\]
 
-  Define a function $g : \nat \rightarrow \nat$ non computable
-  s.t. \[g(x) = f(x) \quad \forall x < m\]
-
-  You can use a ``translated diagonal'';
-
-  % again, complex matrix
-
+  Idea: use a ``translated diagonal'';
   \[
     g(x) = \begin{cases}
       f(x) & x < m \\
-      \varphi_n(x) + 1 & x \geq m \mbox{ and } x \in W_{x-m} \\
+      \varphi_{x - m}(x) + 1 & x \geq m \mbox{ and } x \in W_{x-m} \\
       0 & x \geq m \mbox{ and } x \notin W_{x-m}
     \end{cases}
   \]
+  $g$ is not computable since
+  $g(x + m) \neq \varphi_x(x+m)$ for all $x$, so
+  \[\forall x \ g\neq \varphi_x\]
 
-  clearly $\forall x \quad g\neq \varphi_x$ since
-  $g(x + m) \neq \varphi_x(x+m)$.
-
-  \textbf{Note:} we could have defined
-
+  Another approach is to define $g$ in the following way
   \[
     g(x) = \begin{cases}
       f(x) & x < m \\
-      \varphi_n(x) + 1 & x \geq m \mbox{ and } x \in W_{x} \\
+      \varphi_x(x) + 1 & x \geq m \mbox{ and } x \in W_{x} \\
       0 & x \geq m \mbox{ and } x \notin W_{x}
     \end{cases}
   \]
-
-  Why? Because each function appears infinitely many times in the enumeration,
-  and skipping the first $m-1$ steps that doesn't create any
-  problems... Formally we know that
-  $\forall x \geq m \quad g \neq \varphi_x$ so $\forall y$ since there
-  are infinitely many indices for $\varphi_x$
-  \[\exists x \geq m \mbox{ s.t. } \quad \varphi_y = \varphi_x \quad
-    \mbox{and } \varphi_x \neq y\] so, $\forall y \; \varphi_y \neq g$
-  (g is not computable).
+  because each function appears infinitely many times in the enumeration,
+  and skipping the first $m-1$ steps doesn't create any
+  problem. Formally
+  \[
+    \forall x \geq m \quad g \neq \varphi_x
+    \]
+    so for all $y$
+  \[
+    \forall y\ \exists x \geq m \ \varphi_y = \varphi_x
+  \]
+    thus \[
+      \forall y \; \varphi_y \neq g
+      \]
+  then $g$ is not computable.
 \end{exercise}
 
 \begin{exercise}
   Given a family of functions
-  $\{f_i\}_{i\in \nat} \quad f_i : \nattonat$ define $g: \nattonat$
-  s.t. $\dom{g} \neq \dom{f_i} \quad \forall i \in N$
+  $\{f_i\}_{i\in \nat}$ with $ f_i : \nattonat$, construct $g: \nattonat$
+  such that $\dom{g} \neq \dom{f_i}$ for all $i \in N$
 
+  Idea:
   \[
     g(n) = \begin{cases}
       0 & \mbox{if } n \notin \dom{f_n} \\
       \uparrow & \mbox{if } n \in \dom{f_n}
     \end{cases}
   \]
-
-  This way $\forall n \quad n \in \dom{g}$ if and only if
-  $n \notin \dom{f_n}$.
+  In this way 
+  \[
+    \forall n \ n \in \dom{g} \Leftrightarrow 
+  n \notin \dom{f_n}
+    \]
 \end{exercise}
 
 \begin{exercise}
-  Define a non-computable total function that returns 1 when the input
+  Define a non-computable total function that returns $0$ when the input
   is even
+
+  Idea:
   \[
     f(x) = \begin{cases}
-      1 & x \mbox{ is even} \\
-      \varphi_{\frac{x-1}{2}} + 1 & x \mbox{ is odd, and } x \in
+      0 & x \mbox{ is even} \\
+      \varphi_{\frac{x-1}{2}}(x) + 1 & x \mbox{ is odd, and } x \in
       W_{\frac{x-1}{2}} \\
       0 & x \mbox{ is odd, and } x \notin W_{\frac{x-1}{2}}
     \end{cases}
   \]
+  it is total not computable. In fact
+  \begin{itemize}
+    \item if
+    $2n+1 \in W_n \Rightarrow f(2n+1) = \varphi_{n}(2n+1) + 1 \neq
+    \varphi_n(2n+1)$
+    \item if
+    $2n+1 \notin W_n \Rightarrow f(2n+1) = 0 \neq \varphi_n(2n+1)
+    \uparrow $
+  \end{itemize}
+  so \[
+  \forall n \ f(2n + 1) \neq \varphi_n(2n+1)\]
 
-  is easy to prove that the function $f$ is not computable. In fact,
-  $\forall n \quad f(2n + 1) \neq \varphi_n(2n+1)$. This means that
+  
 
-  if
-  $2n+1 \in W_n \Rightarrow f(2n+1) = \varphi(2n+1) + 1 \neq
-  \varphi_n(2n+1)$
-
-  if
-  $2n+1 \notin W_n \Rightarrow f(2n+1) = 0 \neq \varphi_n(2n+1)
-  \uparrow $
+  
 
 \end{exercise}
 % Same as the previous chapter, these notes are very different form
