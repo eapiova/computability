@@ -1,8 +1,0 @@
-all: wipe compile
-
-compile:
-	latexmk -outdir=output -pdf 
-wipe:
-	@echo off
-	IF exists "output\nul" ( del output ) ELSE ( mkdir output )
-	@echo on
