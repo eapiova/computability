@@ -5,34 +5,32 @@
 We'll now see how the theory which was described up until now allows us to
 prove something a bit surprising. This is to say, the existence of
 universal functions/programs which are able to reproduce the behaviour of each
-and every other computable function/program. Let's consider the function
-
+and every other computable function/program. 
+Let's consider the function $\Psi : \nat^{2} \rightarrow \nat$
 \[
-  \Psi(x,y) = \varphi_x(y)
+  \Psi(x,y) = \varphi_e(y)
 \]
-
-We can already observe that $\Psi$ is a ``universal function'', that
-captures all unary functions $\varphi_1, \varphi_2, \dots$. In fact,
-for all fixed $e \in \nat$
+We can observe that $\Psi$ is a \emph{universal function}, i.e. it
+captures all unary computable functions $\varphi_1, \varphi_2, \dots$. In fact,
+for all $e \in \nat$
 \[
   g(y) = \Psi(e,y) = \varphi_e(y) \quad \rightsquigarrow \quad g = \varphi_e
 \]
-so, thanks to $e$, $\Psi$ represents all computable functions in the
+so, thanks to $e$, $\Psi$ represents all the computable functions of the
 form $\nattonat$.
 
 \begin{definition}
-  The universal function for k-ary functions (with $k \in \nat$) is
+  The universal function for $k$-ary functions (with $k \in \nat$) is
   defined as
   \[
     \univ^{(k)} : \nat^{k+1} \rightarrow \nat
   \]
   \[
-    \Psiex = \Psiuex
+    \Psiex = \varphi_e^{(k)}(\vec{x})
   \]
 \end{definition}
-$\Psi$ functions are this well defined, but are they computable? If
-the answer is yes a program $P_{\mathcal{U}}$ computing $\Psi$ would
-be able to compute all k-ary functions. It includes in itself all
+Is it computable? If yes, then a program $P_{\mathcal{U}}$ computing $\univ$ would
+be able to compute all $k$-ary functions. It includes in itself all
 other computable programs, and we can call it a Universal Computer
 \cite{davis:2011}.
 
