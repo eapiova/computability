@@ -3,9 +3,9 @@
 \newcommand{\Psiuex}{\ensuremath{\Psi_e^{(k)} (\vec{x})}}
 \newcommand{\univ}{\ensuremath{\Psi_{\mathcal{U}}}}
 We'll now see how the theory which was described up until now allows us to
-prove something a bit surprising. This is to say, the existence of
-universal functions/programs which are able to reproduce the behaviour of each
-and every other computable function/program. 
+prove the existence of a
+universal function is able to reproduce the behaviour of each
+and every other computable function. 
 Let's consider the function $\Psi : \nat^{2} \rightarrow \nat$
 \[
   \Psi(x,y) = \varphi_e(y)
@@ -16,208 +16,173 @@ for all $e \in \nat$
 \[
   g(y) = \Psi(e,y) = \varphi_e(y) \quad \rightsquigarrow \quad g = \varphi_e
 \]
-so, thanks to $e$, $\Psi$ represents all the computable functions of the
+so $\Psi$ represents all the computable functions of the
 form $\nattonat$.
 
 \begin{definition}
-  The universal function for $k$-ary functions (with $k \in \nat$) is
+  The universal function for $k$-ary functions (with $k \geq 1$) is
   defined as
-  \[
-    \univ^{(k)} : \nat^{k+1} \rightarrow \nat
-  \]
-  \[
-    \Psiex = \varphi_e^{(k)}(\vec{x})
-  \]
+  \begin{align*}
+    &\univ^{(k)} : \nat^{k+1} \rightarrow \nat \\
+    &\Psiex = \varphi_e^{(k)}(\vec{x})
+  \end{align*}
 \end{definition}
 Is it computable? If yes, then a program $P_{\mathcal{U}}$ computing $\univ$ would
-be able to compute all $k$-ary functions. It includes in itself all
+be able to compute all $k$-ary functions, so it includes in itself all
 other computable programs, and we can call it a Universal Computer
 \cite{davis:2011}.
 
-At first glance this might seem odd, but thinking again it receives in
-input:
+It receives in
+input
 \begin{itemize}
 \item $e$ (the index of the program, a \textit{description} of the
   program $P_e$ to run)
 \item $\vec{x}$ the arguments
 \end{itemize}
-We observe that it fits the description of an interpreter.
+then it fits the description of an interpreter.
 
 In fact, the following result applies
-
 \begin{theorem}
-  $\forall k \geq 1$ the universal function $\Psi_{\mathcal{U}}^{(k)}$
+  The universal function $\Psi_{\mathcal{U}}^{(k)}$
   is computable.
-
   \begin{proof}
-    Informally, we can say that if we fix $k \geq 1$ and an index
-    $e \in \nat$ and the arguments $\vec{x} \in \nat^k$ we can compute
-    $\Psiex = \Psiuex$ as follows:
+    Fixed $k \geq 1$,
+    $e \in \nat$ and $\vec{x} \in \nat^k$ we want
+    $\Psiex = \varphi_e^{(k)}(\vec{x})$.
+    Idea:
     \begin{itemize}
-    \item we build the program $P_e = \gamma^{-1}(e)$;
-    \item we simulate $P_e$ on input $\vec{x}$
-    \item if $P_e(\vec{x})\downarrow$, the value of $\Psiex$ is in
-      $R_1$, otherwise it is okay.
+    \item get the program $P_e = \gamma^{-1}(e)$;
+    \item execute $P_e$ on input $\vec{x}$;
+    \item if $P_e(\vec{x})\downarrow$, the value $\Psiex$ is in
+      $R_1$, otherwise there is no problem.
     \end{itemize}
-    This way everything is effective, and for the Church-Turing
-    thesis computable.
+    Thus, effectiveness follows and by Church-Turing thesis also computability.
 
-    But we want to be more formal than this. More precisely we'll need
-    some programs in order to accomplish this:
+    More formally, we will need some programs
+    in order to accomplish this.
 
-    \paragraph{Configuration of registers}
-    Given the registers of the machine $(r_1, r_2, \dots, r_n)$
-    \[
-      \begin{tabu}{|c|c|c|c|c}
-        \hline
-        r_1 & r_2 & r_3 & 0 & \dots \\ \hline
-      \end{tabu}
-    \]
-    the \textit{configuration of registers} is given by
-    \[ c = \prod_{i \geq 1} p_i^{r_i} \]
-    This way the value of the registers $\forall i \quad r_i = (c)_i$
+      Consider
+      \[
+        \begin{tabu}{|c|c|c|c|c}
+          \hline
+          r_1 & r_2 & r_3 & 0 & \dots \\ \hline
+        \end{tabu}
+      \]
+      the \textit{configuration of registers} is given by
+      \[ c = \prod_{i \geq 1} p_i^{r_i} \]
+      The value of the registers is computed as $ r_i = (c)_i$
 
-    \paragraph{The state of the machine}
-    The state of the machine is encoded with \[ \sigma = \Pi(j, c) \]
-    where $j$ is the next instruction to execute and $c$ is the
-    configuration of registers.
-
-    We want to show that the functions
-
-    \[
-      c_k : \nat^{k+2} \rightarrow \nat
-    \]
-
-    \[
-      c_k(e, \vec{x}, t) = \begin{cases}
-        % Insert the function definition we saw in class
-        x & 0 \\
-        y & 1
-      \end{cases}
-    \]
-
-    \[
-      j_k : \nat^{k+2} \rightarrow \nat
-    \]
-
-    \[
-      j_k(e, \vec{x}, t) = \begin{cases}
-        % Insert the function definition we saw in class
-        x & 0 \\
-        y & 1
-      \end{cases}
-    \]
-
-    At this point we have that
-    \[\Psiex = \Psiuex = (c_k(e,\vec{x}, \mu t \; . \; j_k(e, \vec{x}, t)))_1\]
+    We define the following functions:
+    \begin{itemize}
+      \item \[
+        c_k : \nat^{k+2} \rightarrow \nat
+      \]
+      where 
+      $c_k(e, \vec{x}, t)$
+      is the configuration after $t$ steps of computation of $P_e(\vec{x})$,
+      if $P_e$ does not stop on $\vec{x}$ in $t$ or fewer steps; instead, it is
+      the final configuration if $P_e(\vec{x})$ stops in $t$ or fewer steps.
+      \item  \[
+        j_k : \nat^{k+2} \rightarrow \nat
+      \]
+      where
+      $j_k(e, \vec{x}, t)$ is the number of instructions to be executed after $t$
+      steps of $P_e(\vec{x})$; instead it is $0$ if $P_e(\vec{x})$ stops in $t$ or fewer steps.
+    \end{itemize}
+    assuming that $c_k, j_k$ are computable
+    \begin{itemize}
+      \item if $P_e(\vec{x}) \downarrow$, then it stops in $\mu t . j_k(e, \vec{x}, t)$ steps, so
+            \[\varphi_e^{(k)}(\vec{x}) = (c_k(e,\vec{x}, \mu t . j_k(e, \vec{x}, t)))_1\]
+      \item if $P_e(\vec{x}) \uparrow$, then $\mu t \ . \ j_k(e, \vec{x}, t) \uparrow$, hence
+            \[\varphi_e^{(k)}(\vec{x}) \uparrow = (c_k(e,\vec{x}, \mu t . j_k(e, \vec{x}, t)))_1\]
+    \end{itemize}
+   
+    Hence in all cases
+    \[\Psiex = \varphi_e^{(k)}(\vec{x}) = (c_k(e,\vec{x}, \mu t . j_k(e, \vec{x}, t)))_1\]
     so if we prove that $c_k, j_k$ are computable, we can conclude that
-    $\Psi_{\mathcal{U}}^{(k)}$ is also computable. We proceed in the
+    $\Psi_{\mathcal{U}}^{(k)}$ is also computable. 
+    
+    We proceed in the
     same way we did in the proof \S\ref{reqc}, by proving that
     $c_k, j_k \in \pr$ (in fact, this can be seen as a more formal
     proof of the same fact, the only difference is that we defined
-    $c_p, j_p$ with \emph{a fixed $P$} in the latter demonstration.
+    $c_P, j_P$ with \emph{a fixed $P$} in the latter demonstration.
     Nevertheless, $P$ is instead a parameter here).
-
-    Explicitly, each step:
 
     \newcommand{\uarg}{{\mbox{arg}}}
     \newcommand{\uargh}{{\mbox{arg}_h}}
     \begin{enumerate}[label=(\alph*)]
-    \item arguments of an URM instruction $( i = \beta(\mbox{Instruction}))$
-
-      $Z_\uarg (i) = qt(4, i) + 1$
-
-      $S_\uarg (i) = qt(4,i) + 1$
-
-      $T_\uargh(i) = \Pi_h(qt(4,i)) + 1 \quad h \in \{1,2\}$
-
-      $J_\uargh(i) = \nu_h(qt(4,i)) + 1 \quad h \in \{1,2,3\}$
-
-    \item effect of executing an instruction on the configuration $C$
-
-      \[
-        \begin{tabu}{l l}
-          \mbox{zero}(c,n) = qt(p_n^{(c)_n}, c) & Z(n) \\
-          \mbox{succ}(c,n) = p_n \cdot c & S(n) \\
-          \mbox{tfr}(c,m,n) = qt(p_n^{(c)_n}, x) \cdot p_n^{(c)_m} & T(m,n)
-        \end{tabu}
-      \]
+    \item given $i \in \nat$ instruction code $( i = \beta(\mbox{Instruction}))$
+      \begin{align*}
+        Z_\uarg (i) &= qt(4, i) + 1 \\
+        S_\uarg (i) &= qt(4,i) + 1 \\
+        T_\uargh(i) &= \pi_h(qt(4,i)) + 1 \quad h \in \{1,2\} \\
+        J_\uargh(i) &= \nu_h(qt(4,i)) + 1 \quad h \in \{1,2,3\}
+      \end{align*}
+    \item effect of executing an algebraic instruction on a configuration
+      \begin{align*}
+        zero(c,n) &= qt(p_n^{(c)_n}, c) \\
+        succ(c,n) &= p_n \cdot c \\
+        transf(c,m,n) &= p_n^{(c)_m} \cdot zero(c,n)
+      \end{align*}
 
     \item effect on the configuration of registers of the execution of
-      the instruction $i=\beta(\mbox{Instruction})$
-
-      \newcommand{\change}{\mbox{change}}
+      the instruction with code $i$
       \[
-        \change(c,i) = \begin{cases}
-          \mbox{zero}(c, Z_\uarg(i)) & rm(4,i) = 0 \\
-          \mbox{succ}(c, S_\uarg(i)) & rm(4,i) = 1 \\
-          \mbox{tfr}(c, T_{\uarg_1}(i), T_{\uarg_2}(i)) & rm(4,i) = 2 \\
+        change(c,i) = \begin{cases}
+          zero(c, Z_\uarg(i)) & rm(4,i) = 0 \\
+          succ(c, S_\uarg(i)) & rm(4,i) = 1 \\
+          transf(c, T_{\uarg_1}(i), T_{\uarg_2}(i)) & rm(4,i) = 2 \\
           c & rm(4,i) = 3
       \end{cases}
     \]
 
-  \item configuration of the registers if the current one ($c$) and
-    the $t$ instruction of $P_e$ is executed
-
-    \newcommand{\nextconf}{\mbox{nextconf}}
+  \item configuration of the registers starting from $c$,
+    after executing instruction $t$ of program $P_e$ 
     \[
-      \nextconf(e,c,t) = \begin{cases}
-        \change(c, a(e,t)) & 1 \leq t \leq \ell(e) \\
+      nextconf(e,c,t) = \begin{cases}
+        change(c, a(e,t)) & 1 \leq t \leq \ell(e) \\
         c & \mbox{otherwise}
       \end{cases}
     \]
 
-  \item next configuration of registers if the $t^{\mbox{th}}$
-    instruction $i=\beta(\mbox{Instruction})$ is executed
-
-    \newcommand{\instr}{\mbox{instr}}
+  \item number of next instruction if we execute $i=\beta(\mbox{Instruction})$ 
+        and this is in position $t$ of the program
     \[
-      \instr(c, i, t) = \begin{cases}
-
-        t+1 & (rm(4,1) \neq 3) \vee (rm(4,i) = 3 \wedge (c)_{J_{\uarg_1(c)}} \neq (c)_{J_{\uarg_2(i)}}) \\
-        J_{\uarg_3(c)} & \mbox{otherwise}
+      ni(c, i, t) = \begin{cases}
+        t+1 & rm(4,i) \neq 3 \vee (rm(4,i) = 3 \wedge (c)_{J_{\uarg_1}(i)} \neq (c)_{J_{\uarg_2}(i)}) \\
+        J_{\uarg_3}(i) & \mbox{otherwise}
       \end{cases}
     \]
 
-  \item number of the next instruction if the $t^{\mbox{th}}$
-    instruction of $P_e$ is executed on the configuration $c$
-
-    \newcommand{\nextinstr}{\mbox{nextinstr}}
+  \item next instruction, if we execute instruction $t$
+    in program $P_e$ in configuration $c$
     \[
-      \nextinstr(e,c,t) = \begin{cases}
-        \instr(c, a(e,t), t) & 1 \leq t \leq \ell(e) \wedge \instr(c, a(e,t), t) \leq \ell(e) \\
+      nextinstr(e,c,t) = \begin{cases}
+        ni(c, a(e,t), t) & 1 \leq t \leq \ell(e) \wedge 1 \leq ni(c, a(e,t), t) \leq \ell(e) \\
         0 & \mbox{otherwise}
       \end{cases}
     \]
   \end{enumerate}
 
-  At this point we can define $c_k$ and $j_k$
-
-  $c_k(e, \vec{x}, 0) = \prod_{i=1}^kp_i^{x_i}$
-
-  $j_k(e, \vec{x}, 0) = 1$
-
-  $c_k(e, \vec{x}, t+1) = \mbox{nextconf} (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t))$
-
-  $j_k(e, \vec{x}, t+1) = \mbox{nextinstr} (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t))$
-
-  Therefore
-
+ Now
+ \begin{align*}
+  c_k(e, \vec{x}, 0) &= \prod_{i=1}^kp_i^{x_i} \\
+  j_k(e, \vec{x}, 0) &= 1 \\
+  c_k(e, \vec{x}, t+1) &= nextconf (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t)) \\
+  j_k(e, \vec{x}, t+1) &= nextinstr (e, c_k(e, \vec{x}, t), j_k(e,\vec{x},t))
+ \end{align*}
+ they are defined by primitive recursion of computable functions, therefore $c_k, j_j \in \pr$, so they are computable.
+ Thus,
   \[
-    \sigma_k(e,\vec{x},t) = \Pi(j_k(e,\vec{x},t), c_k(e,\vec{x},t))
+    \Psiex = (c_k(e, \vec{x}, \mu t \; . \; j_k(e,\vec{x},t)))_1
   \]
-
-  can be defined with primitive recursion, therefore $\sigma \in \pr \Rightarrow c_k, j_j \in \pr$
-
-  \[
-    \Psiex = c_k(e, \vec{x}, \mu t \; . \; j_k(e,\vec{x},t)) \quad \in \mathcal{R} = \mathcal{C}
-  \]
+  is computable.
   \end{proof}
 \end{theorem}
 
 As a corollary, we obtain the decidability of two statements that will
 be really useful in the next chapters.
-
 \begin{corollary}
   The following predicates are decidable:
   \begin{enumerate}[label=(\alph*)]
@@ -228,253 +193,219 @@ be really useful in the next chapters.
   \end{enumerate}
   \begin{proof}
     \begin{enumerate}[label=(\alph*)]
-    \item We observe that
-      $H_k(e, \vec{x}, t) \equiv (j_k(e,\vec{x}, t) = 0)$ and therefore
-      we have
-
-      $\chi_{H_k}(e, \vec{x}, t) = \overline{sg}(j_k(e,\vec{x},t))$
-    \item We observe that
-      $S_k(e, \vec{x}, y, t) \equiv ((j_k(e,\vec{x},t) = 0) \wedge ((c_k(e,\vec{x},t))_1)=y)$
+    \item 
+      \begin{align*}
+        \chi_{H_k}(e, \vec{x}, t) &= 
+        \begin{cases}
+          1 & \mbox{if } H_k(e, \vec{x}, t)\\
+          0 & \mbox{otherwise}
+        \end{cases} \\
+        &= \overline{sg}(j_k(e,\vec{x},t))
+      \end{align*}
+      it is computable by composition.
+    \item \[
+      \chi_{S_k}(e, \vec{x}, y, t) = \chi_{H_k}(e, \vec{x}, t) 
+      \cdot \overline{sg}(|(c_k(e,\vec{x},t))_1 - y|) 
+    \]
+    it is computable by composition.
     \end{enumerate}
   \end{proof}
+  If $k=1$ we usually omit it.
 \end{corollary}
 
 Also, from the theorem we deduce the possibility to express every
-computable function in the Kleene normal form (KNF).
-
+computable function in Kleene Normal Form (KNF).
 \begin{corollary}[Kleene Normal Form]
-  $\forall e,k \in \nat \quad \forall x \in \nat^k$
+  For every $e,k \in \nat$ and $x \in \nat^k$
   \[
     \Psiuex = (\mu z \;.\; |\chi_{S_k}(e, \vec{x}, (z)_1, (z)_2) - 1|)_1
   \]
 \end{corollary}
 
-\textbf{Observations:}
-\begin{enumerate}[label=\roman*.]
-\item This corollary highlights how each computable function (or
-  equivalently $\in\pr$) can be obtained from primitive recursion
-  functions using minimization maximum one time (we can use just one
-  \texttt{while})
-\item Minimization allows us to ``search'' a single value that has a
-  certain property. The one we used is a technique to search couples
-  of values generalizable to tuples.
-\end{enumerate}
+\begin{observation}
+  \begin{enumerate}[label=\roman*.]
+    \item This corollary highlights how each computable function can be obtained by primitive recursion
+      functions using minimimalisation at most one time (we can use just one
+      \texttt{while})
+    \item Minimimalisation allows us to ``search'' a single value that has a
+      certain property. The one we used is a technique to search couples
+      of values generalizable to tuples.
+    \end{enumerate}
+\end{observation}
 
-\section{Applications of the universal function}
-Reminding that we already observed that if $f : \nattonat$ is a total
+
+\section{Applications}
+We observed that if $f : \nattonat$ is a total
 computable injective function, then
 \[
-  f^{-1}(x) = \begin{cases}
-    y & \quad \mbox{if exists $y$ s.t. } f(y) = x \\
+  f^{-1}(y) = \begin{cases}
+    x & \quad \mbox{if exists $y$ s.t. } f(x) = y \\
     \uparrow & \quad \mbox{otherwise}
 \end{cases}
 \]
-is computable since $f^{-1} = \mu y \; . \; |f(y) = x|$. We can verify
-that the hypothesis of \emph{totalyty} can be omitted.
-
-\begin{theorem}
+is computable since $f^{-1} = \mu x \; . \; |f(x) = y|$. 
+The hypothesis of \emph{totality} can be omitted.
+\begin{exercise}
   Let $f: \nattonat$ computable and injective. Then
   $f^{-1}: \nattonat$ is computable.
   \begin{proof}
-    Since $f$ is computable, exists $e \in \nat$ s.t. $\varphi_e =
-    f$. Now is sufficient to observe that
+    Since $f$ is computable, there exists $e \in \nat$ such that $\varphi_e =
+    f$. Now it is sufficient to observe that
     \[
-      \begin{split}
-        f^{-1}(x) &= (\mu z \; . \;  "S(e, (z)_1, x, (z)_2)")_1 \\
-        &= (\mu z \; . \; |\chi_S(e, (z)_1, x, (z)_2) - 1|)_1
-      \end{split}
+f^{-1}(y) = (\mu w \; . \; |\chi_S(e, (w)_1, x, (w)_2) - 1|)_1
     \]
   \end{proof}
-\end{theorem}
+\end{exercise}
 
 We can now find new non-computable functions and undecidable predicates:
 
-\begin{theorem}
+\begin{exercise}
   The statement ``$\varphi_x$ is total'' is undecidable
   \begin{proof}
     Let $Tot(x)$ be the predicate
-    \[ Tot(x) \equiv \mbox{ ``$\varphi_x$ is total''} \] and assume
-    that it is decidable. Then the characteristic function
+    \[ Tot(x) \equiv \mbox{ ``$\varphi_x$ is total''} \]
+    and assume that it is decidable.
+    Define
     \[
-      \chi_{Tot}(x) = \begin{cases}
-        1 & \varphi_x \mbox{ is total} \\
+      f(x) = \begin{cases}
+        \varphi_x (x) + 1 & \varphi_x \mbox{ total}\\
         0 & \mbox{otherwise}
       \end{cases}
     \]
-    is computable. If this is the case, then the function
+    it is total.
+    For every $x$ if $\varphi_x$ is total, then $\varphi_x \neq f$, since
     \[
-      g(x) = \begin{cases}
-        \varphi_x (x) + 1 & \varphi_x \mbox{ total}\\
-        1 & \mbox{otherwise}
-      \end{cases}
+    f(x) =   \varphi_x (x) + 1 \neq \varphi_x (x)
     \]
-    is both total and computable since by hypothesis ``$\varphi_x$
-    total'' is decidable and $\varphi_x(x) + 1 = \Psi(x,x) + 1$ is
-    computable. But by looking at the definition by cases that it is
-    false, it is required for the used functions to be total:
-    \[ g(x) \neq (\Psi(x,x) + 1) \cdot \chi_{Tot}(x) + 0 \cdot (1
-      \dotdiv \chi_{Tot}(x))\] which is undefined if
-    $\Psi(x,x) \uparrow$. The theorem of definition by cases continues
-    to be valid for non total functions, but the proof must be
-    changed. More in detail:
-    \[
+    so $f$ it is not computable.
+    But we can write $f(x)$ as
+    \begin{equation*}
       \begin{split}
-        g(x) &= (\mu z \;.\; \mbox{``}S(x,x,(z)_1, (z)_2) \wedge \lnot Tot(x)\mbox{''})_1 + 1 \\
-        &= (\mu z \;.\; | \chi_{S(x,x,(z)_1, (z)_2) \wedge \lnot Tot(x)} -  1|)_1 + 1 \\
+        f(x) = (\mu w . (S(x,x,(w)_1,(w)_2)) \wedge Tot(x) \wedge (w)_3 = (w)_2 + 1) \\
+        \vee ((w)_3 = 0 \wedge \lnot Tot(x))
       \end{split}
-    \]
-    and $\forall x$ if $\varphi_x$ total
-    $\Rightarrow g(x) = \varphi_x(x) + 1 \Rightarrow \varphi_x \neq
-    g$. That is to say that $g$ is total and computable, but is
-    absurdly different from every other total computable function
-    Therefore $Tot(x)$ is not computable.
+    \end{equation*}
+    which is absurd.
   \end{proof}
-\end{theorem}
-
-\textbf{Observation:} The same applies to prove that the following
+\end{exercise}
+\begin{observation}
+The same applies to prove that the following
 statements are undecidable (Halting problem):
 \begin{itemize}
 \item
-  $P_1(x) \equiv \mbox{``}x \ in W_x\mbox{''} \equiv
+  $P_1(x) \equiv \mbox{``}x \in W_x\mbox{''} \equiv
   \mbox{``}\varphi_x(x) \downarrow \mbox{''}$
 \item
   $P_2(x,y) \equiv \mbox{``} y \in W_x \mbox{''} \equiv
   \mbox{``}\varphi_x(y) \downarrow\mbox{''}$
 \end{itemize}
+\end{observation}
 
 \section{Effective operations on computable functions}
-The existence of the universal function, together with the \smn
+The existence of the universal function, together with the \emph{smn}
 theorem allows us to prove the effectivity of various
-operations on indices of computable functions formally (in other words:
-programs). For example:
-\begin{description}
-\item[product] given $x,y$ find $\omega$ s.t.
-  $\varphi_\omega = \varphi_x \cdot \varphi_y \quad(\varphi_x\cdot
-  \varphi_y(z) = \varphi_x(z) \cdot \varphi_y(z))$
-\item[inverse] given $x$ find $\omega$ s.t.
-  $\varphi_\omega = \varphi_x^{-1}$
-\end{description}
-It is more or less intuitive that these operations are effective on
-programs, but is less obvious how they can be proven to be computable.
-\subsection{Product}
-Exists a function $s: \nat^2 \rightarrow \nat$ total and computable
-s.t. \[\varphi_{s(x,y)} = \varphi_x \cdot \varphi_y\]
+operations.
+\begin{proposition}[Effectiveness of product]
+  There exists a function $s: \nat^2 \rightarrow \nat$ total and computable
+such that for every $x, y \in \nat$
+ \[\varphi_{s(x,y)} = \varphi_x \cdot \varphi_y\]
 \begin{proof}
-  we define a function where x and y are arguments, and then we
-  transform them into parameters.
-  \[
-    \begin{split}
-      g(x,y,z) &= \varphi_x(z) \cdot \varphi_y(z) \\
-      &= \Psi_{\mathcal{U}}(x,z) \cdot \Psi_{\mathcal{U}}(y,z)
-    \end{split}
-  \]
-  and that is computable by definition. For the \smn theorem there
-  exists $s: \nat^2 \rightarrow \nat$ s.t.
+  We define a function $g : \nat^3 \to \nat$
+  \begin{align*}
+    g(x,y,z) &= \varphi_x(z) \cdot \varphi_y(z) \\
+    &= \Psi_{\mathcal{U}}(x,z) \cdot \Psi_{\mathcal{U}}(y,z)
+  \end{align*}
+  it is computable since it arises as composition of computable functions. 
+  By the \emph{smn} theorem there
+  exists $s: \nat^2 \rightarrow \nat$ total computable such that for every $x,y,z$
   \[
     \varphi_{s(x,y)}(z) = g(x,y,z) = \varphi_x(z) \cdot \varphi_y(z)
   \]
-  that is to say
+  thus
   \[
     \varphi_{s(x,y)} = \varphi_x \cdot \varphi_y
   \]
 \end{proof}
+\end{proposition}
 
-\subsection{Squaring}
-Exists $k:\nattonat$ total and computable s.t.
-$\varphi_{k(x)} = \varphi_x^2$
-($\forall z \quad \varphi_{k(x)}(z) = (\varphi_x(z))^2$)
+
+\begin{proposition}[Effectiveness of squaring]
+There exists $k:\nattonat$ total and computable such that, for every $x \in \nat$,
+\[\varphi_{k(x)} = \varphi_x^2\]
 \begin{proof}
 $k(x) = s(x,x)$
 \end{proof}
+\end{proposition}
 
-\subsection{Effectivity of recursion}
-remembering the notion of primitive recursion
-\[h(\vec{x}, 0) = f(\vec{x})\]
-\[h(\vec{x}, y+1) = g(\vec{x}, y, f(\vec{x},y))\] and knowing that
-$f,g$ are computable $\Rightarrow h$ is computable, if
-$f = \varphi_{e_1}^{(k)}$ and $g = \varphi_{e_2}^{(k+2)}$ exists an
-index $ind = r(e_1, e_2)$ s.t. $h = \varphi_{ind}^{(k+1)}$. We want to
-prove that $r: \nat^2 \rightarrow \nat$ is total and computable. In
-other words, there exists $r: \nat^2 \rightarrow \nat$ total
-computable s.t. $\forall e_1,e_2$ if we define
-\[h(\vec{x}, 0) = f(\vec{x})\]
-\[h(\vec{x}, y+1) = g(\vec{x}, y, f(\vec{x},y))\]
-then
+\begin{proposition}[Effectiveness of primitive recursion]
+Recall the notion of primitive recursion
+\begin{align*}
+  h(\vec{x}, 0) &= f(\vec{x}) \\
+  h(\vec{x}, y+1) &= g(\vec{x}, y, f(\vec{x},y))
+\end{align*}
+if we know that
+$f,g$ are computable then $h$ is computable too. In other words, if
+$f = \varphi_{e_1}^{(k)}$ and $g = \varphi_{e_2}^{(k+2)}$, then there exists $r: \nat^2 \rightarrow \nat$ total
+computable such that
 \[h = \varphi_{r(e_1, e_2)}^{(k+1)}\]
+\end{proposition}
 
-\begin{proof}
-  We just need to define
-  \[
-    \begin{tabu}{l l l}
-      h^\prime(e_1, e_2, \vec{x}, 0) &= \varphi_{e_1}^k(\vec{x}) &= \Psi_{\mathcal{U}}^{k}(e_1, \vec{x}) \\
-      h^\prime(e_1, e_2, \vec{x}, y+1) &= \varphi_{e_2}^{k+2}(\vec{x},y,f(\vec{x}, y)) &= \Psi_{\mathcal{U}}^{k+2}(e_1, e_2, \vec{x}, y, h^\prime(e_1, e_2, \vec{x} , y))
-    \end{tabu}
-  \]
-  $H^\prime$ defined by primitive recursion from computable functions,
-  is computable, and for the \smn theorem there exists
-  $r: \nat^2 \rightarrow \nat$ total and computable s.t.
-  \[\varphi_{r(e_1, e_2)}(\vec{x}, y) = h^\prime (e_1, e_2, \vec{x}, y)\]
-  as we wanted.
-\end{proof}
-
-\subsection{Effectiveness of the inverse function}
-Exists $k: \nattonat$ total and computable s.t.
-\[\forall x \in \nat \quad \mbox{if } \varphi_x \mbox{ is injetive }
+\begin{proposition}[Effectiveness of the inverse function]
+  There exists $k: \nattonat$ total and computable such that
+\[\forall x \in \nat \quad \mbox{if } \varphi_x \mbox{ is injective }
   \Rightarrow \varphi_{k(x)} = (\varphi_x)^{-1}\]
-
 \begin{proof}
-  we can define a function $g(x,y)$ that for those $x$
-  s.t. $\varphi_x$ is injective it:
-  \[
-    g(x,y) = \varphi_x^{-1}(y) = \begin{cases}
+  We define a function $g : \nat^2 \to \nat$
+  \begin{align*}
+    g(x,y) &= (\varphi_x)^{-1}(y) \\
+           &= \begin{cases}
       z & \exists z \mbox{ s.t. } \varphi_x(z) = y \\
       \uparrow & \mbox{otherwise}
-    \end{cases}
-  \]
-  \[
-    g(x,y) = (\mu \omega \; . \; |\chi_{S(x, (\omega)_1, y, (\omega)_2)} - 1|)_1
-  \]
-  and for the \smn theorem exists a $k: \nattonat$ total and
-  computable s.t.
-  \[\varphi_{k(x)}(y) = g(x,y) = \varphi_x^{-1}(y) \mbox{ if }
-    \varphi_x \mbox{ is injective}\]
+    \end{cases}\\
+    & = (\mu \omega \; . \; |\chi_{S(x, (\omega)_1, y, (\omega)_2)} - 1|)_1
+  \end{align*}
+  it is computable by minimalisation.
+  Hence, by \emph{smn} theorem, there is a $k: \nattonat$ total and
+  computable such that for every $x,y$
+  \[\varphi_{k(x)}(y) = g(x,y) = (\varphi_x)^{-1}(y)\]
 \end{proof}
+\end{proposition}
 
-\section{manipulating domains and co-domains}
-(a) Exists a total computable function $S : \nat^2 \rightarrow \nat$
-s.t. \[W_{S(x,y)} = W_x \cup W_y\]
+
+\begin{proposition}
+  There is a total computable function $s : \nat^2 \rightarrow \nat$
+such that, for every $x, y$
+ \[W_{s(x,y)} = W_x \cup W_y\]
 \begin{proof}
-  we want a function s.t. $\varphi_{S(x,y)}(z)\downarrow$ iff
-  $\varphi_x(z)\downarrow$ or $\varphi_y(z) \downarrow$. We can define
-  a function with $x,y$ as arguments that captures both properties
-
+  We want $\varphi_{S(x,y)}(z)\downarrow$ iff
+  $\varphi_x(z)\downarrow$ or $\varphi_y(z) \downarrow$. We define
+  a function $g : \nat^3 \to \nat$
   \[
     g(x,y,z) = \begin{cases}
-      0 & z \in W_z \mbox{ or } z \in W_y \\
+      1 & z \in W_x \vee z \in W_y \\
       \uparrow  & \mbox{otherwise}
     \end{cases}
   \]
   which is computable:
   \[
-    g(x,y,z) = \underline{0}(\mu \omega \; . \; |\chi_{H(x,z,\omega)
+    g(x,y,z) = \mathbf{1}(\mu \omega \; . \; |\chi_{H(x,z,\omega)
       \wedge H(y,z,\omega)} - 1|)
   \]
-  \textbf{Note:} one $\omega$ is enough, since
-  $\exists \omega_1 \; . \; P_1(\omega_1) \wedge \exists \omega_2 \;
-  . \; P_2(\omega_2) \equiv \exists \omega \; . \; P_1(\omega) \wedge
-  P_2(\omega)$
+  
 
-  So, for the \smn theorem exists $s:\nat^2 \rightarrow \nat$
-  computable and total s.t. \[\varphi_{S(x,y)}(z) = g(x,y,z)\]
+  Hence by \emph{smn} theorem exists $s:\nat^2 \rightarrow \nat$
+  computable and total such that \[\varphi_{S(x,y)}(z) = g(x,y,z)\]
 \end{proof}
+\end{proposition}
 
-(b) Exists $k:\nat^2 \rightarrow \nat$ computable and total s.t.
-\[\forall x,y \quad E_{K(x,y)} = E_x \cup E_y\]
+\begin{proposition}
+  There exists a $s:\nat^2 \rightarrow \nat$ computable and total such that
+\[\forall x,y \quad E_{s(x,y)} = E_x \cup E_y\]
 \begin{proof}
   We want the value of $\varphi_{S(x,y)}$ to be the same of the
   functions $\varphi_x and \varphi_y$. In order to do this, we can simulate
   $\varphi_x$ on even numbers and $\varphi_y$ on odd numbers. We
-  define a function where $x$ and $y$ are arguments
+  define a function $g : \nat^3 \to \nat$
   \[
     g(x,y,z) = \begin{cases}
       \varphi_x(\frac{z}{2}) & \mbox{if } z \mbox{ even} \\
@@ -485,58 +416,51 @@ s.t. \[W_{S(x,y)} = W_x \cup W_y\]
   \begin{multline*}
     g(x,y,z) = (\mu \omega \; . \; |\max\{\chi_S(x,qt(2,z),(\omega)_1,(\omega)_2) \; \cdot \; \overline{sg}(rm(2,z)), \\ \chi_S(y,qt(2,z),(\omega)_1, (\omega)_2) \; \cdot \; sg(rm(2,z))\}- 1|)_1
   \end{multline*}
-  And for the \smn theorem exists $k: \nat^2 \rightarrow \nat$
-  computable and total s.t. \[\varphi_{K(x,y)}(z) = g(x,y,z)\]
+  By \emph{smn} theorem there exists $s: \nat^2 \rightarrow \nat$
+  computable and total such that \[\varphi_{s(x,y)}(z) = g(x,y,z)\] for every $x,y,z$.
   So
   \[
     \begin{split}
-      \nu \in E_{K(x,y)} & \Leftrightarrow \exists z \; . \; \varphi_{S(x,y)}(z) = g(x,y,z) = \nu \\
+      v \in E_{s(x,y)} & \Leftrightarrow \exists z \; . \; \varphi_{S(x,y)}(z) = g(x,y,z) = v \\
       & \Leftrightarrow \exists z \; . \; \begin{cases}
-        z \mbox{ even and } & \varphi_x(\frac{z}{2}) = \nu \\
-        z \mbox{ odd and } & \varphi_y(\frac{z-1}{2}) = \nu \\
+        z \mbox{ even and } & \varphi_x(\frac{z}{2}) = v \\
+        z \mbox{ odd and } & \varphi_y(\frac{z-1}{2}) = v \\
       \end{cases} \\
-      & \Leftrightarrow \exists z \; . \; \varphi_x(z) = \nu \wedge
-      \varphi_y(z) = \nu \Leftrightarrow \omega \in E_x \cup E_y
+      & \Leftrightarrow \exists z \; . \; \varphi_x(z) = v \wedge
+      \varphi_y(z) = v \Leftrightarrow \omega \in E_x \cup E_y
     \end{split}
   \]
 \end{proof}
+\end{proposition}
 
-(c) Exists $k : \nattonat$ computable and total s.t. $E_{k(x)} = W_x$
+\begin{proposition}
+  There is $k : \nattonat$ computable and total such that $E_{k(x)} = W_x$
 \begin{proof}
-  We want
-  \[(y \in W_x \Leftrightarrow y \in E_{k(x)}) \equiv
-    (\varphi_x(y)\downarrow \Leftrightarrow \exists z \; . \;
-    \varphi_{k(x)}(z) = y) \]
-  and we can define
-  \[
-    \begin{split}
-      g(x,y) &= \begin{cases}
-        y & y \in W_x \\
-        \uparrow & \mbox{otherwise}
-      \end{cases} \\
-      &= \mathds{1}( \univ (x,y)) \cdot y
-    \end{split}
-  \]
-  which is computable, so for the \smn theorem exists $k : \nattonat$
-  computable and total s.t. \[\varphi_{k(x)} = g(x,y)\]
-  in other words
+  Define
+  \begin{align*}
+    g(x,y) &= \begin{cases}
+      y & y \in W_x \\
+      \uparrow & \mbox{otherwise}
+    \end{cases} \\
+    &= \mathds{1}( \univ (x,y)) \cdot y
+  \end{align*}
+  it is computable by composition, so by \emph{smn} theorem there exists $k : \nattonat$
+  computable and total such that, for every $x,y$
+  \[\varphi_{k(x)}(y) = g(x,y)\]
+  In other words
   \[y \in E_{k(x)} \Leftrightarrow \varphi_{k(x)}(y) = y
     \Leftrightarrow g(x,y) = y  \Leftrightarrow y \in W_x\]
 \end{proof}
+\end{proposition}
 
-(d) Given $f : \nattonat$ computable, exists $k : \nattonat$
-computable and total s.t. $\forall x \quad W_{k(x)} = f^{-1}(W_x)$
+\begin{proposition}
+  Given $f : \nattonat$ computable, there exists $k : \nattonat$
+computable and total such that, for every $x$, $W_{k(x)} = f^{-1}(W_x)$
 \begin{proof}
-  we want a function s.t.
-  \[y \in W_{k(x)} \Leftrightarrow f(y) \downarrow \mbox{ and } f(y)
-    \in W_x \]
-  in other words
-  \[\varphi_{k(x)}(y) \downarrow \Leftrightarrow \varphi_x(f(y))
-    \downarrow\]
-  so we can define
+  Define
   \[g(x,y) = \varphi_x(f(y)) = \univ(x, f(y))\] computable by
-  definition. So for the \smn theorem exists $k: \nattonat$ computable
-  and total s.t. \(\varphi_{k(x)}(y) = g(x,y)\). So
+  definition. By the \emph{smn} theorem, there exists $k: \nattonat$ computable
+  and total such that \(\varphi_{k(x)}(y) = g(x,y)\). So
   \[
     \begin{split}
       y \in W_{k(x)} & \Leftrightarrow \varphi_{k(x)}(y) = g(x,y) = \varphi_x(f(y)) \downarrow \\
@@ -545,15 +469,17 @@ computable and total s.t. $\forall x \quad W_{k(x)} = f^{-1}(W_x)$
     \end{split}
   \]
 \end{proof}
+\end{proposition}
 
-\section{Operations on predicates}
-Exists $k : \nattonat$ computable and total s.t. if
-$\varphi_x = \chi_a$ is the characteristic function of a decidable
+\begin{proposition}
+There exists $k : \nattonat$ computable and total such that if
+$\varphi_x = \chi_Q$ is the characteristic function of a decidable
 predicate $Q$, then $\varphi_{k(x)} = \chi_{\neg Q}$
 \begin{proof}
-  we can define \[g(x,y) = 1 \dotdiv \varphi_x(y) = 1 - \univ(x,y) \]
-  which is computable by definition. So, for the \smn theorem exists
-  $k$ computable and total s.t. \[g(x,y) = \varphi_{k(x)}\] this way
+  Define \[g(x,y) = 1 \dotdiv \varphi_x(y) = 1 - \univ(x,y) \]
+  which is computable by definition. By the \emph{smn} theorem, there exists
+  $k$ computable and total such that \[g(x,y) = \varphi_{k(x)}\]
+  In this way,
   if $\varphi_x = \chi_Q$
   \[
     g(x,y) = 1-\varphi_x(y) = \varphi_{k(x)}(y) = 1 \Leftrightarrow
@@ -564,3 +490,6 @@ predicate $Q$, then $\varphi_{k(x)} = \chi_{\neg Q}$
     \varphi_{k(x)} = \chi_{\neg Q}
   \]
 \end{proof}
+\end{proposition}
+
+
