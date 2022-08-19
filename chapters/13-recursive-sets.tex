@@ -2,18 +2,17 @@
 In previous chapters, we saw many computable functions and decidable problems, but
 only in few cases we gave examples of the large class of
 non-computable functions and undecidable predicates. For this reason,
-we want to start a mathematical study of:
+we want to start a mathematical study of
 \begin{itemize}
   \item classes of undecidable predicates
   \item techniques to prove the undecidability of some predicates
 \end{itemize}
-This way we can highlight the limits of computers abilities and give a
-structure to problems classes (spoiler: the majority of interesting
+In this way we can highlight the limits of computers abilities and give a
+structure to problems classes (the majority of interesting
 predicates are undecidable).
 
 We'll focus on \emph{numerical sets} $X \subseteq \nat$ and try to find
-an answer to the problem ``how difficult it is to determine weather
-$x \in X$''? This way we'll find
+an answer to the problem ``$x \in X$?''. We'll get
 \begin{itemize}
 \item recursive sets
 \item recursively enumerable sets
@@ -32,23 +31,25 @@ $x \in X$''? This way we'll find
   \end{gather*}
   is computable.
 \end{definition}
+In other words, if the predicate ``$x \in A$'' is decidable.
 
-(In other words, if the predicate ``$x \in A$'' is decidable.)
+\begin{observation}
+  \begin{itemize}
+    \item if $\chi_A \in \pr$ we'll say that $A$ is \emph{primitively}
+      recursive.
+    \item the notion can be extended to subsets of $\nat^k$, but we'll
+      stick to $\nat$ subsets, since every $\nat^k$ subset can be encoded
+      into $\nat$
+    \end{itemize}
+\end{observation}
 
-\textbf{Note:}
-\begin{itemize}
-\item if $\chi_A \in \pr$ we'll say that $A$ is \emph{primitively}
-  recursive.
-\item the notion can be extended to subsets of $\nat^k$, but we'll
-  stick to $\nat$ subsets, since every $\nat^k$ subset can be encoded
-  into $\nat$
-\end{itemize}
 
-\paragraph{Examples}
-These are recursive:
+\begin{example}
+  These are recursive:
 \begin{enumerate}[label=(\alph*)]
-\item $\nat$, since $\chi_\nat (x) = 1$ is computable;
-\item prime numbers
+\item $\nat$, since $\chi_\nat = \mathbf{1}$ is computable;
+\item $\varnothing$, because $\chi_\varnothing = \mathbf{0}$ is computable;
+\item prime numbers $\mathbb{P}$, since
   \[
     Pr(x) = \begin{cases}
       1 & \mbox{if $x$ is prime} \\
@@ -57,70 +58,76 @@ These are recursive:
   \]
   is computable;
 \item each and every finite set. In fact, given $A \subset \nat$ with
-  $|A| < \infty \quad A = \{x_1, x_2, \dots, x_n\}$ we have that
+  $|A| < \infty$, $A = \{x_1, x_2, \dots, x_n\}$, we have that
   \[
     \chi_A(x) = \overline{sg}\left( \prod_{i=1}^n|x - x_i| \right)
   \]
-  is computable
+  is computable.
 \end{enumerate}
+\end{example}
+
 
 On the other hand, these are definitely not recursive:
 \begin{enumerate}[label=(\alph*)]
-\item $k = \left\{ x \; | \; x \in W_x \right\} $, since
+\item $K = \left\{ x \; | \; x \in W_x \right\} $, since
   \[
-    \chi){k(x)} = \begin{cases}
+    \chi_{K}(x) = \begin{cases}
       1 & x \in W_x \\
       0 & x \notin W_x
     \end{cases}
   \]
   is not computable;
-\item $\left\{ x \; | \; \varphi_x \mbox{ total } \right\} $
+\item $\left\{ x \; | \; \varphi_x \mbox{ total} \right\} $
 \end{enumerate}
 
-\mbox{\\}
-
-\paragraph{Closure of recursive sets}
-If $A,B \subset \nat$ are recursive, then they are also recursive
+\begin{observation}
+  If $A,B \subseteq \nat$ are recursive, then
 \begin{enumerate}[label=\arabic*)]
 \item $\overline{A} = \nat - A$
 \item $A \cap B$
 \item $A \cup B$
 \end{enumerate}
+are recursive.
+\end{observation}
 
-\subsection{Reduction process}
-This process is a simple but very important process to study decidability
-problems. It basically tries to formalize the intuition of a problem
-$\mathcal{A}$ being ``easier'' then another one, $\mathcal{B}$
+
+\subsection{Reduction}
+Reduction is a process used to study decidability
+problems. It formalizes the intuition of a problem
+$\mathcal{A}$ being ``easier'' then another one, $\mathcal{B}$.
 
 \newcommand{\red}{\ensuremath{\leq_m}}
 \begin{definition}
-  Let $A,B \subseteq \nat$. We say that the problem $x \in A$ is
-  \emph{reducible} to the problem $x \in B$ (or also that directly $A$
-  is reducible to $B$), and we write $A \red B$ if exists
-  $f : \nattonat$ computable and total s.t.
+  Let $A,B \subseteq \nat$. We say that the problem $x \in A$
+  \emph{reduces} to the problem $x \in B$ ($A$ reduces to $B$), 
+  written $A \red B$ if there exists
+  $f : \nattonat$ computable and total such that, for every $x \in \nat$
   \[x \in A \quad  \Leftrightarrow \quad f(x) \in B\]
 \end{definition}
 In this case, $f$ is the \emph{reduction function}.
 
-\textbf{Proposition:} Let $A,B \subseteq \nat$ s.t. $A \red B$ then
-\begin{enumerate}[label=\arabic*)]
+\begin{observation}
+  Let $A,B \subseteq \nat$ such that $A \red B$ then
+\begin{enumerate}[label=\arabic*]
 \item if $B$ is recursive, then $A$ is recursive
 \item of $A$ is not recursive, then $B$ is not recursive
 \end{enumerate}
 
 \begin{proof}
-We just need to observe that $\chi_A = \chi_B \circ f$
+Just observe that $\chi_A = \chi_B \circ f$
 \end{proof}
+\end{observation}
 
-We know that $k = \{ x | x \in W_x \}$ is not recursive. Let's see how
+We know that $K = \{ x \mid x \in W_x \}$ is not recursive. Let's see how
 the recursiveness of other sets can be proven by reduction to this
 set which we know for certain is not recursive.
-\begin{example}[$k \leq \{x | \varphi_x $ total $ \}$ ]
+\begin{example}
+  $K \red T = \{x \mid \varphi_x $ total$ \}$
   \begin{proof}
-    we need to prove that there exists $f : \nattonat$ computable and total
-    s.t. $x \in k \Leftrightarrow f(x) \in A$. In other words
+    we need to prove that there exists $s : \nattonat$ computable and total
+    such that $x \in k \Leftrightarrow s(x) \in T$. In other words
     \[ x\in W_x \Leftrightarrow  \varphi_{f(x)} \mbox{ is total} \]
-    To do so we can define
+    To do so, we can define
     \[
       g(x,y) = \begin{cases}
         1 & x\in W_x \\
@@ -129,84 +136,45 @@ set which we know for certain is not recursive.
     \]
     which is computable. This fact is easily proven by rewriting it as
     \[
-      g(x,y) = \mathds{1}(\varphi_x(x)) = \mathds{1}(\univ(x,x))
+      g(x,y) = \mathbf{1}(\varphi_x(x)) = \mathbf{1}(\univ(x,x))
     \]
-    then, for the \smn theorem we have that it exists $s: \nattonat$
-    computable and total s.t. \[\varphi_{s(x)}(y) = g(x,y)\] and $s$
-    is the very function we were searching for; in fact
-    \[x \in k \Rightarrow x \in W_x \Rightarrow \forall y
+    then, by \emph{smn} theorem we have that there exists $s: \nattonat$
+    computable and total such that 
+    \[\varphi_{s(x)}(y) = g(x,y)\] and 
+    \[x \in K \Rightarrow x \in W_x \Rightarrow \forall y\
       \varphi_{s(x)}(y) = g(x,y) = 1 \Rightarrow \varphi_{s(x)} \mbox{
-        total } \Rightarrow s(x) \in A\]
-    \[x \notin k \Rightarrow x \notin W_x \Rightarrow \forall y
-      \varphi_{s(x)}(y) = g(x,y) = \uparrow \Rightarrow \varphi_{s(x)}
-      \mbox{ non total } \Rightarrow s(x) \notin A\]
+        total } \Rightarrow s(x) \in T\]
+    \[x \notin K \Rightarrow x \notin W_x \Rightarrow \forall y\
+      \varphi_{s(x)}(y) = g(x,y) \uparrow \Rightarrow \varphi_{s(x)}
+      \mbox{ not total } \Rightarrow s(x) \notin T\]
   \end{proof}
 \end{example}
 
-\begin{example}[$\{(x,y) | y \in W_x\}$]
-  To see it as a subset of $\nat$ we just need to encode couples as
-  numbers
-  \[B = \{ n | \Pi_2(n) \in W_{\Pi_1(n)}\}\]
-
-  \paragraph{$K \leq_m B$} We need to find a function $f : \nattonat$
-  computable and total s.t. \(n \in k \Leftrightarrow f(n) \in B\). To
-  do this we just need to consider \[f(n) = \Pi(n,n)\] We will have
-  that
-  \[
-    \begin{tabu}{c c c c c c c}
-      n \in k & \Rightarrow & n \in W_n & \Rightarrow & Pi_2(f(n)) \in W_{\Pi_1(f(n))} & \Rightarrow f(n) \in B \\
-      & \Leftarrow & & \Leftarrow & & \Leftarrow &
-
-    \end{tabu}
-  \]
-
-  \paragraph{$B \leq_m k$}
-  We can define
-  \[
-    g(x,y,z) = \begin{cases}
-      1 & y \in W_x \\
-      \uparrow & \mbox{otherwise}
-    \end{cases}
-  \]
-  is computable, in fact
-  \[
-    g(x,y,z) = \mathds{1}(\varphi_x(y)) = \mathds{1}(\univ (x,y))
-  \]
-  therefore, for the \smn theorem
-  $\exists s : \nat^2 \rightarrow \nat$ computable and total s.t.
-  \[
-    g(x,y,z) = \varphi_{s(x,y)}(z)
-  \]
-  and the reduction function will be \[f(n) = s(Pi_1(n), \Pi_2(n))\]
-\end{example}
-
 \begin{example}[Input problem]
-  prove that $\forall n \in \nat$
+  For every $ n \in \nat$
   \[
-    A_n = \{x  | \varphi_x (n) \downarrow\}
+    A_n = \{x  \mid \varphi_x (n) \downarrow\}
   \]
   is not recursive.
 
   \begin{proof}
-    we will prove that $K \leq A_n$. We have to define a function $f$
+    We will prove that $K \leq A_n$. We have to define a function $f$
     s.t.
     \begin{gather*}
-      x \in k \Leftrightarrow f(x) \in A_n \\
+      x \in K \Leftrightarrow f(x) \in A_n \\
       x \in W_x \Leftrightarrow \varphi_{f(x)}(n) \downarrow
     \end{gather*}
-    For example
-    \[
-      \begin{split}
-        g(x,y) &= \begin{cases}
-          1 & x \in W_x \\
-          \uparrow & \mbox{otherwise}
-        \end{cases} \\
-        &= \mathds{1}(\univ(x,x))
-      \end{split}
-    \]
-    which is computable, and therefore for the \smn theorem exists
-    $f: \nattonat$ computable and total s.t.
-    $g(x,y) = \varphi_{f(x)}(y)$, and so
+    Define
+    \begin{align*}
+      g(x,y) &= \begin{cases}
+        1 & x \in W_x \\
+        \uparrow & \mbox{otherwise}
+      \end{cases} \\
+      &= \mathbf{1}(\univ(x,x))
+    \end{align*}
+    which is computable, and therefore by the \emph{smn} theorem, there exists
+    $f: \nattonat$ computable and total such that
+    $g(x,y) = \varphi_{f(x)}(y)$, and
     \begin{gather*}
       x \in k \Rightarrow f(x) \in A_n \\
       x \notin  k \Rightarrow f(x) \notin A_n
@@ -215,34 +183,36 @@ set which we know for certain is not recursive.
 \end{example}
 
 \begin{example}[The output problem]
-  Since $n \in \nat \quad B_n\{ x | n \in E_x\}$ is not recursive
+  For every $ n \in \nat$, $B_n\{ x \mid n \in E_x\}$ is not recursive
   \begin{proof}
-    we'll prove that $k \leq_m B_n$
+    We show that $K \leq_m B_n$
     \[
       \begin{split}
         g(x,y) &= \begin{cases}
           n & x \in W_x \\
           \uparrow & \mbox{otherwise}
         \end{cases} \\
-        &= n \cdot \mathds{1}(\univ(x,x))
+        &= n \cdot \mathbf{1}(\univ(x,x))
       \end{split}
     \]
-    computable, and therefore for the \smn theorem exists a function
-    $s : \nattonat$ s.t.
+    computable, by \emph{smn} theorem, there exists a function
+    $s : \nattonat$ such that
     \[
-      \forall y \quad g(x,y) = \varphi_{s(x)}(y)
+      \forall x,y \quad g(x,y) = \varphi_{s(x)}(y)
     \]
-  \end{proof}
   moreover
   \begin{gather*}
-    x \in k \Rightarrow s(x) \in B(n) \\
+    x \in k \Rightarrow s(x) \in B_n \\
     x \notin k \Rightarrow s(x) \notin B_n
   \end{gather*}
+\end{proof}
 \end{example}
 
-\textbf{Observation:} Let $A,B \subseteq \nat$ with $A \leq_m B$
-through a reduction function $f : \nattonat$ (total and computable)
-injective. One could think that since $f^{-1}$ is computable, then
-also $B \leq_m A$. In reality this does not happen, since $f^{-1}$ is
+\begin{observation}
+Let $A,B \subseteq \nat$ with $A \leq_m B$
+through an injective reduction function $f : \nattonat$ (total and computable). 
+One could think that, since $f^{-1}$ is computable, then
+also $B \leq_m A$. This does not happen, since $f^{-1}$ is
 not total and so reduces $A$ to a ``subproblem'' of $B$ even though
-it has no complexity relationships with $B$ in principle.
+it has no complexity relationships with $B$.
+\end{observation}
