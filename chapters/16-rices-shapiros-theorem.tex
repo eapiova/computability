@@ -1,46 +1,41 @@
 \chapter {Rice-Shapiro theorem}
 Rice-Shapiro states that a property of the functions computed by
 programs can be semi-decidable \textbf{only if} it depends on a finite
-part of the function (behavior on finite inputs). That is to say:
-
+part of the function (behavior on finite inputs). 
 \begin{theorem}[Rice-Shapiro theorem]
-
-  Let $\mathcal{A} \subseteq \mathcal{C}$ a set of computable
+  Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
   functions. If the set $\{x \mid \varphi_x \in \mathcal{A}\}$ is
   r.e., then
   \[
     \forall f (f \in \mathcal{A} \Leftrightarrow \exists \theta \mbox{
-      finite function, } \theta \subseteq f \land \theta \subseteq
+      finite function, } \theta \subseteq f \land \theta \in
     \mathcal{A})
   \]
-\end{theorem}
 
-In order for us to prove this we'll need some more tools:
-
+In order for us to prove this theorem, we'll need some more tools:
 \begin{definition}[Finite function]
   A finite function is a function $ \theta: \nat\rightarrow\nat $
-  s.t. $ dom(\theta) $ finite.  This means that the set of
+  such that $ dom(\theta) $ is finite.  This means that the set of
   input-output pairs is finite; in other words
-  $ \theta = \{(x_1,y_1),\dots(x_n,y_n) \} $ and does not end
-  otherwise.
+  $ \theta = \{(x_1,y_1),\dots(x_n,y_n) \} $ and it is undefined on other inputs.
 \end{definition}
 
-Given $ f:\nat\rightarrow\nat $, $ \theta $ is a sub-function of
-\textit{f} if $ \theta \subseteq f $
+\begin{definition}
+  Given $ f:\nat\rightarrow\nat $, $ \theta $ is a sub-function of
+$f$ if $ \theta \subseteq f $
+\end{definition}
 
-\begin{notation}\mbox{}\\*
+
+\begin{notation}
   \begin{itemize}
-  \item $ W_e $ domain of the function $ \varphi_e $ that is the function
-    computed by the program of index $e$;
-  \item $ E_e = \{\varphi_e(x)|x\in W_e \}$;
-  \item $ H(x,y,t) = P_x(y)\downarrow $ in \textit{t} steps or less;
-  \item $ S(x,y,z,t) = P_x(y)\downarrow z $
-  \item $ K = \{x|x\in W_x \} = \{x|\varphi_x(x)\downarrow \} =
-    \{x|P_x(x)\downarrow \}$
+  \item $ W_e $ is the domain of the function $ \varphi_e $;
+  \item $ E_e = \{\varphi_e(x) \mid x\in W_e \}$;
+  \item $ H(x,y,t) = $ "$ P_x(y)\downarrow $ in $t$ steps or less";
+  \item $ S(x,y,z,t) =$ "$ P_x(y)\downarrow z$ in $t$ steps or less";
+  \item $ K = \{x \mid x\in W_x \} = \{x\mid \varphi_x(x)\downarrow \} =
+    \{x\mid P_x(x) \mbox{ terminates} \}$
   \end{itemize}
 \end{notation}
-
-\section{Proof of Rice-Shapiro theorem}
 
 \begin{proof}
 
@@ -160,39 +155,35 @@ Given $ f:\nat\rightarrow\nat $, $ \theta $ is a sub-function of
 
   Rice-Shapiro's theorem proved.
 \end{proof}
-
-\section{Rice-Shapiro Exercises}
+\end{theorem}
 
 \begin{example}\label{exe:rice1}
-  $A = \{ x \mid \varphi_x $ total $\}$ is not r.e.
+  $A = \{ x \mid \varphi_x \mbox{ total}\}$ is not r.e.
 
   \begin{proof}
-    Clearly $A$ is saturated, and the set of functions from which it
-    comes is $\mathcal{A} = \{f \in \mathcal{C} \mid f $ total
-    $\}$. That is to say $A = \{x \mid \varphi_x \in
-    \mathcal{A}\}$. Given any function $f \in \mathcal{A}$ (total by
-    definition) clearly we know that $\forall \theta \subseteq f$
+    Clearly $A$ is saturated since $A = \{x \mid \varphi_x \in
+    \mathcal{A}\}$, and $\mathcal{A} = \{f \in \mathcal{C} \mid f $ total$\}$. 
+    Given any function $f \in \mathcal{A}$ (total by
+    definition) we know that $\forall \theta \subseteq f$
     is finite $\theta \notin \mathcal{A}$, since each and every finite
-    function is partial $\rightarrow$ for Rice-Shapiro theorem, $A$ is
+    function is partial, then by Rice-Shapiro's theorem, $A$ is
     not r.e.
   \end{proof}
 \end{example}
 
 \begin{example}\label{exe:rice2}
-  $\bar{A} = \{x \mid \varphi_x $ non total $\}$ is not r.e.
+  $\bar{A} = \{x \mid \varphi_x $ not total$\}$ is not r.e.
 
   \begin{proof}
-    Let $\bar{\mathcal{A}} = \{f \in \mathcal{C} \mid f $ non total
-    $\}$. We observe that each $\theta$ finite is in
+    Let $\bar{\mathcal{A}} = \{f \in \mathcal{C} \mid f $ not total$\}$. We observe that each $\theta$ finite is in
     $\bar{\mathcal{A}}$, but no total extension of such $\theta$ can
-    be included in $\bar{\mathcal{A}}$. Again, for Rice-Shapiro
+    be included in $\bar{\mathcal{A}}$. Again, by Rice-Shapiro
     $\bar{A}$ is not r.e.
   \end{proof}
 \end{example}
 
-The exercises \ref{exe:rice1} and \ref{exe:rice2} are essential to
+The examples \ref{exe:rice1} and \ref{exe:rice2} are essential to
 understand two core situations in which we can apply the theorem:
-
 \begin{observation}
   Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
   functions s.t. $A = \{ x \mid \varphi_x \in \mathcal{A}\}$ is
