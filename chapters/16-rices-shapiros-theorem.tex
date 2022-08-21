@@ -1,10 +1,10 @@
-\chapter {Rice-Shapiro theorem}
-Rice-Shapiro states that a property of the functions computed by
+\chapter {Rice-shapiro theorem}
+Rice-shapiro states that a property of the functions computed by
 programs can be semi-decidable \textbf{only if} it depends on a finite
 part of the function (behavior on finite inputs). 
-\begin{theorem}[Rice-Shapiro theorem]
+\begin{theorem}[Rice-shapiro theorem]
   Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
-  functions. If the set $\{x \mid \varphi_x \in \mathcal{A}\}$ is
+  functions. If the set $A = \{x \mid \varphi_x \in \mathcal{A}\}$ is
   r.e., then
   \[
     \forall f (f \in \mathcal{A} \Leftrightarrow \exists \theta \mbox{
@@ -30,37 +30,32 @@ $f$ if $ \theta \subseteq f $
   \begin{itemize}
   \item $ W_e $ is the domain of the function $ \varphi_e $;
   \item $ E_e = \{\varphi_e(x) \mid x\in W_e \}$;
-  \item $ H(x,y,t) = $ "$ P_x(y)\downarrow $ in $t$ steps or less";
-  \item $ S(x,y,z,t) =$ "$ P_x(y)\downarrow z$ in $t$ steps or less";
+  \item $ H(x,y,t) = $ "$ P_x(y)\downarrow $ in $t$ steps or les";
+  \item $ s(x,y,z,t) =$ "$ P_x(y)\downarrow z$ in $t$ steps or les";
   \item $ K = \{x \mid x\in W_x \} = \{x\mid \varphi_x(x)\downarrow \} =
     \{x\mid P_x(x) \mbox{ terminates} \}$
   \end{itemize}
 \end{notation}
 
 \begin{proof}
+  We'll prove the following
+  \begin{enumerate}
+    \item $ \exists f \in \mathcal{C} . f \not\in \mathcal{A} \land
+    \exists\theta\subseteq f \mbox{ finite}, \theta\in\mathcal{A} \Rightarrow
+    A$ not r.e
+    \item $ \exists f \in \mathcal{C}. f\in\mathcal{A} \land
+    \forall\theta\subseteq f \mbox{ finite}, \theta\not\in\mathcal{A}\Rightarrow
+    A$ not r.e.
+  \end{enumerate}
 
-  $ \forall f \in \mathcal{C} (f \in \mathcal{A} \Leftrightarrow
-  \exists\theta\subseteq f \mid \theta $ finite and $ \theta\in A)$
+  so
+  \begin{enumerate}
+    \item
+    Let $ f\not\in \mathcal{A}$ and $\theta \subseteq f$ finite with $\theta \in \mathcal{A}$.
+    We show that $
+    \bar{K}\leq A $.
 
-  1)
-  $ \exists f \in \mathcal{C} \; . \; f \not\in \mathcal{A} \land
-  \exists\theta\subseteq f, \theta\in\mathcal{A} \Rightarrow
-  \mathcal{A}$ not r.e
-
-  2)
-  $ \exists f \in \mathcal{C}. f\in\mathcal{A} \land
-  \forall\theta\subseteq f, \theta\not\in\mathcal{A}\Rightarrow
-  \mathcal{A} $ not r.e.
-
-  \begin{proof}[proof of 1)]
-
-    $ f\not\in \mathcal{A} \land \theta\subseteq \mathcal{A}$
-
-    that $
-    \bar{K}\leq A $ ($ \mathcal{A} $ set of functions, $A$ set of
-    programs)
-
-    We define the function:
+    Define
     \begin{equation*}
       \begin{aligned}
         g(x,y) & = \begin{cases}
@@ -69,12 +64,12 @@ $f$ if $ \theta \subseteq f $
         \end{cases} \\
                & = \begin{cases}
                  \uparrow & x \in \bar{K} \land x \not\in dom(\theta) \\
-                 \theta(y) = f(y) & x \not\in \bar{K} \land x \in dom(\theta) \\
+                 \theta(y) = f(y) & x \in \bar{K} \land x \in dom(\theta) \\
                  f(y) & x\in K
                \end{cases}\\
                &= \begin{cases}
-                 f(y) & x \in K\lor(x\not\in\bar{K}\land y\in dom(\theta)) \\
-                 \uparrow & $ altrimenti $
+                 f(y) & x \in K\lor y\in dom(\theta) \\
+                 \uparrow & $otherwise $
                \end{cases}
       \end{aligned}
     \end{equation*}
@@ -84,16 +79,16 @@ $f$ if $ \theta \subseteq f $
     semi-decidable.
 
     \begin{equation*}
-      SC_Q(x,y) = \begin{cases}
+    sc_Q(x,y) = \begin{cases}
         1 & Q(x,y) \\
         0 & $ altrimenti $
       \end{cases}
     \end{equation*}
 
-    This is computable $ = f(y) \times SC_Q(x,y) $ computable.
+    This is computable $ = f(y) \times sc_Q(x,y) $ computable.
 
-    For SMN, given that \textit{g} is computable, $ \exists
-    S:\nat\rightarrow\nat $ s.t.
+    For sMN, given that \textit{g} is computable, $ \exists
+    s:\nat\rightarrow\nat $ s.t.
     \begin{equation*}
       g(x,y) = \begin{cases}
         \theta(y) & x \in \bar{K} \\
@@ -101,24 +96,22 @@ $f$ if $ \theta \subseteq f $
       \end{cases}
     \end{equation*}
 
-    $ g(x,y) = \varphi_{S(x)}(y)$
+    $ g(x,y) = \varphi_{s(x)}(y)$
 
-    $S$ is the reduction function for $ \bar{K}\leq A $
+    $s$ is the reduction function for $ \bar{K}\leq A $
 
     \begin{itemize}
-    \item $ x\in\bar{K} \Rightarrow \forall y. \varphi_{S(x)}(y) = g(x,y) =
-      \theta(y) \Rightarrow \varphi_{S(x)} = \theta \Rightarrow S(x) \in A $
+    \item $ x\in\bar{K} \Rightarrow \forall y. \varphi_{s(x)}(y) = g(x,y) =
+      \theta(y) \Rightarrow \varphi_{s(x)} = \theta \Rightarrow s(x) \in A $
     \item $ x\not\in\bar{K}\Rightarrow x\in K\Rightarrow\forall
-      y\varphi_{S(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{S(x)}=f\Rightarrow
-      S(x)\in\bar{A}$
+      y\varphi_{s(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{s(x)}=f\Rightarrow
+      s(x)\in\bar{A}$
     \end{itemize}
 
     Hence $A$ is reduced to $ \bar{K} $ which is not r.e. therefore A is
     not r.e.
 
-  \end{proof}
-
-  \begin{proof}[proof of 2)]
+    \item
     let $ f\in\mathcal{A}\land\theta\subseteq f $ be with $ \theta $
     finished, $ \theta\not\in\mathcal{A} $
 
@@ -129,31 +122,31 @@ $f$ if $ \theta \subseteq f $
       \end{cases}
     \end{equation*}
 
-    This is computable, meaning $f(y) \times SC_Q(x,y) $ is
+    This is computable, meaning $f(y) \times sc_Q(x,y) $ is
     computable.
 
-    for SMN there exists $ S:\nat\rightarrow\nat $ total computable s.t. $
-    \forall x,y. \varphi_{S(x)}(y) = g(x,y) $
+    for sMN there exists $ s:\nat\rightarrow\nat $ total computable s.t. $
+    \forall x,y. \varphi_{s(x)}(y) = g(x,y) $
 
-    We have to prove that S is a reduction function for $ \bar{K}\leq A $
+    We have to prove that s is a reduction function for $ \bar{K}\leq A $
 
     \begin{itemize}
-    \item $ x\in\bar{K}\\ \Rightarrow\varphi_{S(x)}\uparrow \\
+    \item $ x\in\bar{K}\\ \Rightarrow\varphi_{s(x)}\uparrow \\
       \Rightarrow\forall y\lnot H(x,x,y)\\ \Rightarrow \forall
-      y.\varphi_{S(x)}(y) = g(x,y) = f(y)\\ \Rightarrow f = \varphi_{S(x)}\\
-      \Rightarrow S(x)\in A$
+      y.\varphi_{s(x)}(y) = g(x,y) = f(y)\\ \Rightarrow f = \varphi_{s(x)}\\
+      \Rightarrow s(x)\in A$
     \item
       $ x\not\in\bar{K}\\ \Rightarrow x\in K\\ \Rightarrow
       \varphi_x(x)\downarrow\\ \Rightarrow \exists t_0 $ s.t.
       $ \forall
       t>t_0. H(x,x,t), \forall t<t_0. \lnot H(x,x,y)\\
-      \Rightarrow\varphi_{S(x)}(y) = g(x,y)\\ \Rightarrow
-      \varphi_{S(x)}\subseteq f$ finite
-      $\\ \Rightarrow S(x) \in \bar{A} $
+      \Rightarrow\varphi_{s(x)}(y) = g(x,y)\\ \Rightarrow
+      \varphi_{s(x)}\subseteq f$ finite
+      $\\ \Rightarrow s(x) \in \bar{A} $
     \end{itemize}
-  \end{proof}
+  \end{enumerate}
 
-  Rice-Shapiro's theorem proved.
+  Rice-shapiro's theorem proved.
 \end{proof}
 \end{theorem}
 
@@ -166,7 +159,7 @@ $f$ if $ \theta \subseteq f $
     Given any function $f \in \mathcal{A}$ (total by
     definition) we know that $\forall \theta \subseteq f$
     is finite $\theta \notin \mathcal{A}$, since each and every finite
-    function is partial, then by Rice-Shapiro's theorem, $A$ is
+    function is partial, then by Rice-shapiro's theorem, $A$ is
     not r.e.
   \end{proof}
 \end{example}
@@ -177,12 +170,12 @@ $f$ if $ \theta \subseteq f $
   \begin{proof}
     Let $\bar{\mathcal{A}} = \{f \in \mathcal{C} \mid f $ not total$\}$. We observe that each $\theta$ finite is in
     $\bar{\mathcal{A}}$, but no total extension of such $\theta$ can
-    be included in $\bar{\mathcal{A}}$. Again, by Rice-Shapiro
+    be included in $\bar{\mathcal{A}}$. Again, by Rice-shapiro
     $\bar{A}$ is not r.e.
   \end{proof}
 \end{example}
 
-The examples \ref{exe:rice1} and \ref{exe:rice2} are essential to
+The examples \ref{exe:rice1} and \ref{exe:rice2} are esential to
 understand two core situations in which we can apply the theorem:
 \begin{observation}
   Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
@@ -208,7 +201,7 @@ understand two core situations in which we can apply the theorem:
 \end{observation}
 
 \begin{exercise}
-  Study the recursiveness of $A = \{x \mid \varphi_x = \mathds{1}\}$
+  study the recursivenes of $A = \{x \mid \varphi_x = \mathds{1}\}$
 
   \begin{enumerate}
   \item[(*)] $A$ is not r.e.
@@ -234,7 +227,7 @@ understand two core situations in which we can apply the theorem:
 \end{exercise}
 
 \begin{observation}
-  Rice-Shapiro theorem is a necessary condition, but not sufficient to
+  Rice-shapiro theorem is a necesary condition, but not sufficient to
   be r.e., that is to say that does not hold that
   \begin{equation}\label{eq:star}
     \forall f \; (\; f \in \mathcal{A} \mbox{ iff } \exists \theta \mbox{
@@ -242,7 +235,7 @@ understand two core situations in which we can apply the theorem:
     \Rightarrow \quad A \mbox{ r.e. }
   \end{equation}
 
-  In other words, Rice-Shapiro can be used to prove that a set is
+  In other words, Rice-shapiro can be used to prove that a set is
   \emph{not} r.e., \underline{not} to prove that a set is r.e.
 \end{observation}
 
@@ -280,13 +273,13 @@ understand two core situations in which we can apply the theorem:
         \uparrow & \mbox{otherwise}
       \end{cases}
     \]
-    which is $= \mu z \; . \; |x-y|$, and therefore computable. Again,
+    which is $= \mu z . |x-y|$, and therefore computable. Again,
     for the \smn theorem $\exists s : \nattonat$ computable and total
     s.t.
     \[
       g(x,y) = \varphi_{s(x)}(y)
     \]
-    and therefore $dom(\varphi_{s(x)}) = \{x\}$. So
+    and therefore $dom(\varphi_{s(x)}) = \{x\}$. so
     \begin{itemize}
     \item
       \(x \in \bar{k} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{k} =
