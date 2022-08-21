@@ -1,36 +1,34 @@
 \chapter{Recursively enumerable sets}
-This is a wider set that contains recursive sets. To see this we can
-already see the definition:
 
-\begin{definition}[recursively enumerable set]
-  We say that $ A \subseteq \nat $ is \emph{recursive} if
-  the semi-characteristic function is computable.
+\begin{definition}[Recursively enumerable set]
+  We say that $ A \subseteq \nat $ is \emph{recursively enumerable} if
+  the semi-characteristic function 
   \begin{equation*}
     sc_A(x) = \begin{cases} 1 & x \in A \\ \uparrow & $
       otherwise $
     \end{cases}
   \end{equation*}
-
-  Predicate $ Q(\vec{x}) \subseteq \nat^k $ semi-decidable
-
-  \begin{equation*} sc_Q(\vec{x}) = \begin{cases} 1 & Q(\vec{x}) \\
-      \uparrow & $ altrimenti $
-    \end{cases}
-  \end{equation*}
+  is computable.
 \end{definition}
 
-So say $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A"
-$ is semi-decidable. This notion is also easily extensible to
+\begin{definition}[Semi-decidable predicate]
+  A predicate $ Q(x) \subseteq \nat $ is\\
+   semi-decidable if 
+  \( \{ x \in \nat \mid Q(x) \} \)
+  is r.e.
+\end{definition}
+
+Thus, saying that $A$ is r.e. is like saying that the predicate $ Q(x)=``x \in A"
+$ is semi-decidable. This notion is also easily generalisable to
 \begin{itemize}
 \item subsets of $\nat^k$
 \item $k$-ary predicates
 \end{itemize}
-through encoding or direct definition.
 
 \begin{theorem}\label{th:aiffanota}
-  \[A \subseteq \nat \mbox{ r.e. } \Leftrightarrow A, \bar{A} \mbox{
+  \[A \subseteq \nat \mbox{ recursive } \Leftrightarrow A, \bar{A} \mbox{
       are r.e.} \]
-  \begin{proof}\mbox{}\\*
+  \begin{proof}
     \begin{itemize}
     \item[($\Rightarrow$)]
       If $A$ recursive,
@@ -40,9 +38,9 @@ through encoding or direct definition.
           0 & $ otherwise $
         \end{cases}
       \end{equation*}
-
-      Then $ sc_A(x) = \mathds{1}(\mu z. | \chi_A(x)- z | )$
-      computable. Computable, therefore \textit{A} is r.e. Also
+      is computable.
+      Then $ sc_A(x) = \mathbf{1}(\mu z. | \chi_A(x)- 1 | )$
+      is computable. Computable, therefore \textit{A} is r.e. Also
       $\bar{A}$ is r.e. In fact, since $A$ is r.e., by closure on
       negation, also $\bar{A}$ is r.e.
 
