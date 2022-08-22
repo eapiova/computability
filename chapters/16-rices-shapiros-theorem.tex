@@ -53,7 +53,7 @@ $f$ if $ \theta \subseteq f $
     \item
     Let $ f\not\in \mathcal{A}$ and $\theta \subseteq f$ finite with $\theta \in \mathcal{A}$.
     We show that $
-    \bar{K}\leq A $.
+    \bar{K}\red A $.
 
     Define
     \begin{equation*}
@@ -74,79 +74,81 @@ $f$ if $ \theta \subseteq f $
       \end{aligned}
     \end{equation*}
 
-    But $ x\in K\lor y\in dom(\theta) = Q(x,y)$ predicate. $ x\in K $
-    semi-decidable; $ y \in dom(\theta) $ decidable; therefore $ Q(x,y) $
+    Since $ x\in K\lor y\in dom(\theta) = Q(x,y)$ predicate, $ x\in K $
+    semi-decidable and $ y \in dom(\theta) $ decidable, then $ Q(x,y) $
     semi-decidable.
-
+    Then, since
     \begin{equation*}
     sc_Q(x,y) = \begin{cases}
         1 & Q(x,y) \\
         0 & $ altrimenti $
       \end{cases}
     \end{equation*}
+  is computable, we have $ g(x, y) = f(y) \cdot sc_Q(x,y) $ computable.
 
-    This is computable $ = f(y) \times sc_Q(x,y) $ computable.
-
-    For sMN, given that \textit{g} is computable, $ \exists
-    s:\nat\rightarrow\nat $ s.t.
+    By \emph{smn} theorem, there is a total computable function $
+    s:\nat\rightarrow\nat $ such that, for every $x, y$
     \begin{equation*}
-      g(x,y) = \begin{cases}
+      \varphi_{s(x)}(y) = g(x,y) = \begin{cases}
         \theta(y) & x \in \bar{K} \\
         f(y) & x \in K
       \end{cases}
     \end{equation*}
-
-    $ g(x,y) = \varphi_{s(x)}(y)$
-
-    $s$ is the reduction function for $ \bar{K}\leq A $
+    We show that $s$ is the reduction function for $ \bar{K}\red A $
 
     \begin{itemize}
-    \item $ x\in\bar{K} \Rightarrow \forall y. \varphi_{s(x)}(y) = g(x,y) =
-      \theta(y) \Rightarrow \varphi_{s(x)} = \theta \Rightarrow s(x) \in A $
+    \item $ x\in\bar{K} \Rightarrow \forall y\ \varphi_{s(x)}(y) = g(x,y) =
+      \theta(y) \Rightarrow \varphi_{s(x)} = \theta \in \mathcal{A} \Rightarrow s(x) \in A $
     \item $ x\not\in\bar{K}\Rightarrow x\in K\Rightarrow\forall
-      y\varphi_{s(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{s(x)}=f\Rightarrow
-      s(x)\in\bar{A}$
+      y\ \varphi_{s(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{s(x)}=f \notin \mathcal{A}\Rightarrow
+      s(x)\notin{A}$
     \end{itemize}
-
-    Hence $A$ is reduced to $ \bar{K} $ which is not r.e. therefore A is
+    Since $ \bar{K} \red A$ and $ \bar{K} $ is not r.e. we conclude that $A$ is
     not r.e.
 
     \item
-    let $ f\in\mathcal{A}\land\theta\subseteq f $ be with $ \theta $
-    finished, $ \theta\not\in\mathcal{A} $
+    Let $ f\in\mathcal{A}\land\theta\subseteq f $ be with $ \theta $
+    finite, $ \theta\not\in\mathcal{A} $
 
-    We want it to be in quotes because it's not formal: \begin{equation*}
+    Informally, we want
+    \begin{equation*}
       g(x,y) = \begin{cases}
-        f(y) & x \in\bar{K} $ cioè $ \varphi_x(x)\uparrow \\
-        \theta(y) & $ for some $ \theta\subseteq f $ finite, otherwise ($ x\in K $) $
+        f(y) & x \in\bar{K} $ $(\varphi_x(x)\uparrow) \\
+        \theta(y) & $for some $ \theta\subseteq f $ finite, otherwise ($ x\in K $) $
       \end{cases}
     \end{equation*}
 
-    This is computable, meaning $f(y) \times sc_Q(x,y) $ is
-    computable.
+    More formally
+    \begin{align*}
+      g(x,y) &= \begin{cases}
+        f(y) & \mbox{if } \neg H(x,x,y) \\
+        \uparrow & \mbox{if } H(x,x,y)
+      \end{cases} \\
+      &= f(y) + \mu z . \chi_H(x,x,y)
+    \end{align*}
+    is computable.
 
-    for sMN there exists $ s:\nat\rightarrow\nat $ total computable s.t. $
-    \forall x,y. \varphi_{s(x)}(y) = g(x,y) $
-
-    We have to prove that s is a reduction function for $ \bar{K}\leq A $
-
+    By \emph{smn} there exists $ s:\nat\rightarrow\nat $ total computable such that
+    \[\varphi_{s(x)}(y) = g(x,y) \]
+    We show that $s$ is a reduction function for $ \bar{K}\red A $
     \begin{itemize}
-    \item $ x\in\bar{K}\\ \Rightarrow\varphi_{s(x)}\uparrow \\
-      \Rightarrow\forall y\lnot H(x,x,y)\\ \Rightarrow \forall
-      y.\varphi_{s(x)}(y) = g(x,y) = f(y)\\ \Rightarrow f = \varphi_{s(x)}\\
+    \item $ x\in\bar{K}\\ 
+      \Rightarrow\varphi_{x}(x)\uparrow \\
+      \Rightarrow\forall y\ \lnot H(x,x,y)\\ 
+      \Rightarrow \forall y\ \varphi_{s(x)}(y) = g(x,y) = f(y)\\ 
+      \Rightarrow f = \varphi_{s(x)} \in \mathcal{A} \\
       \Rightarrow s(x)\in A$
     \item
-      $ x\not\in\bar{K}\\ \Rightarrow x\in K\\ \Rightarrow
-      \varphi_x(x)\downarrow\\ \Rightarrow \exists t_0 $ s.t.
-      $ \forall
-      t>t_0. H(x,x,t), \forall t<t_0. \lnot H(x,x,y)\\
-      \Rightarrow\varphi_{s(x)}(y) = g(x,y)\\ \Rightarrow
-      \varphi_{s(x)}\subseteq f$ finite
+      $ x\not\in\bar{K}\\ 
+      \Rightarrow x\in K\\ 
+      \Rightarrow \varphi_x(x)\downarrow\\ 
+      \Rightarrow \exists t_0 \ (\forall
+      t>t_0\ H(x,x,t) \wedge \forall t<t_0 \ \lnot H(x,x,t))\\
+      \Rightarrow\varphi_{s(x)}(y) = g(x,y)\\ 
+      \Rightarrow \varphi_{s(x)}\subseteq f$ finite
       $\\ \Rightarrow s(x) \in \bar{A} $
     \end{itemize}
   \end{enumerate}
-
-  Rice-shapiro's theorem proved.
 \end{proof}
 \end{theorem}
 
@@ -175,60 +177,57 @@ $f$ if $ \theta \subseteq f $
   \end{proof}
 \end{example}
 
-The examples \ref{exe:rice1} and \ref{exe:rice2} are esential to
+The examples \ref{exe:rice1} and \ref{exe:rice2} are essential to
 understand two core situations in which we can apply the theorem:
 \begin{observation}
   Let $\mathcal{A} \subseteq \mathcal{C}$ be a set of computable
   functions s.t. $A = \{ x \mid \varphi_x \in \mathcal{A}\}$ is
   r.e. Then
-  \begin{enumerate}[label=(i)]
-  \item if \(\forall \theta \) finite
+  \begin{enumerate}
+  \item if, for every \(\theta \) finite,
     \( \theta \notin \mathcal{A} \Rightarrow \mathcal{A} = \emptyset\)
   \item
     \(\emptyset \in \mathcal{A} \Rightarrow \mathcal{A} =
     \mathcal{C}\)
   \end{enumerate}
-
   \begin{proof}
-    \begin{enumerate}[label=(i)]
+    \begin{enumerate}
     \item given $f \in \mathcal{C}$ we know that $f \in \mathcal{A}$
-      iff $\exists \theta \subseteq f$ finite
-      $\theta \in \mathcal{A} \rightarrow f \notin \mathcal{A}$
+      if and only if there exists $\theta \subseteq f$ finite
+      $\theta \in \mathcal{A}$ then $f \notin \mathcal{A}$
     \item given $f \in \mathcal{C}$, since $\emptyset \subseteq f$ and
       $\emptyset \in \mathcal{A} \Rightarrow f \in \mathcal{A}$
     \end{enumerate}
   \end{proof}
 \end{observation}
 
-\begin{exercise}
-  study the recursivenes of $A = \{x \mid \varphi_x = \mathds{1}\}$
-
+\begin{example}
+  Consider $A = \{x \mid \varphi_x = \mathbf{1}\}$
   \begin{enumerate}
-  \item[(*)] $A$ is not r.e.
+  \item $A$ is not r.e.
 
-    In fact the set of functions is in this case
-    $\mathcal{A} = \{\mathds{1}\}$, which
+    The set of functions is
+    $\mathcal{A} = \{\mathbf{1}\}$, which
     \begin{itemize}
     \item does not contain finite functions
     \item is not empty
     \end{itemize}
-    And therefore is not r.e.
+    therefore $A$ is not r.e.
 
-  \item[(**)] $\bar{A}$ is not r.e.
+  \item $\bar{A}$ is not r.e.
 
-    In fact $\bar{\mathcal{A}} = \mathcal{C} - \{\mathds{1}\}$, and we
+    $\bar{\mathcal{A}} = \mathcal{C} - \{\mathbf{1}\}$, and we
     have that
     \begin{itemize}
     \item $\emptyset \in \bar{\mathcal{A}}$
     \item $\bar{\mathcal{A}} \neq \mathcal{C}$
     \end{itemize}
-    And therefore $\bar{A}$ is not r.e.
+    therefore $\bar{A}$ is not r.e.
   \end{enumerate}
-\end{exercise}
+\end{example}
 
 \begin{observation}
-  Rice-shapiro theorem is a necesary condition, but not sufficient to
-  be r.e., that is to say that does not hold that
+  The converse implication of the Rice-shapiro theorem does not hold, i.e. the following does not hold
   \begin{equation}\label{eq:star}
     \forall f \; (\; f \in \mathcal{A} \mbox{ iff } \exists \theta \mbox{
       finite, } \theta \subseteq f, \; \theta \in \mathcal{A} \; ) \quad
@@ -236,57 +235,61 @@ understand two core situations in which we can apply the theorem:
   \end{equation}
 
   In other words, Rice-shapiro can be used to prove that a set is
-  \emph{not} r.e., \underline{not} to prove that a set is r.e.
+  \emph{not} r.e., but \underline{not} to prove that a set is r.e.
+  \begin{proof}
+    Let
+    $\mathcal{A} = \{ f \in \mathcal{C} \mid dom(f) \cap \bar{K} \neq
+    \emptyset\}$ , $A = \{x \mid \varphi_x \in \mathcal{A}\}$
+  
+    \begin{enumerate}
+    \item $\mathcal{A}$ satisfies (\ref{eq:star})
+      \begin{itemize}
+      \item[] 
+          \begin{align*}
+            f \in \mathcal{A} & \Rightarrow dom(f) \cap \bar{K} \neq \emptyset \\
+                                         & \Rightarrow \mbox{let } x \in dom(f) \cap \bar{k} \mbox{ we have that } \theta = \{(x, f(x))\} \\
+                                         & \quad \mbox{ is finite, } \theta \subseteq f \mbox{ and } dom(\theta)\cap \bar{k} = \{x\} \neq \emptyset \\
+                                         & \Rightarrow \theta \in \mathcal{A}
+          \end{align*}
+        
+  
+      \item[]
+      \[
+          \begin{aligned}
+            \mbox{if $\theta$ finite, } \theta \subseteq f, \theta \in \mathcal{A} & \Rightarrow dom(\theta) \subseteq dom(f) \\
+            & \Rightarrow dom(f) \cap \bar{K} \supseteq dom(\theta) \cap \bar{K} \neq \emptyset \\
+            & \Rightarrow f \in \mathcal{A}
+          \end{aligned}
+        \]
+      \end{itemize}
+  
+    \item $A$ is not r.e., since $\bar{K} \leq_m A$
+  
+      Define
+      \begin{align*}
+        g(x,y) &= \begin{cases}
+          0        & x=y \\
+          \uparrow & \mbox{otherwise}
+        \end{cases} \\
+        &= \mu z . |x-y|
+      \end{align*}
+      is computable. Again,
+      by \emph{smn} theorem $\exists s : \nattonat$ computable and total
+      such that
+      \[
+        g(x,y) = \varphi_{s(x)}(y)
+      \]
+      and therefore $dom(\varphi_{s(x)}) = \{x\}$. so
+      \begin{itemize}
+      \item
+        \(x \in \bar{K} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{K} =
+        \{x\} \neq \emptyset \Rightarrow s(x) \in A\)
+      \item
+        \(x \notin \bar{K} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{K}
+        = \{x\} = \emptyset \Rightarrow s(x) \notin A\)
+      \end{itemize}
+    \end{enumerate}
+  \end{proof}
 \end{observation}
 
-\begin{counterexample}
-  Let
-  $\mathcal{A} = \{ f \in \mathcal{C} \mid dom(f) \cap \bar{k} \neq
-  \emptyset\}$ , $A = \{x \mid \varphi_x \in \mathcal{A}\}$
 
-  \begin{enumerate}
-  \item[(*)] $\mathcal{A}$ satisfies (\ref{eq:star})
-    \begin{itemize}
-    \item[] \[
-        \begin{aligned}
-          \mbox{if } f \in \mathcal{A} & \Rightarrow dom(f) \cap \bar{k} \neq \emptyset \\
-                                       & \Rightarrow \mbox{ called } x \in dom(f) \cap \bar{k} \mbox{ we have that } \theta = \{(x, f(x))\} \\
-                                       & \quad \mbox{ is finite, } \theta \subseteq f \mbox{ and } dom(\theta)\cap \bar{k} = \{x\} \neq \emptyset
-        \end{aligned}
-      \]
-
-    \item[] \[
-        \begin{aligned}
-          \mbox{if $\theta$ finite, } \theta \subseteq f, \theta \in \mathcal{A} & \Rightarrow \mbox{ since } \theta \subseteq f \; dom(\theta) \subseteq dom(f) \\
-          & \Rightarrow dom(f) \cap \bar{k} \supseteq dom(\theta) \subseteq dom(f) \neq \emptyset \\
-          & \Rightarrow f \in \mathcal{A}
-        \end{aligned}
-      \]
-    \end{itemize}
-
-  \item[(**)] $A$ is not r.e., since $\bar{k} \leq_m A$
-
-    we can define
-    \[
-      g(x,y) = \begin{cases}
-        0        & x=y \\
-        \uparrow & \mbox{otherwise}
-      \end{cases}
-    \]
-    which is $= \mu z . |x-y|$, and therefore computable. Again,
-    for the \smn theorem $\exists s : \nattonat$ computable and total
-    s.t.
-    \[
-      g(x,y) = \varphi_{s(x)}(y)
-    \]
-    and therefore $dom(\varphi_{s(x)}) = \{x\}$. so
-    \begin{itemize}
-    \item
-      \(x \in \bar{k} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{k} =
-      \{x\} \neq \emptyset \Rightarrow s(x) \in A\)
-    \item
-      \(x \notin \bar{k} \Rightarrow dom(\varphi_{s(x)}) \cap \bar{k}
-      = \{x\} = \emptyset \Rightarrow s(x) \notin A\)
-    \end{itemize}
-  \end{enumerate}
-\end{counterexample}

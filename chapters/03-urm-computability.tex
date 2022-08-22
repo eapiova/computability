@@ -451,8 +451,6 @@ $P$ contains $h + 1 \quad T$ instructions.
 
 Transform $P$ into $P''$ where all instructions from 1 to \textit{l} are as same as before, while instead of $T$ we put a jump $J(1,1, SUB)$ where the subroutine is written before. We assume that if $P$ ends, it does so at instruction $l + 1$. And at position $l + 1$ we put a $J (1,1, END)$. After these replacements, we have $h$ instructions $T$ and therefore we can say that we have the program of the reduced URM s.t. the computed function is the same by inductive assumption.
 
-\subsection{Exercises}
-
 \subsection{URM with swap instruction}
 Let $URM^S $ be the model obtained by removing transfer function and inserting the swap function $ T_S(m,n) $, what relationship is there between the class of this model and the other?
 
