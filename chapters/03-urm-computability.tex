@@ -411,56 +411,54 @@ Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exist
   A function can be computed either by no program or by infinitely many programs.
 \end{remark}
 
-\section {Exercises}
+\section{Exercises}
 
-\subsection{Reduced URM}
-
-Let URM be reduced without transfer instruction $T(m, n)$. We indicate the class
+\begin{exercise}[Reduced URM]
+Consider the URM machine without $T(m, n)$ transfer instruction. We indicate the class
 of functions that can be computed with the reduced machine $ \mathcal{C}^- $ and
 we compare it with $ \mathcal{C} $. Obviously $ \mathcal{C}^- \subseteq \mathcal{C}
-$. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^-$? \\
-(The answer is yes because $T(m, n)$ can be replaced with other instructions.)
-
+$. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^-$. \\
+\begin{proof}
+Informally an instruction $T(m,n)$ at the $t$ step
+can be replaced with the following subroutine
 \begin{quote}
   \begin{tabular}{lll}
-    $I_t$: & T(m,n) \\
+    $I_{t'}$:   & $J(1,1,t'+5)$  \\
+    $I_{t'+1}$: & $Z(n)$        \\
+    $I_{t'+2}$: & $J(m,n,t+1)$  \\
+    $I_{t'+3}$: & $S(n)$        \\
+    $I_{t'+4}$: & $J(1,1,t'+2)$ \\
   \end{tabular}
 \end{quote}
+where $t'>l(P)$.
 
-can be replaced with a subroutine at the right place
+We prove it formally. 
+Given $ f \in \mathcal{C} $, $ f: \nat^k \rightarrow \nat $, there is an URM program $P$ such that $ f_P^{(K)}  = f$. The program $P$ can be transformed into $P ^R $ of the reduced URM machine such that $ f_{P^R}^{(K)}  = f_{P}^{(K)}$.
 
-\begin{quote}
-  \begin{tabular}{lll}
-    $I_{t'}$:   & J(m,n,t+1)  \\
-    $I_{t'+1}$: & Z(n)        \\
-    $I_{t'+2}$: & J(m,n,t+1)  \\
-    $I_{t'+3}$: & S(n)        \\
-    $I_{t'+4}$: & J(1,1,t'+2) \\
-  \end{tabular}
-\end{quote}
+There is a demonstration by induction. We show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$, number of transfer instructions $T$ in $P$.
 
-But let's prove it: ($ \mathcal{C} \subseteq \mathcal{C}' $), $ f \in \mathcal{C} $, $ f: \nat^K \rightarrow \nat $ There is an URM $P$ s.t. $ f_P^{(K)}  = f$ the program $P$ can be transformed into $P ^R $ of the reduced URM machine s.t. $ f_{P^R}^{(K)}  = f_{P}^{(K)}$.
+\begin{enumerate}
+  \item $h = 0$ trivial.
+  \item $h \rightarrow  h + 1$: $P$ contains $h + 1$ transfer instructions.
+  Transform $P$ into $P''$ where all instructions from $1$ to $l(P)$ are as same as before, while instead of $T$ we put a jump $J(1,1, SUB)$ where the subroutine is written before. 
+  We assume that if $P$ ends, it does so at instruction $l(P) + 1$, then at position $l(P) + 1$ we insert $J (1,1, END)$. 
+  After these replacements, we have $h$ instructions $T$ and therefore we can say that we have a reduced URM program such that the computed function is the same by inductive assumption.
+\end{enumerate}
+\end{proof}
+\end{exercise}
 
-There is a demonstration by induction. We show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$ = number of transfer instructions $T$ in $P$.
-
-$h = 0$ trivial.
-
-$h \rightarrow  h + 1$:
-
-$P$ contains $h + 1 \quad T$ instructions.
-
-Transform $P$ into $P''$ where all instructions from 1 to \textit{l} are as same as before, while instead of $T$ we put a jump $J(1,1, SUB)$ where the subroutine is written before. We assume that if $P$ ends, it does so at instruction $l + 1$. And at position $l + 1$ we put a $J (1,1, END)$. After these replacements, we have $h$ instructions $T$ and therefore we can say that we have the program of the reduced URM s.t. the computed function is the same by inductive assumption.
-
-\subsection{URM with swap instruction}
+\begin{exercise}[URM with swap instruction]
 Let $URM^S $ be the model obtained by removing transfer function and inserting the swap function $ T_S(m,n) $, what relationship is there between the class of this model and the other?
 
-Proof that $ \mathcal{C}^S \subseteq \mathcal{C} $ The exchange $T (m, n)$ is equivalent to:
-
-\begin{lstlisting}
-  T(n,i)
-  T(m,n)
-  T(i,m)
-\end{lstlisting}
+\begin{proof}
+  Proof that $ \mathcal{C}^S \subseteq \mathcal{C} $ The exchange $T (m, n)$ is equivalent to:
+  \begin{quote}
+    \begin{tabular}{l}
+    $T(n,i)$ \\
+    $T(m,n)$ \\
+    $T(i,m)$
+    \end{tabular}
+    \end{quote}
 
 Formalization:
 
@@ -470,7 +468,7 @@ If $h = 0$ the program is already URM. therefore $ P' = P $
 
 Otherwise if there is at least one transfer instruction we show that the inductive case is valid $ h \rightarrow h+1 $, if $P$ ends it does so in $l + 1$, the program has $h + 1$ exchange instructions.
 
-Let $i$ be a register not used by $P$ found by inspecting the program. We replace at step $t \quad J (1,1, SUB)$ and add a subroutine as the one above, thus creating $ P'' $, at the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. By inductive hypothesis there is $ P' $ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \\
+Let $i$ be a register neot used by $P$ found by inspecting the program. We replace at step $t \quad J (1,1, SUB)$ and add a subroutine as the one above, thus creating $ P'' $, at the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. By inductive hypothesis there is $ P' $ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \\
 \textbf{But all of this is wrong!}
 
 Why is it wrong? Because with the replacement that we made we have 1 transfer instruction, but $n-1$ exchange instructions.
@@ -482,29 +480,36 @@ The proof procedure is the same but we are demonstrating something stronger, the
 To show $  \mathcal{C} \subseteq \mathcal{C}^S $ we know that we have shown that $ \mathcal{C} \subseteq \mathcal{C}^R $ and therefore given that $ \mathcal{C}^R \subseteq \mathcal{C}^S $ is demonstrated by transitivity.
 
 So we can say that $ \mathcal{C}^S = \mathcal{C} $
+\end{proof}
+\end{exercise}
 
-\subsection{URM without jump instructions}
+\begin{exercise}[URM without jump instructions]
+Consider URM$ ^{nj} $ the URM machine without $J(m,n,t)$ jump instructions.
+We have that $ \mathcal{C}^{nj} \subset \mathcal{C} $ where the first is the set of computable functions without a jump instruction. 
 
-URM$ ^{nj} $ is a model without jumps, meaning without $J(m,n,t)$ instructions.
+\begin{proof}
+We alread know that $ f: \nat \rightarrow \nat$ with $f(x)\uparrow \forall x $ is computable in URM, but it is not computable in URM $ ^{nj} $.
 
-Demonstrate that $ \mathcal{C}^{nj} \subset \mathcal{C} $ where the first is the set of computable functions without a jump instruction. We know that $ f: \nat \rightarrow \nat, f(x)\uparrow \forall x $ is computable in URM, but it is not computable in URM $ ^{nj} $
-
-Which functions $ f: \nat \rightarrow \nat $ can be computed without jumping? Keep in mind that we also removed the only conditional statement, so they always end. Then we have the following cases:
-
-$f(x) = c  \forall x $ or $ f(x) = x + c \forall x $
-
-We see $ r_1(h,x) $ the contents of register 1 after h steps with initial content x. Given $P$ program, the function computed by him $ f_p(x) = r_1(l(P), x) $ where $ l(P) $ is the length of $P$;
-
-We show by induction on $h$ that after $h$ execution steps on $P \quad  r_1(h,x) $ is equal to $x + c$ or to $c$.
-
-By induction $h = 0: r_1(0,x) = x $ OK
-
-Case $ h \rightarrow h+1 $: We know $ r_1(h,x) = x+c $ or $ c $ by inductive hypothesis. The next instruction can be one of three cases:
+The functions $ f: \nat \rightarrow \nat $ that can be computed without jumping always terminate. Then we have the following cases:
 \begin{itemize}
-\item The instruction is $Z (n)$. Then if $n = 1  \quad  r_1(h+1,x) = 0 $, otherwise $ r_1(h+1,x) = r_1(h,x) $ in both cases it's OK. The first is constant, the second is fine by inductive hypothesis.
-\item The instruction is $S (n)$. Then if $n = 1$ we find that $ r_1(h+1,x) = r_1(h,x)+1 $ which by induction hypothesis is fine. Even if $n$ is other than 1 (see the previous bullet point)
-\item The instruction is $T (m, n)$. In cases where $ n>1 $ or $ n=m=1 $ then $ r_1(h+1,x) = r_1(h,x) $ and that's fine. Otherwise $ n = 1, m > 1 $ we do not know what $ r_1(h+1,x) $ is worth. So who knows?
+  \item $f(x) = c \ \forall x $
+  \item $ f(x) = x + c \ \forall x $
 \end{itemize}
 
-Actually we should prove this not only for register $ r_1 $ but for a generic
-register $ r_j $.
+Consider $ r_1(h,x) $ the content of $R_1$ after $h$ steps with initial content $x$. 
+We show by induction on $h$ that after $h$ execution steps $r_1(h,x) $ is equal to $x + c$ or to $c$.
+
+\begin{itemize}
+  \item Case $h = 0: r_1(0,x) = x $
+
+  \item Case $ h \rightarrow h+1 $: We know $ r_1(h,x) = x+c $ or $ c $ by inductive hypothesis. The next instruction can be one of three cases:
+  \begin{itemize}
+  \item The instruction is $Z (n)$. If $n = 1$, $r_1(h+1,x) = 0 $, otherwise $ r_1(h+1,x) = r_1(h,x) $, ok by induction hypothesis
+  \item The instruction is $S (n)$. If $n = 1$ we find that $ r_1(h+1,x) = r_1(h,x)+1 $ which by induction hypothesis is fine. Else is the same as the previous instruction.
+  \item The instruction is $T (m, n)$. In cases where $ n>1 $ or $ n=m=1 $ then $ r_1(h+1,x) = r_1(h,x) $ and that's fine. Otherwise $ n = 1, m > 1 $ we do not know what $ r_1(h+1,x) $ is worth. So who knows?
+  \end{itemize}
+  Actually we should prove this not only for register $ r_1 $ but for a generic
+  register $ r_j $.
+\end{itemize}
+\end{proof}
+\end{exercise}
