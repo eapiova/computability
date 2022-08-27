@@ -82,7 +82,7 @@ It will be useful to take the input and give the output in arbitrary registers.
 Given a program $P$, we want a program $P[i_1,\dots,i_k \rightarrow h]$ that takes input from $R_{i1},\dots,R_{ik}$, puts the output in $ R_h $ without assuming that the rest of the registers are set to 0. 
 This is easily obtainable with transfer and reset operations to move the contents of registers from $i_1,\dots,i_k$ to $1,\dots,k$ and the output from $h$ to 1.
 
-$P[i_1,\dots,i_k \rightarrow h]$ is as follows:\\
+$P[i_1,\dots,i_k \rightarrow h]$ is as follows:
 
 $\begin{tabu}{l}
   T(i_1, 1)\\
@@ -162,7 +162,7 @@ $\begin{tabu}{l}
   \dots                                 \\
   G_k [m+1,\dots,m+n\rightarrow m+n+k]  \\
   F[m+n+1,\dots,m+n+k \rightarrow 1]
-\end{tabu}$\\
+\end{tabu}$
 
 then $h\in\mathcal{C}$.
   \end{proof}
@@ -229,12 +229,26 @@ SISTEMARE
 
 \textbf{Recursion} is a familiar concept; it allows to define a function specifying the values in terms of other values of the function itself (and possibly using other already defined functions).
 
-\textbf{factorial}: $0! = 1$ and $(n+1)! = n!(n+1)$
+\begin{example}[Factorial]
+  \[
+    \begin{cases}
+      0! = 1\\
+      (n+1)! = n! \cdot (n+1)
+    \end{cases}
+  \]
+\end{example}
 
-\textbf{fibonacci}: $f(0) = 1$, $f(1) = 1$ and $f(n+2) = f(n) + f(n+1)$
+\begin{example}[Fibonacci]
+  \[
+    \begin{cases}
+      f(0) = 1 \\
+      f(1) = 1 \\
+      f(n+2) = f(n) + f(n+1)
+    \end{cases}
+  \]
+\end{example}
 
-There are many types, here we use a ``controlled'' version of recursion.
-
+There are many types of recursion, here we use a ``controlled'' version of recursion.
 \begin{definition}[Primitive recursion]
   Given $f:\nat^k\rightarrow\nat$ and $g:\nat^{k+2}\rightarrow\nat$ functions,
 we define $h:\nat^{k+1}\rightarrow\nat$ by \textbf{primitive recursion} as follows
@@ -261,10 +275,10 @@ we define $h:\nat^{k+1}\rightarrow\nat$ by \textbf{primitive recursion} as follo
     &T(h)(\vec{x},0) = f(\vec{x})\\
     &T(h)(\vec{x},y+1) = g(\vec{x},y,h(\vec{x},y))
   \end{align*}
-\item wanted functions are fixed points of $T$, i.e. $h$ such that $T(h) = h$;
-\item existence of the fixed point follows from these properties
+\item the wanted functions are fixed points of $T$, i.e. $h$ such that $T(h) = h$;
+\item the existence of the fixed point follows from these properties
   \begin{itemize}
-  \item $[\nat^{k+1}\rightarrow\nat]$ is a chain partial ordered set;
+  \item $\nat^{k+1}\rightarrow\nat$ is a chain partial ordered set;
   \item $T$ is continuous;
   \item Scott functions have a least fixed point.
   \end{itemize}
@@ -273,7 +287,9 @@ we define $h:\nat^{k+1}\rightarrow\nat$ by \textbf{primitive recursion} as follo
 \end{remark}
 
 \begin{example}
-  Consider the sum function $ h(x,y) = x+y $ with $ h(x,0) = x = f(x) $ and $ h(x,y+1) = h(x,y) + 1 = g(h(x,y)) $, therefore $f$ is the identity and $g$ is the successor.
+  Consider the sum function $ h(x,y) = x+y $ with $ h(x,0) = x = f(x) $ and $ h(x,y+1) = h(x,y) + 1 = g(h(x,y)) $.
+  
+  $f$ is the identity and $g$ is the successor.
    Both are computable, so the sum is computable by primitive recursion.
 \end{example}
 
@@ -357,7 +373,7 @@ We want to prove that $h:\nat^{k+1}\rightarrow\nat$ defined through primitive re
 \end{equation*}
 is computable.
 
-Let $F,G$ programs in standard form for $f,g$. We want a program $H$ for $h$
+Let $F,G$ programs in standard form for $f,g$. We want a program $H$ for $h$.
 We proceed as suggested by the definition.
 
 We start from $\begin{tabu}{|c|c|c|c|c|c|}
@@ -398,31 +414,30 @@ $\begin{tabu}{lll}
 
 \textbf{Note:} We do nothing more than implementing recursion through iteration!
 
-\textbf{Observation}
-The following functions are computable.
-
+\begin{observation}
+  The following functions are computable.
 \begin{enumerate}
-\item \textbf{Sum:} $x+y$, see above;
-\item \textbf{Product:} $x \cdot y$ see above;
-\item \textbf{Exponential:} $x^y$\\
+\item \textbf{sum} $x+y$, see above;
+\item \textbf{product} $x \cdot y$ see above;
+\item \textbf{exponential} $x^y$\\
   $x^0 = 1, h(x,0) = 1, f(x) = 1$\\
   $x^{y+1} = x^y\cdot x, h(x,y+1) = h(x,y)\cdot x, g(x,y,z) = z\cdot x$;
-\item \textbf{Predecessor:} $x \dot - 1$\\
+\item \textbf{predecessor} $x \dot - 1$\\
   $0 \dot -1 = 0, h(0) = 0, f \equiv \underline{0}$\\
   $(x+1)\dotdiv  1 = x, h(x+1) = x, g(y,z) = y$;
-\item \textbf{Subtraction:} $x\dotdiv  y = \begin{cases}
+\item \textbf{subtraction} $x\dotdiv  y = \begin{cases}
     x-y & x \geq y    \\
     0   & $otherwise$
   \end{cases}$\\
   $x\dotdiv  0 = x, f(x) = x\\
   x\dotdiv (x+1) = (x\dotdiv  y)\dotdiv  1, g(x,y,z) = z\dotdiv  1$;
-\item \textbf{Sign} $sg(x) = \begin{cases}
+\item \textbf{sign} $sg(x) = \begin{cases}
     0 & x=0   \\
     1 & x > 0
   \end{cases}\\
   sg(0) = 0, f \equiv \underline{0}\\
   sg(x+1) = 1, g(y,z) = 1$;
-\item \textbf{Complement sign:} $\bar{sg}(x) = \begin{cases}
+\item \textbf{complement sign} $\bar{sg}(x) = \begin{cases}
     0 & x=0 \\
     1 & x>0
   \end{cases}\\
@@ -432,12 +447,12 @@ The following functions are computable.
     y-x & x < y
   \end{cases}$\\
   $ |x - y| = (x\dotdiv y)+(y\dotdiv x)$ from (1), (6) and composition;
-\item \textbf{Factorial:} $y!\\
+\item \textbf{factorial} $y!\\
   0! = 1, f \equiv 1
   (y+1)! = y!(y+1), g(y,z) = (y+1)z $;
-\item \textbf{Minimum:} $min(x,y) = x\dotdiv  (x\dotdiv  y)$;
-\item \textbf{Maximum:} $max(x,y) = (x \dotdiv  y) + y$;
-\item \textbf{Remainder:} $rm(x,y) = \begin{cases}
+\item \textbf{minimum} $min(x,y) = x\dotdiv  (x\dotdiv  y)$;
+\item \textbf{maximum} $max(x,y) = (x \dotdiv  y) + y$;
+\item \textbf{remainder} $rm(x,y) = \begin{cases}
     y mod y & x \not= 0 \\
     y       & x=0
   \end{cases}$ \\ rest of the integer division of $y$ by $x$ (convention! reasonable if the rest $rm(x,y)$ must be such that $\exists k \mid kx + rm(x,y) = y$)\\
@@ -451,7 +466,7 @@ The following functions are computable.
 
 
   
-\item \textbf{Quotient} = $qt(x,y) = y$ div $x$, by convention $qt(0,y) = y$\\
+\item \textbf{quotient} = $qt(x,y) = y$ div $x$, by convention $qt(0,y) = y$\\
   we define:\\
   $qt(x,0) = 0\\
   qt(x,y+1) = \begin{cases}
@@ -466,16 +481,14 @@ The following functions are computable.
   \end{cases}\\
   div(x,y) = \bar{sg}(rm(x,y))$
 \end{enumerate}
-
-
+\end{observation}
 
 \begin{corollary}[Definition by cases]
   Given $f_1,\dots,f_n: \nat^k \rightarrow \nat$ total, computable and
   $Q_1,\dots,Q_n \subseteq \nat^k$ decidable, predicate and mutually
-  exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of
+  exclusive (for each $\vec{x} \in \nat^k$, \textbf{exactly one} of
   $Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total
   computable where
-
   \begin{equation*}
     f(\vec{x}) = \begin{cases}
       f_1(\vec{x}) & Q_1(\vec{x}) \\
@@ -487,14 +500,10 @@ The following functions are computable.
 \end{corollary}
 
 \begin{proof}
-$f(\vec{x}) = f_1(\vec{x})\mathcal{X}_{Q1}(\vec{x}) + \dots + f_n(\vec{x})\mathcal{X}_{Qn}(\vec{x})$
+$f(\vec{x}) = f_1(\vec{x}) \cdot \mathcal{X}_{Q1}(\vec{x}) + \dots + f_n(\vec{x}) \cdot \mathcal{X}_{Qn}(\vec{x})$
 
 We conclude using the computability of sum and product and the fact that composition preserves computability.
 \end{proof}
-
-It also applies to partial functions but this  will be proved it.
-
-
 
 \section{Algebra of decidability}
 

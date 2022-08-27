@@ -95,7 +95,8 @@ is (URM) computable.
     \hline
     \end{tabu} in memory where k is a growing index and r is the result.
     
-    \item $Q(x,y) \equiv x \leq y$\\
+    \item $Q(x,y) \equiv x \leq y$
+    
     We can either increment both $x$ and $y$ until $x+k=y$, so that $x\leq y$, or until $y+k=x$, so that $x>y$ (not equal for the order of comparisons).
     
     \begin{quote}
@@ -137,14 +138,14 @@ is (URM) computable.
     \hline
     \end{tabu}$ where $r$ is the result.
     
-    Example of $div(x,y)$, suppose $x \not= 0$:
+    \item $div(x,y)$ with $x \not= 0$
     
     \begin{quote}
     \begin{tabular}{lll}            
     LOOP: & J(2,3,SI)   &                                   \\
     & Z(4)        & \comment{sum $x$ to $R_2$}         \\
     ADDX: & J(1,4,LOOP) &                                   \\
-    & J(2,3,NO)   & \comment{if for $h<x$  $kx+h=y$ then no!} \\
+    & J(2,3,NO)   & \comment{$kx+h=y$?} \\
     & S(3)        &                                   \\
     & S(4)        &                                   \\
     & J(1,1,ADDX) &                                   \\

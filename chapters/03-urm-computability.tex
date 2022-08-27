@@ -417,10 +417,10 @@ Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exist
 \section{Exercises}
 
 \begin{exercise}[Reduced URM]
-Consider the URM machine without $T(m, n)$ transfer instruction. We indicate the class
+Consider the URM machine without transfer instruction. We indicate the class
 of functions that can be computed with the reduced machine $\mathcal{C}^- $ and
 we compare it with $\mathcal{C} $. Obviously $\mathcal{C}^- \subseteq \mathcal{C}
-$. Let us see if $\mathcal{C} \subseteq \mathcal{C}^-$. \\
+$. Let us see if $\mathcal{C} \subseteq \mathcal{C}^-$. 
 \begin{proof}
 Informally an instruction $T(m,n)$ at the $t$ step
 can be replaced with the following subroutine
@@ -454,9 +454,13 @@ There is a proof by induction. We show that $P$ can be transformed into $P' $ s.
   Let $URM^S $ be the model obtained by removing the transfer
   instruction and inserting a swap instruction $ T_S(m,n) $,
   exchanging the contents of registers $m$ and $n$, and let $\mathcal{C}^S$ be the corresponding class of computable functions.. How do the classes $\mathcal{C}$ and $\mathcal{C}^S$ relate?
-
 \begin{proof}
-  We first prove that $\mathcal{C}^S \subseteq \mathcal{C}$. A swap instruction $T_S (m, n)$ is equivalent to the program below, where $i$ is a ``new'' register:
+\begin{itemize}
+  \item[($\mathcal{C} \subseteq \mathcal{C}^S$)]
+  We already know that $\mathcal{C} \subseteq \mathcal{C}^R $ by the previous exercise and therefore, since $\mathcal{C}^R \subseteq \mathcal{C}^S$, the desired inclusion follows by transitivity.
+  
+  \item[($\mathcal{C}^S \subseteq \mathcal{C}$)]
+  We first prove that the swap instruction $T_S (m, n)$ is equivalent to the program below, where $i$ is a ``new'' register:
   \begin{quote}
     \begin{tabular}{l}
     $T(n,i)$ \\
@@ -465,36 +469,36 @@ There is a proof by induction. We show that $P$ can be transformed into $P' $ s.
     \end{tabular}
     \end{quote}
 
-Formalization:
-
-Let $ f \in \mathcal{C}^S f:\nat\rightarrow \nat $. There exists $P$
+More formally, let $ f \in \mathcal{C}^S$, $f:\nat\rightarrow \nat $. There exists $P$
 $URM^S $ s.t. $ f_P^{(K)} = f $. Let us proceed by induction on the
 number of swap instructions $h$.
+\begin{enumerate}
+  \item[($h = 0$)] the program is already a URM program. therefore $P' = P$.
+  \item[($h \rightarrow h+1$)] Assume that $P$ includes $h+1$ swap instructions. 
 
-($h = 0$) the program is already a URM program. therefore $P' = P$
+  Let $i$ be a register not used by $P$ (observe that it can be found by just inspecting the program). Let $t$ be the index of a swap instructions.
+  We replace such instruction by a jump
+  \begin{quote}
+    $I_t : J (1,1, SUB)$
+  \end{quote}
+  to a subroutine encoding the swap. At the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. Let $P''$ be the program obtained in this way. Since it has only $h$ swap instructions, by inductive hypothesis there is $P'$ URM such that $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$.
+  
+  \textbf{But all of this is wrong!}
+  
+  Why is it wrong? Because the program $P''$ obtained from $P$ replacing a swap instruction will indeed have $n-1$ swap instructions but also some transfer instructions, hence it is not a $URM^S$ program.
+  
+  We can overcome the problem by proving the following stronger
+  statement: given a program $P$ that uses both URM instructions and
+  $URM^S$ instructions, there is a program $P'$ that uses $URM$
+  instructions only such that $ f_{P}^{(K)} = f_{P'}^{(K)} $.
+  
+  The proof procedure is the same but, since we are proving a stronger
+  statement, the inductive case now works smoothly. This proves that
+  $ \mathcal{C}^S \subseteq \mathcal{C} $.
+\end{enumerate}
+\end{itemize}
 
-($h \rightarrow h+1$) Assume that $P$ includes $h+1$ swap instructions. 
 
-Let $i$ be a register not used by $P$ (observe that it can be found by just inspecting the program). Let $t$ be the index of a swap instructions.
-We such instruction by a jump
-\begin{quote}
-  $t : J (1,1, SUB)$
-\end{quote}
-to a subroutine encoding the swap. At the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. Let $P''$ be the program obtained in this way. Since it has only $h$ swap instructions, by inductive hypothesis there is $P'$ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \\
-\textbf{But all of this is wrong!}
-
-Why is it wrong? Because the program $P''$ obtained from $P$ replacing a swap instruction will indeed have $n-1$ swap instructions but also some transfer instructions, hence it is not a $URM^S$ program.
-
-We can overcome the problem by proving the following stronger
-statement: Given a program $P$ that uses both URM instructions and
-$URM^S$ instructions, there is a program $P'$ that uses $URM$
-instructions only s.t. $ f_{P}^{(K)} = f_{P'}^{(K)} $.
-
-The proof procedure is the same but, since we are proving a stronger
-statement, the inductive case now works smoothly. This proves that
-$ \mathcal{C}^S \subseteq \mathcal{C} $.
-
-For the converse inclusion $\mathcal{C} \subseteq \mathcal{C}^S$, just notice that we already know that $\mathcal{C} \subseteq \mathcal{C}^R $ (previous exercise) and therefore, since $\mathcal{C}^R \subseteq \mathcal{C}^S$, the desired inclusion follows by transitivity.
 
 Therefore we deduce $\mathcal{C}^S = \mathcal{C}$, as desired.
 \end{proof}
