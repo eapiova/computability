@@ -12,9 +12,9 @@ fundamental for our theory, and in particular to
 \begin{remark}
   Let $ A, B $ be two sets,
 \begin{itemize}
-\item $ |A| = |B| $ if there exists $  f:A\to B $ biunivocal.
+\item $ |A| = |B| $ if there exists $ f:A\to B$ bijective.
 
-\item $ |A| \leq |B| $ if there exists $ f:A\to B $ injective or
+\item $|A| \leq |B|$ if there exists $f:A\to B$ injective or
   there exists $g:B\to A$ surjective.
 
 \item if $|A| \leq |B|$ and $|B| \leq |A|$, then $|A|=|B|$.
@@ -27,7 +27,7 @@ fundamental for our theory, and in particular to
 
 \begin{definition}[Countable set]
   $A$ is \textbf{countable} if $ |A| \leq |\nat| $, i.e. we have
-$ f: \nat \to A $ surjective. We say that
+$f: \nat \to A$ surjective. We say that
 $f$ is an enumeration of $X$, because we can enumerate all
 elements in $X$ with \[f(0), f(1), f(2), \dots \]
 \end{definition}
@@ -40,8 +40,8 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
 \begin{lemma}
   There are effective enumerations of
   \begin{enumerate}[label=(\arabic*)]
-  \item $ \nat^2 $
-  \item $ \nat^3 $
+  \item $\nat^2$
+  \item $\nat^3$
   \item $\bigcup_{k\geq 1} \nat^k $
   \end{enumerate}
   \begin{proof}
@@ -144,7 +144,7 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
 
         \begin{itemize}
         \item $\tau$ is intuitively effective (it uses only
-          exclusively functions), but the domain doesn't allow us to
+          exclusively functions), but the domain does not allow us to
           prove its' computability.
         \item $\tau$ is bijective: let $x \in \nat$, we need to find
           $(a_1, \dots, a_k)$ s.t. $\tau(a_1,\dots,a_k) = x$. Thanks
@@ -192,14 +192,14 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
   Let $\mathcal{P}$ the set of all URM programs. 
   Then there exists an effective bijective enumeration of $\mathcal{P}$.
   \[
-    \gamma : \mathcal{P} \to \mathbb{N}
+    \gamma : \mathcal{P} \to \nat
     \]
   \begin{proof}
     Let $\mathcal{F}$ the set of all URM instructions.
     First, we'll prove that there exists
     \[\beta : \mathcal{F} \to \nat \]
     a bijective effective correspondence. The idea is to use the
-    enumeration of couples and triples, sending
+    enumeration of pairs and triples, sending
     \begin{itemize}
     \item $Z(n)$ instructions to multiples of 4
     \item $S(n)$ instructions to numbers equal $ 1 \mod 4$
@@ -243,7 +243,7 @@ elements in $X$ with \[f(0), f(1), f(2), \dots \]
 \begin{definition}[Gödel number]
   Given $P \in \mathcal{P}$ the value $\gamma(P)$ is called code (or
   Gödel number) of $P$. Usually we'll write $P_n$ to represent
-  $\gamma^{-1}(n)$ (In other words, the $n^{\mbox{th}}$ program of the
+  $\gamma^{-1}(n)$ (In other words, the $n^{th}$ program of the
   enumeration).
 \end{definition}
 
@@ -255,13 +255,14 @@ defined in another way, but it is absolutely necessary. In other words:
 \begin{itemize}
 \item given a program $P$ we can compute in an effective way its code
   $\gamma(P)$;
-\item given a number is possible to find the $n^{\mbox{th}}$ program.
-  $P_n = \gamma^{-1}(n)$
+\item given a number it is possible to find the $n^{th}$ program
+  $P_n = \gamma^{-1}(n)$.
+  
 \end{itemize}
 \end{observation}
 
 \begin{example}
-  Let's consider the program $P$
+  Let us consider the program $P$
   \begin{itemize}
   \item[] $T(1,2)$
   \item[] $S(2)$
@@ -280,13 +281,13 @@ defined in another way, but it is absolutely necessary. In other words:
                   & = 2^{10} \cdot 3^5 \cdot 5^7 -2 \\
                   & = 19439999998
       \end{align*}
-  or with an alternative encoding
-  \begin{align*}
-    \gamma(P) & = \tau(10,5,6) \\
-              & = 2^{10} + 2^{10+5+1} + 2^{10+5+6+2} - 1 \\
-              & = 2^{10} + 2^{16} + 2^{23} - 1 \\
-              & = 8455167
-  \end{align*}
+  % or with an alternative encoding
+  % \begin{align*}
+  %   \gamma(P) & = \tau(10,5,6) \\
+  %             & = 2^{10} + 2^{10+5+1} + 2^{10+5+6+2} - 1 \\
+  %             & = 2^{10} + 2^{16} + 2^{23} - 1 \\
+  %             & = 8455167
+  % \end{align*}
 
   What does this program compute? $\lambda x . x+1$.
 
@@ -294,40 +295,43 @@ defined in another way, but it is absolutely necessary. In other words:
   In this case the encoding is
   \[\beta(S(1)) = 4 * (1-1) + 1 = 1\] and so
   \[\gamma(P^\prime) = \tau(1) = 2^{1+1} - 2 = 2\]
-  with the alternative encoding
-  \[\gamma(P^\prime) = \tau(1) = 2^1 - 1 = 1\]
+  % with the alternative encoding
+  % \[\gamma(P^\prime) = \tau(1) = 2^1 - 1 = 1\]
 \end{example}
 
 \begin{example}
   Show what $P_{100} = \gamma^{-1}(100)$ is.
 
-  We observe that $100 = 1100101 - 1$. 100 is the encoding of a
-  quadruple (program with 4 instructions). So
-  $\tau^{-1}(100) = (a_1 a_2 a_3 a_4)$ and the components can be
-  expressed as before.
+  We observe that % $100 = 1100101 - 1$. 100 is the encoding of a
+  % quadruple (program with 4 instructions). So
+  % $\tau^{-1}(100) = (a_1 a_2 a_3 a_4)$ and the components can be
+  % expressed as before.
 
-  \[
-    \begin{split}
-      a_1 = b_1 = 0 & \to Z(1) \\
-      a_2 = b_2 - b_1 - 1 = 1 & \to S(1) \\
-      a_3 = b_3 - b_2 - 1 = 2 & \to T(1,1) \\
-      a_4 = b_4 - b_3 - 1 = 0 & \to Z(1)
-    \end{split}
-  \]
+  % \[
+  %   \begin{split}
+  %     a_1 = b_1 = 0 & \to Z(1) \\
+  %     a_2 = b_2 - b_1 - 1 = 1 & \to S(1) \\
+  %     a_3 = b_3 - b_2 - 1 = 2 & \to T(1,1) \\
+  %     a_4 = b_4 - b_3 - 1 = 0 & \to Z(1)
+  %   \end{split}
+  % \]
 
-  \[\gamma^{-1}(100) = (Z(1), S(1), T(1,1), Z(1))\]
+  % \[\gamma^{-1}(100) = (Z(1), S(1), T(1,1), Z(1))\]
 
-  With the alternative encoding:
+  % With the alternative encoding:
   \[100 + 2 = 2^1 * 3^1 * 17^1 = p_1^1 \cdot p_2^1 \cdot p_3^1 \cdot
     p_4^0 \cdot p_5^0 \cdot p_6^0 \cdot p_7^1 \]
 
+  hence the program contains $7$ instructions:
   \[
     \begin{split}
-      \beta^{-1}(1) & \quad S(1) \\
-      \beta^{-1}(1) & \quad S(1) \\
-      \beta^{-1}(0) & \quad Z(1) \\
-      \vdots & \quad\vdots \\
-      \beta^{-1}(0) & \quad Z(1)
+      \beta^{-1}(1) & \to \quad S(1) \\
+      \beta^{-1}(1) & \to \quad S(1) \\
+      \beta^{-1}(0) & \to \quad Z(1) \\
+      \beta^{-1}(0) & \to \quad Z(1) \\
+      \beta^{-1}(0) & \to \quad Z(1) \\
+      \beta^{-1}(0) & \to \quad Z(1) \\
+      \beta^{-1}(0) & \to \quad Z(1)
     \end{split}
   \]
 \end{example}
@@ -405,16 +409,16 @@ $\varphi_n^{(k)}, W_n^{(k)}, E_n^{(k)}$ is fixed and determined
 starting from $\gamma$.
 % \textbf{Observation:}m
 
-% In particular the couples in $ \nat^2 $ can be encoded as
-% $ \pi(x,y) = 2^x(2y+1)-1 $ which is computable. The inverse is
-% $ \pi^{-1}(n) = (\pi_1(n), \pi_2(n)) $
+% In particular the pairs in $\nat^2$ can be encoded as
+% $\pi(x,y) = 2^x(2y+1)-1$ which is computable. The inverse is
+% $\pi^{-1}(n) = (\pi_1(n), \pi_2(n))$
 
 % The triple instead is a pair of a pair and an element.
 % $ \upsilon (x,y,z) = \pi (x, \pi(y,z))$. The inverse is also obtained
 % from the inverse of the first.
 
 % For lists we need an encoding
-% $ \tau . \bigcup_{K \geq 1} \nat^k \to \nat $ we exploit the
+% $\tau . \bigcup_{K \geq 1} \nat^k \to \nat$ we exploit the
 % uniqueness of the prime numbers:
 % $ \tau(a_1,\dots,a_k) = \pi_{i=1}^k p_i^{a_i}$ where $ p_i $ is the
 % $i$-th prime number. \\
@@ -424,10 +428,10 @@ starting from $\gamma$.
 
 % So we use something that works:
 % $ (\pi_{i=1}^{k-1} p_i^{a_i}) \times p_k^{a_k+1} - 2$. For decoding we
-% can proceed as usual, but limited minimization can be used.\\ Hint:
+% can proceed as usual, but bounded minimalisation can be used.\\ Hint:
 % $ max \{z \leq x . P(z)\} x - min\{\delta \leq x . P(x-\delta)\}$
 
-% But I don't just want the length, I also need the list of items. I
+% But I do not just want the length, I also need the list of items. I
 % need a function:
 % \begin{equation*}
 %   a(x,i) = \begin{cases}
@@ -438,14 +442,14 @@ starting from $\gamma$.
 % And this is the inverse function of $\tau$. And these functions are
 % computable recursive primitives.
 
-% To compute instructions: Let us take $ \mathcal{F} $ set of URM
-% instructions, $ \mathcal{P} $ URM programs. Let's take function
-% $ \beta:\mathcal{F}\to\nat $
+% To compute instructions: Let us take $\mathcal{F}$ set of URM
+% instructions, $\mathcal{P}$ URM programs. Let us take function
+% $\beta:\mathcal{F}\to\nat$
 % \begin{itemize}
-% \item $ \beta(z(n)) = 4 \times (n-1) $;
-% \item $ \beta(s(n)) = 4 \times (n-1)+1 $;
-% \item $ \beta(t(m,n)) = 4 \times \pi(m-1,n-1)+2 $;
-% \item $ \beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3 $;
+% \item $\beta(z(n)) = 4 \times (n-1)$;
+% \item $\beta(s(n)) = 4 \times (n-1)+1$;
+% \item $\beta(t(m,n)) = 4 \times \pi(m-1,n-1)+2$;
+% \item $\beta(j(m,n,t)) = 4 \times \upsilon(m-1,n-1,t-1)+3$;
 % \end{itemize}
 
 % The decoding of this monstrosity is obtained from the previous inverse
@@ -453,19 +457,19 @@ starting from $\gamma$.
 % number.
 
 % \textbf{Example:} P = T (1,2); S (2); T (2,1) =
-% $ \tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2 $
+% $\tau(10,5,6) = 2^{10} 3^5 5^{6+1} -2$
 
 % The two-way function between programs and numbers has been demonstrated.
 
 % \begin{notation} given an effective enumeration (in our case the one
-%   defined previously) we say that $ \gamma(P) $ is the code of P (also
-%   called G\"{o} of the number), if $ \gamma(P) = n $ then $P$ is the
+%   defined previously) we say that $\gamma(P)$ is the code of P (also
+%   called G\"{o} of the number), if $\gamma(P) = n$ then $P$ is the
 %   $n$-th program.
 % \end{notation}
 
-% \begin{notation} $ \Phi_n^{(k)}: \nat^k\to\nat $ function of
+% \begin{notation} $\Phi_n^{(k)}: \nat^k\to\nat$ function of
 %   $K$ arguments computed by program $n$, that is, by program
-%   $ \gamma^{-1}(n) $, if $k = 1$ is is omitted. The function domain is
+%   $\gamma^{-1}(n)$, if $k = 1$ is is omitted. The function domain is
 %   $ W_n^{k} = dom(\Phi_k^{(k)}) = \{\vec{x} |
 %   \Phi_k^{(k)})(\vec{x})\downarrow \} \subseteq \nat^k$
 
@@ -474,9 +478,9 @@ starting from $\gamma$.
 %   \subseteq \nat^k$
 % \end{notation}
 
-% So for example the program $ \Phi_{19439999998} = x+1 $,
-% $ W_{19439999998} = \nat $, $ E_{19439999998} = \nat \setminus \{0\} $
+% So for example the program $\Phi_{19439999998} = x+1$,
+% $W_{19439999998} = \nat$, $E_{19439999998} = \nat \setminus \{0\}$
 
-% Now we have an enumeration of all the unary computable functions that is \{$ \Phi_n $ . $ n \in \nat $ \} each function with infinite repetitions.
+% Now we have an enumeration of all the unary computable functions that is \{$\Phi_n$ . $n \in \nat$ \} each function with infinite repetitions.
 
-% Remember we have indicated the computable functions of $k$ arguments as $ \mathcal{C} ^ {(k)} $, where $ | \mathcal{C} ^ {(k)} | \leq (=) | \nat | $ and therefore being $ \mathcal{C} = \bigcup_{K \geq 1} \mathcal{C} ^ {(k)} $ a union of countable sets it is still countable.
+% Remember we have indicated the computable functions of $k$ arguments as $\mathcal{C} ^ {(k)}$, where $| \mathcal{C} ^ {(k)} | \leq (=) | \nat |$ and therefore being $\mathcal{C} = \bigcup_{K \geq 1} \mathcal{C} ^ {(k)}$ a union of countable sets it is still countable.

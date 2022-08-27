@@ -5,9 +5,9 @@
 
 We present a list of features that an algorithm should satisfy in
 order to capture the intuitive idea of \textbf{effective procedure}. Roughly,
-what we will ask is that it is ``implementable'' on some sort of
-idealised machine, the computational model. Hence, in turn, we will
-list some requirements that the computational model should respect to be
+what we ask is that an algorithm is ``implementable'' on some sort of
+idealised machine, that we call the computational model. Hence, below, we 
+also list some requirements that the computational model should meet to be
 considered effective.
 
 An \textbf{algorithm} is a sequence of instructions with the following characteristics:
@@ -16,7 +16,7 @@ An \textbf{algorithm} is a sequence of instructions with the following character
   \label{as:prog_fin}
   it is of \textbf{finite length};
 \item there exists a \textbf{computing agent} able to execute its instructions;
-\item the agent has available \textbf{memory} (to store input, intermediate results to be used in subsequent steps and output);
+\item the agent has a \textbf{memory} (for storing the input, intermediate results to be used in subsequent steps and the output);
 \item the computation consists of discrete steps;
 \item the computation is neither non-deterministic nor probabilistic (we model a digital computer);
 
@@ -24,13 +24,14 @@ An \textbf{algorithm} is a sequence of instructions with the following character
   (we want to be able to define algorithms that work on any possible
   input, e.g. $+$ operating on summands of any size);
 
-\item there is no limit to the memory that can be used.\\
-  This requirement may seem less natural, but having unlimited memory is essential to avoid the notion of computability being dependent
-  from available resources. In fact, for many
-  functions the space required for intermediate results depends on
-  the size of the input,
+\item there is no limit to the memory that can be used.
+  
+  This requirement may seem less natural, but having unbounded memory
+  is essential to avoid the notion of computability being dependent
+  from the available resources. In fact, for many functions the space
+  required for intermediate results depends on the size of the input,
 
-  e.g. $f(n) = n^2$ $(1000)^2 = 1000000 \leftarrow$ I must add a
+  e.g. $f(n) = n^2$ $(1000)^2 = 1000000 \rightarrow$ I must add a
   number of zeroes that depends on $n \rightarrow n$ must be stored
   (the states are finite);
 
@@ -40,26 +41,29 @@ An \textbf{algorithm} is a sequence of instructions with the following character
   instructions and to their complexity.
 
   This is intended to capture the intrinsic finiteness of the
-  calculation device (justified by Turing with the limits of the human
+  computing device (justified by Turing with the limits of the human
   mind/memory),
 
   e.g. for a computer, the memory that can be accessed with a single
-  instruction must be finite (even if by (g), the memory is unlimited);
+  instruction must be finite (even if by (g), the memory is unbounded);
 
 \item computations might
   \begin{enumerate}
 
-  \item  end and return a result after a finite, but unlimited number of steps
+  \item  terminate and return a result after a finite, but unbounded number of steps
     (e.g. the square function requires a number of steps proportional to the argument);
 
-  \item continue forever, and not return a result.
+  \item continue forever, without returning a result.
   \end{enumerate}
 \end{enumerate}
 
 \section{Existence of non-computable functions}
 
-Later on, we will focus on a concrete computational model that will allow
-us to give a completely formal definition of computable function. Simply on the basis of the assumptions above, we observe that we can infer the existence of non-computable functions for every ``effective'' computational model.
+Later on, we will focus on a concrete computational model and this
+will allow us to give a completely formal definition of computable
+function. Now we argue that, simply on the basis of the assumptions
+above, we can infer the existence of non-computable functions for
+every ``effective'' computational model.
 
 We start by recalling some basic notions and introducing useful notation.
 
@@ -70,7 +74,7 @@ We start by recalling some basic notions and introducing useful notation.
 \item Given the sets $A, B$ their \emph{Cartesian product} is
   $A \times B = \{ (a,b) \mid a \in A\ \land\ b \in B\}$. We will
   write $A^n$ for $A \times A \times A \times \ldots \times A$ $n$
-  times. Thus, we have $A^1 = A$ and $ A^{n+1} = A \times A^n$.
+  times. Thus, we have $A^1 = A$ and $A^{n+1} = A \times A^n$.
 
 \item A (binary) \emph{relation} or \emph{predicate} is
   $r \subseteq A \times B$.
@@ -91,7 +95,7 @@ We start by recalling some basic notions and introducing useful notation.
   \begin{itemize}
   \item $|A| = |B|$ if there exists a bijective function $f : A \to B$;
   \item $|A| \leq |B|$ if there exists an injective function
-    $f: A \to B$ or equivalently\footnote{Stritly speaking,
+    $f: A \to B$ or equivalently\footnote{Strictly speaking,
       the equivalence requires the axiom of choice.} a surjective
     function $g : B \to A$.
   \end{itemize}
@@ -155,15 +159,18 @@ We start by recalling some basic notions and introducing useful notation.
   $\bigcup \limits_{i \in \nat} A_i$ is countable.
 \end{itemize}
 
-\section{Existence of non-computable functions in each computational model}\label{se:existence-non-2}
+\section{Existence of non-computable functions}
+\label{se:existence-non-2}
 
 Let us consider some fixed computational model satisfying the
 assumptions in \S\ref{se:alg-char}. We want to show that there are
 functions which are not computable in such a model.
 
 We focus on unary functions over the natural numbers. Let
-$\mathcal{F} = \{f \mid f:\nat\rightarrow\nat\}$ be the set of all the
-(partial) unary functions on $\nat$.
+\begin{center}
+  $\mathcal{F} = \{f \mid f:\nat\rightarrow\nat\}$
+\end{center}
+be the set of all the \emph{(partial) unary functions} on $\nat$.
 
 Let $\mathcal{A}$ be the set of all algorithms in our fixed
 computational model.
@@ -179,12 +186,12 @@ model is
 Certainly $\mathcal{F}_\mathcal{A} \subseteq \mathcal{F}$. But, is the inclusion
 strict (i.e., is there a non-computable function)?
 
-The answer is yes. Basically, the algorithms are too few to compute all the
-functions for combinatorial reasons.
+The answer is yes. Basically for combinatorial reasons: the algorithms are too few to compute all the
+functions.
 
-In fact, an algorithm $A \in \mathcal{A}$ will be a finite sequence of instructions taken from
-some instruction set $I$, by
-assumption \ref{as:prog_fin}. Moreover, by assumption \ref{as:istr_fin},
+In fact, an algorithm $A \in \mathcal{A}$, by
+assumption \ref{as:prog_fin}, will be a finite sequence of instructions taken from
+some instruction set $I$. Moreover, by assumption \ref{as:istr_fin},
 $I$ must be finite. Hence:
 \begin{equation*}
   \mathcal{A} \subseteq \bigcup_{i \in \nat} I^n
@@ -210,7 +217,7 @@ On the other hand the set of all functions, $\mathcal{F}$, is not countable. Let
 \end{equation*}
 
 We prove that $|\mathcal{T}| > |\nat|$ by contradiction. Let us suppose that $\mathcal{T}$ is countable. 
-Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ such as the following matrix
+Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ as in the following matrix
 \begin{center}
   \begin{tabular}{c|ccc}
     & $f_0$    & $f_1$    & $f_2$\\
@@ -220,7 +227,7 @@ Then we can consider an enumeration $f_0, f_1, f_2, \ldots$ of $\mathcal{F}$ suc
     2 & $f_2(0)$ & $f_2(1)$ & $f_2(2)$
   \end{tabular}
 \end{center}
-and build a function $d$ using the diagonal values 
+and build a function $d$, by considering and systematically changing diagonal values 
 \begin{align*}
   d :\ & \nat \to \nat\\
   & n \mapsto f_n(n)+1
@@ -247,7 +254,7 @@ Note that the set of non-computable functions is not countable
   |\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| > |\nat|
 \end{equation*}
 In fact, $\mathcal{F} = \mathcal{F}_{\mathcal{A}} \cup (\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}})$. 
-Thus, if it were to be $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| \leq |\nat|$, we would have had $|\mathcal{F}| \leq |\nat|$ because union of countable sets is countable.
+Thus, if it were $|\mathcal{F} \setminus \mathcal{F}_{\mathcal{A}}| \leq |\nat|$, we would have had $|\mathcal{F}| \leq |\nat|$ because the union of countable sets is countable.
 
 We conclude that
 \begin{enumerate}

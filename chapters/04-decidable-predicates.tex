@@ -7,7 +7,7 @@ We can define it using a relation such as
     div & = \{(m,k \cdot m) \mid m \in \nat, k \in \nat \}
 \end{align*}
 
-We can also characterise $div$ as 
+We can also view $div$ as a function
 \begin{align*}
     div & : \nat \times \nat \rightarrow \{true, false\}\\
     div & = \begin{cases}
@@ -16,22 +16,25 @@ We can also characterise $div$ as
             \end{cases}
 \end{align*}
 
-In the field of calculability theory we talk about \textbf{predicates}.
+In the field of computability theory one normally use the term
+\textbf{predicates}.
 
-A \textbf{k-ary predicate} on $\nat $ indicated with $Q(x_1,\dots,x_k)$ is a property that can be true or false, formally we can see it as
+Thus a  \textbf{k-ary predicate} on $\nat $ indicated with
+$Q(x_1,\dots,x_k)$ is a property that can be true or false, formally
+we can see it as
 
 \begin{itemize}
-\item a function $Q: \nat^k\rightarrow \{true,false\}$
-\item a set $Q \subseteq \nat^k$
+\item a function $Q: \nat^k\rightarrow \{true,false\}$;
+\item a set $Q \subseteq \nat^k$.
 \end{itemize}
 
-we write $Q(x_1,\dots,x_k)$ to denote $(x_1,\dots,x_k) \in Q$ or $Q(x_1,\dots,x_k) = true$
+We write $Q(x_1,\dots,x_k)$ to denote $(x_1,\dots,x_k) \in Q$ or $Q(x_1,\dots,x_k) = true$
 
 When is $Q$ computable? When there exists a URM such that given a k-tuple $(x_1,\dots,x_k)$ in input, it returns $true$ if $Q(x_1,\dots,x_k)$ and $false$ otherwise. 
 
-To represent $true$ and $false$ we conventionally use values $1$ and $0$.
+To represent $\mathit{true}$ and $\mathit{false}$ we conventionally use values $1$ and $0$.
 
-\begin{definition}
+\begin{definition}[decidable predicate]
     A predicate $Q \subseteq \nat^k$ is said to be \textbf{decidable} if its \textbf{characteristic function}
 \begin{equation*}
 \mathcal{X}_Q(x_1,\dots,x_k) = \begin{cases}
@@ -52,14 +55,15 @@ is (URM) computable.
 \section {Examples of decidable predicates}
 \begin{enumerate}
     \item Equality\\
-    $ Q \subseteq \nat^2 $, $ Q(x,y) \equiv x = y $
+    $Q \subseteq \nat^2$, $Q(x,y) \equiv x = y$
 
     The characteristic function
     \begin{equation*}
-    \mathcal{X}_Q(x,y) = \begin{cases}
-    1 & $ if $ x = y  \\
-    0 & $ otherwise $
-    \end{cases}
+      \mathcal{X}_Q(x,y) =
+      \begin{cases}
+        1 & $ if $ x = y  \\
+        0 & $ otherwise $
+      \end{cases}
     \end{equation*}
     is computed, for instance, by the program
     \begin{quote}
@@ -71,7 +75,7 @@ is (URM) computable.
     \end{tabular}
     \end{quote}
 
-    \item $ Q(x) \equiv x \text{ is even} $
+    \item $Q(x) \equiv x \text{ is even}$
 
     \begin{quote}
     \begin{tabular}{lll}
@@ -155,5 +159,3 @@ is (URM) computable.
     \hline
     \end{tabu}$ where $r$ is the result.
 \end{enumerate}
-
-

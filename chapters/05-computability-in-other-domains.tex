@@ -1,21 +1,23 @@
 \chapter{Computability on other domains}
+
 Since the URM is only able to manipulate natural numbers, our definition of computability concerns only functions and predicates on $\nat$.
 
 The concept of computability can be extended to other domains referencing a notion of effective encoding.
 
-Suppose that we are interested in computability on an object domain $D$. 
+Suppose that we are interested in computability on a  domain $D$ of objects of some kind. 
 Does our concept of computability extend to this domain? 
-One of the necessary conditions is the possibility of encoding the elements of $D$ as natural numbers. 
-Suppose there exists $ \alpha: D \rightarrow \nat $, which is biunivocal and that $ \alpha, \alpha^{-1} $ are ``effective''. 
-We can't have a formal notion of effectiveness; it means that everyone would agree on its calculability (if there's any justice in this world).
 
-The domain $D$ must be countable. For example, take the strings of a certain alphabet $ \Sigma $, $ D = \Sigma^* $. 
-The set of rational numbers $ \mathbb{Q} $ is also countable, and so is the set of integers $\mathbb{Z}$, while $D$ can't be  $ \mathbb{R} $ or $A^\omega$ (streams).
+One of the necessary conditions is the possibility of encoding the elements of $D$ as natural numbers. 
+Suppose there exists $\alpha: D \rightarrow \nat$, which is bijective and that $\alpha, \alpha^{-1}$ are ``effective''. 
+We can't have a formal notion of effectiveness; it means that everyone would agree on its computability (if there's any justice in this world).
+
+The domain $D$ must be countable. For example, take the strings over some alphabet $\Sigma$, $D = \Sigma^*$. 
+The set of rational numbers $\mathbb{Q}$ is also countable, and so is the set of integers $\mathbb{Z}$, while $D$ can't be  $\mathbb{R}$ or $A^\omega$ (streams).
 
 At this point we must ask ourselves when a function on a generic domain $D$ is URM-computable. 
 
 \begin{definition}[Computable function on generic domain]
-  Given $ f: D \rightarrow D $, we say it is \textbf{computable} if $ f^* = \alpha \circ f \circ \alpha^{-1}$
+  Given $f: D \rightarrow D$, we say that it is \textbf{computable} if $ f^* = \alpha \circ f \circ \alpha^{-1}$
   \[\begin{tikzcd}
     D & D \\
     \nat & \nat
@@ -30,7 +32,7 @@ At this point we must ask ourselves when a function on a generic domain $D$ is U
 We will see that if $\alpha$ is effective, its' inverse is also effective.
 
 \begin{example}
-  To work on integers we need a function $ \alpha: \mathbb{Z} \rightarrow \nat $; one way to define it is
+  To work on integers we need a function $\alpha: \mathbb{Z} \rightarrow \nat$; one way to define it is
   \begin{equation*}
     \alpha(z) = \begin{cases}
       2z    & z \geq 0 \\
@@ -46,7 +48,7 @@ which is an effective function with inverse
 \end{equation*}
 
 An example of a computable function is $f (z) =  |z| $. 
-It is computable if $ f^*=\alpha\circ f\circ \alpha^{-1} $ is URM-computable. We have
+It is computable if $f^*=\alpha\circ f\circ \alpha^{-1}$ is URM-computable. We have
 \begin{align*}
   f^*(n) &= (\alpha\circ f\circ \alpha^{-1})(n)\\ 
          &=  
@@ -66,4 +68,3 @@ It is computable if $ f^*=\alpha\circ f\circ \alpha^{-1} $ is URM-computable. We
 \end{align*}
 that is URM-computable, so $f$ is computable.
 \end{example}
-

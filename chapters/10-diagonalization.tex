@@ -25,17 +25,18 @@ This is the original method used by Cantor, one of the founders of the classic t
     enumeration of $2^\nat$: $x_0, x_1, x_2, \dots$
 
     Consider
-    \[
+    \begin{center}
       \begin{tabu}{c | c c c c}
-        & x_0 & x_1 & x_2 & \dots \\ \hline
-        0 &  ?  & NO & \dots & \\
-        1 &  NO  & ? & YES & \\
-        2 &  YES  & NO & ? & \\
+        & $x_0$ & $x_1$ & $x_2$ & \dots \\
+        \hline
+        0 &  ?  & {\tiny NO}  & \dots & \\
+        1 &  {\tiny NO}       & ?  & {\tiny YES} & \\
+        2 &  {\tiny YES}      & {\tiny NO} & ? & \\
         \vdots & & & &
       \end{tabu}
-    \]
+    \end{center}
     We can define $D = \{i \mid i \notin X_i\} \subseteq \nat$ which differs from
-    $X_i$ on its $i^{\mbox{th}}$ element. Obviously $D \in 2^\nat $
+    $X_i$ on its $i^{th}$ element. Obviously $D \in 2^\nat $
     which means that there exists $k$ such that $D = X_k$. But is $k$ in $D$?
     \begin{gather*}
       k \in D \quad \Rightarrow \quad k \notin X_k = D \\
@@ -57,7 +58,7 @@ This is the original method used by Cantor, one of the founders of the classic t
         \mathcal{F} = \{f \mid f : \nattonat \mbox{ total }, \forall x \ f(x)\in \{0, 1\}
         \} \subseteq \nattonat
         \]
-      there is a bijection between $ \mathcal{F} $ and $ \nat \to 2$
+      there is a bijection between $\mathcal{F}$ and $ \nat \to 2$
       and so 
       \[|\nattonat| \geq |\nat \to 2| > |\nat|\]
       \item Let $f_1, f_2, f_3, \dots$ be an enumeration of elements in
@@ -125,7 +126,7 @@ enumerable.
 
 \begin{observation}
   There are infinitely many total non-computable
-functions of the followin shape
+functions of the following shape
 \[
   f(n)  = \begin{cases}
     \varphi_n(n) + k & n \in W_n \\
@@ -161,7 +162,7 @@ functions of the followin shape
     \end{cases}
   \]
   because each function appears infinitely many times in the enumeration,
-  and skipping the first $m-1$ steps doesn't create any
+  and skipping the first $m-1$ steps does not create any
   problem. Formally
   \[
     \forall x \geq m \quad g \neq \varphi_x
@@ -228,39 +229,39 @@ functions of the followin shape
 % Same as the previous chapter, these notes are very different form
 % the italian version and not complete in the same way
 
-% Given a set $X$ we know that $ |X| \geq |2^X| $ is never valid, that
+% Given a set $X$ we know that $|X| \geq |2^X|$ is never valid, that
 % is, the set of its parts is always bigger. Suppose there is
-% $ f:X\rightarrow2^X $ surjective. Hence $ R = \{y . y \in X $ and
-% $ x \not \in f(y) \ \} \in 2^X $, since f is surjective then
+% $f:X\rightarrow2^X$ surjective. Hence $R = \{y . y \in X$ and
+% $x \not \in f(y) \ \} \in 2^X$, since f is surjective then
 % $ \exists y_R \in X . f(y_R) = R$. I consider the cases separately:
 % \begin{itemize}
-% \item $ y_R \in R $ then $f(y_R) \Rightarrow y_R \not \in R $
-% \item $ y_R \not \in R $ then $ f(y_R) \Rightarrow y_R \in R$
+% \item $y_R \in R$ then $f(y_R) \Rightarrow y_R \not \in R $
+% \item $y_R \not \in R$ then $ f(y_R) \Rightarrow y_R \in R$
 % \end{itemize}
 % Now we prove that the set of the parts of the natural numbers is not
 % countable. We assume there is a surjective function
-% $ \nat \rightarrow 2^\nat $. This means that I can enumerate subsets
-% $ X_i $ s.t. $ i \in \nat $. At this point I create a matrix where
-% each row $i$ of column $j = 1$ if $ x_i \in X_j $ and 0 otherwise. Now
-% consider the inverted diagonal, that is if $ x_i \not \in X_i $, in
+% $\nat \rightarrow 2^\nat$. This means that I can enumerate subsets
+% $ X_i $ s.t. $i \in \nat$. At this point I create a matrix where
+% each row $i$ of column $j = 1$ if $x_i \in X_j$ and 0 otherwise. Now
+% consider the inverted diagonal, that is if $x_i \not \in X_i$, in
 % this way it is different from all the columns, that is
-% $ \forall i . R \not= X_i $ because
-% $ n \in R \Leftrightarrow b \not \in X_n $ absurd since I assumed that
+% $\forall i . R \not= X_i$ because
+% $n \in R \Leftrightarrow b \not \in X_n$ absurd since I assumed that
 % $ \{X_0 \dots X_n \} = 2^\nat$.
 
-% We conclude that $ |\nat| \not \geq |2^\nat| $
+% We conclude that $|\nat| \not \geq |2^\nat|$
 
-% But we want $ |\nat| < |2^\nat| $.
+% But we want $|\nat| < |2^\nat|$.
 
 % But:
 % $ |\nat| \leq |2^\nat| \land |\nat| \not\geq |2^\nat| \implies |\nat|
 % < |2^\nat| $
 
-% I take the set of the characteristic functions $g$ of $ 2^\nat $ and I
-% call it $Y$, I take the set of all the functions $ \mathcal{F} $, of
-% course it holds that $ Y \subseteq \mathcal{F} $ and therefore
-% $ |Y| \leq |\mathcal{F}| $ but being that $ |\nat < |2^\nat| $ then I
-% also have that $ |\nat| \leq |\mathcal{F}| $
+% I take the set of the characteristic functions $g$ of $2^\nat$ and I
+% call it $Y$, I take the set of all the functions $\mathcal{F}$, of
+% course it holds that $Y \subseteq \mathcal{F}$ and therefore
+% $|Y| \leq |\mathcal{F}|$ but being that $|\nat < |2^\nat|$ then I
+% also have that $|\nat| \leq |\mathcal{F}|$
 
 % There is a total function that cannot be computed. We know how to
 % enumerate computable functions because we can enumerate them in the
@@ -268,7 +269,7 @@ functions of the followin shape
 % non-total computable.
 
 % Matrix where the columns are the functions computed by the program
-% $ i \in \nat $, that is $ \{\phi_i . i \in \nat \} $ and the rows are
+% $i \in \nat$, that is $\{\phi_i . i \in \nat \}$ and the rows are
 % the arguments 0,1, \dots.
 
 % \begin{equation*}
@@ -279,6 +280,6 @@ functions of the followin shape
 % \end{equation*}
 
 % we observe that $f$ is total by construction and
-% $ f \not= \phi_n \forall n, n \in \nat $ Furthermore by construction
+% $f \not= \phi_n \forall n, n \in \nat$ Furthermore by construction
 % it is different from all computable functions and therefore it is not
 % computable.

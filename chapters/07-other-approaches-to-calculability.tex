@@ -19,7 +19,7 @@ Now, we introduce another formalism for the definition of computable functions, 
 \section{Partially recursive functions}
 
 \begin{definition}[Partially recursive functions]
-  The class $ \mathcal{R} $ of \textbf{partially recursive functions} is the least class of partial functions on the natural numbers which contains
+  The class $\mathcal{R}$ of \textbf{partially recursive functions} is the least class of partial functions on the natural numbers which contains
   \begin{enumerate}[label=(\alph*)]
     \item zero function;
     \item successor;
@@ -36,7 +36,7 @@ Now, we introduce another formalism for the definition of computable functions, 
 it is a well given definition.
 
 \begin{definition}[Rich class]
-    A class of functions $\mathcal{A}$ is said to be \textbf{rich} if it includes (a),(b) and (c) and it's closed under (1), (2) and (3).
+    A class of functions $\mathcal{A}$ is said to be \textbf{rich} if it includes (a),(b) and (c) and it is closed under (1), (2) and (3).
 \end{definition}
 
 $\mathcal{R}$ is rich and for all $\mathcal{A}$, we have $\mathcal{R}\subseteq\mathcal{A}$
@@ -60,30 +60,32 @@ Finally we observe that
 \begin{theorem}\label{reqc} 
   $\mathcal{R} = \mathcal{C}$
   \begin{proof}
-    ($ \mathcal{R} \subseteq \mathcal{C} $) \\
+    \  \\    
+    ($\mathcal{R} \subseteq \mathcal{C}$)\\
+    Just observe that
     $\mathcal{C} $ is a rich class, $\mathcal{R}$ is the
-    smallest rich class, so this is trivial.
+    smallest rich class, so this inclusion trivially follows.
 
-    ($ \mathcal{C} \subseteq \mathcal{R} $) \\
-    Given $ f : \nat^k \to \nat \in \mathcal{C} $ be a function, we show
-    that $ f \in \mathcal{R} $. We know that there exists a URM program $P$ such that $ f_P^{(k)} = f$.
+    ($\mathcal{C} \subseteq \mathcal{R}$) \\
+    Given $f : \nat^k \to \nat \in \mathcal{C}$ be a function, we show
+    that $f \in \mathcal{R}$. We know that there exists a URM program $P$ such that $ f_P^{(k)} = f$.
 
     We consider the following functions
     \begin{itemize}
-      \item $c_P^1:\nat^{k+1}\to\nat$ with $ c_P^1(\vec{x}, t) $ be the content of $R_1$ after $t$ steps of $ P(\vec{x}) $. 
-            If $P(\vec{x})$ terminates in less than $t$ steps, $ c_P^1(\vec{x}, t) $ gives the content of $R_1$ in the final configuration, i.e. the output of the function $f$;
-      \item $j_P:\nat^{k+1}\to\nat$ with $ j_P(\vec{x},t) $ be the instruction to be executed after $t$ steps of $P(\vec{x})$. If the program has already ended, then $ j_P(\vec{x},t) = 0$.
+      \item $c_P^1:\nat^{k+1}\to\nat$ with $c_P^1(\vec{x}, t)$ be the content of $R_1$ after $t$ steps of $P(\vec{x})$. 
+            If $P(\vec{x})$ terminates in less than $t$ steps, $c_P^1(\vec{x}, t)$ gives the content of $R_1$ in the final configuration, i.e. the output of the function $f$;
+      \item $j_P:\nat^{k+1}\to\nat$ with $j_P(\vec{x},t)$ be the instruction to be executed after $t$ steps of $P(\vec{x})$. If the program has already ended, then $ j_P(\vec{x},t) = 0$.
     \end{itemize}
 
     $c_p^1$ and $j_p$ are total functions.
 
     Given $\vec{x}\in\nat^k$
     \begin{itemize}
-      \item if $ f(\vec{x})\downarrow $ then $ P(\vec{x})\downarrow $ in a number of steps $ t_0 = \mu t.j_P(\vec{x},t)$, so 
+      \item if $f(\vec{x})\downarrow$ then $P(\vec{x})\downarrow$ in a number of steps $ t_0 = \mu t.j_P(\vec{x},t)$, so 
       \begin{equation*}
         f(\vec{x}) = c_P^1(\vec{x},t_0) = c_P^1(\vec{x}, \mu t.j_P(\vec{x},t))
       \end{equation*}
-      \item otherwise, if $ f(\vec{x})\uparrow $ then $P(\vec{x})\uparrow$ and $ \mu t.j_P(\vec{x},t)\uparrow $, sorting
+      \item otherwise, if $f(\vec{x})\uparrow$ then $P(\vec{x})\uparrow$ and $\mu t.j_P(\vec{x},t)\uparrow$, sorting
       \begin{equation*}
         f(\vec{x}) = c_P^1(\vec{x}, \mu t.j_P(\vec{x},t))\uparrow
       \end{equation*}
@@ -95,12 +97,12 @@ Finally we observe that
 
     % =======================================================
 
-    If we knew that $ c_P^1, j_P \in \mathcal{R} $ then we could argue that $ f \in \mathcal{R} $.
+    If we knew that $c_P^1, j_P \in \mathcal{R}$ then we could argue that $f \in \mathcal{R}$.
 
     The idea of the proof is the following
     \begin{itemize}
     \item work on sequences encodings that represent the registers and program counter configurations
-    \item manipulate such sequences with functions such as ($ p_x, qt, \text{div}, \dots $) that were built by:
+    \item manipulate such sequences with functions such as ($p_x, qt, \text{div}, \dots$) that were built by:
       \begin{itemize}
       \item composition
       \item primitive recursion

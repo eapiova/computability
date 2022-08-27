@@ -106,9 +106,11 @@ fixing an argument of a program is effective.
         $z(1)$                    &          \\
         $s(1)$                    &          \\
         $\dots$                   & \comment{$x_1$ times} \\
+        $s(1)$                    &          \\[1mm]
         $z(m)$                    &          \\
         $s(m)$                    &          \\
         $\dots$                   & \comment{$x_m$ times} \\
+        $s(m)$                    &          \\[1mm]
         $P_e$                     & 
       \end{tabular}
     \end{center}
@@ -119,7 +121,7 @@ fixing an argument of a program is effective.
     + m + n + \sum_{i=1}^mx_i)$
     \end{remark}
 
-    Built $P$, we have
+    Once $P$ has been built, we have
     \[s(e, \vec{x}) = \gamma(P')\] 
     Each function and construction
     method used are effective (so are $\gamma, \gamma^{-1}$).
@@ -127,7 +129,9 @@ fixing an argument of a program is effective.
     informally proven, by appealing to the Church-Turing
     thesis.
 
-    The formal proof of calculability is long, but not difficult.
+    The formal proof of computability is long, but not difficult. We next provide some hints. We first discuss how to define some auxiliary functions and the we use them to construct the smn-function.
+
+    
     \subsection*{Update function}
       \newcommand{\up}[1]{\ensuremath{\mathit{upd}({#1})}}
       Consider
@@ -200,6 +204,7 @@ where
 &= \tau(\beta(T(1,m+1)), \dots, \beta(T(n,n+m))) 
 \end{align*}
 
+\noindent
 \subsection*{Set}
     \newcommand{\set}[1]{\ensuremath{\mathit{set}({#1})}}
     \[
@@ -215,8 +220,8 @@ where
 &= \tau(\beta(z(i)), \beta(s(i)), \dots, \beta(s(i))) \\
 \end{align*}
 
-\subsection*{Proof}
-    At this point, with
+\subsection*{Proof of the fact that the smn function is computable}
+    Just define:
     \newcommand{\pref}[1]{\ensuremath{\mathit{pref}_{m,n}({#1})}}
     \[
       \mathit{pref}_{m,n}: \nat^m \rightarrow \nat
@@ -225,14 +230,14 @@ where
     \[
       \pref{\vec{x}} = \seq{\tran{m,n}, \seq{\set{1,x_1},\dots, \seq{\dots , \set{m,x_m}}} \dots}
     \]
-    we have that
+    Then we have that
     \[
       s_{m,n}: \nat^{m+1} \rightarrow \nat
     \]
     \[
       s_{m,n}(e, \vec{x}) = \seq{\pref{\vec{x}}, e}
     \]
-    which is $\in \pr$
+    which is in $\pr$
   \end{proof}
 \end{theorem}
 
@@ -278,8 +283,7 @@ in the following simpler shape
       &= \mu y \leq x \; . \; (x+1 \dotdiv (y+1)^n)
 \end{align*}
   the function $f$ is computable because it is a bounded minimalisation of a composition of known computable functions.
-  By corollary
-  \ref{corollary:simple-smn}, there exists $k: \nattonat$ total computable such that for all $n, x \in \nat$
+  By Corollary~\ref{corollary:simple-smn}, there exists $k: \nattonat$ total computable such that for all $n, x \in \nat$
   \[
     \varphi_{k(n)}(x) = f(n,x) = \lfloor \sqrt[n]{x} \rfloor
   \]
@@ -302,8 +306,7 @@ We define $f : \nat^2 \rightarrow \nat$ as
     \end{cases} \\
     & = \mu y \; . \; |y^n-x|
   \end{align*}
-  It is computable. By corollary
-  \ref{corollary:simple-smn}, there exists $k: \nattonat$ total computable such that for all $n, x \in \nat$
+  It is computable. By Corollary~\ref{corollary:simple-smn}, there exists $k: \nattonat$ total computable such that for all $n, x \in \nat$
   \[
     \varphi_{k(n)}(x) = f(n,x)
   \]

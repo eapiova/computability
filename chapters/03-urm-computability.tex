@@ -15,9 +15,9 @@ Despite the fact that we focus on an abstract ideal model, there are still a lot
 \end{enumerate}
 
 In principle, each computational model determines a class of computable functions.
-We may be concerned thinking that the developed theory is valid only for a specific one
-model. In fact, it can be verified that the class of computable functions for all
-models cited (for all the models "sufficiently expressive" considered
+We may be concerned thinking that the developed theory is valid only for a specific
+model chosen. In fact, it can be verified that the class of computable functions for all
+models cited (for all the models ``sufficiently expressive'' considered
 in literature) is always the same. This leads to the so-called Church-Turing
 thesis:
 
@@ -38,7 +38,7 @@ This means that the notion of ``computable function'' is robust (i.e. independen
 \end{remark}
 
 Sometimes we resort to the Church-Turing thesis to shorten the proof that a certain entity is computable, however it can only be used when it is not strictly necessary, i.e. when it could be replaced by a formal proof
-(however, this could hide the intuitive idea under a bunch of technical details).
+(and providing all the details could hide the intuitive idea under a bunch of technicalities).
 
 \section{URM (Unlimited register machine)}
 
@@ -65,7 +65,7 @@ which is an abstraction of a computer based on the Von Neumann's model. It is ch
 
 \item a \textbf{computing agent} capable of executing an URM program;
 
-\item an execution of a \textbf{URM program}, i.e. a finite sequence of instructions
+\item  a \textbf{URM program}, i.e. a finite sequence of instructions
   $I_1, I_2, \dots, I_s$ that can ``locally'' alter the configuration
   of the URM.
 \end{itemize}
@@ -81,9 +81,10 @@ Program instructions can be the following
 
 \item \textbf{transfer} $T(m,n)$ transfers the content of the register $R_m$ in the register $R_n$, $R_m$ stays untouched: $r_n\leftarrow r_m$.
 \end{itemize}
-These are called arithmetic functions, where the instruction to be executed in the next step
- follows the current instruction in the program.
-Then there is another instruction
+The above are often referred to as \emph{arithmetic instructions}. They are characterised by the fact that the instruction to be executed in the next step
+ is the one following the current instruction in the program.
+
+Then last instruction  is 
 \begin{itemize}
 \item \textbf{conditional jump} $J(m,n,t)$ compares the content of the registers $R_m$ and $R_n$
   \begin{itemize}
@@ -173,7 +174,7 @@ is given by a pair $\langle c, t \rangle$ that consists of a
 
 An \emph{operational semantics} can easily be defined via a set of deduction rules 
 axiomatising the state transitions  $\langle c, t \rangle \rightarrow \langle c', t' \rangle$. 
-However we do not need this degree of formality, and we will rely on an informal description of the program execution.
+However we do not need this level of formality, and we will rely on an informal description of the program execution.
 
 
 \begin{remark}
@@ -243,7 +244,7 @@ However we do not need this degree of formality, and we will rely on an informal
   \begin{itemize}
   \item $P(a_1,a_2,\dots) \downarrow$ if the computation \textbf{halts}.
   \item $P(a_1,a_2,\dots) \uparrow$ if the computation \textbf{never
-      halts} (i.e. it \textbf{diverges}).
+      halts} (i.e., it \textbf{diverges}).
   \end{itemize}
 
 
@@ -257,7 +258,7 @@ However we do not need this degree of formality, and we will rely on an informal
     $P(a_1,\dots,a_k,0,\dots,0)$
   \end{center}
 
-  The notation extend to $P(a_1,\dots,a_k)\downarrow$ or
+  The notation extends to $P(a_1,\dots,a_k)\downarrow$ or
   $P(a_1,\dots,a_k)\uparrow$.
 \end{notation}
 
@@ -271,7 +272,7 @@ $P$ terminates and outputs $f(a_1, \ldots, a_k)$.
 However, $P$ does not terminate if $(a_1,\dots,a_k) \not\in \dom{f}$.
 
 A doubt could be about where the output is stored. 
-We conventionally decide that the output will be in the first register $ R_1 $ (at the end of the computation, any register other than the first register contains irrelevant data). 
+We conventionally decide that the output will be in the first register $R_1 $(at the end of the computation, any register other than the first register contains irrelevant data). 
 For this reason we introduce the following notation
 
 \begin{notation}
@@ -283,7 +284,7 @@ For this reason we introduce the following notation
 \begin{definition}[URM-computable function]
   A function $f:\nat^k\rightarrow\nat$ is said to be
   \textbf{URM-computable} if there exists a URM program $P$ such that for all
-  $(a_1,\dots,a_k) \in \nat^k$ and $ a\in\nat$,
+  $(a_1,\dots,a_k) \in \nat^k$ and $a\in\nat$,
   $P(a_1,\dots,a_k)\downarrow$ if and only if $(a_1,\dots,a_k)\in dom(f)$ and
   $f(a_1,\dots,a_k) = a$. 
   
@@ -298,9 +299,11 @@ For this reason we introduce the following notation
 
 \section{Examples of URM-computable functions}
 
+We next list some URM-computable functions, providing the corresponding programs.
+
 \begin{enumerate}
 \item $f:\nat^2 \rightarrow \nat$\\
-  $ f(x,y) = x+y$
+  $f(x,y) = x+y$
 
   \begin{quote}
     \begin{tabular}{lll}
@@ -415,9 +418,9 @@ Given a program $P$, for some fixed number $k \geq 1$ of parameters, there exist
 
 \begin{exercise}[Reduced URM]
 Consider the URM machine without $T(m, n)$ transfer instruction. We indicate the class
-of functions that can be computed with the reduced machine $ \mathcal{C}^- $ and
-we compare it with $ \mathcal{C} $. Obviously $ \mathcal{C}^- \subseteq \mathcal{C}
-$. Let's see if $ \mathcal{C} \subseteq \mathcal{C}^-$. \\
+of functions that can be computed with the reduced machine $\mathcal{C}^- $ and
+we compare it with $\mathcal{C} $. Obviously $\mathcal{C}^- \subseteq \mathcal{C}
+$. Let us see if $\mathcal{C} \subseteq \mathcal{C}^-$. \\
 \begin{proof}
 Informally an instruction $T(m,n)$ at the $t$ step
 can be replaced with the following subroutine
@@ -433,9 +436,9 @@ can be replaced with the following subroutine
 where $t'>l(P)$.
 
 We prove it formally. 
-Given $ f \in \mathcal{C} $, $ f: \nat^k \rightarrow \nat $, there is an URM program $P$ such that $ f_P^{(K)}  = f$. The program $P$ can be transformed into $P ^R $ of the reduced URM machine such that $ f_{P^R}^{(K)}  = f_{P}^{(K)}$.
+Given $f \in \mathcal{C} $, $f: \nat^k \rightarrow \nat $, there is an URM program $P$ such that $f_P^{(K)}  = f$. The program $P$ can be transformed into $P ^R $ of the reduced URM machine such that $f_{P^R}^{(K)}  = f_{P}^{(K)}$.
 
-There is a demonstration by induction. We show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$, number of transfer instructions $T$ in $P$.
+There is a proof by induction. We show that $P$ can be transformed into $P' $ s.t. $ f_{P'}^{(K)}  = f_{P}^{(K)} $ by induction on $h$, number of transfer instructions $T$ in $P$.
 
 \begin{enumerate}
   \item $h = 0$ trivial.
@@ -448,10 +451,12 @@ There is a demonstration by induction. We show that $P$ can be transformed into 
 \end{exercise}
 
 \begin{exercise}[URM with swap instruction]
-Let $URM^S $ be the model obtained by removing transfer function and inserting the swap function $ T_S(m,n) $, what relationship is there between the class of this model and the other?
+  Let $URM^S $ be the model obtained by removing the transfer
+  instruction and inserting a swap instruction $ T_S(m,n) $,
+  exchanging the contents of registers $m$ and $n$, and let $\mathcal{C}^S$ be the corresponding class of computable functions.. How do the classes $\mathcal{C}$ and $\mathcal{C}^S$ relate?
 
 \begin{proof}
-  Proof that $ \mathcal{C}^S \subseteq \mathcal{C} $ The exchange $T (m, n)$ is equivalent to:
+  We first prove that $\mathcal{C}^S \subseteq \mathcal{C}$. A swap instruction $T_S (m, n)$ is equivalent to the program below, where $i$ is a ``new'' register:
   \begin{quote}
     \begin{tabular}{l}
     $T(n,i)$ \\
@@ -462,54 +467,78 @@ Let $URM^S $ be the model obtained by removing transfer function and inserting t
 
 Formalization:
 
-Let $ f \in \mathcal{C}^S f:\nat\rightarrow \nat $. There exists $P$  $URM^S $ s.t. $ f_P^{(K)} = f $. Let's proceed by induction on the number of transfer functions $h$.
+Let $ f \in \mathcal{C}^S f:\nat\rightarrow \nat $. There exists $P$
+$URM^S $ s.t. $ f_P^{(K)} = f $. Let us proceed by induction on the
+number of swap instructions $h$.
 
-If $h = 0$ the program is already URM. therefore $ P' = P $
+($h = 0$) the program is already a URM program. therefore $P' = P$
 
-Otherwise if there is at least one transfer instruction we show that the inductive case is valid $ h \rightarrow h+1 $, if $P$ ends it does so in $l + 1$, the program has $h + 1$ exchange instructions.
+($h \rightarrow h+1$) Assume that $P$ includes $h+1$ swap instructions. 
 
-Let $i$ be a register neot used by $P$ found by inspecting the program. We replace at step $t \quad J (1,1, SUB)$ and add a subroutine as the one above, thus creating $ P'' $, at the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. By inductive hypothesis there is $ P' $ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \\
+Let $i$ be a register not used by $P$ (observe that it can be found by just inspecting the program). Let $t$ be the index of a swap instructions.
+We such instruction by a jump
+\begin{quote}
+  $t : J (1,1, SUB)$
+\end{quote}
+to a subroutine encoding the swap. At the end of the subroutine we return to the starting point with $J (1,1, t + 1)$. Let $P''$ be the program obtained in this way. Since it has only $h$ swap instructions, by inductive hypothesis there is $P'$ URM s.t. $ f_{P'}^{(K)} = f_{P''}^{(K)} = f_{P}^{(K)}$. \\
 \textbf{But all of this is wrong!}
 
-Why is it wrong? Because with the replacement that we made we have 1 transfer instruction, but $n-1$ exchange instructions.
+Why is it wrong? Because the program $P''$ obtained from $P$ replacing a swap instruction will indeed have $n-1$ swap instructions but also some transfer instructions, hence it is not a $URM^S$ program.
 
-Let's prove something stronger: Given $P$ program that uses both URM instructions and  $URM^S $ instructions, there is $ P'' $ program that uses $URM$ instructions s.t. $ f_{P}^{(K)} = f_{P'}^{(K)} $.
+We can overcome the problem by proving the following stronger
+statement: Given a program $P$ that uses both URM instructions and
+$URM^S$ instructions, there is a program $P'$ that uses $URM$
+instructions only s.t. $ f_{P}^{(K)} = f_{P'}^{(K)} $.
 
-The proof procedure is the same but we are demonstrating something stronger, the inductive case is now correct. This proves that $ \mathcal{C}^S \subseteq \mathcal{C} $
+The proof procedure is the same but, since we are proving a stronger
+statement, the inductive case now works smoothly. This proves that
+$ \mathcal{C}^S \subseteq \mathcal{C} $.
 
-To show $  \mathcal{C} \subseteq \mathcal{C}^S $ we know that we have shown that $ \mathcal{C} \subseteq \mathcal{C}^R $ and therefore given that $ \mathcal{C}^R \subseteq \mathcal{C}^S $ is demonstrated by transitivity.
+For the converse inclusion $\mathcal{C} \subseteq \mathcal{C}^S$, just notice that we already know that $\mathcal{C} \subseteq \mathcal{C}^R $ (previous exercise) and therefore, since $\mathcal{C}^R \subseteq \mathcal{C}^S$, the desired inclusion follows by transitivity.
 
-So we can say that $ \mathcal{C}^S = \mathcal{C} $
+Therefore we deduce $\mathcal{C}^S = \mathcal{C}$, as desired.
 \end{proof}
+
 \end{exercise}
 
 \begin{exercise}[URM without jump instructions]
-Consider URM$ ^{nj} $ the URM machine without $J(m,n,t)$ jump instructions.
-We have that $ \mathcal{C}^{nj} \subset \mathcal{C} $ where the first is the set of computable functions without a jump instruction. 
+Consider an URM machine without jump instructions  $J(m,n,t)$ and call it URM$ ^{nj}$. Let $\mathcal{C}^{nj}$ be the corresponding class of computable functions. How does this class relate to $\mathcal{C}$?
+
 
 \begin{proof}
-We alread know that $ f: \nat \rightarrow \nat$ with $f(x)\uparrow \forall x $ is computable in URM, but it is not computable in URM $ ^{nj} $.
 
-The functions $ f: \nat \rightarrow \nat $ that can be computed without jumping always terminate. Then we have the following cases:
+  Clearly $\mathcal{C}^{nj} \subseteq \mathcal{C}$ and the inclusion is strict since,  $f: \nat \rightarrow \nat$ with $f(x)\uparrow \forall x$ is computable in URM, but it is not computable in URM $ ^{nj} $.  In fact, all functions in $\mathcal{C}^{nj}$  are total since programs without jump instructions always terminate.
+
+  We can characterise precisely the (unary) functions in $\mathcal{C}^{nj}$. They are of the shape:
 \begin{itemize}
-  \item $f(x) = c \ \forall x $
-  \item $ f(x) = x + c \ \forall x $
+  \item $f(x) = c$
+  \item $ f(x) = x + c$
 \end{itemize}
+where $c$ is a constant in $\nat$.
 
-Consider $ r_1(h,x) $ the content of $R_1$ after $h$ steps with initial content $x$. 
+This can be proved as follows. Denote by $r_1(h,x) $ the content of register $R_1$ after $h$ steps starting from an initial configuration where $R_1$ is $x$ and the other registers contain $0$.
+
 We show by induction on $h$ that after $h$ execution steps $r_1(h,x) $ is equal to $x + c$ or to $c$.
 
 \begin{itemize}
   \item Case $h = 0: r_1(0,x) = x $
 
-  \item Case $ h \rightarrow h+1 $: We know $ r_1(h,x) = x+c $ or $ c $ by inductive hypothesis. The next instruction can be one of three cases:
+  \item Case $h \rightarrow h+1$: We know $ r_1(h,x) = x+c $ or $ c $ by inductive hypothesis. The next instruction can be of three shapes:
   \begin{itemize}
-  \item The instruction is $Z (n)$. If $n = 1$, $r_1(h+1,x) = 0 $, otherwise $ r_1(h+1,x) = r_1(h,x) $, ok by induction hypothesis
-  \item The instruction is $S (n)$. If $n = 1$ we find that $ r_1(h+1,x) = r_1(h,x)+1 $ which by induction hypothesis is fine. Else is the same as the previous instruction.
-  \item The instruction is $T (m, n)$. In cases where $ n>1 $ or $ n=m=1 $ then $ r_1(h+1,x) = r_1(h,x) $ and that's fine. Otherwise $ n = 1, m > 1 $ we do not know what $ r_1(h+1,x) $ is worth. So who knows?
+  \item The instruction is $Z (n)$. If $n = 1$, $r_1(h+1,x) = 0 $, otherwise $r_1(h+1,x) = r_1(h,x)$, and we conclude by induction hypothesis.
+    
+  \item The instruction is $S (n)$. If $n = 1$ we have that $r_1(h+1,x) = r_1(h,x)+1 $ which, by induction hypothesis, is fine. Otherwise,  $r_1(h+1,x) = r_1(h,x)$ and we conclude by induction hypothesis.
+    
+  \item The instruction is $T (m, n)$. When $n>1 $ or $n=m=1$ then $r_1(h+1,x) = r_1(h,x)$ and we conclude by inductive hypothesis. Otherwise, if $n = 1,\ m > 1$ we do know nothing about the content of $r_1(h+1,x) $. We are stuck ...knows?
   \end{itemize}
-  Actually we should prove this not only for register $ r_1 $ but for a generic
-  register $ r_j $.
+
+  \medskip The problem can be solved by observing that register $1$
+  has nothing special and the same result can be proved for all
+  registers. More precisely, denote by Denote by $r_n(h,x)$ the
+  content of register $R_n$ after $h$ steps starting from an initial
+  configuration where $R_1$ is $x$ and the other registers contain
+  $0$. Then one can show that $r_n(h,x)$ contains either $c$ or $x+c$
+  for a suitable constant $c$. In this case the proof goes smoothly.
 \end{itemize}
 \end{proof}
 \end{exercise}

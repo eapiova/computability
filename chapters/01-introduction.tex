@@ -1,10 +1,10 @@
 \chapter{Introduction}\label{chap:intro}
 
-In this chapter, we informally discuss the notion of \textbf{effective procedure} and \textbf{computable function} by means of an effective
+In this chapter, we informally discuss the notion of \textbf{effective procedure} and \textbf{function computable} by means of an effective
 procedure. This will lead us to single out the main features of an
 algorithm/computational model.  Despite being informal, these
 considerations will allow us to derive the existence of non-computable
-functions for any effective computational model chosen.
+functions for every effective computational model.
 %
 Subsequently these notions and
 considerations will be formalized by setting a specific computational model,
@@ -12,13 +12,13 @@ a kind of idealized computer.
 
 \section{Algorithm or effective procedure}
 
-Even though we do not always refer to them by their technical terms when we apply them, \textbf{effective procedure}s and \textbf{algorithms} are a part of our everyday life.
+\textbf{Effective procedure}s and \textbf{algorithms}, even though we do not always call them in this way, are a part of our everyday life.
 
-For example; at the primary school we are not only taught that given two numbers their sum exists, but we are also provided a procedure to compute the sum of two numbers!
+For example, at the primary school we are not only taught that given two numbers their sum exists, but we are also provided with a procedure to compute the sum of two numbers!
 
 In general terms, an \emph{algorithm} can be defined as the
-description of a sequence of \emph{elementary steps} (where
-``elementary'' means that they can be performed mechanically, without
+description of a sequence of \emph{elementary steps} (where an
+``elementary step'' is a step which can be performed ``mechanically'', without
 any intelligence) which allows one reach some objective.  Typically,
 the aim is transforming some input into a corresponding output,
 suitably related to the input.
@@ -30,11 +30,11 @@ we are interested in computational problems.
   Some examples are:
   \begin{enumerate}
 
-  \item given $n \in \nat$, establishing whether $n$ is prime;
-  \item finding the $n^{th}$ prime number;
-  \item differentiating a polynomial;
-  \item performing the square root $\sqrt{n}$;
-  \item finding least common multiple $lcm$ and greatest common divisor $GCD$.
+  \item given $n \in \nat$, establish whether $n$ is prime;
+  \item find the $n^{th}$ prime number;
+  \item differentiate a polynomial;
+  \item perform the square root $\sqrt{n}$;
+  \item find least common multiple $\mathit{lcm}$ and greatest common divisor $\mathit{GCD}$.
   \end{enumerate}
 \end{example}
 
@@ -43,14 +43,14 @@ Therefore we can think of an algorithm as a black box
   in $\rightarrow$ \boxed{black box} $\rightarrow$ out
 \end{center}
 where the transformation is performed by executing a sequence of
-mechanical instructions.
+elementary instructions.
 
 If each step is \emph{deterministic} (i.e., for each state of the
-system, the instruction to execute and the new state it produces are
+system, the instruction to be executed next and the new state it produces are
 uniquely determined), then each possible input will uniquely determine
-the corresponding output (the procedure might not terminate, in which case we will have no output).
+the corresponding output (or the procedure might not terminate, in which case we will have no output).
 
-In mathematical terms the algorithm induces a (partial) function
+In mathematical terms, the algorithm determines a (partial) function
 
 \begin{center}
   $f : \mathit{input} \rightarrow \mathit{output}$.
@@ -66,11 +66,11 @@ generic notion of algorithm).
   that computes $f$.
 \end{definition}
 
-We stress that for $f$ to be computable, it is not important to know the algorithm that computes $f$, but rather we need to know that some algorithm that computes $f$ exists.
+We stress that for $f$ to be computable, it is not important to know which is the algorithm that computes $f$, but we just need to know that some algorithm that computes $f$ exists.
 
 \begin{example}
   According to the above definition, we expect the the following
-  functions to be computable.
+  functions to be computable:
 
   \begin{itemize}
 
@@ -105,7 +105,7 @@ We stress that for $f$ to be computable, it is not important to know the algorit
     \item techniques to estimate (by excess) the error caused by
       \begin{itemize}
       \item truncating a series
-      \item rounding in the calculation of the truncated series value
+      \item rounding in the computation of the value of the truncated series
       \end{itemize}
     \end{itemize}
   \end{itemize}
@@ -122,28 +122,28 @@ What about the function below?
 
 For example $g(3) = 1$ if and only if  $\pi = 3.14 \dots k 555 h \dots $, with $k, h \neq 5$.
 
-A naive algorithm could be generate the digits of $\pi$ until a sequence of $5$'s of the desired length $n$ is found.
+A naive algorithm could consist in generating the digits of $\pi$ until a sequence of $5$'s of the desired length $n$ is found.
 Clearly, if such a sequence exists, it will be eventually found and the answer $1$ will be returned. 
-However, at no time, can we say that a desired sequence of $n$ $5$'s will never appear again later; hence, we currently have no way of returning $0$.
+However, at no stage of the computation, we can exclude that the desired sequence of $n$ $5$'s will appear later; hence, apparently, we have no way of returning $0$.
 
 \begin{remark}
-  Thus, the following
+  On the basis of the considerations above, the following
    \begin{itemize}
    \item generate all digits in the decimal representation of $\pi$;
    \item if they include a sequence of $n$ consecutive 5's then
-    $g(n) = 1$
-  \item otherwise $g(n) = 0$
+    $g(n) = 1$;
+  \item otherwise $g(n) = 0$.
 \end{itemize}
 is \emph{not} an effective procedure.
 \end{remark}
 
-Note that this doesn't mean that $g$ is not computable, i.e., that an
-effective procedure couldn't be found, but at the moment this procedure is not known!
+Note that this does not mean that $g$ is not computable, i.e., that an
+effective procedure for computing $g$ does not exist, but at the moment this procedure is not known (to us)!
 
-We don't really know if it's computable, but there might be a property
+We do not know if $g$ is computable, but there might be a property
 of $\pi$ that allows us to conclude. In particular, there is a conjecture that all
 finite sequences of digits appear in $\pi$, which would imply that $g$
-is the constant $1$, whence computable.
+is simply the constant $1$, whence computable.
 
 \medskip
 
@@ -156,21 +156,31 @@ Consider now a slightly different function $h: \nat \to \nat$, defined by
 \end{equation*}
 
 The function seems very similar to the one considered before. However, note that if $\pi = 3.14 \dots k 555 h \dots $, then we deduce, not only that $h(3)=5$, but also $h(2)=h(1)=h(0)=1$. 
-More generally, whenever $h(n) =1$ then $h(m)=1$ for all $m < n$. This suggests that $h$ could be quite simple.
+More generally, whenever $h(n) =1$ then $h(m)=1$ for all $m < n$. This suggests that $h$ could have a quite simple shape.
 
 More precisely, consider $K = sup\{ n \mid \pi\ \text{contains}\ n\ \text{consecutive digits}\ 5 \}$. Then we have 2 possibilities:
 \begin{enumerate}
-\item $K$ is finite, and thus $h(n) = 1$ if $ n\leq K$, $0$ otherwise
-\item $K$ is infinite, and thus $ h(n) = 1$ for all $n \in \nat$
-\end{enumerate}
+\item $K$ is finite, and thus
+  \begin{center}
+    $h(n) = \begin{cases}
+      1 & \mbox{if $n\leq K$}\\
+      0 & \mbox{otherwise}
+    \end{cases}
+    $
+  \end{center}
+\item $K$ is infinite, and thus
+    \begin{center}
+      $h(n) = 1$ for all $n \in \nat$
+    \end{center}
+  \end{enumerate}
 
 This implies that $h$ is computable because it is either a step
-function or a constant function, that are computed by simple
-programs. One could object that we don't know which shape the function
-has and thus we do not know the program that calculates the
-function. Fine. This doesn't mean that it's not computable.
+function or a constant function, and these function can are computed by simple
+programs. One could object that we do not know which shape the function
+has and thus we do not know exactly which is the program that computes the
+function. This is true, but irrelevant for computability.
 
-Trying to repeat the same argument for function $g$ fails. In fact, one could think of defining $A = \{n \mid \mbox{$\pi$ contains exactly $n$ consecutive 5's}\}$. Then
+Trying to replicate the same argument for function $g$ fails. In fact, one could think of defining $A = \{n \mid \mbox{$\pi$ contains exactly $n$ consecutive 5's}\}$. Then
 
 \begin{equation*}
   g(n) =
@@ -193,5 +203,3 @@ $G : \nat \to \nat$ defined by
 \end{center}
 Since the condition does not depend on the variable $x$, the function is either the constant $0$ or the constant $1$. 
 Independently of which of the two cases applies, the function is computable.
-
-

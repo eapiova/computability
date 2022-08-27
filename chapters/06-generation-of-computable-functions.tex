@@ -1,13 +1,13 @@
 \chapter {Generation of computable functions}
 
 We can prove that certain functions are computable if they are simpler combinations of functions that are computable. 
-We have the set $ \mathcal{C} $ of the computable functions and if we take $ f_1, f_2 \in \mathcal{C} $ and compose them with a suitable operation $ op(f_1, f_2) $ we are still in the set $ \mathcal{C} $.
+We have the set $\mathcal{C}$ of the computable functions and if we take $f_1, f_2 \in \mathcal{C}$ and compose them with a suitable operation $ op(f_1, f_2) $ we are still in the set $\mathcal{C}$.
 
 More precisely we will prove that the $\mathcal{C}$ class is closed with respect to the following operations:
 \begin{itemize}
 \item (generalized) composition 
 \item primitive recursion
-\item (unlimited) minimization 
+\item (unbounded) minimization 
 \end{itemize}
 
 So to prove that the function $f:\nat^k\rightarrow \nat$ is computable 
@@ -15,7 +15,7 @@ we could write the URM program P that computes $f$ (such that $f_P^{(k)} = f$),
 or we could use the theorems of the closure of $\mathcal{C}$.
 
 Actually the three operations we consider are not chosen randomly; 
-the long term objective is to show that $\mathcal{C}$ coincides with the class of generable functions 
+the long term objective is to show that $\mathcal{C}$ coincides with the class of functions which can be obtained
 through composition, primitive recursion and minimization, 
 starting from a restricted core of basic functions (\textbf{partial recursive functions} of Godel-Kleene).
 
@@ -56,7 +56,7 @@ To prove the properties of closure we will need to ``combine'' programs so we ne
 \begin{notation}
   Given a URM program $P$
   \begin{itemize}
-    \item $ \rho(P) $ is the \textbf{maximum register index} used by $P$
+    \item $\rho(P)$ is the \textbf{maximum register index} used by $P$
     \item $ l(P) $ is the \textbf{number of instructions} in P;
     \item $P$ is in \textbf{standard form} if, for each $J(m,n,t)$ instruction, $t\leq l(P)+1$ (if it ends, it does so at the instruction $l(P)+1$).
   \end{itemize}
@@ -67,7 +67,7 @@ To prove the properties of closure we will need to ``combine'' programs so we ne
 Considering only standard form programs is not limitative, as stated by the following lemma:
 \begin{lemma}
   For each URM program $P$ there exists an equivalent program $P'$ in standard form, i.e. for all $ k$, $f_p^{(k)} = f_{P'}^{(k)}$
-\begin{proof} It's enough to replace every instruction $J(m,n,t)$ in $P$ such that $t>l(P)+1$ with $J(m,n,l(P)+1)$
+\begin{proof} It is enough to replace every instruction $J(m,n,t)$ in $P$ such that $t>l(P)+1$ with $J(m,n,l(P)+1)$
 \end{proof}
 \end{lemma}
 
@@ -79,10 +79,10 @@ that is, every jump instruction $J(m,n,t)$ in $Q$ is replaced with $J(m,n,t+l(P)
   If $P$ and $Q$ are in standard form then $PQ$ is in standard form; moreover $(PQ)R = P(QR)$. We will assume every program is in standard form and we will use concatenation freely.
 \end{remark} 
 It will be useful to take the input and give the output in arbitrary registers. 
-Given a program $P$, we want a program $ P[i_1,\dots,i_k \rightarrow h] $ that takes input from $ R_{i1},\dots,R_{ik} $, puts the output in $ R_h $ without assuming that the rest of the registers are set to 0. 
-This is easily obtainable with transfer and reset operations to move the contents of registers from $ i_1,\dots,i_k $ to $ 1,\dots,k $ and the output from $h$ to 1.
+Given a program $P$, we want a program $P[i_1,\dots,i_k \rightarrow h]$ that takes input from $R_{i1},\dots,R_{ik}$, puts the output in $ R_h $ without assuming that the rest of the registers are set to 0. 
+This is easily obtainable with transfer and reset operations to move the contents of registers from $i_1,\dots,i_k$ to $1,\dots,k$ and the output from $h$ to 1.
 
-$ P[i_1,\dots,i_k \rightarrow h] $ is as follows:\\
+$P[i_1,\dots,i_k \rightarrow h]$ is as follows:\\
 
 $\begin{tabu}{l}
   T(i_1, 1)\\
@@ -98,9 +98,9 @@ $\begin{tabu}{l}
 \section {Generalized composition}
 \begin{definition}
   Given a function
-$ f: \nat^k \rightarrow \nat $ and functions
-$ g_1,\dots,g_k: \nat^n \rightarrow \nat $
-we define the \textbf{composition} $ h: \nat^n \rightarrow \nat $ by 
+$f: \nat^k \rightarrow \nat$ and functions
+$g_1,\dots,g_k: \nat^n \rightarrow \nat$
+we define the \textbf{composition} $h: \nat^n \rightarrow \nat$ by 
   \begin{equation*}
     h(\vec{x}) = \begin{cases}
       f(g_1(\vec{x}), \dots, g_k(\vec{x})) & \mbox{if } g_1(\vec{x})\downarrow, \dots, g_k(\vec{x})\downarrow \mbox{ and } f(g_1(\vec{x}), \dots, g_k(\vec{x}))\downarrow\\
@@ -140,8 +140,8 @@ we define the \textbf{composition} $ h: \nat^n \rightarrow \nat $ by
       h :\ & \nat^k\rightarrow\nat\\
       & \vec{x} \mapsto f(g_1(\vec{x}), \dots, g_k(\vec{x}))
     \end{align*}
-    Since $ f, g_1,\dots,g_k\in\mathcal{C} $,
-    we can take $ F, G_1, \dots, G_k $ programs in standard form for them.
+    Since $f, g_1,\dots,g_k\in\mathcal{C}$,
+    we can take $F, G_1, \dots, G_k$ programs in standard form for them.
 
     Let us consider a register index $m = max\{\rho(F),\rho(G_1), \dots \rho(G_k),k,n\}$ not used, the program for the composition can be
 
@@ -194,11 +194,11 @@ SISTEMARE
 
 
 \begin{remark}
-  On the basis of this result we can utilize generalized composition when the $g_i$ are not functions of all the variables or are functions with repetitions.
+  On the basis of this result we can use generalized composition when the $g_i$ are not functions of all the variables or are functions with repetitions.
 \end{remark}
 
 \begin{example}
-  Given $ f: \nat^2 \rightarrow \nat $ where $ f(x_1,x_2) = x_1 + x_2 $ is computable, we can derive that $ g: \nat^3 \rightarrow \nat $ where $ g(x_1,x_2,x_3) = x_1 + x_2 + x_3 $ is also computable.
+  Given $f: \nat^2 \rightarrow \nat$ where $ f(x_1,x_2) = x_1 + x_2 $ is computable, we can derive that $g: \nat^3 \rightarrow \nat$ where $ g(x_1,x_2,x_3) = x_1 + x_2 + x_3 $ is also computable.
   In fact $g(x_1,x_2,x_3) = f(f(x_1,x_2),x_3) $. Then, we can think about $x_1,x_2,x_3$ as functions $\nat^3\rightarrow\nat$ on $\vec{x}$, so we get to $f(f(U_1^3(\vec{x}),U_2^3(\vec{x})), U_3^3(\vec{x}))$, that is computable.
 \end{example}
 
@@ -366,9 +366,9 @@ We start from $\begin{tabu}{|c|c|c|c|c|c|}
   \hline
 \end{tabu}$
 
-we save the parameters and we start to calculate $h(\vec{x},0)$ using $F$.
+we save the parameters and we start to compute $h(\vec{x},0)$ using $F$.
 
-If $y=0$ we are done, otherwise we save $h(\vec{x},0)$ and i calculate $h(\vec{x},1) = g(\vec{x},0,h(\vec{x},0))$ with $G$. Do the same for $h(\vec{x},i)$ until we arrive to $i=y$
+If $y=0$ we are done, otherwise we save $h(\vec{x},0)$ and compute $h(\vec{x},1) = g(\vec{x},0,h(\vec{x},0))$ with $G$. Do the same for $h(\vec{x},i)$ until we arrive to $i=y$
 
 As usual we need registers not used by $F$ and $G$, $m = max\{\rho(F),\rho(G),k+2\}$ and we build the program for $h$ as follows:
 
@@ -398,7 +398,8 @@ $\begin{tabu}{lll}
 
 \textbf{Note:} We do nothing more than implementing recursion through iteration!
 
-\textbf{Theorem:} the following functions are computable.
+\textbf{Observation}
+The following functions are computable.
 
 \begin{enumerate}
 \item \textbf{Sum:} $x+y$, see above;
@@ -435,11 +436,11 @@ $\begin{tabu}{lll}
   0! = 1, f \equiv 1
   (y+1)! = y!(y+1), g(y,z) = (y+1)z $;
 \item \textbf{Minimum:} $min(x,y) = x\dotdiv  (x\dotdiv  y)$;
-\item \textbf{Maximum:} $ max(x,y) = (x \dotdiv  y) + y $;
+\item \textbf{Maximum:} $max(x,y) = (x \dotdiv  y) + y$;
 \item \textbf{Remainder:} $rm(x,y) = \begin{cases}
     y mod y & x \not= 0 \\
     y       & x=0
-  \end{cases}$ \\ rest of the integer dicision of $y$ by $x$ (convention! reasonable if the rest $rm(x,y)$ must be such that $\exists k \mid kx + rm(x,y) = y$)\\
+  \end{cases}$ \\ rest of the integer division of $y$ by $x$ (convention! reasonable if the rest $rm(x,y)$ must be such that $\exists k \mid kx + rm(x,y) = y$)\\
   $rm(x,0) = 0\\
   rm(x,y+1) = \begin{cases}
     rm(x,y)+1 & rm(x,y)+1 \not= x \\
@@ -448,6 +449,8 @@ $\begin{tabu}{lll}
   = (rm(x,y)+1) sg((x\dotdiv  1)\dotdiv  rm(x,y))\\
   f(x) = 0, g(x,y,z) = z * sg(x\dotdiv 1\dotdiv z)$ OK!
 
+
+  
 \item \textbf{Quotient} = $qt(x,y) = y$ div $x$, by convention $qt(0,y) = y$\\
   we define:\\
   $qt(x,0) = 0\\
@@ -464,131 +467,187 @@ $\begin{tabu}{lll}
   div(x,y) = \bar{sg}(rm(x,y))$
 \end{enumerate}
 
-\subsection{Definition by cases}
-\textbf{Corollary:} given $ f_1,\dots,f_n: \nat^k \rightarrow \nat $ total, computable and $ Q_1,\dots,Q_n \subseteq \nat^k $ decidable, predicate and mutually exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of $ Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total computable where
 
-\begin{equation*}
-  f(\vec{x}) = \begin{cases}
-    f_1(\vec{x}) & Q_1(\vec{x}) \\
-    f_2(\vec{x}) & Q_2(\vec{x}) \\
-    \dots        &              \\
-    f_n(\vec{x}) & Q_n(\vec{x})
-  \end{cases}
-\end{equation*}
 
-\textbf{proof}:
+\begin{corollary}[Definition by cases]
+  Given $f_1,\dots,f_n: \nat^k \rightarrow \nat$ total, computable and
+  $Q_1,\dots,Q_n \subseteq \nat^k$ decidable, predicate and mutually
+  exclusive (for each $\vec{x} \in \nat^k$ \textbf{exactly one} of
+  $Q_1,\dots,Q_n$ holds) then $ f:\nat^k \rightarrow \nat $ is total
+  computable where
+
+  \begin{equation*}
+    f(\vec{x}) = \begin{cases}
+      f_1(\vec{x}) & Q_1(\vec{x}) \\
+      f_2(\vec{x}) & Q_2(\vec{x}) \\
+      \dots        &              \\
+      f_n(\vec{x}) & Q_n(\vec{x})
+    \end{cases}
+  \end{equation*}
+\end{corollary}
+
+\begin{proof}
 $f(\vec{x}) = f_1(\vec{x})\mathcal{X}_{Q1}(\vec{x}) + \dots + f_n(\vec{x})\mathcal{X}_{Qn}(\vec{x})$
 
-We conclude, for composition using the calculability of sum and product.
+We conclude using the computability of sum and product and the fact that composition preserves computability.
+\end{proof}
 
-It also applies to partial functions but we will prove it later.
+It also applies to partial functions but this  will be proved it.
+
+
 
 \section{Algebra of decidability}
-Having $ Q, Q' $   decidable predicates, then also $ \neg Q, Q \wedge Q', Q \vee Q' $ all decidable.
 
-\textbf{proof}:
-It's enough to observe that:
+\begin{lemma}
+  Let $Q, Q'$ be  decidable predicates.  Then also $\neg Q, Q \wedge Q', Q \vee Q'$ are decidable.
+\end{lemma}
+
+\begin{proof}
+It is enough to observe that:
 \begin{enumerate}
-\item $ \mathcal{X}_{\lnot Q}(\vec{x}) =  \overline{sg}(\mathcal{X}_Q(\vec{x})) $
+\item $\mathcal{X}_{\lnot Q}(\vec{x}) =  \overline{sg}(\mathcal{X}_Q(\vec{x}))$
 \item $\mathcal{X}_{Q \vee Q'}(\vec{x}) = \mathcal{X}_{Q}(\vec{x}) \cdot \mathcal{X}_{Q'}(\vec{x})$
 \item observe that $Q \wedge Q' = \lnot (\lnot Q \vee \lnot Q')$
 \end{enumerate}
+\end{proof}
 
 We remind that $\{\neg, \wedge, \vee \}$ ($\{\neg, \vee \}$ is enough) is a set of connectives functionally complete (it allows to express any function $\{0,1\}^n \rightarrow \{0,1\}$). We deduce that:
 
-\textbf{Corollary}: Let $Q_1, \dots, Q_n \subseteq \nat^k$ decidable predicates and let $f:\{0,1\}^n \rightarrow \{0,1\}$ a function, let us consider:\\
-$\mathcal{X}: \nat^k\rightarrow\{0,1\}\\
-\mathcal{X}(\vec{x}) = f(\mathcal{X}_{Q1}(\vec{x})), \dots, \mathcal{X}_{Qn}(\vec{x}) )$\\
-Then the predicate $Q$ which corresponds to $\mathcal{X}$ is decidable, and therefore $\mathcal{X}$ is computable.
+\begin{corollary}
+  Let $Q_1, \dots, Q_n \subseteq \nat^k$ decidable predicates and let $f:\{0,1\}^n \rightarrow \{0,1\}$ a function, let us consider:
+  \begin{quote}
+    $\mathcal{X}: \nat^k\rightarrow\{0,1\}$\\
+    $\mathcal{X}(\vec{x}) = f(\mathcal{X}_{Q1}(\vec{x})), \dots, \mathcal{X}_{Qn}(\vec{x}) )$
+  \end{quote}
+  Then the predicate $Q$ which corresponds to $\mathcal{X}$ is
+  decidable, and therefore $\mathcal{X}$ is computable.
+\end{corollary}
 
-\section{Sum, product, limited quantification}
+\section{Sum, product, bounded quantification}
 
-\textbf{Definition}: (limited sum and product), let $f:\nat^{k+1}\rightarrow\nat$ total.
+\begin{definition}[bounded sum and product]
+  Let $f:\nat^{k+1}\rightarrow\nat$ be a total function. Then
+  
+  \begin{itemize}
+    
+  \item 
+    $\sum_{z<y}f(\vec{x},z)$ is defined by
+    \begin{quote}
+      $\sum_{z<0}f(\vec{x},z) = 0$
+      
+      $\sum_{z<y+1}f(\vec{x},z) = \sum_{z<y}f(\vec{x},z) + f(\vec{x},y)$
+    \end{quote}
+    
+    
+  \item $\prod_{z<y}f(\vec{x},z)$ is defined by:
+    \begin{quote}
+      $\prod_{z<1}f(\vec{x},z) = 1$
+      
+      $\prod_{z<y+1}f(\vec{x},z) = \prod_{z<y}f(\vec{x},z) \cdot f(\vec{x},y)$
+    \end{quote}
+  \end{itemize}
+\end{definition}
 
-$\sum_{z<y}f(\vec{x},z)$ is defined by
+\begin{lemma}
+  If $f:\nat^{k+1}\rightarrow\nat$ is total computable then
+  \begin{enumerate}
+  \item $g(\vec{x},y) = \sum_{z<y}f(\vec{x},y)$
+  \item $h(\vec{x},y) = \prod_{z<y}f(\vec{x},y)$
+  \end{enumerate}
+  are total computable.
+\end{lemma}
 
-$\sum_{z<0}f(\vec{x},z) = 0$
+\begin{proof}
+  Just note that they are defined by primitive recursion!
 
-$\sum_{z<y+1}f(\vec{x},z) = \sum_{z<y}f(\vec{x},z) + f(\vec{x},y)$
+  \begin{quote}
+    $g(\vec{x},0) = 0$\\
+    $g(\vec{x},y+1) = g(\vec{x},y) + f(\vec{x},y)$
+  \end{quote}
+  
+  and $+,f$ are computable.
 
-$\prod_{z<y}f(\vec{x},z)$ is defined by:
+  Same for 2.
+\end{proof}
 
-$\prod_{z<1}f(\vec{x},z) = 1$
+Obviously, by closure under composition, the bound can be a total computable function.
 
-$\prod_{z<y+1}f(\vec{x},z) = \prod_{z<y}f(\vec{x},z) \cdot f(\vec{x},y)$
+Another immediate consequence concerns the decidability of the bounded quantification on the predicates.
 
-\textbf{Observation}: if $f:\nat^{k+1}\rightarrow\nat$ is total computable then
-\begin{enumerate}
-\item $g(\vec{x},y) = \sum_{z<y}f(\vec{x},y)$
-\item $h(\vec{x},y) = \prod_{z<y}f(\vec{x},y)$
-\end{enumerate}
-are total computable.
+\begin{lemma}
+  Let $Q\subseteq \nat^{k+1}$ be a decidable predicate, then:
+  \begin{enumerate}
+  \item $Q_1(\vec{x},y) \equiv \forall z<y. Q(\vec{x},z)$
+  \item $Q_2(\vec{x},y) \equiv \exists z<y. Q(\vec{x},z)$
+  \end{enumerate}  
+  are decidable.
+\end{lemma}
 
-\textbf{proof}: they are defined by primitive recursion!
+\begin{proof}
+  \begin{enumerate}
+  \item observe that $\mathcal{X}_{Q1}(\vec{x},y) = \prod_{z<y}\mathcal{X}_Q(\vec{x},z)$
+  \item observe that $\mathcal{X}_{Q2}(\vec{x},y) = sg(\sum_{z<y}\mathcal{X}_Q(\vec{x},z))$
+  \end{enumerate}
+\end{proof}
 
-$g(\vec{x},0) = 0\\
-g(\vec{x},y+1) = g(\vec{x},y) + f(\vec{x},y)$
-
-and $+,f$ are computable.
-
-Same for 2.
-
-Obviously, for composition, the bound can be a total computable function.
-
-Another immediate consequence concerns the decidibility of the limited quantification on the predicates.
-
-\textbf{Lemma}: Let $Q\subseteq \nat^{k+1}$ be a decidable predicate, then:
-
-\begin{enumerate}
-\item $Q_1(\vec{x},y) \equiv \forall z<y. Q(\vec{x},z)$
-\item $Q_2(\vec{x},y) \equiv \exists z<y. Q(\vec{x},z)$
-\end{enumerate}
-
-are decidable.
-
-\textbf{proof}:
-\begin{enumerate}
-\item observe that $\mathcal{X}_{Q1}(\vec{x},y) = \prod_{z<y}\mathcal{X}_Q(\vec{x},z)$
-\item observe that $\mathcal{X}_{Q2}(\vec{x},y) = sg(\sum_{z<y}\mathcal{X}_Q(\vec{x},z))$
-\end{enumerate}
-
-\section{Limited minimization}
-Given a function $ f: \nat^{k+1} \rightarrow \nat $, we define a function $ h: \nat^{k+1} \rightarrow \nat $ as follows:
+\section{Bounded minimalisation}
+Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat^{k+1} \rightarrow \nat$ as follows:
 
 \begin{equation*}
-  h(\vec{x},y) = \mu z<y . f(\vec{x},z) = \begin{cases}
+  h(\vec{x},y) = \mu z<y . f(\vec{x},z) =
+  \begin{cases}
     $min. $z<y$ s.t. $ g(\vec{x},z) = 0 & $ if it exists$ \\
     y                                   & $ otherwise $
   \end{cases}
 \end{equation*}
 
-\textbf{Lemma}: Let $ f: \nat^{k+1} \rightarrow \nat $ total computable. Then also $ h: \nat^{k} \rightarrow \nat $ defined by $ h(\vec{x},y) = \mu z<y. f(\vec{x},z) $ is (total) computable.
+%(query-replace-regexp "\\$ \\([^\n$]*\\\\[^\n$]*\\) \\$" "$\\1$")
 
-\textbf{proof}: we observe that $h$ can be defined as:
+\begin{lemma}
+  Let $f: \nat^{k+1} \rightarrow \nat$ total computable. Then also
+  $h: \nat^{k} \rightarrow \nat$ defined by
+  $h(\vec{x},y) = \mu z<y. f(\vec{x},z)$ is (total) computable.
+\end{lemma}
 
-$h(\vec{x},y) = \sum_{z<y}\prod_{w\leq z} sg(f(\vec{x},w))$
+\begin{proof}
+  We observe that $h$ can be defined as:
+  
+  \begin{quote}
+    $h(\vec{x},y) = \sum_{z<y}\prod_{w\leq z} sg(f(\vec{x},w))$
+  \end{quote}
+  
+  The product value is 1 on the intervals $[0,z]$ in which $f\not= 0$,
+  that if $z_0$ is the min $z<y$ where $f$ is null, they're exactly
+  $z_0$, therefore the external sum counts them.
 
-The product value is 1 on the intervals $[0,z]$ in which $f\not= 0$, that if $z_0$ is the min $z<y$ where $f$ is null, they're exactly $z_0$, therefore the external sum counts them.
+  Alternatively $h$ can be defined directly through primitive recursion:
 
-Alternatively $h$ can be defined directly through primitive recursion:
-
-$
-h(\vec{x},0) = 0\\
-\\
-h(\vec{x},y+1) = \begin{cases}
-  h(\vec{x},y)               & h(\vec{x},y)\not= y \\
-  \begin{cases}
-    y   & f(\vec{x},y) = 0 \\
-    y+1 & $otherwise$
-  \end{cases} & $ otherwise $
-\end{cases}\\
-\\
-sg(y-h(\vec{x},y)) \cdot h(\vec{x},y) + \bar{sg}(y-h(\vec{x},y))(y+sg(f(\vec{x},y)))
-$
+  \begin{quote}
+    $
+    h(\vec{x},0) = 0$\\[1mm]
+    %
+    $
+    \begin{array}{ll}
+      h (\vec{x},y+1)
+      & =
+        \begin{cases}
+          h(\vec{x},y)               & h(\vec{x},y)\not= y \\
+          \begin{cases}
+            y   & f(\vec{x},y) = 0 \\
+            y+1 & $otherwise$
+          \end{cases} & $ otherwise $
+        \end{cases}\\[2mm]
+        % 
+      & =sg(y-h(\vec{x},y)) \cdot h(\vec{x},y) + \bar{sg}(y-h(\vec{x},y))(y+sg(f(\vec{x},y)))
+    \end{array}
+    $
+  \end{quote}
+\end{proof}
 
 \textbf{Note}: Here too the bound can be a total computable function.
 
-\textbf{Lemma}: The following functions are computable:
+\begin{lemma}
+  The following functions are computable:
 \begin{enumerate}[label=\alph*)]
 \item $D(x) = $ number of divisors of $x$
 \item $Pr(x) = \begin{cases}
@@ -602,8 +661,9 @@ $
   \end{cases}$\\
   e.g. $72 = 2^3\cdot 3^2, (72)_1 = 3, (72)_2 = 2, (72)_3 = 0$
 \end{enumerate}
+\end{lemma}
 
-\textbf{proof}:
+\begin{proof}
 \begin{enumerate}[label=\alph*)]
 \item $D(x) = \sum_{y\leq x}div(y,x)$
 \item $Pr(x) = \begin{cases}
@@ -613,17 +673,26 @@ $
   $= \bar{sg}(|D(x)-2|)$
 \item $P_x$ can be defined by primitive recursion
 
-  $P_0=0$
-
-  $P_{x+1} = \mu z \leq (P_x!+1) . \bar{sg}(P_z(z)\cdot \mathcal{X}_{z>Px}(z))$
-
+  \begin{quote}
+    $P_0=0$\\
+    $P_{x+1} = \mu z \leq (P_x!+1) . \bar{sg}(P_z(z)\cdot \mathcal{X}_{z>Px}(z))$
+  \end{quote}
+  
   \textbf{Note}: certainly $P_{x+1} \leq P_x!+1$, and this allows us to fix the bound.
 
   in fact call $p$ a prime in the decomposition of $p_x!+1 (\geq 2)$, therefore $p|p_x!+1$, certainly $p>p_x$, otherwise $p|p_x!$ and therefore $p|1$. Therefore $p_x < p_{x+1} \leq p$
 
-\item note that $(x)_y = max \quad z$ s.t. $p_y^z|x = \\
-  min  \quad  z$ s.t. $p_y^{z+2}\not|x = \mu z\leq x . \lnot div((p_y)^{z+1},x)$
+\item note that
+  \begin{quote}
+    $\begin{array}{ll}
+       (x)_y & = \max \ z$ s.t. $p_y^z|x = \\
+             & = \min  \  z$ s.t. $p_y^{z+2}\not|x\\
+             & = \mu z\leq x . \lnot div((p_y)^{z+1},x)
+     \end{array}
+     $
+  \end{quote}
 \end{enumerate}
+\end{proof}
 
 \subsection{Exercises}
 Prove that the following functions are computable:
@@ -634,51 +703,52 @@ Prove that the following functions are computable:
   $\floor{\sqrt{x}} = max\, y\leq x \quad y^2 \leq x\\
   = min \, y \leq x \quad (y+1)^2 > x\\
   \mu y\leq x. ((x+1)-(y+1)^2)$
-\item $lcm(x,y)\\
+\item $\mathit{lcm}(x,y)\\
   mxm(x,y) = \mu < \leq x\cdot y . (x|z $ and $ y|z)\\
   = \mu z \leq x\cdot y. \bar{sg}(dic(x,z)\cdot div(y,z))$
-\item $GCD(x,y)$
+\item $\mathit{GCD}(x,y)$
 
-  Certainly $GCD(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
+  Certainly $\mathit{GCD}(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
 
-  $GCD(x,y)\leq min(x,y)-\mu z\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))$
+  $\mathit{GCD}(x,y)\leq min(x,y)-\mu z\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))$
 \item number of prime divisors of $x$
 
   $\sum_{z\leq x} pr(z)\cdot div(z,x)$
 \end{enumerate}
 
-\section{Encoding of couples (and n-tuples)}
+\section{Encoding of pairs (and n-tuples)}
 
-Let us see an encoding in $\nat$ of couples (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the future\dots)
+Let us see an encoding in $\nat$ of pairs (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the future\dots)
 
-Let us define as a \textbf{couple encoding}:
-
-$\pi: \nat^2\rightarrow\nat\\
-\\
-\pi(x,y) = 2^x(2y+1)-1$
+Let us define as a \textbf{pair encoding}:
+\begin{quote}
+  $\pi: \nat^2\rightarrow\nat$\\  
+  $\pi(x,y) = 2^x(2y+1)-1$
+\end{quote}
 
 Notice that $\pi$ is bijective and effective (computable).
 
-The inverse can be characterized in terms of two computable functions that give the first and second component of a natural $x$ seen as couple:
+The inverse can be characterized in terms of two computable functions that give the first and second component of a natural $x$ seen as pair:
 
-$\pi^{-1}:\nat\rightarrow\nat^2\\
-\\
-\pi^{-1}(x) = (\pi_1(x),\pi_2(x))$
-
-where $\pi_1(x) = (x+1)_1\\
-\pi_2(x) = (\frac{x+1}{2\pi_1(x)}-1)/2$
+\begin{quote}
+  $\pi^{-1}:\nat\rightarrow\nat^2$\\
+  $\pi^{-1}(x) = (\pi_1(x),\pi_2(x))$
+\end{quote}
+%
+where $\pi_1(x) = (x+1)_1$ and 
+$\pi_2(x) = (\frac{x+1}{2\pi_1(x)}-1)/2$.
 
 (the division is $qt(\_,\_)$)
 
 It can be generalized to an encoding of $n$-tuples:
-
-$\pi^n: \nat^n\rightarrow\nat \quad n\geq2$
-
+\begin{quote}
+  $\pi^n: \nat^n\rightarrow\nat \quad n\geq2$
+\end{quote}
 defining inductively
-
-$\pi^2 = \pi\\
-\\
-\pi^{n+1}(\vec{x},y) = \pi(\pi^n(\vec{x},y)) \quad \vec{x} \in \nat^n, y \in \nat$
+\begin{quote}
+  $\pi^2 = \pi$\\
+  $\pi^{n+1}(\vec{x},y) = \pi(\pi^n(\vec{x},y)) \quad \vec{x} \in \nat^n, y \in \nat$
+\end{quote}
 
 and correspondingly we can define the projections $pi_j^n:\nat\rightarrow\nat^n$
 
@@ -686,26 +756,36 @@ and correspondingly we can define the projections $pi_j^n:\nat\rightarrow\nat^n$
 
 The Fibonacci function is defined by:
 
-$ fib(0) = fib(1) = 1\\
-\\
-fib(n+2) = fib(n) + fib(n+1) $
+\begin{quote}
+  $ fib(0) = fib(1) = 1$\\
+  $fib(n+2) = fib(n) + fib(n+1)$
+\end{quote}
 
-This isn't exactly a definition by primitive recursion. Given that $f(y+2)$ is defined in terms of $f(y)$ and $f(y+1)$, it does not respect the schema\dots
+This is not exactly a definition by primitive recursion. Given that $f(y+2)$ is defined in terms of $f(y)$ and $f(y+1)$, it does not respect the schema \dots
 
 We can show that $f$ is computable by resorting to the encoding and defining:
 
-$g:\nat\rightarrow\nat\\
-g(y) = \pi(f(y),f(y+1))$
+\begin{quote}
+  $g:\nat\rightarrow\nat$\\
+  $g(y) = \pi(f(y),f(y+1))$\\
+\end{quote}
 
 therefore $g$ can be defined by primitive recursion:
 
-$g(0) = \pi(f(0),f(1)) = \pi(1,1)\\
-g(y+1) = \pi(f(y+1),f(y+2)) = \pi(f(y+1),f(y)+f(y+1))\\
-= \pi(\pi_2(g(y)), \pi_1(g(y)) + \pi_2(g(y)))$
+\begin{quote}
+  $\begin{array}{ll}
+     g(0) & =  \pi(f(0),f(1)) = \pi(1,1)\\[2mm]
+     %
+     g(y+1)  & = \pi(f(y+1),f(y+2)) = \pi(f(y+1),f(y)+f(y+1))\\
+              & = \pi(\pi_2(g(y)), \pi_1(g(y)) + \pi_2(g(y)))
+   \end{array}
+   $
+\end{quote}
+so $g$ is computable, by primitive recursion.
 
-so $g$ is computable.
+Finally, $f(y) = \pi_1(g(y))$ is computable by composition.
 
-$f(y) = \pi_1(g(y))$ computable.
+\medskip
 
 In general we could have a function $f$ defined using $k$ previous values
 
@@ -719,32 +799,38 @@ with $h:\nat^k\rightarrow\nat$ computable.
 
 One can proceed like before and define
 
-$g:\nat\rightarrow\nat\\
-\\
-g(y) = \pi^k(f(y),\dots,f(y+k-1))$
+\begin{quote}
+  $g:\nat\rightarrow\nat$\\
+  $g(y) = \pi^k(f(y),\dots,f(y+k-1))$
+\end{quote}
 
-the $g$ function can be defined by primitive recursion
+Then function $g$ can be defined by primitive recursion
 
-$g(0) = \pi^k(c_0,\dots,c_{k-1})\\
-\\
-g(y+1) = \pi^k(f(y+1),\dots,f(y+k-1),f(y+k))\\
-\\
-f(y+1) = \pi_2^k(g(y))\\
-\\
-f(y+k-1) = \pi_k^k(g(y))\\
-\\
-f(y+k) = h(f(y),\dots,f(y+k-1)) = h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y)))\\
-\\
-= \pi^k(\pi_2^k(g(y)),\dots,\pi_k^k(g(y)),h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y))))$
+\begin{quote}
+  $g(0) = \pi^k(c_0,\dots,c_{k-1})$\\
+  $g(y+1) = \pi^k(f(y+1),\dots,f(y+k-1),f(y+k))$
+\end{quote}
+where
+\begin{quote}
+  $\begin{array}{ll}
+     f(y+1) & = \pi_2^k(g(y))\\
+     f(y+k-1) & = \pi_k^k(g(y))\\
+     f(y+k) & = h(f(y),\dots,f(y+k-1)) \\
+            & = h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y)))\\
+            & = \pi^k(\pi_2^k(g(y)),\dots,\pi_k^k(g(y)),h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y))))
+   \end{array}
+   $
+ \end{quote}
 
-g is computable, so $f(y) = \pi_1(g(y))$ is computable.
+ g is computable, so $f(y) = \pi_1(g(y))$ is computable.
 
 \section{Minimization}
-The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unlimited minimization} operator.
+The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unbounded minimalisation} operator.
 
-Similar to the limited minimization, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines more or less the following function:
-
-$\mu y . f(\vec{x},y) $ = minimum $y$ s.t. $f(\vec{x},y) = 0$.
+Similar to the bounded minimalisation, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines, informally, the following function:
+\begin{quote}
+  $\mu y . f(\vec{x},y) $ = minimum $y$ s.t. $f(\vec{x},y) = 0$.
+\end{quote}
 
 But there are two problems:
 \begin{enumerate}
@@ -752,29 +838,36 @@ But there are two problems:
 \item if before finding a $y$ s.t. $f(\vec{x},y) = 0$ happens that $f(\vec{x},z)\uparrow$ the minimization is $\uparrow$
 \end{enumerate}
 
-intuitive if we think about the obvious algorithm to calculate it: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
+The above is intuitive if we think about the obvious algorithm to compute the minimalisation: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
 
-\textbf{Definition}: Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function $h:\nat^k\rightarrow\nat$ defined through \textbf{unlimited minimization} is:
+\begin{definition}
+  Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function
+  $h:\nat^k\rightarrow\nat$ defined through \textbf{unbounded
+    minimalisation} is:
 
-\begin{equation*}
-  h(\vec{x}) = \mu y. f(\vec{x},y) = \begin{cases}
-    $least $ z$ s.t. $ & \begin{cases}
-      f(\vec{x},z) = 0 \\
-      f(\vec{x},z)\downarrow \quad f(\vec{x},z') \not= 0 \quad $ for $ z<z'
-    \end{cases} \\
-    \uparrow           & $ otherwise $
-  \end{cases}
-\end{equation*}
+  \begin{equation*}
+    h(\vec{x}) = \mu y. f(\vec{x},y) = \begin{cases}
+      $least $ z$ s.t. $ & \begin{cases}
+        f(\vec{x},z) = 0 \\
+        f(\vec{x},z)\downarrow \quad f(\vec{x},z') \not= 0 \quad $ for $ z<z'
+      \end{cases} \\
+      \uparrow           & $ otherwise $
+    \end{cases}
+  \end{equation*}
+\end{definition}
 
-\section{Closure of $\mathcal{C}$ for minimization}
+\section{Closure of $\mathcal{C}$ under minimalisation}
 
-\textbf{Theorem}: Let $f:\nat^{k+1}\rightarrow\nat$ a computable function (not necessarily total). Then $h:\nat^k\rightarrow\nat$ defined by $h(\vec{x}) = \mu y. f(\vec{x},y)$ is computable.
+\begin{theorem}
+  Let $f:\nat^{k+1}\rightarrow\nat$ a computable function (not necessarily total). Then $h:\nat^k\rightarrow\nat$ defined by $h(\vec{x}) = \mu y. f(\vec{x},y)$ is computable.
+\end{theorem}
 
-\textbf{proof}: Let $F$ be a program in standard form for $f$.
+\begin{proof}
+  Let $F$ be a program in standard form for $f$.
 
-\textbf{idea:} for $z=0,1,2,\dots$ we calculate $f(\vec{x},z)$ until we find a zero\dots
-
-We need to save the argument $\vec{x}$ in a zone that's not used by the program $F$.
+  \textbf{idea:} for $z=0,1,2,\dots$ we compute $f(\vec{x},z)$ until we find a zero\dots
+  
+  We need to save the argument $\vec{x}$ in a zone that is not used by the program $F$.
 
 $m = max\{\rho(F),k+1\}$
 
@@ -788,35 +881,45 @@ $\begin{tabu}{cccccccc}
 \end{tabu}$
 
 $\begin{tabu}{lll}
-  & T([1,k],[m+1,m+k])              & saves \vec{x}                                       \\
+  & T([1,k],[m+1,m+k])
+  & \mbox{saves $\vec{x}$}\\
+  %
   LOOP: & F[m+1,\dots,m+k+1\rightarrow 1] & f(\vec{x},z) \rightarrow R_1                        \\
-  & J(1,m+k+2,END)                  & m+k+z $ contains $ 0' \Rightarrow f(\vec{x},z) = 0? \\
+  & J(1,m+k+2,END)                  &  \mbox{$f(\vec{x},z) = 0$? (recall that $m+k+z$ contains $0$)}\\
   & S(m+k+1)                        & z=z+1                                               \\
   & J(1,1,LOOP)                     &                                                     \\
   END:  & T(m+k+1,1)
 \end{tabu}$
+\end{proof}
 
-\textbf{Note} $F$ may not terminate\dots it is correct! The entire program doesn't terminate and $\mu$ is undefined!
+\textbf{Note}: Observe that $F$ may not terminate \dots this is correct! The entire program does not terminate and $\mu$ is undefined!
 
-\textbf{Note:} \textbf{While} loop implemented with \textbf{goto}.
+\textbf{Note:} This is nothing more than a \textbf{while} loop implemented with \textbf{goto}.
 
 \textbf{Observation}: The $\mu$ operator allows us to obtain \textbf{non total} functions starting from total functions.
 
-\textbf{Example}: Given $f(x,y) = |x-y^2|\\
-\\
-\mu u. f(x,y) = \begin{cases}
-  \sqrt{x} & x $ is a perfect square $ \\
-  \uparrow & $ otherwise $
-\end{cases}$
+\begin{example}
+  Given $f(x,y) = |x-y^2|$ we have that
+  \begin{quote}
+    $\mu u. f(x,y) =
+    \begin{cases}
+      \sqrt{x} & x $ is a perfect square $ \\
+      \uparrow & $ otherwise $
+    \end{cases}$
+  \end{quote}
+\end{example}
 
-\textbf{Exercise}: Let $f:\nat\rightarrow\nat$ be computable, total and injective. The the \textbf{inverse} $f^{-1} = \begin{cases}
-  y        & f(y) = x                \\
-  \uparrow & \not\exists y. f(y) = x
+\begin{exercise}
+  Let $f:\nat\rightarrow\nat$ be computable, total and injective. The
+  the \textbf{inverse} $f^{-1} = \begin{cases}
+    y        & f(y) = x                \\
+    \uparrow & \not\exists y. f(y) = x
 \end{cases}$
 
 is computable. In fact, in our hypothesis' $f^{-1}(x) = \mu y. |f(y)-x|$
+\end{exercise}
 
-\textbf{Note} This proof uses in an essential way the fact that $f$ is total, but the result is completely general \dots
+\textbf{Note} The above proof uses in an essential way the fact that $f$ is total, but the result is completely general \dots
 
 Intuitively, when $f$ is not total, to find $f^{-1}(x)$ we consider a program $P$ for $f$ and I execute it as follows:
 \begin{itemize}
@@ -833,42 +936,60 @@ Every time for a certain number of steps $k$ on argument $y$, the program \textb
 
 Informal \dots we will see how to formalize it.
 
-\textbf{Exercize}: Prove that the following function is computable.
+\begin{exercise}
+  Prove that the following function is computable.
+  
+  $f(x,y) = \begin{cases}
+    \frac{x}{y} & y\not= 0 \land y|z \\
+    \uparrow    & $ otherwise $
+  \end{cases}$
+  
+  First attempt:
+  
+  \begin{quote}
+    $f(x,y) = \mu z. |yz - x|$
+  \end{quote}
+  
+  It is almost ok\dots except for the fact that $f(0,0) = 0$ instead of $\uparrow$
+  
+  The problem can be solved with a (classic) trick:
+  
+  \begin{quote}
+    $f(x,y) = \mu z. (|yz-x| + \mathcal{X}_{x=0\land y=0}(x,y))$
+  \end{quote}
+\end{exercise}
 
-$f(x,y) = \begin{cases}
-  \frac{x}{y} & y\not= 0 \land y|z \\
-  \uparrow    & $ otherwise $
-\end{cases}$
 
-First attempt:
+\begin{lemma}
+  All the functions with finite domain are computable, meaning let
+  $\theta: \nat\rightarrow\nat \quad dom(\theta)$ finite
+  $ \Rightarrow \theta$ computable.
+\end{lemma}
+  
+\begin{proof}
+  Let $\theta:\nat\rightarrow\nat$ a finite domain:
+  
+  \begin{quote}
+    $\theta=\{(x_1,y_1),\dots,(x_n,y_n)\}$
+  \end{quote}
+  meaning:
+  
+  \begin{quote}
+    $\theta(x) = \begin{cases}
+      y_1      & x=x_1         \\
+      \dots                    \\
+      y_n      & x=x_n         \\
+      \uparrow & $ otherwise $
+    \end{cases}$
+  \end{quote}
+  
+  Therefore
+  
+  \begin{quote}
+    $\theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)$
+  \end{quote}
+  
+  The minimization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
+\end{proof}
 
-$f(x,y) = \mu z. |yz - x|$
-
-It's almost ok\dots except for the fact that $f(0,0) = 0$ instead of $\uparrow$
-
-The problem can be solved with a (classic) trick:
-
-$f(x,y) = \mu z. (|yz-x| + \mathcal{X}_{x=0\land y=0}(x,y))$
-
-\textbf{Exercise}: All the functions with finite domain are computable, meaning let $\theta: \nat\rightarrow\nat \quad dom(\theta)$ finite $ \Rightarrow \theta$ computable.
-
-Formulated for unary functions for the sake of notation, but easily generalizable.
-
-\textbf{proof}: Let $\theta:\nat\rightarrow\nat$ a finite domain:
-
-$\theta=\{(x_1,y_1),\dots,(x_n,y_n)\}$
-
-meaning:
-
-$\theta(x) = \begin{cases}
-  y_1      & x=x_1         \\
-  \dots                    \\
-  y_n      & x=x_n         \\
-  \uparrow & $ otherwise $
-\end{cases}$
-
-therefore
-
-$\theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)$
-
-The minimization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
+The above lemma is formulated for unary functions for the sake of simplicity, but easily generalizable.

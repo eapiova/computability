@@ -6,7 +6,7 @@ We'll now see how the theory which was described up until now allows us to
 prove the existence of a
 universal function is able to reproduce the behaviour of each
 and every other computable function. 
-Let's consider the function $\Psi : \nat^{2} \rightarrow \nat$
+Let us consider the function $\Psi : \nat^{2} \rightarrow \nat$
 \[
   \Psi(x,y) = \varphi_e(y)
 \]
@@ -103,14 +103,14 @@ In fact, the following result applies
     $\Psi_{\mathcal{U}}^{(k)}$ is also computable. 
     
     We proceed in the
-    same way we did in the proof \S\ref{reqc}, by proving that
+    same way we did in the proof of Theorem~\ref{reqc}, by proving that
     $c_k, j_k \in \pr$ (in fact, this can be seen as a more formal
     proof of the same fact, the only difference is that we defined
-    $c_P, j_P$ with \emph{a fixed $P$} in the latter demonstration.
+    $c_P, j_P$ with \emph{a fixed $P$} in the latter proof.
     Nevertheless, $P$ is instead a parameter here).
 
-    \newcommand{\uarg}{{\mbox{arg}}}
-    \newcommand{\uargh}{{\mbox{arg}_h}}
+    \newcommand{\uarg}{{\mathit{arg}}}
+    \newcommand{\uargh}{{\mathit{arg}_h}}
     \begin{enumerate}[label=(\alph*)]
     \item given $i \in \nat$ instruction code $( i = \beta(\mbox{Instruction}))$
       \begin{align*}
@@ -228,7 +228,7 @@ computable function in Kleene Normal Form (KNF).
       functions using minimimalisation at most one time (we can use just one
       \texttt{while})
     \item Minimimalisation allows us to ``search'' a single value that has a
-      certain property. The one we used is a technique to search couples
+      certain property. The one we used is a technique to search pairs
       of values generalizable to tuples.
     \end{enumerate}
 \end{observation}
@@ -303,7 +303,7 @@ statements are undecidable (Halting problem):
 
 \section{Effective operations on computable functions}
 The existence of the universal function, together with the \emph{smn}
-theorem allows us to prove the effectivity of various
+theorem allows us to prove the effectiveness of various
 operations.
 \begin{proposition}[Effectiveness of product]
   There exists a function $s: \nat^2 \rightarrow \nat$ total and computable
@@ -491,5 +491,3 @@ predicate $Q$, then $\varphi_{k(x)} = \chi_{\neg Q}$
   \]
 \end{proof}
 \end{proposition}
-
-

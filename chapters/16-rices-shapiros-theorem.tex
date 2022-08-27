@@ -1,5 +1,5 @@
-\chapter {Rice-shapiro theorem}
-Rice-shapiro states that a property of the functions computed by
+\chapter {Rice-Shapiro theorem}
+Rice-Shapiro states that a property of the functions computed by
 programs can be semi-decidable \textbf{only if} it depends on a finite
 part of the function (behavior on finite inputs). 
 \begin{theorem}[Rice-shapiro theorem]
@@ -12,26 +12,43 @@ part of the function (behavior on finite inputs).
     \mathcal{A})
   \]
 
-In order for us to prove this theorem, we'll need some more tools:
+\end{theorem}
+
+In order to prove the above theorem, we will need some more tools.
+
 \begin{definition}[Finite function]
-  A finite function is a function $ \theta: \nat\rightarrow\nat $
-  such that $ dom(\theta) $ is finite.  This means that the set of
-  input-output pairs is finite; in other words
-  $ \theta = \{(x_1,y_1),\dots(x_n,y_n) \} $ and it is undefined on other inputs.
+  A finite function is a function $\theta: \nat\rightarrow\nat$
+  such that $dom(\theta)$ is finite.
 \end{definition}
 
+The fact that a function is finite means that the set of
+input-output pairs is finite, i.e.,
+
+\[
+  \theta(x) =
+  \begin{cases}
+    y_1 & \mbox{if $x=x_1$}\\
+    y_2 & \mbox{if $x=x_2$}\\
+    \ldots\\
+    y_n & \mbox{if $x=x_m$}\\
+    \uparrow & \mbox{otherwise}
+  \end{cases}
+\]In other words
+  $\theta = \{(x_1,y_1),\dots(x_n,y_n) \}$, i.e., seen a set the function is finite.
+
 \begin{definition}
-  Given $ f:\nat\rightarrow\nat $, $ \theta $ is a sub-function of
-$f$ if $ \theta \subseteq f $
+  Given $f:\nat\rightarrow\nat$, $\theta$ is a sub-function of
+$f$ if $\theta \subseteq f$
 \end{definition}
 
 
 \begin{notation}
+  We recall some notation:
   \begin{itemize}
-  \item $ W_e $ is the domain of the function $ \varphi_e $;
+  \item $ W_e $ is the domain of the function $\varphi_e$;
   \item $ E_e = \{\varphi_e(x) \mid x\in W_e \}$;
-  \item $ H(x,y,t) = $ "$ P_x(y)\downarrow $ in $t$ steps or les";
-  \item $ s(x,y,z,t) =$ "$ P_x(y)\downarrow z$ in $t$ steps or les";
+  \item $ H(x,y,t) = $ "$P_x(y)\downarrow$ in $t$ steps or less";
+  \item $ s(x,y,z,t) =$ "$ P_x(y)\downarrow z$ in $t$ steps or less";
   \item $ K = \{x \mid x\in W_x \} = \{x\mid \varphi_x(x)\downarrow \} =
     \{x\mid P_x(x) \mbox{ terminates} \}$
   \end{itemize}
@@ -74,17 +91,17 @@ $f$ if $ \theta \subseteq f $
       \end{aligned}
     \end{equation*}
 
-    Since $ x\in K\lor y\in dom(\theta) = Q(x,y)$ predicate, $ x\in K $
-    semi-decidable and $ y \in dom(\theta) $ decidable, then $ Q(x,y) $
+    Since $ x\in K\lor y\in dom(\theta) = Q(x,y)$ predicate, $x\in K$
+    semi-decidable and $y \in dom(\theta)$ decidable, then $ Q(x,y) $
     semi-decidable.
     Then, since
     \begin{equation*}
     sc_Q(x,y) = \begin{cases}
         1 & Q(x,y) \\
-        0 & $ altrimenti $
+        0 & $ otherwise $
       \end{cases}
     \end{equation*}
-  is computable, we have $ g(x, y) = f(y) \cdot sc_Q(x,y) $ computable.
+  is computable, we have $g(x, y) = f(y) \cdot sc_Q(x,y)$ computable.
 
     By \emph{smn} theorem, there is a total computable function $
     s:\nat\rightarrow\nat $ such that, for every $x, y$
@@ -94,7 +111,7 @@ $f$ if $ \theta \subseteq f $
         f(y) & x \in K
       \end{cases}
     \end{equation*}
-    We show that $s$ is the reduction function for $ \bar{K}\red A $
+    We show that $s$ is the reduction function for $\bar{K}\red A$
 
     \begin{itemize}
     \item $ x\in\bar{K} \Rightarrow \forall y\ \varphi_{s(x)}(y) = g(x,y) =
@@ -103,18 +120,18 @@ $f$ if $ \theta \subseteq f $
       y\ \varphi_{s(x)}(y) = g(x,y)=f(y)\Rightarrow\varphi_{s(x)}=f \notin \mathcal{A}\Rightarrow
       s(x)\notin{A}$
     \end{itemize}
-    Since $ \bar{K} \red A$ and $ \bar{K} $ is not r.e. we conclude that $A$ is
+    Since $ \bar{K} \red A$ and $\bar{K}$ is not r.e. we conclude that $A$ is
     not r.e.
 
     \item
-    Let $ f\in\mathcal{A}\land\theta\subseteq f $ be with $ \theta $
-    finite, $ \theta\not\in\mathcal{A} $
+    Let $f\in\mathcal{A}\land\theta\subseteq f$ be with $\theta$
+    finite, $\theta\not\in\mathcal{A}$
 
     Informally, we want
     \begin{equation*}
       g(x,y) = \begin{cases}
         f(y) & x \in\bar{K} $ $(\varphi_x(x)\uparrow) \\
-        \theta(y) & $for some $ \theta\subseteq f $ finite, otherwise ($ x\in K $) $
+        \theta(y) & $for some $\theta\subseteq f$ finite, otherwise ($x\in K$) $
       \end{cases}
     \end{equation*}
 
@@ -128,9 +145,9 @@ $f$ if $ \theta \subseteq f $
     \end{align*}
     is computable.
 
-    By \emph{smn} there exists $ s:\nat\rightarrow\nat $ total computable such that
+    By \emph{smn} there exists $s:\nat\rightarrow\nat$ total computable such that
     \[\varphi_{s(x)}(y) = g(x,y) \]
-    We show that $s$ is a reduction function for $ \bar{K}\red A $
+    We show that $s$ is a reduction function for $\bar{K}\red A$
     \begin{itemize}
     \item $ x\in\bar{K}\\ 
       \Rightarrow\varphi_{x}(x)\uparrow \\
@@ -150,7 +167,7 @@ $f$ if $ \theta \subseteq f $
     \end{itemize}
   \end{enumerate}
 \end{proof}
-\end{theorem}
+
 
 \begin{example}\label{exe:rice1}
   $A = \{ x \mid \varphi_x \mbox{ total}\}$ is not r.e.
@@ -161,7 +178,7 @@ $f$ if $ \theta \subseteq f $
     Given any function $f \in \mathcal{A}$ (total by
     definition) we know that $\forall \theta \subseteq f$
     is finite $\theta \notin \mathcal{A}$, since each and every finite
-    function is partial, then by Rice-shapiro's theorem, $A$ is
+    function is partial, then by Rice-Shapiro's theorem, $A$ is
     not r.e.
   \end{proof}
 \end{example}
@@ -172,7 +189,7 @@ $f$ if $ \theta \subseteq f $
   \begin{proof}
     Let $\bar{\mathcal{A}} = \{f \in \mathcal{C} \mid f $ not total$\}$. We observe that each $\theta$ finite is in
     $\bar{\mathcal{A}}$, but no total extension of such $\theta$ can
-    be included in $\bar{\mathcal{A}}$. Again, by Rice-shapiro
+    be included in $\bar{\mathcal{A}}$. Again, by Rice-Shapiro
     $\bar{A}$ is not r.e.
   \end{proof}
 \end{example}
@@ -227,14 +244,14 @@ understand two core situations in which we can apply the theorem:
 \end{example}
 
 \begin{observation}
-  The converse implication of the Rice-shapiro theorem does not hold, i.e. the following does not hold
+  The converse implication of the Rice-Shapiro theorem does not hold, i.e. the following does not hold
   \begin{equation}\label{eq:star}
     \forall f \; (\; f \in \mathcal{A} \mbox{ iff } \exists \theta \mbox{
       finite, } \theta \subseteq f, \; \theta \in \mathcal{A} \; ) \quad
     \Rightarrow \quad A \mbox{ r.e. }
   \end{equation}
 
-  In other words, Rice-shapiro can be used to prove that a set is
+  In other words, Rice-Shapiro can be used to prove that a set is
   \emph{not} r.e., but \underline{not} to prove that a set is r.e.
   \begin{proof}
     Let
@@ -291,5 +308,3 @@ understand two core situations in which we can apply the theorem:
     \end{enumerate}
   \end{proof}
 \end{observation}
-
-

@@ -43,7 +43,7 @@ or, again, if there exists $\mathcal{A} \subseteq \mathcal{C}$ such that
     &=
     \{e \mid \phi_e \in \mathcal{T}_2 \}
   \end{align*}
-  two programs can calculate the same function, one terminates in
+  two programs can compute the same function, one terminates in
   less than 2 steps and the other in more than 2. Thus, the set is not
   saturated.
 \end{example}
@@ -73,12 +73,12 @@ or, again, if there exists $\mathcal{A} \subseteq \mathcal{C}$ such that
 \end{theorem}
 
 \begin{proof}
-  We show that $ K \red A $. 
-  Let $ e_0$ such that $ \phi_{e_0}(x)\uparrow\forall x $
+  We show that $K \red A$. 
+  Let $ e_0$ such that $\phi_{e_0}(x)\uparrow\forall x$
   \begin{itemize}
   \item[($e_0 \notin A$)]
      Suppose
-    $ e_0\notin A $ and let $ e_1\in A $.
+    $e_0\notin A$ and let $e_1\in A$.
     Now define
     \begin{align*}
       g(x,y) &= \begin{cases}
@@ -106,10 +106,10 @@ or, again, if there exists $\mathcal{A} \subseteq \mathcal{C}$ such that
     \end{itemize}
     Hence $K \leq_m A$, $K$ not recursive, thus $A$.
     
-  \item[($e_0 \in A$)] If $ e_0 \in A $ then $ e_0 \not \in \bar{A}
+  \item[($e_0 \in A$)] If $e_0 \in A$ then $ e_0 \not \in \bar{A}
     $. Then
     $ \bar{A} \subseteq \nat, \bar{A} \neq \emptyset, \bar{A} \neq
-    \nat $, so $ \bar{A} $ is not recursive, and
+    \nat $, so $\bar{A}$ is not recursive, and
     therefore $A$ is not recursive either.
   \end{itemize}
 \end{proof}

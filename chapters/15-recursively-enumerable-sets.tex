@@ -1,7 +1,7 @@
 \chapter{Recursively enumerable sets}
 
 \begin{definition}[Recursively enumerable set]
-  We say that $ A \subseteq \nat $ is \emph{recursively enumerable} if
+  We say that $A \subseteq \nat$ is \emph{recursively enumerable} if
   the semi-characteristic function 
   \begin{equation*}
     sc_A(x) = \begin{cases} 1 & x \in A \\ \uparrow & $
@@ -12,7 +12,7 @@
 \end{definition}
 
 \begin{definition}[Semi-decidable predicate]
-  A predicate $ Q(x) \subseteq \nat $ is\\
+  A predicate $Q(x) \subseteq \nat$ is\\
    semi-decidable if 
   \( \{ x \in \nat \mid Q(x) \} \)
   is r.e.
@@ -88,7 +88,7 @@ $ is semi-decidable. This notion is also easily generalisable to
 \end{observation}
 
 \begin{theorem}[Structure of semi-decidable predicates]\label{th:structure}
-  Let $ P(\vec{x}) \subseteq \nat^k $ be a predicate.
+  Let $P(\vec{x}) \subseteq \nat^k$ be a predicate.
   $ P(\vec{x})$ is decidable if and only if there is a decidable predicate $
   Q(t,\vec{x}) \subseteq \nat^{k+1} $ such that $ P(\vec{x}) = \exists
   t. Q(t,\vec{x}) $
@@ -122,7 +122,7 @@ From the last theorem we had a hint about the fact that the class of
 semi-decidable predicates is closed under \emph{existential
   quantification}. The projection theorem states this:
 \begin{theorem}[Projection theorem]
-  Let $ P(x,\vec{y}) $ be semi-decidable; then
+  Let $P(x,\vec{y})$ be semi-decidable; then
   \[
     \exists x.P(x,\vec{y}) = P'(\vec{y})
   \]
@@ -148,14 +148,14 @@ semi-decidable predicates is closed under \emph{existential
 \end{theorem}
 
 \begin{theorem}[Closure property]
-  Let $ P_1(\vec{x}), P_2(\vec{x}) $ be semi-decidable predicates. Then
+  Let $P_1(\vec{x}), P_2(\vec{x})$ be semi-decidable predicates. Then
   \begin{itemize}
-  \item $  P_1(\vec{x}) \lor P_2(\vec{x}) $;
-  \item $ P_1(\vec{x}) \land P_2(\vec{x}) $
+  \item $ P_1(\vec{x}) \lor P_2(\vec{x})$;
+  \item $P_1(\vec{x}) \land P_2(\vec{x})$
   \end{itemize}
   are semi-decidable.
   \begin{proof}
-    Let $ P_1(\vec{x}), P_2(\vec{x}) $ be semi-decidable
+    Let $P_1(\vec{x}), P_2(\vec{x})$ be semi-decidable
     predicates. Then by (\ref{th:structure}) there are two
     decidable predicates \( Q_1(t, \vec{x}), Q_2(t, \vec{x})\) such that
     \begin{gather*}
@@ -190,8 +190,8 @@ semi-decidable predicates is closed under \emph{existential
 \end{observation}
 
 \begin{exercise}
-  Prove that if $ P(\vec{x}) $ is semi-decidable and is not decidable
-  then $ \lnot P(\vec{x}) $ is not semi-decidable.
+  Prove that if $P(\vec{x})$ is semi-decidable and is not decidable
+  then $\lnot P(\vec{x})$ is not semi-decidable.
 \end{exercise}
 
 \begin{observation}
@@ -207,10 +207,10 @@ semi-decidable predicates is closed under \emph{existential
 \subsection{r.e. sets and reducibility}
 Properties similar to those already seen for recursive sets hold for r.e. sets:
 \begin{observation}
-  Given $ A,B \subseteq \nat, A\leq_m B $, then
+  Given $A,B \subseteq \nat, A\leq_m B$, then
   \begin{itemize}
-  \item B is r.e. $ \Rightarrow $ A is r.e.
-  \item A is not r.e. $ \Rightarrow $ B not r.e.
+  \item B is r.e. $\Rightarrow$ A is r.e.
+  \item A is not r.e. $\Rightarrow$ B not r.e.
   \end{itemize}
   \begin{proof}
     \begin{enumerate}
@@ -221,8 +221,8 @@ Properties similar to those already seen for recursive sets hold for r.e. sets:
           \uparrow & $ otherwise $
         \end{cases}
       \end{equation*}
-      is computable.  Let $ f:\nat\rightarrow\nat $ be a total
-      computable reduction function for $ A\red B $. Then
+      is computable.  Let $f:\nat\rightarrow\nat$ be a total
+      computable reduction function for $A\red B$. Then
       $ sc_A(x) = sc_B(f(x)) $, therefore $ sc_A $ is computable by
       composition and $A$ is r.e.
       \item equivalent.

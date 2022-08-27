@@ -51,7 +51,7 @@ if we restrain ourselves to total functions (programs that always
 terminates), the \texttt{while} construct is essential.
 
 \section{Ackermann's function}
-Consider the function $ \psi: \nat^2 \rightarrow \nat $ defined as
+Consider the function $\psi: \nat^2 \rightarrow \nat$ defined as
 \begin{equation*}
   \begin{cases}
     \psi(0,y) = y+1\\
@@ -60,32 +60,31 @@ Consider the function $ \psi: \nat^2 \rightarrow \nat $ defined as
   \end{cases}
 \end{equation*}
 
-This scheme univocally
-guesses a function, because the value $\psi(x,y)$ is always defined
+This scheme uniquely determine a function, because the value $\psi(x,y)$ is always defined
 based on \emph{smaller} values of $\psi$ itself. But what does \emph{smaller} mean?
 
 \begin{itemize}
   \item in $\psi(x+1,0) = \psi(x,1)$ the first argument
   diminishes.
-  \item in $\psi(x+1,y+1)=\psi(x, \psi(x+1, y))$ at first we calculate $\psi(x+1, y)$
+  \item in $\psi(x+1,y+1)=\psi(x, \psi(x+1, y))$ at first we compute $\psi(x+1, y)$
   where the second argument diminishes and then $\psi(x,u)$ in which the first argument
   $u$ is, the first argument is smaller.
 \end{itemize}
  
 
 We can see that the arguments diminish in a \emph{lexicographical}
-order on $\mathbb{N}^2$, so we can define a partial ordered set 
-$(\mathbb{N}^2, \leq_{lex} )$ with $(x,y) \leq (x', y')$
+order on $\nat^2$, so we can define a partial ordered set 
+$(\nat^2, \leq_{lex} )$ with $(x,y) \leq (x', y')$
 if $(x < x') \wedge (x=x'$ and $y \leq y')$ and then
-$( \mathbb{N}^2, \leq_{lex} )$ is also \emph{well ordered}, i.e.
+$( \nat^2, \leq_{lex} )$ is also \emph{well ordered}, i.e.
 it does not allow for infinite descending sequences.
 
 \begin{definition}[Partially ordered set]
   A set $D$ with a binary relation $\leq$ is a partially ordered set (poset) $(D, \leq)$ if $\leq$ is a partial order, i.e., for all $x,y,z\in D$, it is
   \begin{enumerate}
-    \item reflexive: $ x\leq x $;
-    \item antisymmetric: if $ x\leq y $ and $ y\leq x $, then $ x=y $;
-    \item transitive: if $ x\leq y $ and $ y\leq z $, then $ x \leq z $.
+    \item reflexive: $x\leq x$;
+    \item antisymmetric: if $x\leq y$ and $y\leq x$, then $ x=y $;
+    \item transitive: if $x\leq y$ and $y\leq z$, then $x \leq z$.
   \end{enumerate}
 \end{definition}
 
@@ -109,8 +108,8 @@ with termination problems. If we can conclude that the set of
 configurations is well-founded, we simply need to prove
 that for each step \( \conf _i \rightarrow \conf_{i+1} \) and
 \( \conf _{i+1} < \conf _i \) to end our proof. This way our computation follows a descending sequence of values, necessarily finite.
-In fact, if we think the calculation of $\psi$ is based on the
-calculation of $\psi$ with smaller values, at some point it
+In fact, if we think the computation of $\psi$ is based on the
+computation of $\psi$ with smaller values, at some point it
 will for sure reach the case $\psi(0,y) = y + 1$, terminating.
 
 \begin{example}
@@ -139,7 +138,7 @@ A stronger induction principle can be defined on natural numbers:
 We can generalize the complete induction on $D$ well-founded poset:
 \begin{definition}[Well-founded induction]
   Let $(D, \leq)$ be a well-founded poset and let $P(x)$ a
-  property on elements of $D$. If for all $ d \in D $, assuming $P(d')$ for
+  property on elements of $D$. If for all $d \in D$, assuming $P(d')$ for
   $d' < d$, we can conclude that $P(d)$ holds, then
   \[
     \forall d\in D. P(d)
@@ -262,7 +261,7 @@ We can generalize the complete induction on $D$ well-founded poset:
       }
     \end{itemize}
 
-    And the associated caratheristic function
+    And the associated characteristic function
     \[\chi_{\text{Val}} \in \mathcal{PR}\]
 
     We can also verify that:
@@ -301,7 +300,7 @@ We can generalize the complete induction on $D$ well-founded poset:
 
 \begin{theorem}
   \[ \psi \notin \mathcal{PR} \]
-  \begin{proof}
+  \begin{proof}[Informal idea of the proof]
     The proof of the fact that $\psi$ is not a primitive recursive
     function is done by showing that $\psi$ \emph{grows} faster than
     every function in $\mathcal{PR}$. We already saw how we obtain
@@ -408,5 +407,3 @@ $\mu y . f(x,y)$ is total, then \[\mu y . f(x,y) \in \mathcal{R}_0\]
   \end{proof}
 \end{theorem}
 \end{observation}
-
-
