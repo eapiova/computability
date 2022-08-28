@@ -384,7 +384,8 @@ We start from $\begin{tabu}{|c|c|c|c|c|c|}
 
 we save the parameters and we start to compute $h(\vec{x},0)$ using $F$.
 
-If $y=0$ we are done, otherwise we save $h(\vec{x},0)$ and compute $h(\vec{x},1) = g(\vec{x},0,h(\vec{x},0))$ with $G$. Do the same for $h(\vec{x},i)$ until we arrive to $i=y$
+If $y=0$ we are done, otherwise we save $h(\vec{x},0)$ and compute $h(\vec{x},1) = g(\vec{x},0,h(\vec{x},0))$ with $G$. 
+We do the same for $h(\vec{x},i)$ until we arrive at $i=y$.
 
 As usual we need registers not used by $F$ and $G$, $m = max\{\rho(F),\rho(G),k+2\}$ and we build the program for $h$ as follows:
 
@@ -403,43 +404,58 @@ $\begin{tabu}{lll}
   & T(k+1,m+k+3)                         &                                 \\
   & F[m+1,\dots,m+k\rightarrow m+k+2]    & h(\vec{x},0)                               \\
   LOOP: & J(m+k+1,m+k+3,END)                   & i=y?                                       \\
-  & G[m+1,\dots,m+k+2 \rightarrow m+k+2] & h(\vec{x},i+1) = g(\vec{x},i,h(\vec{x},i)) \\
+  & G[m+1,\dots,m+k+2 \rightarrow m+k+2] & \\
   & S(m+k+1)                             & i = i+1                                    \\
   & J(1,1,LOOP)                          &                                            \\
   END:  & T(m+k+2,1)
 \end{tabu}$
 \end{proof}
 \end{proposition}
-
-
-\textbf{Note:} We do nothing more than implementing recursion through iteration!
+\begin{observation}
+  We do nothing more than implementing recursion through iteration.
+\end{observation}
 
 \begin{observation}
   The following functions are computable.
 \begin{enumerate}
 \item \textbf{sum} $x+y$, see above;
 \item \textbf{product} $x \cdot y$ see above;
-\item \textbf{exponential} $x^y$\\
-  $x^0 = 1, h(x,0) = 1, f(x) = 1$\\
-  $x^{y+1} = x^y\cdot x, h(x,y+1) = h(x,y)\cdot x, g(x,y,z) = z\cdot x$;
-\item \textbf{predecessor} $x \dot - 1$\\
-  $0 \dot -1 = 0, h(0) = 0, f \equiv \underline{0}$\\
-  $(x+1)\dotdiv  1 = x, h(x+1) = x, g(y,z) = y$;
+\item \textbf{exponential} $x^y$
+
+  $\begin{tabu}{lll}
+    x^0 = 1 & h(x,0) = 1 & f(x) = 1\\
+    x^{y+1} = x^y\cdot x & h(x,y+1) = h(x,y)\cdot x & g(x,y,z) = z\cdot x
+  \end{tabu}$
+\item \textbf{predecessor} $x \dotdiv 1$
+
+$\begin{tabu}{lll}
+  0 \dotdiv 1 = 0 & h(0) = 0 & f \equiv \underline{0}\\
+  (x+1)\dotdiv  1 = x & h(x+1) = x & g(y,z) = y
+\end{tabu}$
+  
 \item \textbf{subtraction} $x\dotdiv  y = \begin{cases}
     x-y & x \geq y    \\
     0   & $otherwise$
-  \end{cases}$\\
-  $x\dotdiv  0 = x, f(x) = x\\
-  x\dotdiv (x+1) = (x\dotdiv  y)\dotdiv  1, g(x,y,z) = z\dotdiv  1$;
+  \end{cases}$
+
+  $\begin{tabu}{ll}
+    x\dotdiv  0 = x & f(x) = x\\
+    x\dotdiv (y+1) = (x\dotdiv  y)\dotdiv  1 & g(x,y,z) = z\dotdiv  1
+  \end{tabu}$
+
 \item \textbf{sign} $sg(x) = \begin{cases}
     0 & x=0   \\
     1 & x > 0
-  \end{cases}\\
-  sg(0) = 0, f \equiv \underline{0}\\
-  sg(x+1) = 1, g(y,z) = 1$;
+  \end{cases}$
+
+  $\begin{tabu}{ll}
+    sg(0) = 0 & f \equiv \underline{0}\\
+    sg(x+1) = 1 & g(y,z) = 1
+  \end{tabu}$
+
 \item \textbf{complement sign} $\bar{sg}(x) = \begin{cases}
-    0 & x=0 \\
-    1 & x>0
+    1 & x=0 \\
+    0 & x>0
   \end{cases}\\
   \bar{sg}(x) = 1 \dotdiv  sg(x), $ composition and (6);
 \item $ |x - y| = \begin{cases}
@@ -447,39 +463,46 @@ $\begin{tabu}{lll}
     y-x & x < y
   \end{cases}$\\
   $ |x - y| = (x\dotdiv y)+(y\dotdiv x)$ from (1), (6) and composition;
-\item \textbf{factorial} $y!\\
-  0! = 1, f \equiv 1
-  (y+1)! = y!(y+1), g(y,z) = (y+1)z $;
+\item \textbf{factorial} $y!$\\
+$\begin{tabu}{lll}
+  0! = 1 & f \equiv (y+1)! = y! \cdot (y+1) & g(y,z) = (y+1) \cdot z
+\end{tabu}$
 \item \textbf{minimum} $min(x,y) = x\dotdiv  (x\dotdiv  y)$;
 \item \textbf{maximum} $max(x,y) = (x \dotdiv  y) + y$;
 \item \textbf{remainder} $rm(x,y) = \begin{cases}
-    y mod y & x \not= 0 \\
+    y \mod x & x \not= 0 \\
     y       & x=0
-  \end{cases}$ \\ rest of the integer division of $y$ by $x$ (convention! reasonable if the rest $rm(x,y)$ must be such that $\exists k \mid kx + rm(x,y) = y$)\\
-  $rm(x,0) = 0\\
-  rm(x,y+1) = \begin{cases}
-    rm(x,y)+1 & rm(x,y)+1 \not= x \\
-    0         & $otherwise$
-  \end{cases}\\
-  = (rm(x,y)+1) sg((x\dotdiv  1)\dotdiv  rm(x,y))\\
-  f(x) = 0, g(x,y,z) = z * sg(x\dotdiv 1\dotdiv z)$ OK!
-
-
+  \end{cases}$ \\ 
+  remainder of the integer division of $y$ by $x$ 
+  \begin{align*}
+    rm(x,0) &= 0\\
+    rm(x,y+1) &= \begin{cases}
+      rm(x,y)+1 & rm(x,y)+1 \not= x \\
+      0         & $otherwise$
+    \end{cases}\\
+    &= (rm(x,y)+1)  \cdot sg((x\dotdiv  1)\dotdiv  rm(x,y))\\
+    f(x) = 0 &\quad  g(x,y,z) = z * sg(x\dotdiv 1\dotdiv z)
+  \end{align*}
   
-\item \textbf{quotient} = $qt(x,y) = y$ div $x$, by convention $qt(0,y) = y$\\
-  we define:\\
-  $qt(x,0) = 0\\
-  qt(x,y+1) = \begin{cases}
-    qt(x,y)+1 & rm(x,y)+1=x  \\
-    qt(x,y)   & $ otherwise$
-  \end{cases}\\
-  = qt(x,y) + sg((x\dotdiv 1)\dotdiv rm(x,y))$
+\item \textbf{quotient} $qt(x,y) = y$ div $x$ (convention $qt(0,y) = y$),
+  we define:
+  \begin{align*}
+    qt(x,0) &= 0\\
+    qt(x,y+1) &= \begin{cases}
+      qt(x,y)+1 & rm(x,y)+1=x  \\
+      qt(x,y)   & $ otherwise$
+    \end{cases}\\
+    &= qt(x,y) + sg((x\dotdiv 1)\dotdiv rm(x,y))
+  \end{align*}
 
-\item $div(x,y) = \begin{cases}
-    1 & x|y                                   \\
-    0 & $otherwise, $0|0 $ and $ 0\not|y, y>0
+
+\item \begin{align*}
+div(x,y) &= \begin{cases}
+    1 & rm(x,y) = 0                                   \\
+    0 & $otherwise$
   \end{cases}\\
-  div(x,y) = \bar{sg}(rm(x,y))$
+  &= \bar{sg}(rm(x,y))
+\end{align*}
 \end{enumerate}
 \end{observation}
 
@@ -694,15 +717,21 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
 \subsection{Exercises}
 Prove that the following functions are computable:
 
-\begin{enumerate}[label=\alph*)]
+\begin{enumerate}[label=\alph*]
 \item $\floor{\sqrt{x}}$
+  \begin{align*}
+    \floor{\sqrt{x}} &= max\, y\leq x . y^2 \leq x\\
+                     &= min \, y \leq x . (y+1)^2 > x\\
+                     &\mu y\leq x. ((x+1)-(y+1)^2)
+  \end{align*}
+  
+\item $\mathit{lcm}(x,y)$
 
-  $\floor{\sqrt{x}} = max\, y\leq x \quad y^2 \leq x\\
-  = min \, y \leq x \quad (y+1)^2 > x\\
-  \mu y\leq x. ((x+1)-(y+1)^2)$
-\item $\mathit{lcm}(x,y)\\
-  mxm(x,y) = \mu < \leq x\cdot y . (x|z $ and $ y|z)\\
-  = \mu z \leq x\cdot y. \bar{sg}(dic(x,z)\cdot div(y,z))$
+\begin{align*}
+  lcm(x,y) &= \mu z \leq x\cdot y . (x \mid z $ and $ y \mid z)\\
+  &= \mu z \leq x\cdot y \cdot \bar{sg}(div(x,z)\cdot div(y,z))
+\end{align*}
+  
 \item $\mathit{GCD}(x,y)$
 
   Certainly $\mathit{GCD}(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
