@@ -520,13 +520,12 @@ It is enough to observe that:
 \end{enumerate}
 \end{proof}
 
-We remind that $\{\neg, \wedge, \vee \}$ ($\{\neg, \vee \}$ is enough) is a set of connectives functionally complete (it allows to express any function $\{0,1\}^n \rightarrow \{0,1\}$). We deduce that:
-
+We remind that $\{\neg, \wedge, \vee \}$ ($\{\neg, \vee \}$ is enough) is a functionally complete set of connectives (it allows to express any function $\{0,1\}^n \rightarrow \{0,1\}$). We deduce that:
 \begin{corollary}
   Let $Q_1, \dots, Q_n \subseteq \nat^k$ decidable predicates and let $f:\{0,1\}^n \rightarrow \{0,1\}$ a function, let us consider:
   \begin{quote}
     $\mathcal{X}: \nat^k\rightarrow\{0,1\}$\\
-    $\mathcal{X}(\vec{x}) = f(\mathcal{X}_{Q1}(\vec{x})), \dots, \mathcal{X}_{Qn}(\vec{x}) )$
+    $\mathcal{X}(\vec{x}) = f(\mathcal{X}_{Q_1}(\vec{x}), \dots, \mathcal{X}_{Q_n}(\vec{x}) )$
   \end{quote}
   Then the predicate $Q$ which corresponds to $\mathcal{X}$ is
   decidable, and therefore $\mathcal{X}$ is computable.
@@ -534,26 +533,24 @@ We remind that $\{\neg, \wedge, \vee \}$ ($\{\neg, \vee \}$ is enough) is a set 
 
 \section{Sum, product, bounded quantification}
 
-\begin{definition}[bounded sum and product]
+\begin{definition}[Bounded sum and product]
   Let $f:\nat^{k+1}\rightarrow\nat$ be a total function. Then
   
   \begin{itemize}
     
   \item 
     $\sum_{z<y}f(\vec{x},z)$ is defined by
-    \begin{quote}
-      $\sum_{z<0}f(\vec{x},z) = 0$
-      
-      $\sum_{z<y+1}f(\vec{x},z) = \sum_{z<y}f(\vec{x},z) + f(\vec{x},y)$
-    \end{quote}
+    \begin{align*}
+      \sum_{z<0}f(\vec{x},z) &= 0 \\
+      \sum_{z<y+1}f(\vec{x},z) &= \sum_{z<y}f(\vec{x},z) + f(\vec{x},y)
+    \end{align*}
     
     
   \item $\prod_{z<y}f(\vec{x},z)$ is defined by:
-    \begin{quote}
-      $\prod_{z<1}f(\vec{x},z) = 1$
-      
-      $\prod_{z<y+1}f(\vec{x},z) = \prod_{z<y}f(\vec{x},z) \cdot f(\vec{x},y)$
-    \end{quote}
+    \begin{align*}
+      \prod_{z<1}f(\vec{x},z) &= 1 \\
+      \prod_{z<y+1}f(\vec{x},z) &= \prod_{z<y}f(\vec{x},z) \cdot f(\vec{x},y)
+    \end{align*}
   \end{itemize}
 \end{definition}
 
@@ -594,8 +591,8 @@ Another immediate consequence concerns the decidability of the bounded quantific
 
 \begin{proof}
   \begin{enumerate}
-  \item observe that $\mathcal{X}_{Q1}(\vec{x},y) = \prod_{z<y}\mathcal{X}_Q(\vec{x},z)$
-  \item observe that $\mathcal{X}_{Q2}(\vec{x},y) = sg(\sum_{z<y}\mathcal{X}_Q(\vec{x},z))$
+  \item observe that $\mathcal{X}_{Q_1}(\vec{x},y) = \prod_{z<y}\mathcal{X}_Q(\vec{x},z)$
+  \item observe that $\mathcal{X}_{Q_2}(\vec{x},y) = sg(\sum_{z<y}\mathcal{X}_Q(\vec{x},z))$
   \end{enumerate}
 \end{proof}
 
@@ -605,7 +602,7 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
 \begin{equation*}
   h(\vec{x},y) = \mu z<y . f(\vec{x},z) =
   \begin{cases}
-    $min. $z<y$ s.t. $ g(\vec{x},z) = 0 & $ if it exists$ \\
+    $min.$z<y$ such that $ f(\vec{x},z) = 0 & $ if it exists$ \\
     y                                   & $ otherwise $
   \end{cases}
 \end{equation*}
@@ -625,18 +622,14 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
     $h(\vec{x},y) = \sum_{z<y}\prod_{w\leq z} sg(f(\vec{x},w))$
   \end{quote}
   
-  The product value is 1 on the intervals $[0,z]$ in which $f\not= 0$,
-  that if $z_0$ is the min $z<y$ where $f$ is null, they're exactly
+  The product value is $1$ on the intervals $[0,z]$ in which $f\not= 0$,
+  i.e. if $z_0$ is the min $z<y$ where $f$ is null, they're equal to
   $z_0$, therefore the external sum counts them.
 
   Alternatively $h$ can be defined directly through primitive recursion:
-
-  \begin{quote}
-    $
-    h(\vec{x},0) = 0$\\[1mm]
-    %
-    $
-    \begin{array}{ll}
+  \[
+  \begin{cases}
+    h(\vec{x},0) = 0 \\
       h (\vec{x},y+1)
       & =
         \begin{cases}
@@ -648,12 +641,9 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
         \end{cases}\\[2mm]
         % 
       & =sg(y-h(\vec{x},y)) \cdot h(\vec{x},y) + \bar{sg}(y-h(\vec{x},y))(y+sg(f(\vec{x},y)))
-    \end{array}
-    $
-  \end{quote}
+  \end{cases}
+  \]
 \end{proof}
-
-\textbf{Note}: Here too the bound can be a total computable function.
 
 \begin{lemma}
   The following functions are computable:
@@ -670,38 +660,36 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
   \end{cases}$\\
   e.g. $72 = 2^3\cdot 3^2, (72)_1 = 3, (72)_2 = 2, (72)_3 = 0$
 \end{enumerate}
-\end{lemma}
-
 \begin{proof}
 \begin{enumerate}[label=\alph*)]
 \item $D(x) = \sum_{y\leq x}div(y,x)$
-\item $Pr(x) = \begin{cases}
-    1 & D(x) = 2      \\
-    0 & $ otherwise $
-  \end{cases}$ 1 if $x>1$ and is divided only by 1 and itself.\\\\
-  $= \bar{sg}(|D(x)-2|)$
+\item $Pr(x)$ is $1$ if $x>1$ and is divided only by 1 and itself
+      \begin{align*}
+        Pr(x) &= \begin{cases}
+          1 & D(x) = 2      \\
+          0 & $ otherwise $
+        \end{cases} \\
+        &= \bar{sg}(|D(x)-2|)
+      \end{align*}    
+
 \item $P_x$ can be defined by primitive recursion
+  \begin{align*}
+    &P_0=0 \\
+    &P_{x+1} = \mu z \leq (P_x!+1) . \bar{sg}(P_z(z)\cdot \mathcal{X}_{z>Px}(z))
+  \end{align*}
+  Certainly $P_{x+1} \leq P_x!+1$, in fact, 
+  call $p$ a prime in the decomposition of $p_x!+1$, therefore $p\mid p_x!+1$, so $p>p_x$, otherwise $p \mid p_x!$ and therefore $p \mid 1$. 
+  Thus $p_x < p_{x+1} \leq p$.
 
-  \begin{quote}
-    $P_0=0$\\
-    $P_{x+1} = \mu z \leq (P_x!+1) . \bar{sg}(P_z(z)\cdot \mathcal{X}_{z>Px}(z))$
-  \end{quote}
-  
-  \textbf{Note}: certainly $P_{x+1} \leq P_x!+1$, and this allows us to fix the bound.
-
-  in fact call $p$ a prime in the decomposition of $p_x!+1 (\geq 2)$, therefore $p|p_x!+1$, certainly $p>p_x$, otherwise $p|p_x!$ and therefore $p|1$. Therefore $p_x < p_{x+1} \leq p$
-
-\item note that
-  \begin{quote}
-    $\begin{array}{ll}
-       (x)_y & = \max \ z$ s.t. $p_y^z|x = \\
-             & = \min  \  z$ s.t. $p_y^{z+2}\not|x\\
+\item Note that
+  \begin{align*}
+       (x)_y & = \max \ z . p_y^z \mid x = \\
+             & = \min  \  z . p_y^{z+2}\not \mid x\\
              & = \mu z\leq x . \lnot div((p_y)^{z+1},x)
-     \end{array}
-     $
-  \end{quote}
+  \end{align*}
 \end{enumerate}
 \end{proof}
+\end{lemma}
 
 \subsection{Exercises}
 Prove that the following functions are computable:
@@ -833,24 +821,23 @@ where
 
  g is computable, so $f(y) = \pi_1(g(y))$ is computable.
 
-\section{Minimization}
-The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. Another essential operator, in a way (that will be explained) which allows to build partial functions is the \textbf{unbounded minimalisation} operator.
+\section{Unbounded minimalisation}
+The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. 
+Another essential operator, which allows to build partial functions is the \textbf{unbounded minimalisation} operator.
 
-Similar to the bounded minimalisation, but \dots, given $f(\vec{x},y)$ not necessarily total, it defines, informally, the following function:
-\begin{quote}
-  $\mu y . f(\vec{x},y) $ = minimum $y$ s.t. $f(\vec{x},y) = 0$.
-\end{quote}
-
-But there are two problems:
+Similar to the bounded minimalisation, given $f(\vec{x},y)$ not necessarily total, it defines, informally, the following function:
+\[
+  \mu y . f(\vec{x},y)  = \mbox{ minimum } y \mbox{ s.t. } f(\vec{x},y) = 0.
+\]
+But there are two cases in which we have problems
 \begin{enumerate}
 \item if there is no $y$ s.t. $f(\vec{x},y) = 0 \uparrow$
-\item if before finding a $y$ s.t. $f(\vec{x},y) = 0$ happens that $f(\vec{x},z)\uparrow$ the minimization is $\uparrow$
+\item if before finding a $y$ s.t. $f(\vec{x},y) = 0$, it happens that $f(\vec{x},z)\uparrow$
 \end{enumerate}
-
-The above is intuitive if we think about the obvious algorithm to compute the minimalisation: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
+This is intuitive if we think about the obvious algorithm to compute the minimalisation: start from 0, $f(\vec{x},0) = 0$? if yes then $out(0)$, otherwise $f(\vec{x},1) = 0$? until $f(\vec{x},y) = 0$.
 
 \begin{definition}
-  Let $f\nat^{k+1}\rightarrow\nat$ be a function. Then the function
+  Let $f : \nat^{k+1}\rightarrow\nat$ be a function. Then the function
   $h:\nat^k\rightarrow\nat$ defined through \textbf{unbounded
     minimalisation} is:
 
@@ -865,7 +852,7 @@ The above is intuitive if we think about the obvious algorithm to compute the mi
   \end{equation*}
 \end{definition}
 
-\section{Closure of $\mathcal{C}$ under minimalisation}
+\section{Closure under minimalisation}
 
 \begin{theorem}
   Let $f:\nat^{k+1}\rightarrow\nat$ a computable function (not necessarily total). Then $h:\nat^k\rightarrow\nat$ defined by $h(\vec{x}) = \mu y. f(\vec{x},y)$ is computable.
@@ -908,9 +895,9 @@ $\begin{tabu}{lll}
 \textbf{Observation}: The $\mu$ operator allows us to obtain \textbf{non total} functions starting from total functions.
 
 \begin{example}
-  Given $f(x,y) = |x-y^2|$ we have that
+  Given $f(x,y) = |x-y^2|$, we have that
   \begin{quote}
-    $\mu u. f(x,y) =
+    $\mu y. f(x,y) =
     \begin{cases}
       \sqrt{x} & x $ is a perfect square $ \\
       \uparrow & $ otherwise $
@@ -947,58 +934,40 @@ Informal \dots we will see how to formalize it.
 
 \begin{exercise}
   Prove that the following function is computable.
-  
-  $f(x,y) = \begin{cases}
+  \[f(x,y) = \begin{cases}
     \frac{x}{y} & y\not= 0 \land y|z \\
     \uparrow    & $ otherwise $
-  \end{cases}$
-  
-  First attempt:
-  
-  \begin{quote}
-    $f(x,y) = \mu z. |yz - x|$
-  \end{quote}
-  
-  It is almost ok\dots except for the fact that $f(0,0) = 0$ instead of $\uparrow$
-  
-  The problem can be solved with a (classic) trick:
-  
-  \begin{quote}
-    $f(x,y) = \mu z. (|yz-x| + \mathcal{X}_{x=0\land y=0}(x,y))$
-  \end{quote}
+  \end{cases}\]
+  \begin{proof}
+    \[ f(x,y) = \mu z. (|yz-x| + \mathcal{X}_{x=0\land y=0}(x,y)) \]
+  \end{proof}
 \end{exercise}
 
 
 \begin{lemma}
-  All the functions with finite domain are computable, meaning let
-  $\theta: \nat\rightarrow\nat \quad dom(\theta)$ finite
-  $ \Rightarrow \theta$ computable.
+  All the functions with finite domain are computable, i.e. let
+  $\theta: \nat\rightarrow\nat$ with $dom(\theta)$ finite, then
+  $\theta$ is computable.
 \end{lemma}
   
 \begin{proof}
-  Let $\theta:\nat\rightarrow\nat$ a finite domain:
+  Let $\theta:\nat\rightarrow\nat$ a finite domain function
+  \[
+    \theta=\{(x_1,y_1),\dots,(x_n,y_n)\}
+  \]
+  i.e.
   
-  \begin{quote}
-    $\theta=\{(x_1,y_1),\dots,(x_n,y_n)\}$
-  \end{quote}
-  meaning:
-  
-  \begin{quote}
-    $\theta(x) = \begin{cases}
+  \[
+    \theta(x) = \begin{cases}
       y_1      & x=x_1         \\
       \dots                    \\
       y_n      & x=x_n         \\
       \uparrow & $ otherwise $
-    \end{cases}$
-  \end{quote}
-  
-  Therefore
-  
-  \begin{quote}
-    $\theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)$
-  \end{quote}
-  
-  The minimization is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is 0 otherwise.
+    \end{cases}
+  \]
+  then
+  \[
+    \theta(x) = \sum_{i=1}^{n}y_i \cdot \bar{sg}(|x-x_i) + \mu z. (\prod_{i=1}^{n}|x-x_i|)
+  \]
+  The minimalisation is needed only to make the function $\uparrow$ when $x\not= x_1,\dots,x_n$, it is $0$ otherwise.
 \end{proof}
-
-The above lemma is formulated for unary functions for the sake of simplicity, but easily generalizable.
