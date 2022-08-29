@@ -352,7 +352,8 @@ Clearly, an enumeration of URM programs induces an enumeration of computable fun
   usually if $k=1$, it is omitted. $\varphi_n = \varphi_n^{(1)}$
 \end{definition}
 
-\textbf{Observation:} The function \[
+\begin{observation}
+  The function \[
   \begin{split}
     \varphi^{(k)} : & \quad \nat \to \mathcal{C}^{(k)} \\
     & \quad n \mapsto \varphi_n^{(k)}
@@ -364,35 +365,34 @@ program!), and so $\mathcal{C}^{(k)}$ is enumerable:
 \[|\mathcal{C}^{(k)}| = |\nat|\]
 
 The existence of a surjective function $\nat \to \mathcal{C}$
-follows that $|\mathcal{C}^{(k)}| \leq |\nat|$, but obviously there
+follows from $|\mathcal{C}^{(k)}| \leq |\nat|$, but obviously there
 exists infinitely many computable functions, for example constants
 $\lambda x_1 \dots x_k . c$, and so $|\mathcal{C}^{(k)}| \geq |\nat|$
 is also true.
 
 Clearly $\varphi^{(k)} : \nat \to \mathcal{C}^{(k)}$ is not
 injective. In fact, for each computable function there are infinitely
-many programs that computes it
-\[\forall f \in \mathcal{C} \quad \quad |(\varphi^{(k)})^{-1}(f)| =
+many programs that compute it
+\[\forall f \in \mathcal{C}  \quad |(\varphi^{(k)})^{-1}(f)| =
   |\nat|\] which means
 \(\varphi_0^{(k)}, \varphi_1^{(k)}, \varphi_2^{(k)}, \dots\) is an
 enumeration of $\mathcal{C}$ with infinitely many repetitions. An
 enumeration without repetitions can be defined as:
-\begin{itemize}
-\item[] $\chi(0) = 0$
-\item[]
-  $\chi(n+1) = \mu z \; . \; (\varphi_z \notin \{\varphi_{\chi(0)},
-  \dots, \varphi_{\chi(n)}\})$
-\end{itemize}
-which rises the enumeration
+\begin{align*}
+\chi(0) &= 0 \\
+  \chi(n+1) &= \mu z \; . \; (\varphi_z \notin \{\varphi_{\chi(0)},
+  \dots, \varphi_{\chi(n)}\})
+\end{align*}
+which raises the enumeration
 $\varphi_{\chi(0)}, \varphi_{\chi(1)}, \varphi_{\chi(2)}, \dots$
+but this enumeration is highly ineffective.
 
-But this enumeration is highly ineffective.
-
-(Can be proved that there exists an enumeration
+It can be proved that there exists an enumeration
 $h : \nat \to \nat$ which is total and computable s.t.
 $\varphi_{h(0)}, \varphi_{h(1)}, \varphi_{h(2)}, \dots$ is an
-enumeration without repetitions \cite{firedberg:1958}. However, an
-enumeration with repetitions is sufficient for us).
+enumeration without repetitions \cite{firedberg:1958}. However,
+enumerations with repetitions are sufficient for us.
+\end{observation}
 
 \begin{theorem}[$|\mathcal{C}| = |\nat|$]
   The class $\mathcal{C}$ of computable functions is enumerable.
@@ -403,11 +403,14 @@ enumeration with repetitions is sufficient for us).
   \end{proof}
 \end{theorem}
 
-\textbf{Note:} from now on we will implicitly use the enumeration of
+\begin{observation}
+  From now on we will implicitly use the enumeration of
 programs $\gamma$. The meaning of
 $\varphi_n^{(k)}, W_n^{(k)}, E_n^{(k)}$ is fixed and determined
 starting from $\gamma$.
-% \textbf{Observation:}m
+\end{observation}
+
+% \textbf{Observation:}
 
 % In particular the pairs in $\nat^2$ can be encoded as
 % $\pi(x,y) = 2^x(2y+1)-1$ which is computable. The inverse is

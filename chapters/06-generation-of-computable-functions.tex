@@ -717,7 +717,7 @@ Given a function $f: \nat^{k+1} \rightarrow \nat$, we define a function $h: \nat
 \subsection{Exercises}
 Prove that the following functions are computable:
 
-\begin{enumerate}[label=\alph*]
+\begin{itemize}
 \item $\floor{\sqrt{x}}$
   \begin{align*}
     \floor{\sqrt{x}} &= max\, y\leq x . y^2 \leq x\\
@@ -728,137 +728,121 @@ Prove that the following functions are computable:
 \item $\mathit{lcm}(x,y)$
 
 \begin{align*}
-  lcm(x,y) &= \mu z \leq x\cdot y . (x \mid z $ and $ y \mid z)\\
+  lcm(x,y) &= \mu z \leq x\cdot y . (x \mid z \wedge y \mid z)\\
   &= \mu z \leq x\cdot y \cdot \bar{sg}(div(x,z)\cdot div(y,z))
 \end{align*}
   
 \item $\mathit{GCD}(x,y)$
 
-  Certainly $\mathit{GCD}(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
+  $\mathit{GCD}(x,y)\leq min\{x,y\}$ and it can be characterized using the minimum number that can be subtracted to $min\{x,y\}$ to obtain the divisor of $x,y$
+  \begin{align*}
+    \mathit{GCD}(x,y) &\leq min(x,y)-\mu z \\
+                      &\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))
+  \end{align*}
+  
 
-  $\mathit{GCD}(x,y)\leq min(x,y)-\mu z\leq min(x,y).(1\dotdiv div(min(x,y)-z,x)\cdot div(min(x,y)-z, y))$
 \item number of prime divisors of $x$
 
   $\sum_{z\leq x} pr(z)\cdot div(z,x)$
-\end{enumerate}
+\end{itemize}
 
 \section{Encoding of pairs (and n-tuples)}
 
-Let us see an encoding in $\nat$ of pairs (and n-tuples) of natural numbers that will later be proved useful for some considerations on recursion (and for the future\dots)
-
-Let us define as a \textbf{pair encoding}:
-\begin{quote}
-  $\pi: \nat^2\rightarrow\nat$\\  
-  $\pi(x,y) = 2^x(2y+1)-1$
-\end{quote}
-
+Let's see an encoding in $\nat$ of pairs (and n-tuples) of natural numbers that will be useful for some considerations on recursion.
+Define a \textbf{pair encoding} as
+\begin{align*}
+  & \pi: \nat^2\rightarrow\nat \\
+  & \pi(x,y) = 2^x(2y+1)-1
+\end{align*}
 Notice that $\pi$ is bijective and effective (computable).
 
 The inverse can be characterized in terms of two computable functions that give the first and second component of a natural $x$ seen as pair:
-
-\begin{quote}
-  $\pi^{-1}:\nat\rightarrow\nat^2$\\
-  $\pi^{-1}(x) = (\pi_1(x),\pi_2(x))$
-\end{quote}
-%
-where $\pi_1(x) = (x+1)_1$ and 
-$\pi_2(x) = (\frac{x+1}{2\pi_1(x)}-1)/2$.
-
-(the division is $qt(\_,\_)$)
+\begin{align*}
+  & \pi^{-1}:\nat\rightarrow\nat^2 \\
+  & \pi^{-1}(n) = (\pi_1(n),\pi_2(n))
+\end{align*}
+where $\pi_1(n) = (n+1)_1$ and 
+$\pi_2(n) = (\frac{n+1}{2\pi_1(n)}-1)/2$.
 
 It can be generalized to an encoding of $n$-tuples:
-\begin{quote}
-  $\pi^n: \nat^n\rightarrow\nat \quad n\geq2$
-\end{quote}
-defining inductively
-\begin{quote}
-  $\pi^2 = \pi$\\
-  $\pi^{n+1}(\vec{x},y) = \pi(\pi^n(\vec{x},y)) \quad \vec{x} \in \nat^n, y \in \nat$
-\end{quote}
-
-and correspondingly we can define the projections $pi_j^n:\nat\rightarrow\nat^n$
+\[
+  \pi^n: \nat^n\to\nat
+\]
+defining
+\begin{align*}
+  & \pi^2 = \pi \\
+  & \pi^{n+1}(\vec{x},y) = \pi(\pi^n(\vec{x},y)) \quad \vec{x} \in \nat^n, y \in \nat
+\end{align*}
+and then we can define the projections $pi_j^n:\nat\rightarrow\nat^n$.
 
 \subsection{Considerations on recursion}
-
 The Fibonacci function is defined by:
+\[
+  \begin{cases}
+    fib(0) = fib(1) = 1 \\
+    fib(n+2) = fib(n) + fib(n+1)
+  \end{cases}
+\]
 
-\begin{quote}
-  $ fib(0) = fib(1) = 1$\\
-  $fib(n+2) = fib(n) + fib(n+1)$
-\end{quote}
-
-This is not exactly a definition by primitive recursion. Given that $f(y+2)$ is defined in terms of $f(y)$ and $f(y+1)$, it does not respect the schema \dots
+This is not exactly a definition by primitive recursion. Given that $f(y+2)$ is defined in terms of $f(y)$ and $f(y+1)$, it does not respect the schema.
 
 We can show that $f$ is computable by resorting to the encoding and defining:
-
-\begin{quote}
-  $g:\nat\rightarrow\nat$\\
-  $g(y) = \pi(f(y),f(y+1))$\\
-\end{quote}
-
+\begin{align*}
+  & g:\nat\rightarrow\nat \\
+  & g(y) = \pi(f(y),f(y+1))
+\end{align*}
 therefore $g$ can be defined by primitive recursion:
-
-\begin{quote}
-  $\begin{array}{ll}
-     g(0) & =  \pi(f(0),f(1)) = \pi(1,1)\\[2mm]
-     %
-     g(y+1)  & = \pi(f(y+1),f(y+2)) = \pi(f(y+1),f(y)+f(y+1))\\
-              & = \pi(\pi_2(g(y)), \pi_1(g(y)) + \pi_2(g(y)))
-   \end{array}
-   $
-\end{quote}
+\[
+  \begin{cases}
+       g(0) =  \pi(f(0),f(1)) = \pi(1,1)\\
+       g(y+1)  = \pi(f(y+1),f(y+2)) 
+                = \pi(\pi_2(g(y)), \pi_1(g(y)) + \pi_2(g(y)))
+  \end{cases}
+\]
 so $g$ is computable, by primitive recursion.
-
 Finally, $f(y) = \pi_1(g(y))$ is computable by composition.
 
-\medskip
-
 In general we could have a function $f$ defined using $k$ previous values
-
-$\begin{cases}
+\[
+\begin{cases}
   f(0) = c_0   \\
   f(k-1) = c_k \\
   f(y+k) = h(f(y),\dots,f(y+k-1))
-\end{cases}$
-
+\end{cases}\]
 with $h:\nat^k\rightarrow\nat$ computable.
 
 One can proceed like before and define
-
-\begin{quote}
-  $g:\nat\rightarrow\nat$\\
-  $g(y) = \pi^k(f(y),\dots,f(y+k-1))$
-\end{quote}
+\begin{align*}
+  & g:\nat\rightarrow\nat \\
+  & g(y) = \pi^k(f(y),\dots,f(y+k-1))
+\end{align*}
 
 Then function $g$ can be defined by primitive recursion
-
-\begin{quote}
-  $g(0) = \pi^k(c_0,\dots,c_{k-1})$\\
-  $g(y+1) = \pi^k(f(y+1),\dots,f(y+k-1),f(y+k))$
-\end{quote}
+\[
+\begin{cases}
+  g(0) = \pi^k(c_0,\dots,c_{k-1})\\
+  g(y+1) = \pi^k(f(y+1),\dots,f(y+k-1),f(y+k))
+\end{cases}  
+\]
 where
-\begin{quote}
-  $\begin{array}{ll}
+  \begin{align*}
      f(y+1) & = \pi_2^k(g(y))\\
      f(y+k-1) & = \pi_k^k(g(y))\\
      f(y+k) & = h(f(y),\dots,f(y+k-1)) \\
             & = h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y)))\\
             & = \pi^k(\pi_2^k(g(y)),\dots,\pi_k^k(g(y)),h(\pi_1^k(g(y)),\dots,\pi_k^k(g(y))))
-   \end{array}
-   $
- \end{quote}
-
- g is computable, so $f(y) = \pi_1(g(y))$ is computable.
+   \end{align*}
+ $g$ is computable, so $f(y) = \pi_1(g(y))$ is computable.
 
 \section{Unbounded minimalisation}
-The operators to manipulate functions seen until now, generalized composition and primitive recursion, starting from \textbf{total} functions return total functions. 
+Generalized composition and primitive recursion return total functions by taking total functions in input. 
 Another essential operator, which allows to build partial functions is the \textbf{unbounded minimalisation} operator.
 
 Similar to the bounded minimalisation, given $f(\vec{x},y)$ not necessarily total, it defines, informally, the following function:
 \[
   \mu y . f(\vec{x},y)  = \mbox{ minimum } y \mbox{ s.t. } f(\vec{x},y) = 0.
 \]
-But there are two cases in which we have problems
+But there are two cases in which we could have problems
 \begin{enumerate}
 \item if there is no $y$ s.t. $f(\vec{x},y) = 0 \uparrow$
 \item if before finding a $y$ s.t. $f(\vec{x},y) = 0$, it happens that $f(\vec{x},z)\uparrow$
@@ -869,7 +853,6 @@ This is intuitive if we think about the obvious algorithm to compute the minimal
   Let $f : \nat^{k+1}\rightarrow\nat$ be a function. Then the function
   $h:\nat^k\rightarrow\nat$ defined through \textbf{unbounded
     minimalisation} is:
-
   \begin{equation*}
     h(\vec{x}) = \mu y. f(\vec{x},y) = \begin{cases}
       $least $ z$ s.t. $ & \begin{cases}
@@ -881,7 +864,7 @@ This is intuitive if we think about the obvious algorithm to compute the minimal
   \end{equation*}
 \end{definition}
 
-\section{Closure under minimalisation}
+\subsection{Closure under minimalisation}
 
 \begin{theorem}
   Let $f:\nat^{k+1}\rightarrow\nat$ a computable function (not necessarily total). Then $h:\nat^k\rightarrow\nat$ defined by $h(\vec{x}) = \mu y. f(\vec{x},y)$ is computable.
@@ -890,11 +873,11 @@ This is intuitive if we think about the obvious algorithm to compute the minimal
 \begin{proof}
   Let $F$ be a program in standard form for $f$.
 
-  \textbf{idea:} for $z=0,1,2,\dots$ we compute $f(\vec{x},z)$ until we find a zero\dots
+  \textbf{Idea:} for $z=0,1,2,\dots$ we compute $f(\vec{x},z)$ until we find zero.
   
-  We need to save the argument $\vec{x}$ in a zone that is not used by the program $F$.
+  We need to save the argument $\vec{x}$ in a register $R_m$ ($m = max\{\rho(F),k+1\}$) such that it is not used by the program $F$.
 
-$m = max\{\rho(F),k+1\}$
+
 
 So the program for $h$ is obtained as follows:
 
@@ -906,47 +889,54 @@ $\begin{tabu}{cccccccc}
 \end{tabu}$
 
 $\begin{tabu}{lll}
-  & T([1,k],[m+1,m+k])
-  & \mbox{saves $\vec{x}$}\\
-  %
+  & T(1,m+1) \\
+  & \dots     \\
+  & T(k,m+k)   \\
   LOOP: & F[m+1,\dots,m+k+1\rightarrow 1] & f(\vec{x},z) \rightarrow R_1                        \\
-  & J(1,m+k+2,END)                  &  \mbox{$f(\vec{x},z) = 0$? (recall that $m+k+z$ contains $0$)}\\
+  & J(1,m+k+2,END)                  &  \mbox{$f(\vec{x},z) = 0$?}\\
   & S(m+k+1)                        & z=z+1                                               \\
   & J(1,1,LOOP)                     &                                                     \\
   END:  & T(m+k+1,1)
 \end{tabu}$
 \end{proof}
 
-\textbf{Note}: Observe that $F$ may not terminate \dots this is correct! The entire program does not terminate and $\mu$ is undefined!
+\begin{observation}
+  Observe that $F$ may not terminate, this is correct! The entire program does not terminate and $\mu$ is undefined!
+\end{observation}
+\begin{observation}
+  The unbounded minimalisation is nothing more than a \textbf{while} loop implemented with \textbf{goto}.
+\end{observation}
+\begin{observation}
+  The $\mu$ operator allows us to obtain \textbf{non total} functions starting from total functions.
+\end{observation}
 
-\textbf{Note:} This is nothing more than a \textbf{while} loop implemented with \textbf{goto}.
-
-\textbf{Observation}: The $\mu$ operator allows us to obtain \textbf{non total} functions starting from total functions.
 
 \begin{example}
   Given $f(x,y) = |x-y^2|$, we have that
-  \begin{quote}
-    $\mu y. f(x,y) =
+  \[
+    \mu y. f(x,y) =
     \begin{cases}
       \sqrt{x} & x $ is a perfect square $ \\
       \uparrow & $ otherwise $
-    \end{cases}$
-  \end{quote}
+    \end{cases}
+  \]
 \end{example}
 
 \begin{exercise}
   Let $f:\nat\rightarrow\nat$ be computable, total and injective. The
-  the \textbf{inverse} $f^{-1} = \begin{cases}
+  the \textbf{inverse} 
+  \[
+  f^{-1} = \begin{cases}
     y        & f(y) = x                \\
     \uparrow & \not\exists y. f(y) = x
-\end{cases}$
+\end{cases}
+\]
 
-is computable. In fact, in our hypothesis' $f^{-1}(x) = \mu y. |f(y)-x|$
+is computable. In fact, in our hypothesis $f^{-1}(x) = \mu y. |f(y)-x|$.
 \end{exercise}
 
-\textbf{Note} The above proof uses in an essential way the fact that $f$ is total, but the result is completely general \dots
-
-Intuitively, when $f$ is not total, to find $f^{-1}(x)$ we consider a program $P$ for $f$ and I execute it as follows:
+\begin{observation}
+Intuitively, when $f$ is not total, to find $f^{-1}(x)$ we consider a program $P$ for $f$ and execute it as follows:
 \begin{itemize}
 \item 0 steps of the program on argument 0
 \item 1 step on 0
@@ -956,14 +946,13 @@ Intuitively, when $f$ is not total, to find $f^{-1}(x)$ we consider a program $P
 \end{itemize}
 in a dove tail execution pattern.
 
-Every time for a certain number of steps $k$ on argument $y$, the program \textbf{terminates} we check the output $f(y)$, if $f(y) = x$ we stop, otherwise we continue.
-
-Informal \dots we will see how to formalize it.
+Every time the program \textbf{terminates} in a certain number of steps $k$ on argument $y$, we check the output $f(y)$, if $f(y) = x$ we stop, otherwise we continue.
+\end{observation}
 
 \begin{exercise}
   Prove that the following function is computable.
   \[f(x,y) = \begin{cases}
-    \frac{x}{y} & y\not= 0 \land y|z \\
+    \frac{x}{y} & y\not= 0 \land y \mid z \\
     \uparrow    & $ otherwise $
   \end{cases}\]
   \begin{proof}

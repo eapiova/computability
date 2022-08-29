@@ -14,36 +14,34 @@ functions. We'll later see that this idea leads to the concept of
 \begin{definition}
   We'll call $\mathcal{F}(\nat^k)$ the set of all the functions
   (computable and not) of k arguments $\nat^k \to \nat^k$.
-\end{definition}
 
-a \emph{functional} is just a function
+A \emph{functional} is just a function
 \[
   \Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)
 \]
-(only total functions will be considered)
+(only total functions will be considered).
+\end{definition}
 
-When can we say that a functional is effective (computable), in fact,
-given $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$
+When can we say that a functional is effective (computable)?
+Given $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$
 \begin{itemize}
 \item a function $f \in \mathcal{F}$ and its image
   $\Phi(f) \in \mathcal{F}(\nat^k)$ are both infinite objects in
   general.
-\item We can not ask for $\Phi(f)$ to be computable in a finite time
+\item we can not ask for $\Phi(f)$ to be computable in a finite time
   from $f$
 \end{itemize}
-
-What we need is a way to see functions as numbers
-
+We need a way to see functions as numbers
 \subsection{Encoding of finite functions}
-for each finite function its' encoding $\tilde{\theta} \in \nat$ is defined
+For each finite function its' encoding $\tilde{\theta} \in \nat$ is defined
 as
 \begin{itemize}
 \item if $\theta = \emptyset$ then $\tilde{\theta} = 0$
 \item if $\theta = \{(x_1, y_1), \dots, (x_2, y_2)\}$ then
   $\tilde{\theta} = \prod_{i=1}^n p_{x_1}^{y_i+1}$
 \end{itemize}
-which is both injective and effective. Given the encoding of a function:
-$z= \tilde{\theta}$;
+which is both injective and effective. Given the encoding of a function
+$z= \tilde{\theta}$,
 \[
   x \in \dom{\theta} \quad \mbox{iff} \quad (z)_1 \neq \emptyset
 \]
@@ -57,16 +55,14 @@ $z= \tilde{\theta}$;
   \end{aligned}
 \]
 
-this way we can give the following definition of functional
-
+In this way we can give the following definition of recursive functional
 \begin{definition}
   A functional
   $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ is
-  \emph{recursive} if exists $\varphi : \nat^{h+1} \to \nat$
-  computable s.t.
-  $\forall f \in \mathcal{F}(\nat^k) \quad \forall \vec{x} \in \nat^h
-  \quad \forall y \in \nat$
-
+  \emph{recursive} if there exists $\varphi : \nat^{h+1} \to \nat$
+  computable such that, for every
+  $f \in \mathcal{F}(\nat^k), \vec{x} \in \nat^h,
+  y \in \nat$
   \[
     \Phi(f)(y) = y \quad \mbox{iff} \quad \exists \theta \subseteq f
     \mbox{ finite s.t. } \varphi(\tilde{\theta}, \vec{x}) = y
@@ -98,24 +94,23 @@ this way we can give the following definition of functional
       \end{cases}
     \end{aligned}
   \]
-  which is computable
+  which is computable.
 \end{example}
 
 \begin{example}
-Te functional associated to Ackermann function:
+The functional associated to the Ackermann's function is
 \[
   \Psi_{ack} : \mathcal{F}(\nat^2) \to \mathcal{F}(\nat^2)
 \]
 \[
-  \begin{tabu}{r l l}
-    \Psi_{ack}(f)(0,y)  & = & y+1 \\
-    \Psi_{ack}(f)(x+1, 0) & = & f(x,1) \\
-    \Psi_{ack}(f)(x+1, y+1)  & = & f(x, f(x+1, y)) \\
-  \end{tabu}
+  \begin{cases}
+    \Psi_{ack}(f)(0,y)   =  y+1 \\
+    \Psi_{ack}(f)(x+1, 0)  =  f(x,1) \\
+    \Psi_{ack}(f)(x+1, y+1)   =  f(x, f(x+1, y)) 
+  \end{cases}
 \]
-which is computable as before.
+which is computable.
 \end{example}
-We can also verify:
 
 \begin{theorem}\label{th:unknown}
   Let $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$
@@ -124,8 +119,7 @@ We can also verify:
 \end{theorem}
 
 \section{Myhill-Sheperdson theorems}
-Given a recursive functional $\Phi$, for (\ref{th:unknown})
-
+Given a recursive functional $\Phi$, by (\ref{th:unknown})
 \[
   f \mbox{ computable } \rightsquigarrow \Phi(f) \mbox{ computable }
 \]
@@ -136,7 +130,7 @@ Given a recursive functional $\Phi$, for (\ref{th:unknown})
 so we can see a recursive functional as a function that transforms
 indices (programs) in indices (other programs), but with the property
 that the transformation depends on the firstly indexed function and
-\emph{not} on the index itself
+\emph{not} on the index itself.
 
 \begin{definition}[Extensional function]
   Let $h : \nattonat$ a total function. It is \emph{extensional} if
@@ -147,27 +141,28 @@ that the transformation depends on the firstly indexed function and
 \end{definition}
 
 \begin{theorem}[Myhill-Shepherdson (I)]
-  If $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ is
-  recursive functional then it exists a total computable function
+  If $\Phi : \mathcal{F}(\nat^k) \to \mathcal{F}(\nat^h)$ is a
+  recursive functional then there exists a total computable function
   $h_\Phi : \nattonat$ s.t.
   \[
-    \forall e \quad \Phi(\varphi_e) = \varphi_{h_\Phi(e)}^{(k)}
+    \forall e\in \nat \quad \Phi(\varphi_e) = \varphi_{h_\Phi(e)}^{(k)}
   \]
 \end{theorem}
 
 Intuitively, the behaviour of the recursive functional on computable
-functions is captured entirely by a total extensional function on the
-indices
+functions is captured by a total extensional function on the
+indices.
 
 \begin{theorem}[Myhill-Shepherdson (II)]\label{th:myhill-shepherdson2}
   If $h : \nattonat$ is a total computable extensional function, then
-  exists \emph{only one} recursive functional $\Phi_h$ s.t.
+  there is a unique recursive functional $\Phi_h$ sych that
   \[
-    \forall e \quad \Phi_h(\varphi_e) = \varphi_{h(e)}
+    \forall e \in \nat \quad \Phi_h(\varphi_e) = \varphi_{h(e)}
   \]
 \end{theorem}
-That is to say that a total computable extensional function identifies
-only one recursive functional.  Is interesting to observe that
+
+A total computable extensional function identifies
+only one recursive functional. It is interesting to observe that
 $\Phi_n$ exists also for non computable functions.
 
 \begin{theorem}[First recursion theorem (Kleene)]\label{th:first-recursion}
@@ -180,32 +175,30 @@ $\Phi_n$ exists also for non computable functions.
   \item $f_\Phi$ is computable
   \end{enumerate}
   and we can see that $f_\Phi = \bigcup\limits_n
-  \Phi^{n}(\emptyset)$, and since a functional can be associated to a
+  \Phi^{n}(\emptyset)$, since a functional can be associated to a
   fixed point; the theorem proves the closure of the set of computable
   functions with respect to extremely general forms of recursion.
 \end{theorem}
- The following are the exceptions:
-\paragraph{\textbf{Primitive recursion}}
-given $f : \nat^h \to \nat$ and
+
+\begin{example}[Primitive recursion]
+Given $f : \nat^h \to \nat$ and
 $g : \nat^{h+2} \to \nat$, the function defined by primitive
 recursion is the minimum fixed point of
 $\Phi_r \in \mathcal{F}(\nat^{h+1})$, defined by
-\[
-  \begin{tabu}{r l l}
-    \Phi_r(h)(\vec{x}, 0) & = & f(\vec{x}) \\
-    \Phi_r(h)(\vec{x}, y+1) & = & g(\vec{x}, y h(\vec{x},y))
-  \end{tabu}
-\]
+\begin{align*}
+    \Phi_r(h)(\vec{x}, 0) & =  f(\vec{x}) \\
+    \Phi_r(h)(\vec{x}, y+1) & =  g(\vec{x}, y h(\vec{x},y))
+\end{align*}
 and if $f,g$ are computable, then $\Phi_r$ is a recursive
-functional. This way the theorem assures us that:
+functional. The theorem assures that
 \begin{itemize}
-\item exists a minimal fixed point;
+\item there exists a minimal fixed point;
 \item it is computable.
 \end{itemize}
+\end{example}
 
-\mbox{}\\*
-\paragraph{\textbf{Minimization}}
-given a function $f: \nat^{k+1} \to \nat$ we can see the
+\begin{example}[Minimalisation]
+Given a function $f: \nat^{k+1} \to \nat$, we can see the
 minimization $\mu y \; . \; f(\vec{x}, y)$ as a fixed point. Let us
 consider, for a fixed f
 \[
@@ -218,18 +211,18 @@ consider, for a fixed f
     \uparrow & \mbox{otherwise}
   \end{cases}
 \]
-which is recursive and has a minimum fixed point:
+it is recursive and has a minimum fixed point:
 \[
   f_{\Phi_\mu}(\vec{x}, y) = \mu (z \geq y) \; . \; f(\vec{x}, y)
 \]
+\end{example}
 
-\mbox{}\\*
-\paragraph{\textbf{Ackermann function}}
+\begin{example}[Ackermann's function]
 We saw that $\Phi_{ack}$ is recursive, therefore it has a computable
 minimum fixed point (the Ackermann function itself $\Psi$). The fact
-that $\Psi$ is total implies that such fixed point is the
+that $\Psi$ is total, implies that such fixed point is the
 \emph{only} fixed point.
-
+\end{example}
 
 \begin{observation}
   Generally speaking, the fixed point is not unique. Counter-example:
@@ -246,7 +239,7 @@ that $\Psi$ is total implies that such fixed point is the
       \uparrow & \mbox{otherwise}
     \end{cases}
   \]
-  but has other fixed points, for example:
+  but it has other fixed points, for example:
   \[
     f(x) = \begin{cases}
       0 & x=0 \\

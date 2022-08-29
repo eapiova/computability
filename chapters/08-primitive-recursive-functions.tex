@@ -1,4 +1,6 @@
 \chapter{Primitive recursive functions}
+
+We define the primitive recursive functions as follows
 \begin{definition}[Primitive recursive functions]
   The class of
 primitive recursive functions is the smallest set
@@ -217,10 +219,8 @@ We can generalize the complete induction on $D$ well-founded poset:
 
     We can prove that for every $(x,y,z)\in\nat^3$ we have
    $\psi(x,y) = z$ if and only if there exists a valid \textbf{finite} set of triples $S \subseteq \nat^3$ 
-    such that \((x,y,z) \in S\).
-    
-    by complete induction on
-    $(x,y)$, leveraging the fact that the validity of a set is
+    such that \((x,y,z) \in S\) by complete induction on
+    $(x,y)$, knowing that the validity of a set is
     preserved under union (left as an exercise).
 
     \newcommand{\vnu}{\text{Val}(\nu)}
@@ -228,21 +228,23 @@ We can generalize the complete induction on $D$ well-founded poset:
     A tuple $(x,y,z)$ can be encoded into an integer using the
     encoding function
     \[\Pi^3 \, : \, \nat^3 \rightarrow \nat \quad \quad (\Pi_i^3 \, : \,
-      \nat \rightarrow \nat \text{ are the projections})\]. This way a
+      \nat \rightarrow \nat \text{ are the projections})\] 
+    In this way a
     set of tuples becomes a set of natural numbers
     $\{x_1, \dots, x_n\}$ that we can encode injectively:
-    \[\{x_1, \dots, x_n\} \mapsto P_{x_1}, \dots, P_{x_n}\] Now we
-    have $\nu$ the number that represents the set of tuples
-    $S_\nu$. We can verify that
+    \[\{x_1, \dots, x_n\} \mapsto P_{x_1}, \dots, P_{x_n}\] 
+    Now we have $\nu$ the number that represents the set of tuples
+    $S_\nu$. 
+    We can verify that
     \[(x,y,z) \in S_\nu \Longleftrightarrow P_{\Pi(x,y,z)} \; | \;
       \nu \] and the predicate $\vnu=$``$\nu$ encodes a
     set of valid tuples'' is decidable.
 
     In fact $\vnu$ is true if and only if:
     \begin{itemize}
-    \item \(\forall i \leq \nu \quad (\nu)_i = 1\)
+    \item \(\forall i \leq \nu \ (\nu)_i = 1\)
     \item{
-        \( \forall \omega \leq \nu \quad P_{\omega \; | \; \nu}\) \\
+        \( \forall \omega \leq \nu \ P_{\omega \; | \; \nu}\)
         \[\Rightarrow \begin{cases}
             \Pi_1(\omega) = 0 \quad & \Rightarrow
             \quad \Pi_3(\omega) = \Pi_2(\omega) + 1 \\
@@ -260,37 +262,27 @@ We can generalize the complete induction on $D$ well-founded poset:
         \]
       }
     \end{itemize}
-
-    And the associated characteristic function
+    with associated characteristic function
     \[\chi_{\text{Val}} \in \mathcal{PR}\]
 
-    We can also verify that:
-
-    \[
-      R(x,y,z) = \begin{cases}
-
-        \chi_{\text{Val}(\omega)} & \text{if $\omega$ encodes for some
+    We can also verify that
+    \begin{align*}
+      R(x,y,z) &= \begin{cases}
+        \chi_{\text{Val}(\omega)} & \text{if $\omega$ encodes some
           valid $S$ that contains $(x,y,z)$ for some $z$} \\
-
         0 & \text{otherwise}
-
-      \end{cases}
-    \]
-
-    \[
-      R(x,y,z) = \chi_{\text{Val}(\omega)} \cdot \text{sg} (\omega + 1
+      \end{cases} \\
+      &= \chi_{\text{Val}(\omega)} \cdot \text{sg} (\omega + 1
       \dot{-} \mu z \leq \omega . \text{div}(P_{\Pi(x,y,z)}, \omega)
-    \]
+    \end{align*}
 
-    this way we can write the Ackermann function as
-
+    Thus we can write the Ackermann function as
     \[
       \psi(x,y) = \mu (z,y) \; \cdot \; \overline{\text{sg}}(R(x,y,\omega)
       \cdot \text{div}(P_{\Pi(x,y,z)}, \omega))
     \]
 
-    So since it is computable,
-
+    Since it is computable,
     \[
       \psi \in \mathcal{R} = \mathcal{C}
     \]
